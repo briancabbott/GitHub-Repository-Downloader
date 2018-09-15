@@ -1,0 +1,36 @@
+{
+  "name": "github-repository-downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/briancabbott/github-repository-downloader.git"
+  },
+  "keywords": [
+    "GitHub",
+    "GraphQL",
+    "TypeScript"
+  ],
+  "author": "Brian Abbott",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/briancabbott/github-repository-downloader/issues"
+  },
+  "homepage": "https://github.com/briancabbott/github-repository-downloader#readme",
+  "dependencies": {
+    "@types/graphql": "^14.0.0",
+    "@types/node": "^10.9.4",
+    "apollo-boost": "^0.1.16",
+    "apollo-client": "^2.4.2",
+    "apollo-link": "^1.2.2",
+    "apollo-link-http": "^1.5.4",
+    "graphql": "^14.0.2",
+    "node": "^10.10.0",
+    "node-fetch": "^1.7.3",
+    "rxjs": "^6.3.2"
+  }
+}
