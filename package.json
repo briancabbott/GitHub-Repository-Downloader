@@ -28,6 +28,7 @@
     "apollo-client": "^2.4.2",
     "apollo-link": "^1.2.2",
     "apollo-link-http": "^1.5.4",
+    "git-clone": "^0.1.0",
     "graphql": "^14.0.2",
     "node": "^10.10.0",
     "node-fetch": "^1.7.3",
