@@ -1,8 +1,0 @@
-child_process(63532)::clone(https://github.com/GoogleCloudPlatform/iot-core-load-test-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\iot-core-load-test-python'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 11, done.        
-remote: Counting objects:   9% (1/11)           remote: Counting objects:  18% (2/11)           remote: Counting objects:  27% (3/11)           remote: Counting objects:  36% (4/11)           remote: Counting objects:  45% (5/11)           remote: Counting objects:  54% (6/11)           remote: Counting objects:  63% (7/11)           remote: Counting objects:  72% (8/11)           remote: Counting objects:  81% (9/11)           remote: Counting objects:  90% (10/11)           remote: Counting objects: 100% (11/11)           remote: Counting objects: 100% (11/11), done.        
-remote: Compressing objects:  14% (1/7)           remote: Compressing objects:  28% (2/7)           remote: Compressing objects:  42% (3/7)           remote: Compressing objects:  57% (4/7)           remote: Compressing objects:  71% (5/7)           remote: Compressing objects:  85% (6/7)           remote: Compressing objects: 100% (7/7)           remote: Compressing objects: 100% (7/7), done.        
-remote: Total 11 (delta 3), reused 11 (delta 3), pack-reused 0        
-Checking out files:  44% (4/9)   Checking out files:  55% (5/9)   Checking out files:  66% (6/9)   Checking out files:  77% (7/9)   Checking out files:  88% (8/9)   Checking out files: 100% (9/9)   Checking out files: 100% (9/9), done.
-child_process(63532)::clone(https://github.com/GoogleCloudPlatform/iot-core-load-test-python):close()

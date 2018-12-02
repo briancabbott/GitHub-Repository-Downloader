@@ -1,6 +1,0 @@
-child_process(33032)::clone(https://github.com/GoogleCloudPlatform/storage-file-transfer-json-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\storage-file-transfer-json-python'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 28, done.        
-remote: Total 28 (delta 0), reused 0 (delta 0), pack-reused 28        
-Checking connectivity: 6   Checking connectivity: 7   Checking connectivity: 24   Checking connectivity: 28, done.
-child_process(33032)::clone(https://github.com/GoogleCloudPlatform/storage-file-transfer-json-python):close()

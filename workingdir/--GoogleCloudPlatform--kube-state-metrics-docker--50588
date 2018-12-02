@@ -1,3 +1,0 @@
-child_process(50588)::clone(https://github.com/GoogleCloudPlatform/kube-state-metrics-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\kube-state-metrics-docker'...
-child_process(50588)::clone(https://github.com/GoogleCloudPlatform/kube-state-metrics-docker):stderr:data: Checking out files:  42% (3/7)   Checking out files:  57% (4/7)   Checking out files:  71% (5/7)   Checking out files:  85% (6/7)   Checking out files: 100% (7/7)   Checking out files: 100% (7/7), done.
-child_process(50588)::clone(https://github.com/GoogleCloudPlatform/kube-state-metrics-docker):close()

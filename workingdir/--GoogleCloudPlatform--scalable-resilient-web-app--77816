@@ -1,2 +1,0 @@
-child_process(77816)::clone(https://github.com/GoogleCloudPlatform/scalable-resilient-web-app):stderr:data: Checking out files:  93% (41/44)   Checking out files:  95% (42/44)   Checking out files:  97% (43/44)   Checking out files: 100% (44/44)   Checking out files: 100% (44/44), done.
-child_process(77816)::clone(https://github.com/GoogleCloudPlatform/scalable-resilient-web-app):close()

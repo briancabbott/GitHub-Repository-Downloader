@@ -1,5 +1,0 @@
-child_process(11572)::clone(https://github.com/GoogleCloudPlatform/appengine-try-php):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-try-php'...
-POST git-upload-pack (275 bytes)
-remote: Enumerating objects: 33, done.        
-remote: Total 33 (delta 0), reused 0 (delta 0), pack-reused 33        
-child_process(11572)::clone(https://github.com/GoogleCloudPlatform/appengine-try-php):stderr:data: error: timer thread did not terminate timely

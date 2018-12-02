@@ -1,9 +1,0 @@
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\cloudml-edge-automation'...
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: POST git-upload-pack (225 bytes)
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: remote: Enumerating objects: 6, done.        
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: remote: Counting objects:  16% (1/6)           child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: remote: Counting objects:  33% (2/6)           child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: remote: Counting objects:  50% (3/6)           remote: Counting objects:  66% (4/6)           remote: Counting objects:  83% (5/6)           child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: remote: Counting objects: 100% (6/6)           remote: Counting objects: 100% (6/6), done.        
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):stderr:data: fatal: early EOF
-fatal: The remote end hung up unexpectedly
-fatal: unpack-objects failed
-error: RPC failed; curl 18 transfer closed with outstanding read data remaining
-child_process(65052)::clone(https://github.com/GoogleCloudPlatform/cloudml-edge-automation):close():error: with status: 128

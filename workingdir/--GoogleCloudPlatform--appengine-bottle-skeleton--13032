@@ -1,9 +1,0 @@
-child_process(13032)::clone(https://github.com/GoogleCloudPlatform/appengine-bottle-skeleton):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-bottle-skeleton'...
-POST git-upload-pack (275 bytes)
-remote: Enumerating objects: 2, done.        
-remote: Counting objects:  50% (1/2)           remote: Counting objects: 100% (2/2)           remote: Counting objects: 100% (2/2), done.        
-remote: Compressing objects:  50% (1/2)           remote: Compressing objects: 100% (2/2)           remote: Compressing objects: 100% (2/2), done.        
-remote: Total 96 (delta 0), reused 0 (delta 0), pack-reused 94        
-Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 6   Checking connectivity: 9   Checking connectivity: 13   Checking connectivity: 14   Checking connectivity: 16   Checking connectivity: 18   Checking connectivity: 19   Checking connectivity: 25   Checking connectivity: 41   Checking connectivity: 63   Checking connectivity: 78   Checking connectivity: 81   Checking connectivity: 85   Checking connectivity: 87   Checking connectivity: 96, done.
-Checking out files:  23% (4/17)   Checking out files:  29% (5/17)   Checking out files:  35% (6/17)   Checking out files:  41% (7/17)   Checking out files:  47% (8/17)   Checking out files:  52% (9/17)   Checking out files:  58% (10/17)   Checking out files:  64% (11/17)   Checking out files:  70% (12/17)   Checking out files:  76% (13/17)   Checking out files:  82% (14/17)   Checking out files:  88% (15/17)   Checking out files:  94% (16/17)   Checking out files: 100% (17/17)   Checking out files: 100% (17/17), done.
-child_process(13032)::clone(https://github.com/GoogleCloudPlatform/appengine-bottle-skeleton):close()

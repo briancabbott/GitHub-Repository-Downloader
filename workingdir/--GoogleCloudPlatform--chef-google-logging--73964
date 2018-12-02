@@ -1,4 +1,0 @@
-child_process(73964)::clone(https://github.com/GoogleCloudPlatform/chef-google-logging):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\chef-google-logging'...
-child_process(73964)::clone(https://github.com/GoogleCloudPlatform/chef-google-logging):stderr:data: POST git-upload-pack (325 bytes)
-remote: Enumerating objects: 18, done.        
-remote: Total 18 (delta 0), reused 0 (delta 0), pack-reused 18        

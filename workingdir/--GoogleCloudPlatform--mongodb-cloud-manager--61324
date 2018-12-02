@@ -1,7 +1,0 @@
-child_process(61324)::clone(https://github.com/GoogleCloudPlatform/mongodb-cloud-manager):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\mongodb-cloud-manager'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 53, done.        
-remote: Total 53 (delta 0), reused 0 (delta 0), pack-reused 53        
-Checking connectivity: 4   Checking connectivity: 6   Checking connectivity: 8   Checking connectivity: 9   Checking connectivity: 11   Checking connectivity: 13   Checking connectivity: 18   Checking connectivity: 36   Checking connectivity: 44   Checking connectivity: 53, done.
-Checking out files:  66% (4/6)   Checking out files:  83% (5/6)   Checking out files: 100% (6/6)   Checking out files: 100% (6/6), done.
-child_process(61324)::clone(https://github.com/GoogleCloudPlatform/mongodb-cloud-manager):close()

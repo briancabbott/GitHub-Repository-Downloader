@@ -1,7 +1,0 @@
-child_process(70104)::clone(https://github.com/GoogleCloudPlatform/terraform-google-lb-internal):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\terraform-google-lb-internal'...
-POST git-upload-pack (425 bytes)
-remote: Enumerating objects: 56, done.        
-remote: Total 56 (delta 0), reused 0 (delta 0), pack-reused 56        
-Checking connectivity: 15   Checking connectivity: 36   Checking connectivity: 56, done.
-Checking out files:  71% (10/14)   Checking out files:  78% (11/14)   Checking out files:  85% (12/14)   Checking out files:  92% (13/14)   Checking out files: 100% (14/14)   Checking out files: 100% (14/14), done.
-child_process(70104)::clone(https://github.com/GoogleCloudPlatform/terraform-google-lb-internal):close()

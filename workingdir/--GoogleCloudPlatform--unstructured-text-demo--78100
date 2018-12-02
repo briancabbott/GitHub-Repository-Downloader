@@ -1,2 +1,0 @@
-child_process(78100)::clone(https://github.com/GoogleCloudPlatform/unstructured-text-demo):stderr:data: Checking out files:  80% (20/25)   Checking out files:  84% (21/25)   Checking out files:  88% (22/25)   Checking out files:  92% (23/25)   Checking out files:  96% (24/25)   Checking out files: 100% (25/25)   Checking out files: 100% (25/25), done.
-child_process(78100)::clone(https://github.com/GoogleCloudPlatform/unstructured-text-demo):close()

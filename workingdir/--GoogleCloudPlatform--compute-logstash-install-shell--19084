@@ -1,8 +1,0 @@
-child_process(19084)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\compute-logstash-install-shell'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 63, done.        
-remote: Total 63 (delta 0), reused 0 (delta 0), pack-reused 63        
-Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 10   Checking connectivity: 14   Checking connectivity: 23   Checking connectivity: 59   Checking connectivity: 63, done.
-Checking out files:  60% (3/5)   Checking out files:  80% (4/5)   Checking out files: 100% (5/5)   Checking out files: 100% (5/5), done.
-error: timer thread did not terminate timely
-child_process(19084)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):close()

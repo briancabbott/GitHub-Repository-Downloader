@@ -1,6 +1,0 @@
-child_process(45312)::clone(https://github.com/GoogleCloudPlatform/cassandra-cloud-backup):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\cassandra-cloud-backup'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 48, done.        
-remote: Total 48 (delta 0), reused 0 (delta 0), pack-reused 48        
-Checking connectivity: 5   Checking connectivity: 7   Checking connectivity: 9   Checking connectivity: 16   Checking connectivity: 27   Checking connectivity: 41   Checking connectivity: 48, done.
-child_process(45312)::clone(https://github.com/GoogleCloudPlatform/cassandra-cloud-backup):close()

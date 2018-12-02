@@ -1,5 +1,0 @@
-child_process(55824)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-datanucleus-jdo-demo-java):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-cloudsql-native-mysql-datanucleus-jdo-demo-java'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 42, done.        
-remote: Total 42 (delta 0), reused 0 (delta 0), pack-reused 42        
-child_process(55824)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-datanucleus-jdo-demo-java):stderr:data: error: timer thread did not terminate timely

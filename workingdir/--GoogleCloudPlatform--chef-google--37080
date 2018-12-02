@@ -1,6 +1,0 @@
-child_process(37080)::clone(https://github.com/GoogleCloudPlatform/chef-google):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\chef-google'...
-POST git-upload-pack (375 bytes)
-remote: Enumerating objects: 60, done.        
-child_process(37080)::clone(https://github.com/GoogleCloudPlatform/chef-google):stderr:data: Checking connectivity: 2   Checking connectivity: 3   Checking connectivity: 5   Checking connectivity: 7   Checking connectivity: 9   Checking connectivity: 11   Checking connectivity: 13   Checking connectivity: 18   Checking connectivity: 27   Checking connectivity: 33   Checking connectivity: 48   Checking connectivity: 55   Checking connectivity: 60, done.
-Checking out files:  33% (3/9)   Checking out files:  44% (4/9)   Checking out files:  55% (5/9)   Checking out files:  66% (6/9)   Checking out files:  77% (7/9)   Checking out files:  88% (8/9)   Checking out files: 100% (9/9)   Checking out files: 100% (9/9), done.
-child_process(37080)::clone(https://github.com/GoogleCloudPlatform/chef-google):close()

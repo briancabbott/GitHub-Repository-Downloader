@@ -1,6 +1,0 @@
-child_process(15660)::clone(https://github.com/GoogleCloudPlatform/appengine-taskqueue-counter):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-taskqueue-counter'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 16, done.        
-remote: Total 16 (delta 0), reused 0 (delta 0), pack-reused 16        
-Checking out files:  42% (3/7)   Checking out files:  57% (4/7)   Checking out files:  71% (5/7)   Checking out files:  85% (6/7)   Checking out files: 100% (7/7)   Checking out files: 100% (7/7), done.
-child_process(15660)::clone(https://github.com/GoogleCloudPlatform/appengine-taskqueue-counter):close()

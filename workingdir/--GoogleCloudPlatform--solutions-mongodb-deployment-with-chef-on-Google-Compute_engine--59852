@@ -1,7 +1,0 @@
-child_process(59852)::clone(https://github.com/GoogleCloudPlatform/solutions-mongodb-deployment-with-chef-on-Google-Compute_engine):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\solutions-mongodb-deployment-with-chef-on-Google-Compute_engine'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 48, done.        
-remote: Total 48 (delta 0), reused 0 (delta 0), pack-reused 48        
-Checking connectivity: 19   Checking connectivity: 48, done.
-Checking out files:  40% (10/25)   Checking out files:  44% (11/25)   Checking out files:  48% (12/25)   Checking out files:  52% (13/25)   Checking out files:  56% (14/25)   Checking out files:  60% (15/25)   Checking out files:  64% (16/25)   Checking out files:  68% (17/25)   Checking out files:  72% (18/25)   Checking out files:  76% (19/25)   Checking out files:  80% (20/25)   Checking out files:  84% (21/25)   Checking out files:  88% (22/25)   Checking out files:  92% (23/25)   Checking out files:  96% (24/25)   Checking out files: 100% (25/25)   Checking out files: 100% (25/25), done.
-child_process(59852)::clone(https://github.com/GoogleCloudPlatform/solutions-mongodb-deployment-with-chef-on-Google-Compute_engine):close()

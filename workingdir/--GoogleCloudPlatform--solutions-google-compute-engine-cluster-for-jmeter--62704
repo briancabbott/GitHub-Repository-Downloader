@@ -1,4 +1,0 @@
-child_process(62704)::clone(https://github.com/GoogleCloudPlatform/solutions-google-compute-engine-cluster-for-jmeter):stderr:data: remote: Total 34 (delta 0), reused 0 (delta 0), pack-reused 34        
-Checking connectivity: 4   Checking connectivity: 6   Checking connectivity: 16   Checking connectivity: 19   Checking connectivity: 23   Checking connectivity: 34, done.
-Checking out files:  33% (3/9)   Checking out files:  44% (4/9)   Checking out files:  55% (5/9)   child_process(62704)::clone(https://github.com/GoogleCloudPlatform/solutions-google-compute-engine-cluster-for-jmeter):stderr:data: Checking out files:  66% (6/9)   Checking out files:  77% (7/9)   Checking out files:  88% (8/9)   Checking out files: 100% (9/9)   Checking out files: 100% (9/9), done.
-child_process(62704)::clone(https://github.com/GoogleCloudPlatform/solutions-google-compute-engine-cluster-for-jmeter):close()

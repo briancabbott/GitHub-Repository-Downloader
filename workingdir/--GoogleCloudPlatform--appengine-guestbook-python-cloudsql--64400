@@ -1,4 +1,0 @@
-child_process(64400)::clone(https://github.com/GoogleCloudPlatform/appengine-guestbook-python-cloudsql):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-guestbook-python-cloudsql'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 57, done.        
-child_process(64400)::clone(https://github.com/GoogleCloudPlatform/appengine-guestbook-python-cloudsql):stderr:data: remote: Total 57 (delta 0), reused 0 (delta 0), pack-reused 57        

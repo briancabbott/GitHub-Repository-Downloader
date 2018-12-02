@@ -1,7 +1,0 @@
-child_process(18552)::clone(https://github.com/GoogleCloudPlatform/monitoring-javascript-dashboard):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\monitoring-javascript-dashboard'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 67, done.        
-remote: Total 67 (delta 0), reused 0 (delta 0), pack-reused 67        
-Checking connectivity: 12   Checking connectivity: 55   Checking connectivity: 67, done.
-Checking out files:  66% (6/9)   Checking out files:  77% (7/9)   Checking out files:  88% (8/9)   Checking out files: 100% (9/9)   Checking out files: 100% (9/9), done.
-child_process(18552)::clone(https://github.com/GoogleCloudPlatform/monitoring-javascript-dashboard):close()

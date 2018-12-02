@@ -1,7 +1,0 @@
-child_process(16484)::clone(https://github.com/GoogleCloudPlatform/bigquery-bokeh-dashboard):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\bigquery-bokeh-dashboard'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 61, done.        
-remote: Total 61 (delta 0), reused 0 (delta 0), pack-reused 61        
-Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 6   Checking connectivity: 17   Checking connectivity: 48   Checking connectivity: 61, done.
-Checking out files:  15% (3/19)   Checking out files:  21% (4/19)   Checking out files:  26% (5/19)   Checking out files:  31% (6/19)   Checking out files:  36% (7/19)   Checking out files:  42% (8/19)   Checking out files:  47% (9/19)   Checking out files:  52% (10/19)   Checking out files:  57% (11/19)   Checking out files:  63% (12/19)   Checking out files:  68% (13/19)   Checking out files:  73% (14/19)   Checking out files:  78% (15/19)   Checking out files:  84% (16/19)   Checking out files:  89% (17/19)   Checking out files:  94% (18/19)   Checking out files: 100% (19/19)   Checking out files: 100% (19/19), done.
-child_process(16484)::clone(https://github.com/GoogleCloudPlatform/bigquery-bokeh-dashboard):close()

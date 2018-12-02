@@ -1,5 +1,0 @@
-child_process(72124)::clone(https://github.com/GoogleCloudPlatform/appengine-bottle-skeleton):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-bottle-skeleton'...
-POST git-upload-pack (275 bytes)
-remote: Enumerating objects: 2, done.        
-remote: Counting objects:  50% (1/2)           remote: Counting objects: 100% (2/2)           remote: Counting objects: 100% (2/2), done.        
-remote: Compressing objects:  50% (1/2)           remote: Compressing objects: 100% (2/2)           remote: Compressing objects: 100% (2/2), done.        

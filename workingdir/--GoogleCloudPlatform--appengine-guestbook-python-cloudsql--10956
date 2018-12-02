@@ -1,7 +1,0 @@
-child_process(10956)::clone(https://github.com/GoogleCloudPlatform/appengine-guestbook-python-cloudsql):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-guestbook-python-cloudsql'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 57, done.        
-remote: Total 57 (delta 0), reused 0 (delta 0), pack-reused 57        
-Checking connectivity: 3   Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 7   Checking connectivity: 16   Checking connectivity: 34   Checking connectivity: 49   Checking connectivity: 57   Checking connectivity: 57, done.
-Checking out files:  37% (3/8)   Checking out files:  50% (4/8)   Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
-child_process(10956)::clone(https://github.com/GoogleCloudPlatform/appengine-guestbook-python-cloudsql):close()

@@ -1,2 +1,0 @@
-child_process(74716)::clone(https://github.com/GoogleCloudPlatform/gmemegen):stderr:data: Checking out files:  89% (50/56)   Checking out files:  91% (51/56)   Checking out files:  92% (52/56)   Checking out files:  94% (53/56)   Checking out files:  96% (54/56)   Checking out files:  98% (55/56)   Checking out files: 100% (56/56)   Checking out files: 100% (56/56), done.
-child_process(74716)::clone(https://github.com/GoogleCloudPlatform/gmemegen):close()

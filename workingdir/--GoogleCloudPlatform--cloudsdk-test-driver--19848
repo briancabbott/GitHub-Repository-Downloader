@@ -1,7 +1,0 @@
-child_process(19848)::clone(https://github.com/GoogleCloudPlatform/cloudsdk-test-driver):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\cloudsdk-test-driver'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 60, done.        
-remote: Total 60 (delta 0), reused 0 (delta 0), pack-reused 60        
-Checking connectivity: 7   Checking connectivity: 9   Checking connectivity: 52   Checking connectivity: 60, done.
-Checking out files:  25% (5/20)   Checking out files:  30% (6/20)   Checking out files:  35% (7/20)   Checking out files:  40% (8/20)   Checking out files:  45% (9/20)   Checking out files:  50% (10/20)   Checking out files:  55% (11/20)   Checking out files:  60% (12/20)   Checking out files:  65% (13/20)   Checking out files:  70% (14/20)   Checking out files:  75% (15/20)   Checking out files:  80% (16/20)   Checking out files:  85% (17/20)   Checking out files:  90% (18/20)   Checking out files:  95% (19/20)   Checking out files: 100% (20/20)   Checking out files: 100% (20/20), done.
-child_process(19848)::clone(https://github.com/GoogleCloudPlatform/cloudsdk-test-driver):close()

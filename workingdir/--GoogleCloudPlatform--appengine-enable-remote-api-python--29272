@@ -1,6 +1,0 @@
-child_process(29272)::clone(https://github.com/GoogleCloudPlatform/appengine-enable-remote-api-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\appengine-enable-remote-api-python'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 30, done.        
-remote: Total 30 (delta 0), reused 0 (delta 0), pack-reused 30        
-Checking connectivity: 12   Checking connectivity: 28   Checking connectivity: 30, done.
-child_process(29272)::clone(https://github.com/GoogleCloudPlatform/appengine-enable-remote-api-python):close()

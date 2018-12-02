@@ -1,7 +1,0 @@
-child_process(61700)::clone(https://github.com/GoogleCloudPlatform/solutions-automated-file-loader-for-bigquery):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\solutions-automated-file-loader-for-bigquery'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 29, done.        
-remote: Total 29 (delta 0), reused 0 (delta 0), pack-reused 29        
-Checking connectivity: 20   Checking connectivity: 29, done.
-Checking out files:  16% (3/18)   Checking out files:  22% (4/18)   Checking out files:  27% (5/18)   Checking out files:  33% (6/18)   Checking out files:  38% (7/18)   Checking out files:  44% (8/18)   Checking out files:  50% (9/18)   Checking out files:  55% (10/18)   Checking out files:  61% (11/18)   Checking out files:  66% (12/18)   Checking out files:  72% (13/18)   Checking out files:  77% (14/18)   Checking out files:  83% (15/18)   Checking out files:  88% (16/18)   Checking out files:  94% (17/18)   Checking out files: 100% (18/18)   Checking out files: 100% (18/18), done.
-child_process(61700)::clone(https://github.com/GoogleCloudPlatform/solutions-automated-file-loader-for-bigquery):close()

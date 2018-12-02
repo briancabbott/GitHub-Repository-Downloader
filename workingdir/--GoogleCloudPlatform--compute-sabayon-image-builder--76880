@@ -1,3 +1,0 @@
-child_process(76880)::clone(https://github.com/GoogleCloudPlatform/compute-sabayon-image-builder):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\compute-sabayon-image-builder'...
-child_process(76880)::clone(https://github.com/GoogleCloudPlatform/compute-sabayon-image-builder):stderr:data: POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 21, done.        

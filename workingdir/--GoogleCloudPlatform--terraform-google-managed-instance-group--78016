@@ -1,2 +1,0 @@
-child_process(78016)::clone(https://github.com/GoogleCloudPlatform/terraform-google-managed-instance-group):stderr:data: Checking out files:  76% (23/30)   Checking out files:  80% (24/30)   Checking out files:  83% (25/30)   Checking out files:  86% (26/30)   Checking out files:  90% (27/30)   Checking out files:  93% (28/30)   Checking out files:  96% (29/30)   Checking out files: 100% (30/30)   Checking out files: 100% (30/30), done.
-child_process(78016)::clone(https://github.com/GoogleCloudPlatform/terraform-google-managed-instance-group):close()

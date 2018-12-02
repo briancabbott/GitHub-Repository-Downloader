@@ -1,6 +1,0 @@
-child_process(54380)::clone(https://github.com/GoogleCloudPlatform/Solutions-Using-ETL-tool-on-Google-Compute-Engine):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\Solutions-Using-ETL-tool-on-Google-Compute-Engine'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 19, done.        
-remote: Total 19 (delta 0), reused 0 (delta 0), pack-reused 19        
-Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
-child_process(54380)::clone(https://github.com/GoogleCloudPlatform/Solutions-Using-ETL-tool-on-Google-Compute-Engine):close()

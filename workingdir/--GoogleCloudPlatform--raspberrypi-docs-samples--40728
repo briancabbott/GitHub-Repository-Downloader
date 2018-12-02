@@ -1,7 +1,0 @@
-child_process(40728)::clone(https://github.com/GoogleCloudPlatform/raspberrypi-docs-samples):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\raspberrypi-docs-samples'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 53, done.        
-remote: Total 53 (delta 0), reused 0 (delta 0), pack-reused 53        
-Checking connectivity: 12   Checking connectivity: 25   Checking connectivity: 30   Checking connectivity: 36   Checking connectivity: 42   Checking connectivity: 48   Checking connectivity: 51   Checking connectivity: 53, done.
-Checking out files:  20% (3/15)   Checking out files:  26% (4/15)   Checking out files:  33% (5/15)   Checking out files:  40% (6/15)   Checking out files:  46% (7/15)   Checking out files:  53% (8/15)   Checking out files:  60% (9/15)   Checking out files:  66% (10/15)   Checking out files:  73% (11/15)   Checking out files:  80% (12/15)   Checking out files:  86% (13/15)   Checking out files:  93% (14/15)   Checking out files: 100% (15/15)   Checking out files: 100% (15/15), done.
-child_process(40728)::clone(https://github.com/GoogleCloudPlatform/raspberrypi-docs-samples):close()

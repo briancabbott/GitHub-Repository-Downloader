@@ -1,6 +1,0 @@
-child_process(63828)::clone(https://github.com/GoogleCloudPlatform/appengine-try-go):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\appengine-try-go'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 48, done.        
-remote: Total 48 (delta 0), reused 0 (delta 0), pack-reused 48        
-Checking connectivity: 7   Checking connectivity: 10   Checking connectivity: 18   Checking connectivity: 22   Checking connectivity: 29   Checking connectivity: 31   Checking connectivity: 44   Checking connectivity: 48, done.
-child_process(63828)::clone(https://github.com/GoogleCloudPlatform/appengine-try-go):close()

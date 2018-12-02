@@ -1,5 +1,0 @@
-child_process(68112)::clone(https://github.com/GoogleCloudPlatform/lb-app-capacity-tutorial-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\lb-app-capacity-tutorial-python'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 10, done.        
-remote: Total 10 (delta 0), reused 0 (delta 0), pack-reused 10        
-child_process(68112)::clone(https://github.com/GoogleCloudPlatform/lb-app-capacity-tutorial-python):close()

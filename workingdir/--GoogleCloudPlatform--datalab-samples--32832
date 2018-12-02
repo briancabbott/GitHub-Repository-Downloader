@@ -1,3 +1,0 @@
-child_process(32832)::clone(https://github.com/GoogleCloudPlatform/datalab-samples):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\datalab-samples'...
-child_process(32832)::clone(https://github.com/GoogleCloudPlatform/datalab-samples):stderr:data: POST git-upload-pack (275 bytes)
-remote: Enumerating objects: 46, done.        

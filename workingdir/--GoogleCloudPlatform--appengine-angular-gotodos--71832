@@ -1,4 +1,0 @@
-child_process(71832)::clone(https://github.com/GoogleCloudPlatform/appengine-angular-gotodos):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-angular-gotodos'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 40, done.        
-remote: Total 40 (delta 0), reused 0 (delta 0), pack-reused 40        

@@ -1,4 +1,0 @@
-child_process(18976)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-multicloudvpn):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\autonetdeploy-multicloudvpn'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 54, done.        
-child_process(18976)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-multicloudvpn):close():error: with status: 128

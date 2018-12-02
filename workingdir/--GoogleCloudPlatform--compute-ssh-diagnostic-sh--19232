@@ -1,7 +1,0 @@
-child_process(19232)::clone(https://github.com/GoogleCloudPlatform/compute-ssh-diagnostic-sh):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\compute-ssh-diagnostic-sh'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 71, done.        
-remote: Total 71 (delta 0), reused 0 (delta 0), pack-reused 71        
-Checking connectivity: 23   Checking connectivity: 24   Checking connectivity: 25   Checking connectivity: 46   Checking connectivity: 50   Checking connectivity: 60   Checking connectivity: 64   Checking connectivity: 70   Checking connectivity: 71, done.
-Checking out files:  60% (3/5)   Checking out files:  80% (4/5)   Checking out files: 100% (5/5)   Checking out files: 100% (5/5), done.
-child_process(19232)::clone(https://github.com/GoogleCloudPlatform/compute-ssh-diagnostic-sh):close()

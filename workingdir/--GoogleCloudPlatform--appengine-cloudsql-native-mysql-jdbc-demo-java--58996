@@ -1,6 +1,0 @@
-child_process(58996)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-jdbc-demo-java):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\appengine-cloudsql-native-mysql-jdbc-demo-java'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 37, done.        
-child_process(58996)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-jdbc-demo-java):stderr:data: remote: Total 37 (delta 0), reused 0 (delta 0), pack-reused 37        
-child_process(58996)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-jdbc-demo-java):stderr:data: Checking out files: 100% (12/12), done.
-child_process(58996)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-jdbc-demo-java):close()

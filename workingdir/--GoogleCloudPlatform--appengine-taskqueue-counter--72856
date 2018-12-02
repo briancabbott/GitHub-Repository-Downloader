@@ -1,4 +1,0 @@
-child_process(72856)::clone(https://github.com/GoogleCloudPlatform/appengine-taskqueue-counter):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-taskqueue-counter'...
-child_process(72856)::clone(https://github.com/GoogleCloudPlatform/appengine-taskqueue-counter):stderr:data: POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 16, done.        
-remote: Total 16 (delta 0), reused 0 (delta 0), pack-reused 16        

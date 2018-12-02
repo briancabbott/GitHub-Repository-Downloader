@@ -1,8 +1,0 @@
-child_process(14516)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-multicloudvpn):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\autonetdeploy-multicloudvpn'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 54, done.        
-fatal: early EOF
-fatal: The remote end hung up unexpectedly
-fatal: unpack-objects failed
-error: RPC failed; curl 18 transfer closed with outstanding read data remaining
-child_process(14516)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-multicloudvpn):close():error: with status: 128

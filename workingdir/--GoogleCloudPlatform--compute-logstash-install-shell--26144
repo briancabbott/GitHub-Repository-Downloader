@@ -1,7 +1,0 @@
-child_process(26144)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\compute-logstash-install-shell'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 63, done.        
-remote: Total 63 (delta 0), reused 0 (delta 0), pack-reused 63        
-Checking connectivity: 4   Checking connectivity: 6   Checking connectivity: 10   Checking connectivity: 13   Checking connectivity: 15   Checking connectivity: 17   Checking connectivity: 20   Checking connectivity: 23   Checking connectivity: 34   Checking connectivity: 43   Checking connectivity: 56   Checking connectivity: 63, done.
-Checking out files:  80% (4/5)   Checking out files: 100% (5/5)   Checking out files: 100% (5/5), done.
-child_process(26144)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):close()

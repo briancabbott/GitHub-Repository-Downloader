@@ -1,3 +1,0 @@
-child_process(12660)::clone(https://github.com/GoogleCloudPlatform/bigquery-fluentd-docker-sample):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\bigquery-fluentd-docker-sample'...
-POST git-upload-pack (175 bytes)
-child_process(12660)::clone(https://github.com/GoogleCloudPlatform/bigquery-fluentd-docker-sample):stderr:data: remote: Enumerating objects: 24, done.        

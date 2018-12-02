@@ -1,6 +1,0 @@
-child_process(62700)::clone(https://github.com/GoogleCloudPlatform/cos-toolbox):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\cos-toolbox'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 11, done.        
-remote: Total 11 (delta 0), reused 0 (delta 0), pack-reused 11        
-Checking out files:  75% (3/4)   Checking out files: 100% (4/4)   Checking out files: 100% (4/4), done.
-child_process(62700)::clone(https://github.com/GoogleCloudPlatform/cos-toolbox):close()

@@ -1,6 +1,0 @@
-child_process(44072)::clone(https://github.com/GoogleCloudPlatform/appengine-photoalbum-example):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\appengine-photoalbum-example'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 38, done.        
-child_process(44072)::clone(https://github.com/GoogleCloudPlatform/appengine-photoalbum-example):stderr:data: error: timer thread did not terminate timely
-child_process(44072)::clone(https://github.com/GoogleCloudPlatform/appengine-photoalbum-example):stderr:data: Checking out files:  92% (13/14)   Checking out files: 100% (14/14)   Checking out files: 100% (14/14), done.
-child_process(44072)::clone(https://github.com/GoogleCloudPlatform/appengine-photoalbum-example):close()

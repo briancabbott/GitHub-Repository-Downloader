@@ -1,3 +1,0 @@
-child_process(88196)::clone(https://github.com/GoogleCloudPlatform/chef-google):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\chef-google'...
-child_process(88196)::clone(https://github.com/GoogleCloudPlatform/chef-google):stderr:data: POST git-upload-pack (375 bytes)
-remote: Enumerating objects: 60, done.        

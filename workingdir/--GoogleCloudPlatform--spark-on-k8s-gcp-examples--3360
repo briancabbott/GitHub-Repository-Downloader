@@ -1,7 +1,0 @@
-child_process(3360)::clone(https://github.com/GoogleCloudPlatform/spark-on-k8s-gcp-examples):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\spark-on-k8s-gcp-examples'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 73, done.        
-remote: Total 73 (delta 0), reused 0 (delta 0), pack-reused 73        
-Checking connectivity: 17   Checking connectivity: 30   Checking connectivity: 43   Checking connectivity: 54   Checking connectivity: 66   Checking connectivity: 73, done.
-Checking out files:  45% (9/20)   Checking out files:  50% (10/20)   Checking out files:  55% (11/20)   Checking out files:  60% (12/20)   Checking out files:  65% (13/20)   Checking out files:  70% (14/20)   Checking out files:  75% (15/20)   Checking out files:  80% (16/20)   Checking out files:  85% (17/20)   Checking out files:  90% (18/20)   Checking out files:  95% (19/20)   Checking out files: 100% (20/20)   Checking out files: 100% (20/20), done.
-child_process(3360)::clone(https://github.com/GoogleCloudPlatform/spark-on-k8s-gcp-examples):close()

@@ -1,6 +1,0 @@
-child_process(78448)::clone(https://github.com/GoogleCloudPlatform/docker-wait):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\docker-wait'...
-child_process(78448)::clone(https://github.com/GoogleCloudPlatform/docker-wait):stderr:data: POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 5, done.        
-remote: Counting objects:  20% (1/5)           remote: Counting objects:  40% (2/5)           remote: Counting objects:  60% (3/5)           remote: Counting objects:  80% (4/5)           remote: Counting objects: 100% (5/5)           remote: Counting objects: 100% (5/5), done.        
-remote: Compressing objects:  20% (1/5)           remote: Compressing objects:  40% (2/5)           remote: Compressing objects:  60% (3/5)           remote: Compressing objects:  80% (4/5)           remote: Compressing objects: 100% (5/5)           remote: Compressing objects: 100% (5/5), done.        
-remote: Total 5 (delta 0), reused 5 (delta 0), pack-reused 0        

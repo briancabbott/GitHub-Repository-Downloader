@@ -1,6 +1,0 @@
-child_process(70444)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\appengine-tensorboard'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 40, done.        
-child_process(70444)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):stderr:data: remote: Total 40 (delta 0), reused 0 (delta 0), pack-reused 40        
-child_process(70444)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):stderr:data: Checking out files:  37% (3/8)   Checking out files:  50% (4/8)   Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
-child_process(70444)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):close()

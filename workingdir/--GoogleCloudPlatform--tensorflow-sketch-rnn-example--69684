@@ -1,6 +1,0 @@
-child_process(69684)::clone(https://github.com/GoogleCloudPlatform/tensorflow-sketch-rnn-example):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\tensorflow-sketch-rnn-example'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 24, done.        
-remote: Total 24 (delta 0), reused 0 (delta 0), pack-reused 24        
-Checking out files:  28% (4/14)   Checking out files:  35% (5/14)   Checking out files:  42% (6/14)   Checking out files:  50% (7/14)   Checking out files:  57% (8/14)   Checking out files:  64% (9/14)   Checking out files:  71% (10/14)   Checking out files:  78% (11/14)   Checking out files:  85% (12/14)   Checking out files:  92% (13/14)   Checking out files: 100% (14/14)   Checking out files: 100% (14/14), done.
-child_process(69684)::clone(https://github.com/GoogleCloudPlatform/tensorflow-sketch-rnn-example):close()

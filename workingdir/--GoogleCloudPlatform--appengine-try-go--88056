@@ -1,3 +1,0 @@
-child_process(88056)::clone(https://github.com/GoogleCloudPlatform/appengine-try-go):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-try-go'...
-fatal: unable to access 'https://github.com/GoogleCloudPlatform/appengine-try-go/': OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443 
-child_process(88056)::clone(https://github.com/GoogleCloudPlatform/appengine-try-go):close():error: with status: 128

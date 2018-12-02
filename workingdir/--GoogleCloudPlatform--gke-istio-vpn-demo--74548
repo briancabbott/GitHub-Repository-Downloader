@@ -1,2 +1,0 @@
-child_process(74548)::clone(https://github.com/GoogleCloudPlatform/gke-istio-vpn-demo):stderr:data: Checking out files:  75% (25/33)   Checking out files:  78% (26/33)   Checking out files:  81% (27/33)   Checking out files:  84% (28/33)   Checking out files:  87% (29/33)   Checking out files:  90% (30/33)   Checking out files:  93% (31/33)   Checking out files:  96% (32/33)   Checking out files: 100% (33/33)   Checking out files: 100% (33/33), done.
-child_process(74548)::clone(https://github.com/GoogleCloudPlatform/gke-istio-vpn-demo):close()

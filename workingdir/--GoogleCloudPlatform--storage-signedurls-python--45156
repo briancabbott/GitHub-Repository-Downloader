@@ -1,7 +1,0 @@
-child_process(45156)::clone(https://github.com/GoogleCloudPlatform/storage-signedurls-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\storage-signedurls-python'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 37, done.        
-remote: Total 37 (delta 0), reused 0 (delta 0), pack-reused 37        
-Checking connectivity: 8   Checking connectivity: 25   Checking connectivity: 36   Checking connectivity: 37, done.
-Checking out files: 100% (7/7)   Checking out files: 100% (7/7), done.
-child_process(45156)::clone(https://github.com/GoogleCloudPlatform/storage-signedurls-python):close()

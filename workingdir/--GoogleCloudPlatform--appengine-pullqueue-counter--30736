@@ -1,7 +1,0 @@
-child_process(30736)::clone(https://github.com/GoogleCloudPlatform/appengine-pullqueue-counter):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\appengine-pullqueue-counter'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 30, done.        
-remote: Total 30 (delta 0), reused 0 (delta 0), pack-reused 30        
-Checking connectivity: 11   Checking connectivity: 30, done.
-Checking out files:  50% (4/8)   Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
-child_process(30736)::clone(https://github.com/GoogleCloudPlatform/appengine-pullqueue-counter):close()

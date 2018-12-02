@@ -1,7 +1,0 @@
-child_process(18544)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\cloudsql-import'...
-POST git-upload-pack (175 bytes)
-remote: Enumerating objects: 49, done.        
-remote: Total 49 (delta 0), reused 0 (delta 0), pack-reused 49        
-Checking connectivity: 15   Checking connectivity: 17   Checking connectivity: 23   Checking connectivity: 39   Checking connectivity: 41   Checking connectivity: 47   Checking connectivity: 49, done.
-Checking out files: 100% (3/3)   Checking out files: 100% (3/3), done.
-child_process(18544)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):close()

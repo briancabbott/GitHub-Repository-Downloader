@@ -1,2 +1,0 @@
-child_process(77336)::clone(https://github.com/GoogleCloudPlatform/prometheus-nodeexporter-docker):stderr:data: Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
-child_process(77336)::clone(https://github.com/GoogleCloudPlatform/prometheus-nodeexporter-docker):close()

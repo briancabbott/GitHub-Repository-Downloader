@@ -1,7 +1,0 @@
-child_process(17960)::clone(https://github.com/GoogleCloudPlatform/sonarqube-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\sonarqube-docker'...
-POST git-upload-pack (225 bytes)
-remote: Enumerating objects: 55, done.        
-remote: Total 55 (delta 0), reused 0 (delta 0), pack-reused 55        
-Checking connectivity: 9   Checking connectivity: 14   Checking connectivity: 29   Checking connectivity: 39   Checking connectivity: 51   Checking connectivity: 55, done.
-Checking out files:  69% (9/13)   Checking out files:  76% (10/13)   Checking out files:  84% (11/13)   Checking out files:  92% (12/13)   Checking out files: 100% (13/13)   Checking out files: 100% (13/13), done.
-child_process(17960)::clone(https://github.com/GoogleCloudPlatform/sonarqube-docker):close()

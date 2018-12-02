@@ -1,3 +1,0 @@
-child_process(71052)::clone(https://github.com/GoogleCloudPlatform/appengine-endpoints-tictactoe-python):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-endpoints-tictactoe-python'...
-fatal: unable to access 'https://github.com/GoogleCloudPlatform/appengine-endpoints-tictactoe-python/': OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443 
-child_process(71052)::clone(https://github.com/GoogleCloudPlatform/appengine-endpoints-tictactoe-python):close():error: with status: 128
