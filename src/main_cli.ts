@@ -93,7 +93,6 @@ let repositoriesListCommand: yargs.CommandModule = {
         }
     },
     handler: (argv) => {
-        console.log("list command");
         let organizations = <Array<string>> argv.organization;
         let ghaut = argv["github-auth-token"];
         let ghautf = argv["github-auth-token-file"];
