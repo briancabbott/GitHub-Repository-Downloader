@@ -1,3 +1,4 @@
 auth-token-*
 node_modules
 dist
+workingdir
