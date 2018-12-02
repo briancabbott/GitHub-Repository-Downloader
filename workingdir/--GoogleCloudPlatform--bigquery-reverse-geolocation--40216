@@ -1,0 +1,3 @@
+child_process(40216)::clone(https://github.com/GoogleCloudPlatform/bigquery-reverse-geolocation):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\bigquery-reverse-geolocation'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 47, done.        

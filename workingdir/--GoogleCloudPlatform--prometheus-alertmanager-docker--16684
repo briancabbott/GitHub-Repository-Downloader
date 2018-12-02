@@ -1,0 +1,8 @@
+child_process(16684)::clone(https://github.com/GoogleCloudPlatform/prometheus-alertmanager-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\prometheus-alertmanager-docker'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 1, done.        
+remote: Counting objects: 100% (1/1)           remote: Counting objects: 100% (1/1), done.        
+remote: Total 48 (delta 0), reused 0 (delta 0), pack-reused 47        
+Checking connectivity: 8   Checking connectivity: 12   Checking connectivity: 20   Checking connectivity: 31   Checking connectivity: 35   Checking connectivity: 37   Checking connectivity: 40   Checking connectivity: 45   Checking connectivity: 48, done.
+Checking out files:  50% (4/8)   Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
+child_process(16684)::clone(https://github.com/GoogleCloudPlatform/prometheus-alertmanager-docker):close()

@@ -1,0 +1,2 @@
+child_process(68476)::clone(https://github.com/GoogleCloudPlatform/php-tools):stderr:data: Checking out files: 100% (56/56), done.
+child_process(68476)::clone(https://github.com/GoogleCloudPlatform/php-tools):close()

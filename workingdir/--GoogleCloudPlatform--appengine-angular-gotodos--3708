@@ -1,0 +1,6 @@
+child_process(3708)::clone(https://github.com/GoogleCloudPlatform/appengine-angular-gotodos):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-angular-gotodos'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 40, done.        
+remote: Total 40 (delta 0), reused 0 (delta 0), pack-reused 40        
+Checking out files:  30% (3/10)   Checking out files:  40% (4/10)   Checking out files:  50% (5/10)   Checking out files:  60% (6/10)   Checking out files:  70% (7/10)   Checking out files:  80% (8/10)   Checking out files:  90% (9/10)   Checking out files: 100% (10/10)   Checking out files: 100% (10/10), done.
+child_process(3708)::clone(https://github.com/GoogleCloudPlatform/appengine-angular-gotodos):close()

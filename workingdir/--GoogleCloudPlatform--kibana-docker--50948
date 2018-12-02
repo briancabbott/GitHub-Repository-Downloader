@@ -1,0 +1,7 @@
+child_process(50948)::clone(https://github.com/GoogleCloudPlatform/kibana-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\kibana-docker'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 22, done.        
+remote: Total 22 (delta 0), reused 0 (delta 0), pack-reused 22        
+Checking connectivity: 7   Checking connectivity: 18   Checking connectivity: 22, done.
+Checking out files:  50% (5/10)   Checking out files:  60% (6/10)   Checking out files:  70% (7/10)   Checking out files:  80% (8/10)   Checking out files:  90% (9/10)   Checking out files: 100% (10/10)   Checking out files: 100% (10/10), done.
+child_process(50948)::clone(https://github.com/GoogleCloudPlatform/kibana-docker):close()

@@ -1,0 +1,2 @@
+child_process(74960)::clone(https://github.com/GoogleCloudPlatform/google-cloud-iot-arduino):stderr:data: Checking out files:  85% (47/55)   Checking out files:  87% (48/55)   Checking out files:  89% (49/55)   Checking out files:  90% (50/55)   Checking out files:  92% (51/55)   Checking out files:  94% (52/55)   Checking out files:  96% (53/55)   Checking out files:  98% (54/55)   Checking out files: 100% (55/55)   Checking out files: 100% (55/55), done.
+child_process(74960)::clone(https://github.com/GoogleCloudPlatform/google-cloud-iot-arduino):close()

@@ -1,50 +1,57 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
+const fs = __importStar(require("fs"));
 const git_clone_temp_1 = require("./git_cli/git_clone_temp");
 const path_1 = require("path");
 class Downloader {
-    constructor(githubToken) {
+    constructor(githubToken, downloadDirectory) {
         this.cloneCommandResults = new Array();
         this.githubToken = githubToken;
+        this.downloadDirectory = downloadDirectory;
     }
     downloadRepositories(reposList) {
-        this.downloadLocation = "C:\\GRD3\\" + reposList.organizationName;
+        // Make sure the output directory is there.
         console.log("Starting downloads... ");
-        reposList.repositories.forEach((r) => console.log(r.name));
         reposList.repositories.forEach((repository) => {
             this.downloadRepository(reposList.organizationName, repository);
         });
         return this.cloneCommandResults;
     }
     downloadRepository(orgName, repository) {
-        if (!fs_1.existsSync(this.downloadLocation)) {
-            fs_1.mkdirSync(this.downloadLocation);
-        }
         console.log("Downloading: " + repository.url);
         let gitClone = new git_clone_temp_1.GitCloneTemp();
-        gitClone.execute(repository.url, this.downloadLocation + "\\" + repository.name, (commandInfo) => {
-            console.log("command info results...: " + commandInfo);
+        let repoDownloadLocation = path_1.join(this.downloadDirectory, repository.name);
+        gitClone.execute(repository.url, repoDownloadLocation, (commandInfo) => {
+            commandInfo.writeToFile(repoDownloadLocation);
             this.cloneCommandResults.push(commandInfo);
         });
         console.log("Finished cloning repository: " + repository.name);
     }
     // Use internal messages from ChildProcess's
     verifyDownloadSuccess(orgName, repository) {
-        let repoLoc = "C:\\GRD3\\" + orgName + "\\" + repository.name;
-        if (!fs_1.existsSync(repoLoc)) {
+        let repoLoc = this.downloadDirectory + "\\" + repository.name;
+        if (!fs.existsSync(repoLoc)) {
             return;
         }
     }
-    verifyDownloadSuccessFromLogFile(organizationName, listQueryLogFile) {
+    verifySuccessFromLogFiles() {
+        let dirs = fs.readdirSync(this.downloadDirectory);
+        dirs.forEach((dir) => console.log(dir));
     }
     verifyDownloadSuccessFromListFile(listQueryLogFile, downloadsDir) {
-        let jsonContent = fs_1.readFileSync(listQueryLogFile).toString();
+        let jsonContent = fs.readFileSync(listQueryLogFile).toString();
         let reposList = JSON.parse(jsonContent);
         let dirEntries = new Array();
-        let dirEntriesRead = fs_1.readdirSync(downloadsDir, { encoding: "utf8" });
+        let dirEntriesRead = fs.readdirSync(downloadsDir, { encoding: "utf8" });
         dirEntriesRead.forEach((dirEntry) => {
-            let stats = fs_1.statSync(path_1.join(downloadsDir, dirEntry));
+            let stats = fs.statSync(path_1.join(downloadsDir, dirEntry));
             if (stats.isDirectory()) {
                 dirEntries.push(dirEntry);
             }

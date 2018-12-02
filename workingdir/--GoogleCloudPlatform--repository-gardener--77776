@@ -1,0 +1,2 @@
+child_process(77776)::clone(https://github.com/GoogleCloudPlatform/repository-gardener):stderr:data: Checking out files:  90% (60/66)   Checking out files:  92% (61/66)   Checking out files:  93% (62/66)   Checking out files:  95% (63/66)   Checking out files:  96% (64/66)   Checking out files:  98% (65/66)   Checking out files: 100% (66/66)   Checking out files: 100% (66/66), done.
+child_process(77776)::clone(https://github.com/GoogleCloudPlatform/repository-gardener):close()

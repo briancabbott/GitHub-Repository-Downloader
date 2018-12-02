@@ -1,0 +1,3 @@
+child_process(13112)::clone(https://github.com/GoogleCloudPlatform/MiniCat):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\MiniCat'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 75, done.        

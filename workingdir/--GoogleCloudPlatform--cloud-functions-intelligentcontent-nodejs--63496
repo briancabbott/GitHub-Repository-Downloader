@@ -1,0 +1,6 @@
+child_process(63496)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\cloud-functions-intelligentcontent-nodejs'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 14, done.        
+remote: Total 14 (delta 0), reused 0 (delta 0), pack-reused 14        
+Checking out files:  62% (5/8)   Checking out files:  75% (6/8)   Checking out files:  87% (7/8)   Checking out files: 100% (8/8)   Checking out files: 100% (8/8), done.
+child_process(63496)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):close()

@@ -1,0 +1,3 @@
+child_process(79548)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\cloud-functions-intelligentcontent-nodejs'...
+child_process(79548)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 14, done.        

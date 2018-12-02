@@ -1,0 +1,7 @@
+child_process(32384)::clone(https://github.com/GoogleCloudPlatform/storage-metabucket-javascript):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\storage-metabucket-javascript'...
+POST git-upload-pack (275 bytes)
+remote: Enumerating objects: 62, done.        
+remote: Total 62 (delta 0), reused 0 (delta 0), pack-reused 62        
+Checking connectivity: 15   Checking connectivity: 48   Checking connectivity: 59   Checking connectivity: 62, done.
+Checking out files:  47% (8/17)   Checking out files:  52% (9/17)   Checking out files:  58% (10/17)   Checking out files:  64% (11/17)   Checking out files:  70% (12/17)   Checking out files:  76% (13/17)   Checking out files:  82% (14/17)   Checking out files:  88% (15/17)   Checking out files:  94% (16/17)   Checking out files: 100% (17/17)   Checking out files: 100% (17/17), done.
+child_process(32384)::clone(https://github.com/GoogleCloudPlatform/storage-metabucket-javascript):close()

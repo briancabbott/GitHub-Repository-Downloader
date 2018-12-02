@@ -1,0 +1,2 @@
+child_process(55004)::clone(https://github.com/GoogleCloudPlatform/logging-with-stackdriver):stderr:data: Checking out files:  50% (3/6)   Checking out files:  66% (4/6)   Checking out files:  83% (5/6)   Checking out files: 100% (6/6)   Checking out files: 100% (6/6), done.
+child_process(55004)::clone(https://github.com/GoogleCloudPlatform/logging-with-stackdriver):close()

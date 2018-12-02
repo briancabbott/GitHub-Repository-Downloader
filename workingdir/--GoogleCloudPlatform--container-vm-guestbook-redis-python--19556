@@ -1,0 +1,7 @@
+child_process(19556)::clone(https://github.com/GoogleCloudPlatform/container-vm-guestbook-redis-python):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\container-vm-guestbook-redis-python'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 49, done.        
+remote: Total 49 (delta 0), reused 0 (delta 0), pack-reused 49        
+Checking connectivity: 2   Checking connectivity: 5   Checking connectivity: 14   Checking connectivity: 22   Checking connectivity: 49, done.
+Checking out files:  30% (3/10)   Checking out files:  40% (4/10)   Checking out files:  50% (5/10)   Checking out files:  60% (6/10)   Checking out files:  70% (7/10)   Checking out files:  80% (8/10)   Checking out files:  90% (9/10)   Checking out files: 100% (10/10)   Checking out files: 100% (10/10), done.
+child_process(19556)::clone(https://github.com/GoogleCloudPlatform/container-vm-guestbook-redis-python):close()

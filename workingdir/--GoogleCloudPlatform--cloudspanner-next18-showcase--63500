@@ -1,0 +1,5 @@
+child_process(63500)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\cloudspanner-next18-showcase'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 5, done.        
+remote: Total 5 (delta 0), reused 0 (delta 0), pack-reused 5        
+child_process(63500)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):close()

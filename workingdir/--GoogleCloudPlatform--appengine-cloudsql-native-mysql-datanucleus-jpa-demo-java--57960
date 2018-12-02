@@ -1,0 +1,4 @@
+child_process(57960)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-datanucleus-jpa-demo-java):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-cloudsql-native-mysql-datanucleus-jpa-demo-java'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 57, done.        
+remote: Total 57 (delta 0), reused 0 (delta 0), pack-reused 57        

@@ -1,0 +1,7 @@
+child_process(61812)::clone(https://github.com/GoogleCloudPlatform/dataflow-precipitation-pipeline):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\dataflow-precipitation-pipeline'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 95, done.        
+remote: Total 95 (delta 0), reused 0 (delta 0), pack-reused 95        
+Checking connectivity: 7   Checking connectivity: 21   Checking connectivity: 23   Checking connectivity: 25   Checking connectivity: 27   Checking connectivity: 40   Checking connectivity: 45   Checking connectivity: 48   Checking connectivity: 50   Checking connectivity: 55   Checking connectivity: 59   Checking connectivity: 73   Checking connectivity: 76   Checking connectivity: 78   Checking connectivity: 82   Checking connectivity: 87   Checking connectivity: 89   Checking connectivity: 92   Checking connectivity: 95, done.
+Checking out files:  18% (3/16)   Checking out files:  25% (4/16)   Checking out files:  31% (5/16)   Checking out files:  37% (6/16)   Checking out files:  43% (7/16)   Checking out files:  50% (8/16)   Checking out files:  56% (9/16)   Checking out files:  62% (10/16)   Checking out files:  68% (11/16)   Checking out files:  75% (12/16)   Checking out files:  81% (13/16)   Checking out files:  87% (14/16)   Checking out files:  93% (15/16)   Checking out files: 100% (16/16)   Checking out files: 100% (16/16), done.
+child_process(61812)::clone(https://github.com/GoogleCloudPlatform/dataflow-precipitation-pipeline):close()

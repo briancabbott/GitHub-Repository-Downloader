@@ -1,0 +1,4 @@
+child_process(54780)::clone(https://github.com/GoogleCloudPlatform/endpoints-grpcrest-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\endpoints-grpcrest-python'...
+child_process(54780)::clone(https://github.com/GoogleCloudPlatform/endpoints-grpcrest-python):stderr:data: Checking connectivity: 4   Checking connectivity: 6   Checking connectivity: 17   Checking connectivity: 19   Checking connectivity: 34   Checking connectivity: 38   Checking connectivity: 39   Checking connectivity: 39, done.
+Checking out files:  42% (3/7)   Checking out files:  57% (4/7)   Checking out files:  71% (5/7)   Checking out files:  85% (6/7)   Checking out files: 100% (7/7)   Checking out files: 100% (7/7), done.
+child_process(54780)::clone(https://github.com/GoogleCloudPlatform/endpoints-grpcrest-python):close()

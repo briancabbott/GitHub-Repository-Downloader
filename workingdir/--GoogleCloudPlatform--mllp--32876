@@ -1,0 +1,7 @@
+child_process(32876)::clone(https://github.com/GoogleCloudPlatform/mllp):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\mllp'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 70, done.        
+remote: Total 70 (delta 0), reused 0 (delta 0), pack-reused 70        
+Checking connectivity: 26   Checking connectivity: 41   Checking connectivity: 56   Checking connectivity: 63   Checking connectivity: 70, done.
+Checking out files:  19% (6/31)   Checking out files:  22% (7/31)   Checking out files:  25% (8/31)   Checking out files:  29% (9/31)   Checking out files:  32% (10/31)   Checking out files:  35% (11/31)   Checking out files:  38% (12/31)   Checking out files:  41% (13/31)   Checking out files:  45% (14/31)   Checking out files:  48% (15/31)   Checking out files:  51% (16/31)   Checking out files:  54% (17/31)   Checking out files:  58% (18/31)   Checking out files:  61% (19/31)   Checking out files:  64% (20/31)   Checking out files:  67% (21/31)   Checking out files:  70% (22/31)   Checking out files:  74% (23/31)   Checking out files:  77% (24/31)   Checking out files:  80% (25/31)   Checking out files:  83% (26/31)   Checking out files:  87% (27/31)   Checking out files:  90% (28/31)   Checking out files:  93% (29/31)   Checking out files:  96% (30/31)   Checking out files: 100% (31/31)   Checking out files: 100% (31/31), done.
+child_process(32876)::clone(https://github.com/GoogleCloudPlatform/mllp):close()

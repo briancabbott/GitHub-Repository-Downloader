@@ -1,0 +1,7 @@
+child_process(25644)::clone(https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\reliable-task-scheduling-compute-engine-sample'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 83, done.        
+remote: Total 83 (delta 0), reused 0 (delta 0), pack-reused 83        
+Checking connectivity: 14   Checking connectivity: 42   Checking connectivity: 83, done.
+child_process(25644)::clone(https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample):stderr:data: Checking out files:  58% (7/12)   Checking out files:  66% (8/12)   Checking out files:  75% (9/12)   Checking out files:  83% (10/12)   Checking out files:  91% (11/12)   Checking out files: 100% (12/12)   Checking out files: 100% (12/12), done.
+child_process(25644)::clone(https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample):close()

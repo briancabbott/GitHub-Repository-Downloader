@@ -1,0 +1,4 @@
+child_process(25528)::clone(https://github.com/GoogleCloudPlatform/compute-autoscale-metric-nodejs):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\compute-autoscale-metric-nodejs'...
+child_process(25528)::clone(https://github.com/GoogleCloudPlatform/compute-autoscale-metric-nodejs):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 12, done.        
+remote: Total 12 (delta 0), reused 0 (delta 0), pack-reused 12        

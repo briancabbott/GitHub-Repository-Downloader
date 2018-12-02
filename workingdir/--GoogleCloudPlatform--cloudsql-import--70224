@@ -1,0 +1,6 @@
+child_process(70224)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\cloudsql-import'...
+child_process(70224)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 49, done.        
+child_process(70224)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):stderr:data: Checking connectivity: 2   Checking connectivity: 3   Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 7   Checking connectivity: 8   Checking connectivity: 9   Checking connectivity: 10   Checking connectivity: 12   Checking connectivity: 14   Checking connectivity: 15   Checking connectivity: 17   Checking connectivity: 19   Checking connectivity: 23   Checking connectivity: 25   Checking connectivity: 27   Checking connectivity: 29   Checking connectivity: 31   Checking connectivity: 35   Checking connectivity: 37   Checking connectivity: 39   Checking connectivity: 41   Checking connectivity: 45   Checking connectivity: 47   Checking connectivity: 49, done.
+Checking out files: 100% (3/3)   Checking out files: 100% (3/3), done.
+child_process(70224)::clone(https://github.com/GoogleCloudPlatform/cloudsql-import):close()

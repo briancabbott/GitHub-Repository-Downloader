@@ -1,11 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
+const git_clone_temp_logger_1 = require("./git_clone_temp_logger");
+const path_1 = require("path");
+const fs_1 = require("fs");
+var fsext = require("fs-extra");
 /**
  * Temp in the sense that I need a logging cloning agent now, but, will implement a better version later with the GitCommands Model.
  */
 class GitCloneTemp_CommandInfo {
-    constructor(commandText, repo, targetPath, startTime, endTime, cloneOperationFailed, childProcessPid, stdOutDataMessages, stdOutErrMessages, stdErrDataMessages, stdErrErrMessages, closeMessage, executionErrors) {
+    constructor(commandText, repo, targetPath, startTime, endTime, cloneOperationFailed, childProcessPid, commandLogFilePath, executionErrors) {
         this.commandText = commandText;
         this.repo = repo;
         this.targetPath = targetPath;
@@ -13,31 +17,43 @@ class GitCloneTemp_CommandInfo {
         this.endTime = endTime,
             this.cloneOperationFailed = cloneOperationFailed;
         this.childProcessPid = childProcessPid;
-        this.stdOutDataMessages = stdOutDataMessages || new Array();
-        this.stdOutErrMessages = stdOutErrMessages || new Array();
-        this.stdErrDataMessages = stdErrDataMessages || new Array();
-        this.stdErrErrMessages = stdErrErrMessages || new Array();
-        this.closeMessage = closeMessage;
+        // this.stdOutDataMessages = stdOutDataMessages || new Array<string>(); 
+        // this.stdOutErrMessages = stdOutErrMessages || new Array<string>();
+        // this.stdErrDataMessages = stdErrDataMessages || new Array<string>(); 
+        // this.stdErrErrMessages = stdErrErrMessages || new Array<string>();
+        // this.closeMessage = closeMessage;
         this.executionErrors = executionErrors || new Array();
+        this.commandLogFilePath = commandLogFilePath;
     }
     determineFailureStatus() {
-        let messages = this.stdOutDataMessages.concat(this.stdOutErrMessages).concat(this.stdErrDataMessages)
-            .concat(this.stdErrErrMessages).concat(this.closeMessage);
-        let capturedMsgsLength = this.stdOutDataMessages.length + this.stdOutErrMessages.length + this.stdErrDataMessages.length +
-            this.stdErrErrMessages.length + 1;
-        if (messages.length !== capturedMsgsLength) {
-            let errorMessage = "Messages incorrectly concatenated. Concatenated length was: " +
-                messages.length + ". ChildProc CapturedMsg.Length was: " + capturedMsgsLength;
-            console.log(errorMessage);
-            throw new Error(errorMessage);
+        // let messages = this.stdOutDataMessages.concat(this.stdOutErrMessages).concat(this.stdErrDataMessages)
+        //     .concat(this.stdErrErrMessages).concat(this.closeMessage);
+        // let capturedMsgsLength = this.stdOutDataMessages.length + this.stdOutErrMessages.length + this.stdErrDataMessages.length + 
+        //     this.stdErrErrMessages.length + 1; // +1 for close message.
+        // if (messages.length !== capturedMsgsLength) {
+        //     let errorMessage = "Messages incorrectly concatenated. Concatenated length was: " + 
+        //         messages.length + ". ChildProc CapturedMsg.Length was: " + capturedMsgsLength;
+        //     console.log(errorMessage);
+        //     throw new Error(errorMessage);
+        // }
+        // messages.forEach((message) => {
+        //     let messagelc = message.toLowerCase();
+        //     if (messagelc.includes("error") || messagelc.includes("fatal")) {
+        //         this.cloneOperationFailed = true;
+        //         return;
+        //     }
+        // }); 
+    }
+    writeToFile(dirName) {
+        let ciWritePath = path_1.join(dirName || this.targetPath, "GitCloneTemp_CommandInfo.json");
+        let jsonContent = JSON.stringify(this, undefined, 4);
+        try {
+            fs_1.writeFileSync(ciWritePath, jsonContent, { flag: "a+" });
         }
-        messages.forEach((message) => {
-            let messagelc = message.toLowerCase();
-            if (messagelc.includes("error") || messagelc.includes("fatal")) {
-                this.cloneOperationFailed = true;
-                return;
-            }
-        });
+        catch (e) {
+            console.log("ERROR OCCURED WRITING GitClone CommandInfo. Error was: " + e);
+        }
+        return ciWritePath;
     }
 }
 exports.GitCloneTemp_CommandInfo = GitCloneTemp_CommandInfo;
@@ -49,44 +65,43 @@ class GitCloneTemp {
         var git = 'git';
         var args = ['clone'];
         args.push('--progress');
-        args.push('--');
+        args.push('--verbose');
         args.push(repo);
         args.push(targetPath);
         this.commandInfo.commandText = git + " " + args.join(" ");
         this.commandInfo.repo = repo;
         this.commandInfo.targetPath = targetPath;
         this.commandInfo.startTime = new Date();
-        var process = child_process_1.spawn(git, args);
-        this.commandInfo.childProcessPid = process.pid;
-        process.stdout.on("data", (chunk) => {
-            let procStdOutDataMsg = "child_process(" + process.pid + ")::clone(" + repo + "):stdout:data: " + chunk;
-            // this.commandInfo.stdOutDataMessages.push(procStdOutDataMsg);
-            console.log(procStdOutDataMsg);
+        console.log("spawning clone osProcess: osProcess information is: ", git, args);
+        var osProcess = child_process_1.spawn(git, args);
+        this.commandInfo.childProcessPid = osProcess.pid;
+        let workingDir = process.cwd() + "\\workingdir";
+        fsext.ensureDirSync(workingDir);
+        let commandLogger = new git_clone_temp_logger_1.GitCloneTempLogger(osProcess.pid, this.commandInfo.startTime, repo, workingDir);
+        this.commandInfo.commandLogFilePath = commandLogger.logFileLocationPath();
+        osProcess.stdout.on("data", (chunk) => {
+            let procStdOutDataMsg = "child_process(" + osProcess.pid + ")::clone(" + repo + "):stdout:data: " + chunk;
+            commandLogger.log(procStdOutDataMsg);
         });
-        process.stdout.on("error", (error) => {
-            let procStdOutErrMsg = "child_process(" + process.pid + ")::clone(" + repo + "):stdout:error: " + error;
-            // this.commandInfo.stdOutErrMessages.push(procStdOutErrMsg);
-            console.log(procStdOutErrMsg);
+        osProcess.stdout.on("error", (error) => {
+            let procStdOutErrMsg = "child_process(" + osProcess.pid + ")::clone(" + repo + "):stdout:error: " + error.message;
+            commandLogger.log(procStdOutErrMsg);
         });
-        process.stderr.on("data", (chunk) => {
-            let procStdErrDataMsg = "child_process(" + process.pid + ")::clone(" + repo + "):stderr:data: " + chunk;
-            // this.commandInfo.stdErrDataMessages.push(procStdErrDataMsg);
-            console.log(procStdErrDataMsg);
+        osProcess.stderr.on("data", (chunk) => {
+            let procStdErrDataMsg = "child_process(" + osProcess.pid + ")::clone(" + repo + "):stderr:data: " + chunk;
+            commandLogger.log(procStdErrDataMsg);
         });
-        process.stderr.on("error", (error) => {
-            let procStdErrErrMsg = "child_process(" + process.pid + ")::clone(" + repo + "):stderr:error: " + error;
-            //  this.commandInfo.stdOutDataMessages.push(procStdErrErrMsg);
-            console.log(procStdErrErrMsg);
+        osProcess.stderr.on("error", (error) => {
+            let procStdErrErrMsg = "child_process(" + osProcess.pid + ")::clone(" + repo + "):stderr:error: " + error.message;
+            commandLogger.log(procStdErrErrMsg);
         });
-        process.on('close', (status) => {
+        osProcess.on('close', (status) => {
             this.commandInfo.endTime = new Date();
-            let closeMessage = "child_process(" + process.pid + ")::clone(" + repo + "):close()";
+            let closeMessage = "child_process(" + osProcess.pid + ")::clone(" + repo + "):close()";
             if (status !== 0) {
                 closeMessage += ":error: with status: " + status;
-                // this.commandInfo.executionErrors.push(new Error(closeMessage));
             }
-            this.commandInfo.closeMessage = closeMessage;
-            console.log(closeMessage);
+            commandLogger.log(closeMessage);
             cb(this.commandInfo);
         });
     }

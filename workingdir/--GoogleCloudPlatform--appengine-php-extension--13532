@@ -1,0 +1,7 @@
+child_process(13532)::clone(https://github.com/GoogleCloudPlatform/appengine-php-extension):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-php-extension'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 64, done.        
+remote: Total 64 (delta 0), reused 0 (delta 0), pack-reused 64        
+Checking connectivity: 5   Checking connectivity: 8   Checking connectivity: 40   Checking connectivity: 43   Checking connectivity: 64, done.
+Checking out files:  10% (3/28)   Checking out files:  14% (4/28)   Checking out files:  17% (5/28)   Checking out files:  21% (6/28)   Checking out files:  25% (7/28)   Checking out files:  28% (8/28)   Checking out files:  32% (9/28)   Checking out files:  35% (10/28)   Checking out files:  39% (11/28)   Checking out files:  42% (12/28)   Checking out files:  46% (13/28)   Checking out files:  50% (14/28)   Checking out files:  53% (15/28)   Checking out files:  57% (16/28)   Checking out files:  60% (17/28)   Checking out files:  64% (18/28)   Checking out files:  67% (19/28)   Checking out files:  71% (20/28)   Checking out files:  75% (21/28)   Checking out files:  78% (22/28)   Checking out files:  82% (23/28)   Checking out files:  85% (24/28)   Checking out files:  89% (25/28)   Checking out files:  92% (26/28)   Checking out files:  96% (27/28)   Checking out files: 100% (28/28)   Checking out files: 100% (28/28), done.
+child_process(13532)::clone(https://github.com/GoogleCloudPlatform/appengine-php-extension):close()

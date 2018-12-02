@@ -1,0 +1,3 @@
+child_process(84944)::clone(https://github.com/GoogleCloudPlatform/dataflow-prediction-example):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\dataflow-prediction-example'...
+child_process(84944)::clone(https://github.com/GoogleCloudPlatform/dataflow-prediction-example):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 78, done.        

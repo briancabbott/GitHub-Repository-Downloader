@@ -1,0 +1,3 @@
+child_process(81072)::clone(https://github.com/GoogleCloudPlatform/container-engine-customize-fluentd):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\container-engine-customize-fluentd'...
+child_process(81072)::clone(https://github.com/GoogleCloudPlatform/container-engine-customize-fluentd):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 28, done.        

@@ -1,0 +1,3 @@
+child_process(87480)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-tensorboard'...
+child_process(87480)::clone(https://github.com/GoogleCloudPlatform/appengine-tensorboard):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 40, done.        

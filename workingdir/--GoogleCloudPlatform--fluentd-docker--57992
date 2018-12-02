@@ -1,0 +1,4 @@
+child_process(57992)::clone(https://github.com/GoogleCloudPlatform/fluentd-docker):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\fluentd-docker'...
+child_process(57992)::clone(https://github.com/GoogleCloudPlatform/fluentd-docker):stderr:data: POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 25, done.        
+remote: Total 25 (delta 0), reused 0 (delta 0), pack-reused 25        

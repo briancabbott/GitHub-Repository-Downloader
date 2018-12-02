@@ -1,0 +1,7 @@
+child_process(43996)::clone(https://github.com/GoogleCloudPlatform/fluentd-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\fluentd-docker'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 25, done.        
+remote: Total 25 (delta 0), reused 0 (delta 0), pack-reused 25        
+Checking connectivity: 8   Checking connectivity: 20   Checking connectivity: 25, done.
+Checking out files:  36% (4/11)   Checking out files:  45% (5/11)   Checking out files:  54% (6/11)   Checking out files:  63% (7/11)   Checking out files:  72% (8/11)   Checking out files:  81% (9/11)   Checking out files:  90% (10/11)   Checking out files: 100% (11/11)   Checking out files: 100% (11/11), done.
+child_process(43996)::clone(https://github.com/GoogleCloudPlatform/fluentd-docker):close()

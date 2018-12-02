@@ -1,0 +1,5 @@
+child_process(4236)::clone(https://github.com/GoogleCloudPlatform/cloudml-apigee-serving):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\cloudml-apigee-serving'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 33, done.        
+remote: Total 33 (delta 0), reused 0 (delta 0), pack-reused 33        
+child_process(4236)::clone(https://github.com/GoogleCloudPlatform/cloudml-apigee-serving):stderr:data: error: timer thread did not terminate timely

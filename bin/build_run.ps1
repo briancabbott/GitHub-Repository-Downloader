@@ -1,5 +1,5 @@
 
 $date = Get-Date -UFormat %s
 
-tsc
-node --prof ".\dist\main.js" > ".\log__$date.txt"
+tsc --diagnostics --extendedDiagnostics	
+# node --prof ".\dist\src\main.js" > ".\log__$date.txt"

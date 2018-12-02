@@ -1,0 +1,5 @@
+child_process(27216)::clone(https://github.com/GoogleCloudPlatform/appengine-dart-todos):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\appengine-dart-todos'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 38, done.        
+child_process(27216)::clone(https://github.com/GoogleCloudPlatform/appengine-dart-todos):stderr:data: remote: Total 38 (delta 0), reused 0 (delta 0), pack-reused 38        
+child_process(27216)::clone(https://github.com/GoogleCloudPlatform/appengine-dart-todos):close()

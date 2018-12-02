@@ -6,8 +6,9 @@ const fs_1 = require("fs");
 let organizationName = "GoogleCloudPlatform";
 let listQueryLogFile = "repositories_for_organization--GoogleCloudPlatform--function valueOf() { [native code] }.json";
 let tok = fs_1.readFileSync("auth-token-briancabbott-github-app.tk").toString();
-let downloader = new download_1.Downloader(tok);
-let failedRepos = downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, "C:\\GRD3\\" + organizationName);
+let downloadDirectory = "C:\\grd_test\\";
+let downloader = new download_1.Downloader(tok, downloadDirectory);
+let failedRepos = downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, downloadDirectory + organizationName);
 if (failedRepos.length > 0) {
     console.log("Failed repositories where found. The following repositories failed to download (" + failedRepos.length + "): ");
     failedRepos.forEach((r) => {

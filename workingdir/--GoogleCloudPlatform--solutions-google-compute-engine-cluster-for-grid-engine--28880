@@ -1,0 +1,6 @@
+child_process(28880)::clone(https://github.com/GoogleCloudPlatform/solutions-google-compute-engine-cluster-for-grid-engine):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\solutions-google-compute-engine-cluster-for-grid-engine'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 22, done.        
+remote: Total 22 (delta 0), reused 0 (delta 0), pack-reused 22        
+Checking out files:  83% (5/6)   Checking out files: 100% (6/6)   Checking out files: 100% (6/6), done.
+child_process(28880)::clone(https://github.com/GoogleCloudPlatform/solutions-google-compute-engine-cluster-for-grid-engine):close()

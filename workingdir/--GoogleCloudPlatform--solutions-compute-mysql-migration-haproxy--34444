@@ -1,0 +1,8 @@
+child_process(34444)::clone(https://github.com/GoogleCloudPlatform/solutions-compute-mysql-migration-haproxy):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\solutions-compute-mysql-migration-haproxy'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 9, done.        
+remote: Counting objects:  11% (1/9)           remote: Counting objects:  22% (2/9)           remote: Counting objects:  33% (3/9)           remote: Counting objects:  44% (4/9)           remote: Counting objects:  55% (5/9)           remote: Counting objects:  66% (6/9)           remote: Counting objects:  77% (7/9)           remote: Counting objects:  88% (8/9)           remote: Counting objects: 100% (9/9)           remote: Counting objects: 100% (9/9), done.        
+remote: Compressing objects:  12% (1/8)           remote: Compressing objects:  25% (2/8)           remote: Compressing objects:  37% (3/8)           remote: Compressing objects:  50% (4/8)           remote: Compressing objects:  62% (5/8)           remote: Compressing objects:  75% (6/8)           remote: Compressing objects:  87% (7/8)           remote: Compressing objects: 100% (8/8)           remote: Compressing objects: 100% (8/8), done.        
+remote: Total 9 (delta 1), reused 9 (delta 1), pack-reused 0        
+Checking out files:  57% (4/7)   Checking out files:  71% (5/7)   Checking out files:  85% (6/7)   Checking out files: 100% (7/7)   Checking out files: 100% (7/7), done.
+child_process(34444)::clone(https://github.com/GoogleCloudPlatform/solutions-compute-mysql-migration-haproxy):close()

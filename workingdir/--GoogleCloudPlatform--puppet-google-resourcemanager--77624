@@ -1,0 +1,2 @@
+child_process(77624)::clone(https://github.com/GoogleCloudPlatform/puppet-google-resourcemanager):stderr:data: Checking out files:  98% (57/58)   Checking out files: 100% (58/58)   Checking out files: 100% (58/58), done.
+child_process(77624)::clone(https://github.com/GoogleCloudPlatform/puppet-google-resourcemanager):close()

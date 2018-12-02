@@ -1,0 +1,7 @@
+child_process(10092)::clone(https://github.com/GoogleCloudPlatform/appengine-config-transformer):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\appengine-config-transformer'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 56, done.        
+remote: Total 56 (delta 0), reused 0 (delta 0), pack-reused 56        
+Checking connectivity: 6   Checking connectivity: 20   Checking connectivity: 21   Checking connectivity: 22   Checking connectivity: 37   Checking connectivity: 56, done.
+Checking out files:  13% (3/22)   Checking out files:  18% (4/22)   Checking out files:  22% (5/22)   Checking out files:  27% (6/22)   Checking out files:  31% (7/22)   Checking out files:  36% (8/22)   Checking out files:  40% (9/22)   Checking out files:  45% (10/22)   Checking out files:  50% (11/22)   Checking out files:  54% (12/22)   Checking out files:  59% (13/22)   Checking out files:  63% (14/22)   Checking out files:  68% (15/22)   Checking out files:  72% (16/22)   Checking out files:  77% (17/22)   Checking out files:  81% (18/22)   Checking out files:  86% (19/22)   Checking out files:  90% (20/22)   Checking out files:  95% (21/22)   Checking out files: 100% (22/22)   Checking out files: 100% (22/22), done.
+child_process(10092)::clone(https://github.com/GoogleCloudPlatform/appengine-config-transformer):close()

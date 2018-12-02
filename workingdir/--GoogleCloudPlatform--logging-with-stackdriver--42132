@@ -1,0 +1,6 @@
+child_process(42132)::clone(https://github.com/GoogleCloudPlatform/logging-with-stackdriver):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\logging-with-stackdriver'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 14, done.        
+remote: Total 14 (delta 0), reused 0 (delta 0), pack-reused 14        
+Checking out files:  83% (5/6)   Checking out files: 100% (6/6)   Checking out files: 100% (6/6), done.
+child_process(42132)::clone(https://github.com/GoogleCloudPlatform/logging-with-stackdriver):close()

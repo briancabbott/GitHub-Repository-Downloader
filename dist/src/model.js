@@ -6,9 +6,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path = require('path');
+const short_uuid_1 = __importDefault(require("short-uuid"));
+const utils_1 = require("./utils");
 class RepositoryList {
     constructor(organizationName, generationTime, repositories) {
         this.organizationName = organizationName;
@@ -28,20 +33,26 @@ class RepositoryList {
             });
         }
     }
-    writeToFile(filename) {
-        let _writeFilename = filename;
-        if (!_writeFilename) {
-            _writeFilename = path.join(process.cwd(), "./repositories_for_organization--" + this.organizationName + "--" + this.generationTime.getMilliseconds() + ".json");
+    writeToFile(dir, globalOperationId) {
+        if (globalOperationId == null) {
+            globalOperationId = this.organizationName;
         }
+        let filename = "repositories_for_org--" + globalOperationId + "--" + this.generationTime.getTime() + ".json";
+        let _writeFilename = path.join(dir || process.cwd(), filename);
         let jsonContent = JSON.stringify(this, undefined, 4);
-        fs.writeFile(_writeFilename, jsonContent, (err) => {
-            if (err) {
-                console.error(err);
-                throw new Error("Unable to write repository-list query results file. Error was: " + err);
-            }
-            ;
-            console.log("File has been created");
-        });
+        try {
+            fs.writeFileSync(_writeFilename, jsonContent, { flag: "a+" });
+        }
+        catch (e) {
+            console.log("Exception occured during writing the repository list. Error was: " + e);
+        }
+        // , (err) => {
+        //     if (err) {
+        //         console.error(err);
+        //         throw new Error("Unable to write repository-list query results file. Error was: " + err);
+        //     };
+        //     console.log("File has been created");
+        // });
         return _writeFilename;
     }
 }
@@ -59,3 +70,41 @@ class Repository {
     }
 }
 exports.Repository = Repository;
+class Organization {
+    constructor(name, shortNameAckro) {
+        this.name = name;
+        this.shortNameAckro = shortNameAckro;
+    }
+}
+exports.Organization = Organization;
+// 
+// var translator = short(); // Defaults to flickrBase58
+// var decimalTranslator = short("0123456789"); // Provide a specific alphabet for translation
+// var cookieTranslator = short(short.constants.cookieBase90); // Use a constant for translation
+// // Generate a shortened v4 UUID
+// translator.new();
+// // Generate plain UUIDs
+// short.uuid(); // From the constructor without creating a translator
+class RepositoryDownloadOperation {
+    constructor(operationUUID, globalOperationTimestamp, globalOperationStartTime, globalOperationEndingTime, workingDirectory, downloadDirectory, githubConfiguration, organizations) {
+        let shortUUIDv = short_uuid_1.default().fromUUID(short_uuid_1.default.uuid());
+        this.operationUUID = operationUUID || shortUUIDv;
+        this.globalOperationTimestamp = globalOperationTimestamp || new Date();
+        this.globalOperationStartTime = globalOperationStartTime || null;
+        this.globalOperationEndingTime = globalOperationEndingTime || null;
+        this.workingDirectory = workingDirectory || null;
+        this.downloadDirectory = downloadDirectory || null;
+        this.githubConfiguration = githubConfiguration || null;
+        this.organizations = organizations || new Array();
+    }
+    makeDownloadDirectoryPath(organizationName) {
+        return `C:\\GRD\\GCP--${utils_1.createFileFolderSuffix(this.globalOperationTimestamp, this.operationUUID)}`;
+    }
+}
+exports.RepositoryDownloadOperation = RepositoryDownloadOperation;
+class GitHubConfiguration {
+    constructor(authorizationToken) {
+        this.authorizationToken = authorizationToken;
+    }
+}
+exports.GitHubConfiguration = GitHubConfiguration;

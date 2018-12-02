@@ -1,0 +1,5 @@
+child_process(39956)::clone(https://github.com/GoogleCloudPlatform/appengine-goshorten):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-goshorten'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 61, done.        
+remote: Total 61 (delta 0), reused 0 (delta 0), pack-reused 61        
+child_process(39956)::clone(https://github.com/GoogleCloudPlatform/appengine-goshorten):stderr:data: Checking connectivity: 4   Checking connectivity: 5   Checking connectivity: 7   Checking connectivity: 9   Checking connectivity: 10   Checking connectivity: 11   Checking connectivity: 12   Checking connectivity: 14   Checking connectivity: 16   Checking connectivity: 17   Checking connectivity: 19   Checking connectivity: 22   Checking connectivity: 23   Checking connectivity: 25   Checking connectivity: 27   Checking connectivity: 28   Checking connectivity: 30   Checking connectivity: 31   Checking connectivity: 35   Checking connectivity: 38   Checking connectivity: 61, done.

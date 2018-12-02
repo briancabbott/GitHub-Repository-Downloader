@@ -1,0 +1,9 @@
+child_process(7484)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-gmail-nodejs):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\cloud-functions-gmail-nodejs'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 6, done.        
+remote: Counting objects:  16% (1/6)           remote: Counting objects:  33% (2/6)           remote: Counting objects:  50% (3/6)           remote: Counting objects:  66% (4/6)           remote: Counting objects:  83% (5/6)           remote: Counting objects: 100% (6/6)           remote: Counting objects: 100% (6/6), done.        
+remote: Compressing objects:  20% (1/5)           remote: Compressing objects:  40% (2/5)           remote: Compressing objects:  60% (3/5)           remote: Compressing objects:  80% (4/5)           remote: Compressing objects: 100% (5/5)           remote: Compressing objects: 100% (5/5), done.        
+remote: Total 52 (delta 1), reused 0 (delta 0), pack-reused 46        
+Checking connectivity: 8   Checking connectivity: 10   Checking connectivity: 23   Checking connectivity: 34   Checking connectivity: 51   Checking connectivity: 52, done.
+Checking out files:  41% (5/12)   Checking out files:  50% (6/12)   Checking out files:  58% (7/12)   Checking out files:  66% (8/12)   Checking out files:  75% (9/12)   Checking out files:  83% (10/12)   Checking out files:  91% (11/12)   Checking out files: 100% (12/12)   Checking out files: 100% (12/12), done.
+child_process(7484)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-gmail-nodejs):close()

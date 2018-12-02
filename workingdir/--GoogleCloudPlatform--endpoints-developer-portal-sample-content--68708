@@ -1,0 +1,4 @@
+child_process(68708)::clone(https://github.com/GoogleCloudPlatform/endpoints-developer-portal-sample-content):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\endpoints-developer-portal-sample-content'...
+child_process(68708)::clone(https://github.com/GoogleCloudPlatform/endpoints-developer-portal-sample-content):stderr:data: POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 28, done.        
+remote: Total 28 (delta 0), reused 0 (delta 0), pack-reused 28        

@@ -1,0 +1,7 @@
+child_process(56888)::clone(https://github.com/GoogleCloudPlatform/httplib2shim):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\httplib2shim'...
+POST git-upload-pack (375 bytes)
+remote: Enumerating objects: 70, done.        
+remote: Total 70 (delta 0), reused 0 (delta 0), pack-reused 70        
+Checking connectivity: 11   Checking connectivity: 31   Checking connectivity: 39   Checking connectivity: 44   Checking connectivity: 46   Checking connectivity: 54   Checking connectivity: 63   Checking connectivity: 68   Checking connectivity: 70, done.
+Checking out files:  23% (3/13)   Checking out files:  30% (4/13)   Checking out files:  38% (5/13)   Checking out files:  46% (6/13)   Checking out files:  53% (7/13)   Checking out files:  61% (8/13)   Checking out files:  69% (9/13)   Checking out files:  76% (10/13)   Checking out files:  84% (11/13)   Checking out files:  92% (12/13)   Checking out files: 100% (13/13)   Checking out files: 100% (13/13), done.
+child_process(56888)::clone(https://github.com/GoogleCloudPlatform/httplib2shim):close()

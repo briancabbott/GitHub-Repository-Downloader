@@ -1,0 +1,7 @@
+child_process(51268)::clone(https://github.com/GoogleCloudPlatform/prediction-appengine-guestbook-java):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\prediction-appengine-guestbook-java'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 44, done.        
+remote: Total 44 (delta 0), reused 0 (delta 0), pack-reused 44        
+Checking connectivity: 12   Checking connectivity: 26   Checking connectivity: 38   Checking connectivity: 44, done.
+Checking out files:  31% (6/19)   Checking out files:  36% (7/19)   Checking out files:  42% (8/19)   Checking out files:  47% (9/19)   Checking out files:  52% (10/19)   Checking out files:  57% (11/19)   Checking out files:  63% (12/19)   Checking out files:  68% (13/19)   Checking out files:  73% (14/19)   Checking out files:  78% (15/19)   Checking out files:  84% (16/19)   Checking out files:  89% (17/19)   Checking out files:  94% (18/19)   Checking out files: 100% (19/19)   Checking out files: 100% (19/19), done.
+child_process(51268)::clone(https://github.com/GoogleCloudPlatform/prediction-appengine-guestbook-java):close()

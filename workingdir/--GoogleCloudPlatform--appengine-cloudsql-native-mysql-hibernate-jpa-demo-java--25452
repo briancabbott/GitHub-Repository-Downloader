@@ -1,0 +1,5 @@
+child_process(25452)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-hibernate-jpa-demo-java):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\appengine-cloudsql-native-mysql-hibernate-jpa-demo-java'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 41, done.        
+child_process(25452)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-hibernate-jpa-demo-java):stderr:data: remote: Total 41 (delta 0), reused 0 (delta 0), pack-reused 41        
+child_process(25452)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-hibernate-jpa-demo-java):close()

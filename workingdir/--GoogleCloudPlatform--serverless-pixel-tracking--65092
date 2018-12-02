@@ -1,0 +1,7 @@
+child_process(65092)::clone(https://github.com/GoogleCloudPlatform/serverless-pixel-tracking):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\serverless-pixel-tracking'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 30, done.        
+remote: Total 30 (delta 0), reused 0 (delta 0), pack-reused 30        
+Checking connectivity: 10   Checking connectivity: 20   Checking connectivity: 30, done.
+Checking out files:  26% (4/15)   Checking out files:  33% (5/15)   Checking out files:  40% (6/15)   Checking out files:  46% (7/15)   Checking out files:  53% (8/15)   Checking out files:  60% (9/15)   Checking out files:  66% (10/15)   Checking out files:  73% (11/15)   Checking out files:  80% (12/15)   Checking out files:  86% (13/15)   Checking out files:  93% (14/15)   Checking out files: 100% (15/15)   Checking out files: 100% (15/15), done.
+child_process(65092)::clone(https://github.com/GoogleCloudPlatform/serverless-pixel-tracking):close()

@@ -1,0 +1,2 @@
+child_process(74660)::clone(https://github.com/GoogleCloudPlatform/gke-rbac-demo):stderr:data: Checking out files: 100% (48/48)   Checking out files: 100% (48/48), done.
+child_process(74660)::clone(https://github.com/GoogleCloudPlatform/gke-rbac-demo):close()

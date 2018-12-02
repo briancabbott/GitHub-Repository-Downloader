@@ -1,0 +1,6 @@
+child_process(73624)::clone(https://github.com/GoogleCloudPlatform/appengine-sdk):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\appengine-sdk'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 5, done.        
+remote: Total 5 (delta 0), reused 0 (delta 0), pack-reused 5        
+Checking connectivity: 2   Checking connectivity: 3   Checking connectivity: 5   Checking connectivity: 5, done.
+child_process(73624)::clone(https://github.com/GoogleCloudPlatform/appengine-sdk):close()

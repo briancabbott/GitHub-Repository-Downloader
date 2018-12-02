@@ -1,0 +1,7 @@
+child_process(60944)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-datanucleus-jpa-demo-java):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\appengine-cloudsql-native-mysql-datanucleus-jpa-demo-java'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 57, done.        
+remote: Total 57 (delta 0), reused 0 (delta 0), pack-reused 57        
+Checking connectivity: 20   Checking connectivity: 23   Checking connectivity: 37   Checking connectivity: 45   Checking connectivity: 57, done.
+Checking out files:  50% (8/16)   Checking out files:  56% (9/16)   Checking out files:  62% (10/16)   Checking out files:  68% (11/16)   Checking out files:  75% (12/16)   Checking out files:  81% (13/16)   Checking out files:  87% (14/16)   Checking out files:  93% (15/16)   Checking out files: 100% (16/16)   Checking out files: 100% (16/16), done.
+child_process(60944)::clone(https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-datanucleus-jpa-demo-java):close()

@@ -1,0 +1,7 @@
+child_process(20268)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\dgs-stackdriver'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 10, done.        
+remote: Total 10 (delta 0), reused 0 (delta 0), pack-reused 10        
+Checking connectivity: 4   Checking connectivity: 10, done.
+Checking out files:  80% (4/5)   Checking out files: 100% (5/5)   Checking out files: 100% (5/5), done.
+child_process(20268)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):close()

@@ -1,0 +1,7 @@
+child_process(1364)::clone(https://github.com/GoogleCloudPlatform/keyrotator):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\keyrotator'...
+POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 97, done.        
+remote: Total 97 (delta 0), reused 0 (delta 0), pack-reused 97        
+child_process(1364)::clone(https://github.com/GoogleCloudPlatform/keyrotator):stderr:data: Checking connectivity: 14   Checking connectivity: 48   Checking connectivity: 96   Checking connectivity: 97, done.
+Checking out files:  38% (5/13)   Checking out files:  46% (6/13)   Checking out files:  53% (7/13)   Checking out files:  61% (8/13)   Checking out files:  69% (9/13)   Checking out files:  76% (10/13)   Checking out files:  84% (11/13)   Checking out files:  92% (12/13)   Checking out files: 100% (13/13)   Checking out files: 100% (13/13), done.
+child_process(1364)::clone(https://github.com/GoogleCloudPlatform/keyrotator):close()

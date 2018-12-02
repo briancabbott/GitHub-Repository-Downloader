@@ -1,0 +1,2 @@
+child_process(74524)::clone(https://github.com/GoogleCloudPlatform/gke-istio-gce-demo):stderr:data: Checking out files:  80% (21/26)   Checking out files:  84% (22/26)   Checking out files:  88% (23/26)   Checking out files:  92% (24/26)   Checking out files:  96% (25/26)   Checking out files: 100% (26/26)   Checking out files: 100% (26/26), done.
+child_process(74524)::clone(https://github.com/GoogleCloudPlatform/gke-istio-gce-demo):close()

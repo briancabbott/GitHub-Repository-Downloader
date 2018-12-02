@@ -1,0 +1,7 @@
+child_process(18836)::clone(https://github.com/GoogleCloudPlatform/opentsdb-bigtable):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\opentsdb-bigtable'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 30, done.        
+remote: Total 30 (delta 0), reused 0 (delta 0), pack-reused 30        
+Checking connectivity: 3   Checking connectivity: 4   Checking connectivity: 8   Checking connectivity: 12   Checking connectivity: 23   Checking connectivity: 30, done.
+Checking out files:  25% (4/16)   Checking out files:  31% (5/16)   Checking out files:  37% (6/16)   Checking out files:  43% (7/16)   Checking out files:  50% (8/16)   Checking out files:  56% (9/16)   Checking out files:  62% (10/16)   Checking out files:  68% (11/16)   Checking out files:  75% (12/16)   Checking out files:  81% (13/16)   Checking out files:  87% (14/16)   Checking out files:  93% (15/16)   Checking out files: 100% (16/16)   Checking out files: 100% (16/16), done.
+child_process(18836)::clone(https://github.com/GoogleCloudPlatform/opentsdb-bigtable):close()

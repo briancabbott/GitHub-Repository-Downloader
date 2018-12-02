@@ -1,0 +1,4 @@
+child_process(34364)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-startup):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\autonetdeploy-startup'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 85, done.        
+child_process(34364)::clone(https://github.com/GoogleCloudPlatform/autonetdeploy-startup):close():error: with status: 128

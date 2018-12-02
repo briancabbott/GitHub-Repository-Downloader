@@ -1,0 +1,7 @@
+child_process(20028)::clone(https://github.com/GoogleCloudPlatform/dataflow-prediction-example):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\dataflow-prediction-example'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 78, done.        
+child_process(20028)::clone(https://github.com/GoogleCloudPlatform/dataflow-prediction-example):stderr:data: remote: Total 78 (delta 0), reused 0 (delta 0), pack-reused 78        
+Checking connectivity: 20   Checking connectivity: 45   Checking connectivity: 78, done.
+Checking out files:  43% (7/16)   Checking out files:  50% (8/16)   Checking out files:  56% (9/16)   Checking out files:  62% (10/16)   Checking out files:  68% (11/16)   Checking out files:  75% (12/16)   Checking out files:  81% (13/16)   Checking out files:  87% (14/16)   Checking out files:  93% (15/16)   Checking out files: 100% (16/16)   Checking out files: 100% (16/16), done.
+child_process(20028)::clone(https://github.com/GoogleCloudPlatform/dataflow-prediction-example):close()

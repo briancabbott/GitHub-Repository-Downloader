@@ -1,0 +1,6 @@
+child_process(64952)::clone(https://github.com/GoogleCloudPlatform/appengine-try-php):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--m6hDf8f5GYyiY8VXzH2ejw\appengine-try-php'...
+POST git-upload-pack (275 bytes)
+remote: Enumerating objects: 33, done.        
+remote: Total 33 (delta 0), reused 0 (delta 0), pack-reused 33        
+Checking connectivity: 9   Checking connectivity: 17   Checking connectivity: 23   Checking connectivity: 27   Checking connectivity: 33, done.
+child_process(64952)::clone(https://github.com/GoogleCloudPlatform/appengine-try-php):close()

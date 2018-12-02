@@ -1,0 +1,7 @@
+child_process(13320)::clone(https://github.com/GoogleCloudPlatform/appengine-endpoints-tictactoe-python):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\appengine-endpoints-tictactoe-python'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 90, done.        
+remote: Total 90 (delta 0), reused 0 (delta 0), pack-reused 90        
+Checking connectivity: 7   Checking connectivity: 14   Checking connectivity: 31   Checking connectivity: 53   Checking connectivity: 61   Checking connectivity: 81   Checking connectivity: 90, done.
+Checking out files:  60% (9/15)   Checking out files:  66% (10/15)   Checking out files:  73% (11/15)   Checking out files:  80% (12/15)   Checking out files:  86% (13/15)   Checking out files:  93% (14/15)   Checking out files: 100% (15/15)   Checking out files: 100% (15/15), done.
+child_process(13320)::clone(https://github.com/GoogleCloudPlatform/appengine-endpoints-tictactoe-python):close()

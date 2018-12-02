@@ -1,0 +1,2 @@
+child_process(65852)::clone(https://github.com/GoogleCloudPlatform/gradle-appengine-templates):stderr:data: Checking out files:  75% (3/4)   Checking out files: 100% (4/4)   Checking out files: 100% (4/4), done.
+child_process(65852)::clone(https://github.com/GoogleCloudPlatform/gradle-appengine-templates):close()

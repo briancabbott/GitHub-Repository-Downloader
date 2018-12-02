@@ -1,0 +1,6 @@
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\cloudspanner-next18-showcase'...
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: POST git-upload-pack (175 bytes)
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: remote: Enumerating objects: 5, done.        
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: remote: Total 5 (delta 0), reused 0 (delta 0), pack-reused 5        
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):stderr:data: error: timer thread did not terminate timely
+child_process(34340)::clone(https://github.com/GoogleCloudPlatform/cloudspanner-next18-showcase):close()

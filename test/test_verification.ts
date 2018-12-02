@@ -8,8 +8,9 @@ let listQueryLogFile = "repositories_for_organization--GoogleCloudPlatform--func
 
 let tok = readFileSync("auth-token-briancabbott-github-app.tk").toString();
 
-let downloader = new Downloader(tok);
-let failedRepos = downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, "C:\\GRD3\\" + organizationName);
+let downloadDirectory = "C:\\grd_test\\";
+let downloader = new Downloader(tok, downloadDirectory);
+let failedRepos = downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, downloadDirectory + organizationName);
 
 if (failedRepos.length > 0) {
     console.log("Failed repositories where found. The following repositories failed to download (" + failedRepos.length + "): ");

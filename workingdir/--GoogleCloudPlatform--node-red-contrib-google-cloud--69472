@@ -1,0 +1,5 @@
+child_process(69472)::clone(https://github.com/GoogleCloudPlatform/node-red-contrib-google-cloud):stderr:data: fatal: early EOF
+fatal: The remote end hung up unexpectedly
+fatal: unpack-objects failed
+error: RPC failed; curl 18 transfer closed with outstanding read data remaining
+child_process(69472)::clone(https://github.com/GoogleCloudPlatform/node-red-contrib-google-cloud):close():error: with status: 128

@@ -1,0 +1,3 @@
+child_process(43552)::clone(https://github.com/GoogleCloudPlatform/kibana-docker):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\kibana-docker'...
+child_process(43552)::clone(https://github.com/GoogleCloudPlatform/kibana-docker):stderr:data: Checking out files:  30% (3/10)   Checking out files:  40% (4/10)   Checking out files:  50% (5/10)   Checking out files:  60% (6/10)   Checking out files:  70% (7/10)   Checking out files:  80% (8/10)   Checking out files:  90% (9/10)   Checking out files: 100% (10/10)   Checking out files: 100% (10/10), done.
+child_process(43552)::clone(https://github.com/GoogleCloudPlatform/kibana-docker):close()

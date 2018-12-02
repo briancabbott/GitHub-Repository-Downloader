@@ -1,0 +1,6 @@
+child_process(25480)::clone(https://github.com/GoogleCloudPlatform/container-engine-customize-fluentd):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\container-engine-customize-fluentd'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 28, done.        
+remote: Total 28 (delta 0), reused 0 (delta 0), pack-reused 28        
+Checking out files:  46% (6/13)   Checking out files:  53% (7/13)   Checking out files:  61% (8/13)   Checking out files:  69% (9/13)   Checking out files:  76% (10/13)   Checking out files:  84% (11/13)   Checking out files:  92% (12/13)   Checking out files: 100% (13/13)   Checking out files: 100% (13/13), done.
+child_process(25480)::clone(https://github.com/GoogleCloudPlatform/container-engine-customize-fluentd):close()

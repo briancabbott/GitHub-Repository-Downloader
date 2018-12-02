@@ -1,0 +1,3 @@
+child_process(70728)::clone(https://github.com/GoogleCloudPlatform/cloud-ingest-worker):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\cloud-ingest-worker'...
+warning: You appear to have cloned an empty repository.
+child_process(70728)::clone(https://github.com/GoogleCloudPlatform/cloud-ingest-worker):close()

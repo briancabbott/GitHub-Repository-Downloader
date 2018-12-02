@@ -1,0 +1,6 @@
+child_process(27988)::clone(https://github.com/GoogleCloudPlatform/solutions-cloud-history-tool):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--w57paK8oUqA5nqjVGEdK5M\solutions-cloud-history-tool'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 13, done.        
+remote: Total 13 (delta 0), reused 0 (delta 0), pack-reused 13        
+Checking connectivity: 10   Checking connectivity: 13, done.
+child_process(27988)::clone(https://github.com/GoogleCloudPlatform/solutions-cloud-history-tool):close()

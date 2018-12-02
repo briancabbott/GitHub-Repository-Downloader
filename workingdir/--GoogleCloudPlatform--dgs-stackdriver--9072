@@ -1,0 +1,4 @@
+child_process(9072)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\dgs-stackdriver'...
+child_process(9072)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):stderr:data: POST git-upload-pack (175 bytes)
+child_process(9072)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):stderr:data: remote: Enumerating objects: 10, done.        
+child_process(9072)::clone(https://github.com/GoogleCloudPlatform/dgs-stackdriver):stderr:data: remote: Total 10 (delta 0), reused 0 (delta 0), pack-reused 10        

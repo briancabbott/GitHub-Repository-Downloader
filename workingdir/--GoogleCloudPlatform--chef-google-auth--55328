@@ -1,0 +1,7 @@
+child_process(55328)::clone(https://github.com/GoogleCloudPlatform/chef-google-auth):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\chef-google-auth'...
+POST git-upload-pack (375 bytes)
+remote: Enumerating objects: 92, done.        
+remote: Total 92 (delta 0), reused 0 (delta 0), pack-reused 92        
+Checking connectivity: 8   Checking connectivity: 11   Checking connectivity: 30   Checking connectivity: 38   Checking connectivity: 50   Checking connectivity: 60   Checking connectivity: 63   Checking connectivity: 78   Checking connectivity: 92, done.
+Checking out files:  41% (7/17)   Checking out files:  47% (8/17)   Checking out files:  52% (9/17)   Checking out files:  58% (10/17)   Checking out files:  64% (11/17)   Checking out files:  70% (12/17)   Checking out files:  76% (13/17)   Checking out files:  82% (14/17)   Checking out files:  88% (15/17)   Checking out files:  94% (16/17)   Checking out files: 100% (17/17)   Checking out files: 100% (17/17), done.
+child_process(55328)::clone(https://github.com/GoogleCloudPlatform/chef-google-auth):close()

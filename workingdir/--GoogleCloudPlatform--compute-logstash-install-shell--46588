@@ -1,0 +1,3 @@
+child_process(46588)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):stderr:data: Cloning into 'C:\GRD\GCP--12-01-2018--hxtfbAqYXq9fmfHKYnFAtq\compute-logstash-install-shell'...
+child_process(46588)::clone(https://github.com/GoogleCloudPlatform/compute-logstash-install-shell):stderr:data: POST git-upload-pack (225 bytes)
+remote: Enumerating objects: 63, done.        

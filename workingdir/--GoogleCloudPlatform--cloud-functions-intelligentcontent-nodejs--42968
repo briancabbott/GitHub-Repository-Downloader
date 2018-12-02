@@ -1,0 +1,4 @@
+child_process(42968)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--sCVjky7FivL71PX8p39g8e\cloud-functions-intelligentcontent-nodejs'...
+child_process(42968)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: POST git-upload-pack (225 bytes)
+child_process(42968)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: remote: Enumerating objects: 14, done.        
+child_process(42968)::clone(https://github.com/GoogleCloudPlatform/cloud-functions-intelligentcontent-nodejs):stderr:data: remote: Total 14 (delta 0), reused 0 (delta 0), pack-reused 14        

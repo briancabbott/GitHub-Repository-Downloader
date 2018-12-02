@@ -1,0 +1,7 @@
+child_process(66828)::clone(https://github.com/GoogleCloudPlatform/lambda-dashboard):stderr:data: Cloning into 'C:\GRD\GCP--11-30-2018--j72QL7DxQKfnXuSbd4E3t\lambda-dashboard'...
+POST git-upload-pack (175 bytes)
+remote: Enumerating objects: 10, done.        
+remote: Counting objects:  10% (1/10)           remote: Counting objects:  20% (2/10)           remote: Counting objects:  30% (3/10)           remote: Counting objects:  40% (4/10)           remote: Counting objects:  50% (5/10)           remote: Counting objects:  60% (6/10)           remote: Counting objects:  70% (7/10)           remote: Counting objects:  80% (8/10)           remote: Counting objects:  90% (9/10)           remote: Counting objects: 100% (10/10)           remote: Counting objects: 100% (10/10), done.        
+remote: Compressing objects:  12% (1/8)           remote: Compressing objects:  25% (2/8)           remote: Compressing objects:  37% (3/8)           remote: Compressing objects:  50% (4/8)           remote: Compressing objects:  62% (5/8)           remote: Compressing objects:  75% (6/8)           remote: Compressing objects:  87% (7/8)           remote: Compressing objects: 100% (8/8)           remote: Compressing objects: 100% (8/8), done.        
+remote: Total 10 (delta 1), reused 10 (delta 1), pack-reused 0        
+child_process(66828)::clone(https://github.com/GoogleCloudPlatform/lambda-dashboard):close()
