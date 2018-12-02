@@ -1,16 +1,17 @@
-import { RepositoryList, Repository } from "./model";
+import { RepositoryList, Repository, RepositoryDownloadOperation, Organization } from "./model";
 import * as fs from "fs";
 import { GitCloneTemp, GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 import { join } from "path";
 
 export class Downloader {
-    githubToken: string
-    downloadDirectory: string; 
     cloneCommandResults = new Array<GitCloneTemp_CommandInfo>();
-
-    constructor(githubToken: string, downloadDirectory: string) {
-        this.githubToken = githubToken;
-        this.downloadDirectory = downloadDirectory;
+    
+    downloadOp: RepositoryDownloadOperation;
+    organization: Organization
+    
+    constructor(downloadOp: RepositoryDownloadOperation, organization: Organization) {
+        this.downloadOp = downloadOp;
+        this.organization = organization;
     }
 
     public downloadRepositories(reposList: RepositoryList): Array<GitCloneTemp_CommandInfo> {
@@ -27,7 +28,7 @@ export class Downloader {
         console.log("Downloading: " + repository.url);
 
         let gitClone = new GitCloneTemp();
-        let repoDownloadLocation = join(this.downloadDirectory, repository.name);
+        let repoDownloadLocation = join(this.organization.downloadOpDirectory, repository.name);
         gitClone.execute(repository.url, repoDownloadLocation, (commandInfo) => {
             commandInfo.writeToFile(repoDownloadLocation);
             this.cloneCommandResults.push(commandInfo);
@@ -37,14 +38,14 @@ export class Downloader {
 
     // Use internal messages from ChildProcess's
     public verifyDownloadSuccess(orgName: string, repository: Repository) {
-        let repoLoc = this.downloadDirectory + "\\" + repository.name;
+        let repoLoc = this.organization.downloadOpDirectory + "\\" + repository.name;
         if (!fs.existsSync(repoLoc)) {
             return;
         }
     } 
 
     public verifySuccessFromLogFiles() {
-        let dirs = fs.readdirSync(this.downloadDirectory);
+        let dirs = fs.readdirSync(this.organization.downloadOpDirectory);
         dirs.forEach((dir) => console.log(dir));
     }
 

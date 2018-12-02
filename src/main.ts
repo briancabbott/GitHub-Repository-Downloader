@@ -2,58 +2,131 @@ import { RepositoryLister } from "./list_repositories";
 import * as fs from "fs";
 import { RepositoryList, RepositoryDownloadOperation, Organization, GitHubConfiguration } from "./model";
 import { Downloader } from "./download";
-// import { GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
-import * as path from "path";
+import crypto from 'crypto';
+
 var fsext = require("fs-extra");
 
-let tok = fs.readFileSync("auth-token-briancabbott-github-app.tk").toString();
-let gitHubConfig = new GitHubConfiguration(tok);
+// "auth-token-briancabbott-github-app.tk"
+export interface OperationConfig {
+    tokenFile: string;
+    token: string;
+    organizations: Array<string>;
+    workingDirectory: string;
+    globalStoreDirectory: string;
+}
 
-let globalDownloadOp = new RepositoryDownloadOperation();
-globalDownloadOp.githubConfiguration = gitHubConfig;
-globalDownloadOp.organizations.push(new Organization("GoogleCloudPlatform", "GCP"));
-globalDownloadOp.downloadDirectory = globalDownloadOp.makeDownloadDirectoryPath("GCP");
-fsext.ensureDirSync(globalDownloadOp.downloadDirectory);
 
-let instanceDir = `${globalDownloadOp.organizations[0].shortNameAckro}-${globalDownloadOp.operationUUID}`;
-globalDownloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
+export function performOperationSetup(opConfig: OperationConfig): RepositoryDownloadOperation {
+    // Setup GitHub auth-token
+    let tok: string;
+    if (opConfig.token != null) {
+        tok = opConfig.token;
+    } else {
+        tok = fs.readFileSync(opConfig.tokenFile).toString();
+    }
+    let gitHubConfig = new GitHubConfiguration(tok);
+    
+    // Setup the "global" download-operation
+    let downloadOp = new RepositoryDownloadOperation();
+    downloadOp.githubConfiguration = gitHubConfig;
+    downloadOp.globalStoreDirectory = opConfig.globalStoreDirectory;
+    downloadOp.applicationWorkingDirectory = opConfig.workingDirectory;
+    downloadOp.globalOperationStartTime = new Date();
+    
+    //
+    // Now perform active operations for preparing derived/generated values/artifacts from 
+    // download-op settings (i.e. create dirs, set calculated values, etc).
 
-let listGen = new RepositoryLister(tok);
-let downloader = new Downloader(tok, globalDownloadOp.downloadDirectory);
+    // add requested organizations...
+    opConfig.organizations.forEach((org) => {
+        let organization = new Organization();
+        organization.name = org;
 
+        let orgHash = crypto.createHash('sha256').update(organization.name, 'utf8').digest();
+        let namHsh = orgHash.toString(undefined, 0, 8);
+        organization.nameHash = organization.name.substr(0, 5) + namHsh;
+
+        organization.downloadOpDirectory = downloadOp.makeDownloadDirectoryPath("GCP");
+        fsext.ensureDirSync(organization.downloadOpDirectory);
+    
+        downloadOp.organizations.push(organization);
+    });
+
+    return downloadOp;
+// downloadOp.organizations.forEach((org) => {
+//     let instanceDir = -downloadOp.operationUUID;
+//     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
+// }
 // let cloneOperationFailures = new Array<GitCloneTemp_CommandInfo>();
+}
+
+// listPromise.then((list: RepositoryList) => {
+//     listQueryLogFile = listGen.writeToFile(organization, list);
+//     orgRepoListMap.set(organization.name, listQueryLogFile);
+
+//     console.log("Wrote RepoList file to: " + listQueryLogFile);
+// }).catch((reason) => {
+//     console.error("Error occured processing requests. Error was: " + reason);
+// });
+
+
 
 // 
 // Do List-Initialization
 //
-let listQueryLogFile: string = undefined;
-let listPromise = listGen.generateList(globalDownloadOp.organizations[0].name, true);
-listPromise.then((list: RepositoryList) => {
-    listQueryLogFile = list.writeToFile(globalDownloadOp.downloadDirectory, globalDownloadOp.operationUUID);
-    console.log("Wrote RepoList file to: " + listQueryLogFile);
-}).catch((reason) => {
-    console.error("Error occured processing requests. Error was: " + reason);
-    process.exit(1);
-});
+export function performListRetrieval(downloadOp: RepositoryDownloadOperation) { 
+    let orgsByNameMap = new Map<string, Organization>();
+    let promisesArr: Array<Promise<RepositoryList>> = new Array<Promise<RepositoryList>>(); 
+
+    let listGen = new RepositoryLister(downloadOp);
+    for (let organization of downloadOp.organizations) {
+        orgsByNameMap.set(organization.name, organization);
+        let listPromise = listGen.generateList(organization);
+        promisesArr.push(listPromise);
+    }
+
+    Promise.all(promisesArr).then((val) => {
+        val.forEach((repositoryList) => {
+            let org = orgsByNameMap.get(repositoryList.organizationName);
+            let listQueryLogFile = listGen.writeToFile(org, repositoryList);
+            
+            console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
+
+            downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
+        });
+    });
+}
 
 // 
 // Perform download
 //
-let buf = fs.readFileSync(listQueryLogFile);
-let repositoryList = JSON.parse(buf.toString());
-let cloneCommandResults = downloader.downloadRepositories(repositoryList);
-cloneCommandResults.forEach((cci) => { 
-    console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
-});
+export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation) { 
+    performListRetrieval(downloadOp);
 
+    for (let organization of downloadOp.organizations) {
+        console.log("download for org: " + organization.name);
+
+        if (downloadOp.repositoryListFilesMap.has(organization.name)) {
+
+            let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
+            let repositoryList = JSON.parse(buf.toString());
+
+            let downloader = new Downloader(downloadOp, organization); 
+            let cloneCommandResults = downloader.downloadRepositories(repositoryList);
+            cloneCommandResults.forEach((cci) => { 
+                console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
+            });
+        }
+    }
+}
 // 
-// Perform download
+// Perform validation
 //
-cloneCommandResults.forEach((cci) => {
-    cci.commandLogFilePath
-});
+// cloneCommandResults.forEach((cci) => {
+//     cci.commandLogFilePath
+// });
 
-// downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, globalDownloadOp.downloadDirectory);
+// downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, downloadOp.downloadDirectory);
 // downloader.verifyDownloadSuccessFromLogFile(list.organizationName, listQueryLogFile);
 
 

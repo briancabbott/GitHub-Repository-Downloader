@@ -1,5 +1,4 @@
-import * as fs from "fs";
-const path = require('path');
+
 import shortUUID from 'short-uuid';
 import { createFileFolderSuffix } from "./utils";
 
@@ -14,48 +13,6 @@ export class RepositoryList {
         this.organizationName = organizationName;
         this.generationTime = generationTime;
         this.repositories = repositories;
-    }
-
-    public sort() {
-        if (this.repositories && this.repositories.length > 0) {
-            this.repositories.sort((repository1, repository2) => {
-                if (repository1.name > repository2.name) {
-                    return 1;
-                }
-                if (repository1.name < repository2.name) {
-                    return -1;
-                }
-                return 0;
-            });
-        }
-    }
-
-    public writeToFile(dir?: string, globalOperationId?: string): string {
-
-        if (globalOperationId == null) {
-            globalOperationId = this.organizationName;
-        }
-
-        let filename = "repositories_for_org--" + globalOperationId + "--" + this.generationTime.getTime() + ".json";
-        let _writeFilename = path.join(dir || process.cwd(), filename); 
-        
-        let jsonContent = JSON.stringify(this, undefined, 4);
-
-        try {
-            fs.writeFileSync(_writeFilename, jsonContent, {flag: "a+"}); 
-        } catch (e) {
-            console.log("Exception occured during writing the repository list. Error was: " + e);
-        }
-
-        // , (err) => {
-        //     if (err) {
-        //         console.error(err);
-        //         throw new Error("Unable to write repository-list query results file. Error was: " + err);
-        //     };
-        //     console.log("File has been created");
-        // });
-
-        return _writeFilename;
     }
 }
 
@@ -85,10 +42,13 @@ export class Repository {
 export class Organization { 
     name: string;
     shortNameAckro: string; 
+    nameHash: string;
+    downloadOpDirectory: string;
 
-    constructor(name: string, shortNameAckro: string) {
-        this.name = name;
-        this.shortNameAckro = shortNameAckro; 
+    constructor(name?: string, shortNameAckro?: string, downloadOpDirectory?: string) {
+        this.name = name || null;
+        this.shortNameAckro = shortNameAckro || null; 
+        this.downloadOpDirectory = downloadOpDirectory || null;
     }
 } 
 
@@ -105,31 +65,44 @@ export class Organization {
 
 export class RepositoryDownloadOperation {
     operationUUID: string;
+    operationName: string;
+    operationSysName: string;
+
     globalOperationTimestamp: Date;
     globalOperationStartTime: Date;
     globalOperationEndingTime: Date;
     
-    workingDirectory: string;
-    downloadDirectory: string;
+    // TODO: default this to repo-store/_grd-meta
+    globalStoreDirectory: string;
+    applicationWorkingDirectory: string;
 
     githubConfiguration: GitHubConfiguration;
     organizations: Array<Organization>;
     logToStdOut: boolean; 
 
+    repositoryListFilesMap: Map<string, string>;
+
     constructor(operationUUID?: string, globalOperationTimestamp?: Date, 
-        globalOperationStartTime?: Date, globalOperationEndingTime?: Date, 
+        globalOperationStartTime?: Date, globalOperationEndingTime?: Date, globalStoreDirectory?: string,
         workingDirectory?: string, downloadDirectory?: string, githubConfiguration?: GitHubConfiguration,
         organizations?: Array<Organization>) {
-            let shortUUIDv = shortUUID().fromUUID(shortUUID.uuid());
-
-        this.operationUUID = operationUUID || shortUUIDv;
+        
+        this.operationUUID = operationUUID;
         this.globalOperationTimestamp = globalOperationTimestamp || new Date();
+        this.organizations = organizations || new Array<Organization>();
+        
+        this.repositoryListFilesMap = new Map<string, string>();
+
         this.globalOperationStartTime = globalOperationStartTime || null;
         this.globalOperationEndingTime = globalOperationEndingTime || null;
-        this.workingDirectory = workingDirectory  || null;
-        this.downloadDirectory = downloadDirectory || null;
+
+        this.globalStoreDirectory = globalStoreDirectory || null;
+        this.applicationWorkingDirectory = workingDirectory  || null;
         this.githubConfiguration = githubConfiguration || null;
-        this.organizations = organizations || new Array<Organization>();
+
+        if (this.operationUUID == null) {
+            this.operationUUID = shortUUID().fromUUID(shortUUID.uuid());
+        }
     }
 
     public makeDownloadDirectoryPath(organizationName: string): string {
@@ -139,8 +112,9 @@ export class RepositoryDownloadOperation {
 
 export class GitHubConfiguration {
     authorizationToken: string;
+    authorizationTokenFile: string;
 
-    constructor(authorizationToken: string) {
+    constructor(authorizationToken?: string, authorizationTokenFile?: string) {
         this.authorizationToken = authorizationToken;
     }
 }

@@ -1,12 +1,16 @@
 import { ApolloLink, GraphQLRequest, execute, FetchResult } from "apollo-link";
-import { Repository, RepositoryList } from "./model";
+import { Repository, RepositoryList, RepositoryDownloadOperation, Organization } from "./model";
 import { createHttpLink } from "apollo-link-http";
 
-import fetch from "node-fetch";
 import gql from 'graphql-tag';
 
+import * as fs from "fs";
+import * as path from "path";
+
+const fetch = require("node-fetch");
+
+
 export class RepositoryLister {
-    githubToken: string;
     getRepositoriesForOrganization = gql`
         query GetRepositoriesForOrganization($organizationName: String!, $cursor: String) {
             viewer { 
@@ -40,20 +44,17 @@ export class RepositoryLister {
     `;
 
     totalRepositories: number = -1;    
-    authorizedLink: ApolloLink;
-    organization: string; 
+    authorizedLink: ApolloLink; 
+    downloadOp: RepositoryDownloadOperation; 
 
-    constructor(githubToken: string) {
-        this.githubToken = githubToken;
-    }
-    
-    public generateList(organization: string, writeFile: boolean = false): Promise<RepositoryList> {
-        this.organization = organization;
+    constructor(downloadOp: RepositoryDownloadOperation) {
+        this.downloadOp = downloadOp;
+    } 
 
-
+    public generateList(organization: Organization, writeFile: boolean = false): Promise<RepositoryList> {
         const operation = {
             query: this.getRepositoriesForOrganization,
-            variables: { organizationName: this.organization },
+            variables: { organizationName: organization.name },
             operationName: "", 
             context: {}, 
             extensions: {} 
@@ -62,7 +63,7 @@ export class RepositoryLister {
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
-                    authorization: `Bearer ${this.githubToken}`
+                    authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken}`
                 }
             });
 
@@ -77,21 +78,20 @@ export class RepositoryLister {
         this.authorizedLink = middlewareLink.concat(githubGraphqlEndpoint);
 
         let p = new Promise<RepositoryList>((resolve, reject) => {
-            let repositoryList = new RepositoryList(this.organization, new Date(), new Array<Repository>()); 
+            let repositoryList = new RepositoryList(organization.name, new Date(), new Array<Repository>()); 
             this.executeRequest(
+                organization,
                 this.authorizedLink, 
                 operation, 
                 (arr: Repository[]) =>{ 
-                    console.log("nextFn(): " + arr.length); 
                     repositoryList.repositories.push(...arr); 
                 }, 
                 ()=>{ 
                     if (this.totalRepositories === repositoryList.repositories.length) {
-                        repositoryList.sort();
+                        this.sort(repositoryList);
                         if (writeFile) {
-                            repositoryList.writeToFile();
+                            this.writeToFile(organization, repositoryList);
                         }
-                        console.log("promise.executeRequest() complete");
                         resolve(repositoryList);
                     }
                 }
@@ -100,26 +100,20 @@ export class RepositoryLister {
         return p;
     }
 
-    private executeRequest(link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[])=>void, compFn: ()=>void) {
-        console.log("executeRequest()...");
+    private executeRequest(organization: Organization, link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[])=>void, compFn: ()=>void) {
         execute(link, operation).subscribe({
             next: data => { 
-                console.log("executeRequest::execute::next()..."); 
-
                 this.totalRepositories = data.data.organization.repositories.totalCount;
-                this.captureRepositories(data, nextFn, compFn);
+                this.captureRepositories(organization, data, nextFn, compFn);
             },
             error: error => console.log(`received error ${error}`),
             complete: () => {
-                console.log("executeRequest::execute::complete()..."); 
                 compFn(); 
             }
         })
     }
     
-    private captureRepositories(fetch: FetchResult, nextFn: (data: Repository[])=>void, compFn: () => void) {
-        console.log("captureRepositories()...");
-
+    private captureRepositories(organization: Organization, fetch: FetchResult, nextFn: (data: Repository[])=>void, compFn: () => void) {
         let repos = new Array<Repository>();    
         fetch.data.organization.repositories.edges.forEach((e) => {                        
             repos.push(new Repository(e.node.url, e.node.id, e.node.createdAt, e.node.description, e.node.diskUsage, e.node.url.homepageUrl, e.node.name, e.node.pushedAt));
@@ -131,14 +125,43 @@ export class RepositoryLister {
             let operation = {
                 query: this.getRepositoriesForOrganization,
                 variables: { 
-                    organizationName: this.organization, 
+                    organizationName: organization.name, 
                     cursor: cursor
                 }, 
                 operationName: "",
                 context: {}, 
                 extensions: {}
             }
-            this.executeRequest(this.authorizedLink, operation, nextFn, compFn);
+            this.executeRequest(organization, this.authorizedLink, operation, nextFn, compFn);
         }    
+    }
+
+    public sort(list: RepositoryList) {
+        if (list.repositories && list.repositories.length > 0) {
+            list.repositories.sort((repository1, repository2) => {
+                if (repository1.name > repository2.name) {
+                    return 1;
+                }
+                if (repository1.name < repository2.name) {
+                    return -1;
+                }
+                return 0;
+            });
+        }
+    }
+
+    public writeToFile(organization: Organization, list: RepositoryList): string {
+        let filename = "repoList--" + organization.name + "--" + this.downloadOp.globalOperationTimestamp.getTime() + ".json";
+        let _writeFilename = path.join(this.downloadOp.globalStoreDirectory || process.cwd(), filename); 
+        
+        let jsonContent = JSON.stringify(list, undefined, 4);
+
+        try {
+            fs.writeFileSync(_writeFilename, jsonContent, {flag: "a+"}); 
+        } catch (e) {
+            console.log("Exception occured during writing the repository list. Error was: " + e);
+        }
+
+        return _writeFilename;
     }
 }

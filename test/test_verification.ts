@@ -1,15 +1,15 @@
 import { Downloader } from "../src/download";
-import { readFileSync } from "fs";
+// import { readFileSync } from "fs";
 // import { RepositoryList } from "../src/model";
 
 
 let organizationName = "GoogleCloudPlatform";
 let listQueryLogFile = "repositories_for_organization--GoogleCloudPlatform--function valueOf() { [native code] }.json";
 
-let tok = readFileSync("auth-token-briancabbott-github-app.tk").toString();
+// let tok = readFileSync("auth-token-briancabbott-github-app.tk").toString();
 
 let downloadDirectory = "C:\\grd_test\\";
-let downloader = new Downloader(tok, downloadDirectory);
+let downloader = new Downloader(null, null);
 let failedRepos = downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, downloadDirectory + organizationName);
 
 if (failedRepos.length > 0) {
