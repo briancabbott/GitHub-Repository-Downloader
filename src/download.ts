@@ -2,6 +2,8 @@ import { RepositoryList, Repository, RepositoryDownloadOperation, Organization }
 import * as fs from "fs";
 import { GitCloneTemp, GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 import { join } from "path";
+var fsext = require("fs-extra");
+
 
 export class Downloader {
     cloneCommandResults = new Array<GitCloneTemp_CommandInfo>();
@@ -15,6 +17,12 @@ export class Downloader {
     }
 
     public downloadRepositories(reposList: RepositoryList): Array<GitCloneTemp_CommandInfo> {
+
+        this.organization.makeNameAckro();
+        this.organization.downloadOpDirectory = this.downloadOp.makeDownloadDirectoryPath(this.organization.shortNameAckro);
+        fsext.ensureDirSync(this.organization.downloadOpDirectory);
+    
+
         // Make sure the output directory is there.
         console.log("Starting downloads... "); 
         reposList.repositories.forEach((repository) => {

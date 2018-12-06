@@ -50,6 +50,28 @@ export class Organization {
         this.shortNameAckro = shortNameAckro || null; 
         this.downloadOpDirectory = downloadOpDirectory || null;
     }
+
+    public makeNameAckro() {
+        if (this.shortNameAckro == null || this.shortNameAckro == "") {
+            let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            let akroName = "";
+            for (let i = 0; i < this.name.length; i++) {
+                if (uppers.includes(this.name.charAt(i))) {
+                    akroName += this.name.charAt(i);
+                } 
+            }
+
+            if (akroName.length == 0) {
+                if (this.name.length > 4) {
+                    this.shortNameAckro = this.name.substring(0, 4);
+                } else {
+                    this.shortNameAckro = this.name;
+                }
+            } else {
+                this.shortNameAckro = akroName;
+            }
+        } 
+    }
 } 
 
 // 
@@ -82,22 +104,26 @@ export class RepositoryDownloadOperation {
 
     repositoryListFilesMap: Map<string, string>;
 
-    constructor(operationUUID?: string, globalOperationTimestamp?: Date, 
-        globalOperationStartTime?: Date, globalOperationEndingTime?: Date, globalStoreDirectory?: string,
-        workingDirectory?: string, downloadDirectory?: string, githubConfiguration?: GitHubConfiguration,
-        organizations?: Array<Organization>) {
+    constructor(operationUUID?: string, 
+            globalOperationTimestamp?: Date, 
+            globalOperationStartTime?: Date, 
+            globalOperationEndingTime?: Date, 
+            globalStoreDirectory?: string,
+            workingDirectory?: string, 
+            githubConfiguration?: GitHubConfiguration,
+            organizations?: Array<Organization>) {
         
         this.operationUUID = operationUUID;
         this.globalOperationTimestamp = globalOperationTimestamp || new Date();
-        this.organizations = organizations || new Array<Organization>();
-        
-        this.repositoryListFilesMap = new Map<string, string>();
-
         this.globalOperationStartTime = globalOperationStartTime || null;
         this.globalOperationEndingTime = globalOperationEndingTime || null;
 
         this.globalStoreDirectory = globalStoreDirectory || null;
         this.applicationWorkingDirectory = workingDirectory  || null;
+
+        this.organizations = organizations || new Array<Organization>();
+        this.repositoryListFilesMap = new Map<string, string>();
+
         this.githubConfiguration = githubConfiguration || null;
 
         if (this.operationUUID == null) {
@@ -106,7 +132,7 @@ export class RepositoryDownloadOperation {
     }
 
     public makeDownloadDirectoryPath(organizationName: string): string {
-        return `C:\\GRD\\GCP--${createFileFolderSuffix(this.globalOperationTimestamp, this.operationUUID)}`;
+        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, this.operationUUID)}`;
     }
 }
 

@@ -15,10 +15,14 @@ https://github.com/deepmind
 # Cloud Supporting Technologies
 https://github.com/hashicorp
 https://github.com/terraform-providers
+https://github.com/openfaas*
 
 # Containerization
 https://github.com/kubernetes-incubator
-
+https://github.com/hyperhq*
+https://github.com/moby*
+https://github.com/docker*
+serverless
 
 # ** Security
 https://github.com/nccgroup/G-Scout
@@ -58,3 +62,4 @@ https://github.com/topics/infrastructure-as-code
 https://github.com/oracle/terraform-kubernetes-installer
 https://github.com/coreos/terraform-aws-kubernetes
 https://github.com/travis-ci/terraform-config
+https://github.com/stedolan/jq
