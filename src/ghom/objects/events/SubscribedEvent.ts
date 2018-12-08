@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Subscribable } from "../../interfaces/Subscribable";
+import { Node } from "../../interfaces/Node";
 
 // SubscribedEvent
 // Represents a 'subscribed' event on a given Subscribable.
@@ -20,7 +22,7 @@ import { Actor } from "../../interfaces/Actor";
 
 
 // Represents a 'subscribed' event on a given Subscribable.
-export interface SubscribedEvent {
+export interface SubscribedEvent extends Node {
 
     // Identifies the actor who performed the event.
     actor: Actor

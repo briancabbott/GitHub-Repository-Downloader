@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { UniformResourceLocatable } from "../../interfaces/UniformResourceLocatable";
 
 // CrossReferencedEvent
 // Represents a mention made by one issue or pull request to another.

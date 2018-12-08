@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Subscribable } from "../../interfaces/Subscribable";
+import { Node } from "../../interfaces/Node";
 
 // UnsubscribedEvent
 // Represents an 'unsubscribed' event on a given Subscribable.
@@ -15,9 +17,6 @@ import { Actor } from "../../interfaces/Actor";
 // id (ID!)
 // subscribable (Subscribable!)
 // Object referenced by event.
-
-
-
 
 
 // Represents an 'unsubscribed' event on a given Subscribable.

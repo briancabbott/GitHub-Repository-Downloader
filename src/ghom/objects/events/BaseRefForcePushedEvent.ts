@@ -1,4 +1,10 @@
-// BaseRefForcePushedEvent
+import { Node } from "../../interfaces/Node";
+import { ID } from "../../scalars/Id";
+import { Actor } from "../../interfaces/Actor";
+import { Commit } from "../Commit";
+import { PullRequest } from "../PullRequest";
+import { Ref } from "../Ref";
+
 // Represents a 'base_ref_force_pushed' event on a given pull request.
 
 // Implements
@@ -33,26 +39,26 @@
 
 
 
-
+// BaseRefForcePushedEvent
 // Represents a 'base_ref_force_pushed' event on a given pull request.
-export interface BaseRefForcePushedEvent {
+export interface BaseRefForcePushedEvent extends Node {
+    id: ID
 
     // Identifies the actor who performed the event.
-    actor (Actor)
+    actor: Actor
 
     // Identifies the after commit SHA for the 'base_ref_force_pushed' event.
-    afterCommit (Commit)
+    afterCommit: Commit
 
     // Identifies the before commit SHA for the 'base_ref_force_pushed' event.
-    beforeCommit (Commit)
+    beforeCommit: Commit
 
     // Identifies the date and time when the object was created.
-    createdAt (DateTime!)
+    createdAt: Date
 
     // PullRequest referenced by event.
-    id (ID!)
-    pullRequest (PullRequest!)
+    pullRequest: PullRequest
 
     // Identifies the fully qualified ref name for the 'base_ref_force_pushed' event.
-    ref (Ref)
+    ref: Ref
 }

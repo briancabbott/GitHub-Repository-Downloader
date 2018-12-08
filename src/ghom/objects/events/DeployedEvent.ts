@@ -1,4 +1,8 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { Deployment } from "../Deployment";
+import { PullRequest } from "../PullRequest";
+import { Ref } from "../Ref";
 
 // DeployedEvent
 // Represents a 'deployed' event on a given pull request.

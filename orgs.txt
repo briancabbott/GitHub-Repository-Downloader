@@ -16,6 +16,8 @@ https://github.com/deepmind
 https://github.com/hashicorp
 https://github.com/terraform-providers
 https://github.com/openfaas*
+https://github.com/cloudflare
+https://github.com/cncf
 
 # Containerization
 https://github.com/kubernetes-incubator

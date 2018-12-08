@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { DeploymentStatus } from "../DeploymentStatus";
+import { PullRequest } from "../PullRequest";
 
 // DeploymentEnvironmentChangedEvent
 // Represents a 'deployment_environment_changed' event on a given pull request.

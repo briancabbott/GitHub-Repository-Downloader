@@ -1,4 +1,5 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
 
 // MilestonedEvent
 // Represents a 'milestoned' event on a given issue or pull request.
@@ -30,7 +31,7 @@ export interface MilestonedEvent extends Node {
     createdAt: Date
 
     // Identifies the milestone title associated with the 'milestoned' event.
-    milestoneTitle: String
+    milestoneTitle: string
 
     // Object referenced by event.
     subject: MilestoneItem

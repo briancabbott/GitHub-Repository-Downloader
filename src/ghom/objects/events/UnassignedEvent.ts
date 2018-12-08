@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Assignable } from "../../interfaces/Assignable";
+import { User } from "../User";
+import { Node } from "../../interfaces/Node";
 
 // UnassignedEvent
 // Represents an 'unassigned' event on any assignable object.

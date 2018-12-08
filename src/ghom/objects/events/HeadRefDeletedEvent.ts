@@ -1,3 +1,8 @@
+import { Node } from "../../interfaces/Node";
+import { Actor } from "../../interfaces/Actor";
+import { Ref } from "../Ref";
+import { PullRequest } from "../PullRequest";
+
 // HeadRefDeletedEvent
 // Represents a 'head_ref_deleted' event on a given pull request.
 
@@ -26,17 +31,17 @@
 export interface HeadRefDeletedEvent extends Node {
 
     // Identifies the actor who performed the event.
-    actor (Actor)
+    actor: Actor
 
     // Identifies the date and time when the object was created.
-    createdAt (DateTime!)
+    createdAt: Date
 
     // Identifies the Ref associated with the head_ref_deleted event.
-    headRef (Ref)
+    headRef: Ref
 
     // Identifies the name of the Ref associated with the head_ref_deleted event.
-    headRefName (String!)
+    headRefName: string
 
     // PullRequest referenced by event.
-    pullRequest (PullRequest!)
+    pullRequest: PullRequest
 }

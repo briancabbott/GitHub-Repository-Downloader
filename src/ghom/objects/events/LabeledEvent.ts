@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { Label } from "../Label";
+import { Labelable } from "../../interfaces/Labelable";
 
 // LabeledEvent
 // Represents a 'labeled' event on a given issue or pull request.

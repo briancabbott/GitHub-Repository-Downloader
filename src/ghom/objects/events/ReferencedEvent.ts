@@ -1,3 +1,8 @@
+import { Node } from "../../interfaces/Node";
+import { Actor } from "../../interfaces/Actor";
+import { Commit } from "../Commit";
+import { Repository } from "../../../model";
+
 // ReferencedEvent
 // Represents a 'referenced' event on a given ReferencedSubject.
 

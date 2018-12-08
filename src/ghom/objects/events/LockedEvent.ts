@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { LockReason } from "../../enums/LockReason";
+import { Lockable } from "../../interfaces/Lockable";
 
 // LockedEvent
 // Represents a 'locked' event on a given issue or pull request.

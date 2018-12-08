@@ -1,4 +1,5 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
 
 // BaseRefChangedEvent
 // Represents a 'base_ref_changed' event on a given issue or pull request.

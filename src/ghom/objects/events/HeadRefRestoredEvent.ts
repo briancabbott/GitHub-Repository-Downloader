@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { PullRequest } from "../PullRequest";
+import { Node } from "../../interfaces/Node";
 
 // HeadRefRestoredEvent
 // Represents a 'head_ref_restored' event on a given pull request.

@@ -1,5 +1,12 @@
 import { Actor } from "../../interfaces/Actor";
 import { URL } from "url";
+import { Node } from "../../interfaces/Node";
+import { UniformResourceLocatable } from "../../interfaces/UniformResourceLocatable";
+import { HTMLString } from "../../scalars/HTMLString";
+import { PullRequestReviewState } from "../../enums/PullRequestReviewState";
+import { PullRequest } from "../PullRequest";
+import { PullRequestCommit } from "../PullRequestCommit";
+import { PullRequestReview } from "../PullRequestReview";
 
 // ReviewDismissedEvent
 // Represents a 'review_dismissed' event on a given issue or pull request.
@@ -66,7 +73,7 @@ export interface ReviewDismissedEvent extends Node, UniformResourceLocatable {
     message: string
 
     // The message associated with the event, rendered to HTML.
-    messageHtml: HTML
+    messageHtml: HTMLString
 
     // Identifies the previous state of the review with the 'review_dismissed' event.
     previousReviewState: PullRequestReviewState

@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { Closable } from "../../interfaces/Closable";
 
 // ReopenedEvent
 // Represents a 'reopened' event on any Closable.

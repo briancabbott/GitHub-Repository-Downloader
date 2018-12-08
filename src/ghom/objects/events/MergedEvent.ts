@@ -1,4 +1,9 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { UniformResourceLocatable } from "../../interfaces/UniformResourceLocatable";
+import { Commit } from "../Commit";
+import { Ref } from "../Ref";
+import { PullRequest } from "../PullRequest";
 
 // MergedEvent
 // Represents a 'merged' event on a given pull request.

@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { UniformResourceLocatable } from "../../interfaces/UniformResourceLocatable";
+import { Node } from "../../interfaces/Node";
+import { Closable } from "../../interfaces/Closable";
 
 // ClosedEvent
 // Represents a 'closed' event on any Closable.

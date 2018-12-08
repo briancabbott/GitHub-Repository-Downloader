@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Label } from "../Label";
+import { Labelable } from "../../interfaces/Labelable";
+import { Node } from "../../interfaces/Node";
 
 // UnlabeledEvent
 // Represents an 'unlabeled' event on a given issue or pull request.
@@ -23,7 +26,7 @@ import { Actor } from "../../interfaces/Actor";
 
 
 // Represents an 'unlabeled' event on a given issue or pull request.
-export interface UnlabeledEvent {
+export interface UnlabeledEvent extends Node {
 
     // Identifies the actor who performed the event.
     actor: Actor

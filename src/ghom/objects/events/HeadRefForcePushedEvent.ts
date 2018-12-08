@@ -1,4 +1,8 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { Commit } from "../Commit";
+import { PullRequest } from "../PullRequest";
+import { Ref } from "../Ref";
 
 // HeadRefForcePushedEvent
 // Represents a 'head_ref_force_pushed' event on a given pull request.

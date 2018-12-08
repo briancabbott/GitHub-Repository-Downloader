@@ -1,3 +1,7 @@
+import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { PullRequest } from "../PullRequest";
+
 // ReviewRequestedEvent
 // Represents an 'review_requested' event on a given pull request.
 

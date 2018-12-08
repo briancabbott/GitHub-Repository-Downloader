@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Repository } from "../../../model";
+import { Issue } from "../Issue";
+import { Node } from "../../interfaces/Node";
 
 // TransferredEvent
 // Represents a 'transferred' event on a given issue or pull request.

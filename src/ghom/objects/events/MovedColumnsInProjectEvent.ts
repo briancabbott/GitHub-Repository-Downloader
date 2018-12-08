@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Project } from "../Project";
+import { ProjectCard } from "../ProjectCard";
+import { Node } from "../../interfaces/Node";
 
 // MovedColumnsInProjectEvent
 // Represents a 'moved_columns_in_project' event on a given issue or pull request.
@@ -48,7 +51,7 @@ import { Actor } from "../../interfaces/Actor";
 
 
 // Represents a 'moved_columns_in_project' event on a given issue or pull request.
-export interface MovedColumnsInProjectEvent {
+export interface MovedColumnsInProjectEvent extends Node {
 
     // Identifies the actor who performed the event.
     actor: Actor
@@ -72,7 +75,7 @@ export interface MovedColumnsInProjectEvent {
 
 
     // Column name the issue or pull request was moved to.
-    projectColumnName: String
+    projectColumnName: string
 
     // Note: The GraphQL resources under preview cannot be accessed via the Explorer at this time.
 }

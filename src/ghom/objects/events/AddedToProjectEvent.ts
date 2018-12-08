@@ -1,4 +1,7 @@
 import { Actor } from "../../interfaces/Actor";
+import { Project } from "../Project";
+import { ProjectCard } from "../ProjectCard";
+import { Node } from "../../interfaces/Node";
 
 
 

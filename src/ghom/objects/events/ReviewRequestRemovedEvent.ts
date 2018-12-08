@@ -1,4 +1,5 @@
 import { Actor } from "../../interfaces/Actor";
+import { PullRequest } from "../PullRequest";
 
 // ReviewRequestRemovedEvent
 // Represents an 'review_request_removed' event on a given pull request.

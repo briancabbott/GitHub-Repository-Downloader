@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Node } from "../../interfaces/Node";
+import { Lockable } from "../../interfaces/Lockable";
 
 // UnlockedEvent
 // Represents an 'unlocked' event on a given issue or pull request.

@@ -1,4 +1,6 @@
 import { Actor } from "../../interfaces/Actor";
+import { Project } from "../Project";
+import { Node } from "../../interfaces/Node";
 
 // RemovedFromProjectEvent
 // Represents a 'removed_from_project' event on a given issue or pull request.
