@@ -18,6 +18,7 @@ import { CommentAuthorAssociation } from "../enums/CommentAuthorAssociation";
 import { LockReason } from "../enums/LockReason";
 import { Comment } from "../interfaces/Comment";
 import { Node } from "../interfaces/Node";
+import { Milestone } from "./Milestone";
 
 // Issue
 // An Issue is a place to discuss ideas, enhancements, tasks, and bugs for a project.

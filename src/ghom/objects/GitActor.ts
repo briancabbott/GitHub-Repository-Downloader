@@ -1,4 +1,5 @@
 import { URL } from "url";
+import { User } from "./User";
 
 // GitActor
 // Represents an actor in a Git commit (ie. an author or committer).
