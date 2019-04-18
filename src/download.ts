@@ -25,14 +25,25 @@ export class Downloader {
 
         // Make sure the output directory is there.
         console.log("Starting downloads... "); 
-        reposList.repositories.forEach((repository) => {
-            this.downloadRepository(reposList.organizationName, repository);
-        });
+
+        // reposList.repositories.
+        let it = reposList.repositories.entries();
+        let nxt = ()=>{
+            let ir = it.next()
+            if (!ir.done) {
+                this.downloadRepository(reposList.organizationName, ir.value[1], nxt);
+            }
+        }
+        
+        this.downloadRepository(reposList.organizationName, it.next().value[1], nxt); 
+        // reposList.repositories.forEach((repository) => {
+        //     this.downloadRepository(reposList.organizationName, repository);
+        // });
 
         return this.cloneCommandResults;
     }
     
-    private downloadRepository(orgName: string, repository: Repository) {
+    private downloadRepository(orgName: string, repository: Repository, nextFn: () => void) {
         console.log("Downloading: " + repository.url);
 
         let gitClone = new GitCloneTemp();
@@ -40,6 +51,7 @@ export class Downloader {
         gitClone.execute(repository.url, repoDownloadLocation, (commandInfo) => {
             commandInfo.writeToFile(repoDownloadLocation);
             this.cloneCommandResults.push(commandInfo);
+            nextFn();
         });
         console.log("Finished cloning repository: " + repository.name);
     }
