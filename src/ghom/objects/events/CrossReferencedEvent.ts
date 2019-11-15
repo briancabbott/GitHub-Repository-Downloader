@@ -57,10 +57,10 @@ export interface CrossReferencedEvent extends Node, UniformResourceLocatable {
     resourcePath: URL
 
     // Issue or pull request that made the reference.
-    source: ReferencedSubject
+    // source: ReferencedSubject
 
     // Issue or pull request to which the reference was made.
-    target: ReferencedSubject
+    // target: ReferencedSubject
 
     // The HTTP URL for this pull request.
     url: URL

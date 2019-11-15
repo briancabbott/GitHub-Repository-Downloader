@@ -16,16 +16,16 @@ import { Node } from "../interfaces/Node";
 // A list of manifest dependencies
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -52,9 +52,12 @@ import { Node } from "../interfaces/Node";
 // Dependency manifest for a repository
 export class DependencyGraphManifest implements Node {
 
+    id: ID
+
+
     // A list of manifest dependencies
     // dependencies (DependencyGraphDependencyConnection)
-    
+
     // Argument	    Type	    Description
     // after	    String      Returns the elements in the list that come after the specified cursor.
     // before	    String      Returns the elements in the list that come before the specified cursor.
@@ -72,8 +75,6 @@ export class DependencyGraphManifest implements Node {
 
     // Fully qualified manifest filename
     filename: string
-
-    id: ID
 
     // Were we able to parse the manifest?
     parseable: boolean

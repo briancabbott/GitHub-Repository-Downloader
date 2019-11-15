@@ -1,6 +1,7 @@
 
 import * as yargs from "yargs"
 import { OperationConfig, performOperationSetup, performListRetrieval, performRepositoryDownloads } from "./main";
+import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
 
 
 // let m: { [key: string]: yargs.Options }
@@ -47,10 +48,10 @@ import { OperationConfig, performOperationSetup, performListRetrieval, performRe
 //         string?: boolean;
 //         type?: "array" | "count" | PositionalOptionsType;
 
-let repositoriesListCommand: yargs.CommandModule = { 
+let repositoriesListCommand: yargs.CommandModule = {
     command: 'list',
     describe: 'Retrieves a list of repositories for the organizations provided to the parameter.',
-    builder: {    
+    builder: {
         "organization": {
             demand: true,
             requiresArg: true,
@@ -156,7 +157,7 @@ let downloadCommand: yargs.CommandModule = {
             string: true,
             type: "string",
             alias: ["workdir", "wd", "w"]
-        } 
+        }
 
         // Retries downloads on repositories that have failed.
         // retry-on-failed
@@ -168,12 +169,12 @@ let downloadCommand: yargs.CommandModule = {
 
         // This set of methods to use for validation (simple-list-to-folder, log-parsing, local-git-command)
         // validation-methods
-        
+
         // Skip performing post-download completness validation
         // skip-validation
 
         // Todo: Would need to create a merge-operation to support this...
-        // merge-into-existing 
+        // merge-into-existing
     },
     handler: (argv) => {
         let organizations: Array<string> = <Array<string>> argv.organization;
@@ -195,10 +196,33 @@ let downloadCommand: yargs.CommandModule = {
     }
 };
 
+let ghomVerifierCommand: yargs.CommandModule = {
+    command: "ghom-verify",
+    describe: "verifies the current GHOM implementation against an instance of the GitHub GraphQL Schema.",
+    builder: {
+        "schema-uri": {
+            demand: true,
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "string",
+            alias: ["schema-file", "su", "sf"]
+        }
+    },
+    handler: (argv) => {
+        let uriValue = argv["schemaUri"];
+        console.log(typeof uriValue)
+        let ghomVerifier = new GHOMVerifier();
+        let source = ghomVerifier.loadSchema(uriValue);
+        let doc = ghomVerifier.parseSchema(source);
+        console.log("got source: ", source);
+
+        // doc.
+    }
+};
 
 
-
-/** 
+/**
  * Performs a validation function using operation log data against a given Repository Store.
 //  */
 // let validateCommand: yargs.CommandModule = {
@@ -215,6 +239,7 @@ let downloadCommand: yargs.CommandModule = {
 let y = yargs
     .command(downloadCommand)
     .command(repositoriesListCommand)
+    .command(ghomVerifierCommand)
     .strict();
     // .demandCommand()
     // .demandCommand(0, 0) // minMsg?: string, maxMsg?: string): Argv;

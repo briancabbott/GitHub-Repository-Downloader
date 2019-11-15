@@ -40,10 +40,10 @@ export interface ClosedEvent extends Node, UniformResourceLocatable {
     closable: Closable
 
     // Object which triggered the creation of this event.
-    closer: Closer
+    // closer: Closer
 
     // Identifies the date and time when the object was created.
-    createdAt: Date 
+    createdAt: Date
 
     // The HTTP path for this closed event.
     resourcePath: URL

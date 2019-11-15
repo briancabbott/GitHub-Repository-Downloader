@@ -47,247 +47,114 @@ import { Node } from "../interfaces/Node";
 // assignees (UserConnection!)
 // A list of Users assigned to this object.
 
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
+// Argument	      Type	       Description
+// after	        String	     Returns the elements in the list that come after the specified cursor.
+// before	        String	     Returns the elements in the list that come before the specified cursor.
+// first	        Int	         Returns the first n elements from the list.
+// last	          Int	         Returns the last n elements from the list.
+// comments       (IssueCommentConnection!)             A list of comments associated with the pull request.
 
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// commits        (PullRequestCommitConnection!)        A list of commits present in this pull request's head branch not present in the base branch.
 
-// first	Int	
-// Returns the first n elements from the list.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
 
-// last	Int	
-// Returns the last n elements from the list.
-
-// comments (IssueCommentConnection!)
-// A list of comments associated with the pull request.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// commits (PullRequestCommitConnection!)
-// A list of commits present in this pull request's head branch not present in the base branch.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// files (PullRequestChangedFileConnection)
-// This part of the schema is currently available for developers to preview. During this preview period, the API may change without any advance notice. Please see the Pull Requests Preview preview for more details.
+// files          (PullRequestChangedFileConnection)    This part of the schema is currently available for developers to preview. During this preview period, the API may change without any advance notice. Please see the Pull Requests Preview preview for more details.
 
 // Note: The GraphQL resources under preview cannot be accessed via the Explorer at this time.
 
 // Lists the files changed within this pull request.
 
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// labels         (LabelConnection)     A list of labels associated with the object.
 
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// participants   (UserConnection!)     A list of Users that are participating in the Pull Request conversation.
 
-// first	Int	
-// Returns the first n elements from the list.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
 
-// last	Int	
-// Returns the last n elements from the list.
+// projectCards   (ProjectCardConnection!)  List of project cards associated with this pull request.
 
-// labels (LabelConnection)
-// A list of labels associated with the object.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// archivedStates	[ProjectCardArchivedState]    A list of archived states to filter the cards by. The default value is ["ARCHIVED", "NOT_ARCHIVED"].
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// reactions      (ReactionConnection!)         A list of Reactions left on the Issue.
 
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// content	      ReactionContent              Allows filtering Reactions by emoji.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// orderBy	      ReactionOrder                Allows specifying the order in which reactions are returned.
+// reviewRequests (ReviewRequestConnection)    A list of review requests associated with the pull request.
 
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// reviews        (PullRequestReviewConnection)     A list of reviews associated with the pull request.
 
-// first	Int	
-// Returns the first n elements from the list.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// author	        String       Filter by author of the review.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// states	        [PullRequestReviewState!]         A list of states to filter the reviews.
+// timeline       (PullRequestTimelineConnection!)  A list of events, comments, commits, etc. associated with the pull request.
 
-// last	Int	
-// Returns the last n elements from the list.
-
-// participants (UserConnection!)
-// A list of Users that are participating in the Pull Request conversation.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// projectCards (ProjectCardConnection!)
-// List of project cards associated with this pull request.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// archivedStates	[ProjectCardArchivedState]	
-// A list of archived states to filter the cards by
-
-// The default value is ["ARCHIVED", "NOT_ARCHIVED"].
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// reactions (ReactionConnection!)
-// A list of Reactions left on the Issue.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// content	ReactionContent	
-// Allows filtering Reactions by emoji.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// orderBy	ReactionOrder	
-// Allows specifying the order in which reactions are returned.
-
-// reviewRequests (ReviewRequestConnection)
-// A list of review requests associated with the pull request.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// reviews (PullRequestReviewConnection)
-// A list of reviews associated with the pull request.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// author	String	
-// Filter by author of the review.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// states	[PullRequestReviewState!]	
-// A list of states to filter the reviews.
-
-// timeline (PullRequestTimelineConnection!)
-// A list of events, comments, commits, etc. associated with the pull request.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// since	DateTime	
-// Allows filtering timeline events by a since timestamp.
-
-// timelineItems (PullRequestTimelineItemsConnection!)
-// This part of the schema is currently available for developers to preview. During this preview period, the API may change without any advance notice. Please see the Issues Preview preview for more details.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
+// since	        DateTime     Allows filtering timeline events by a since timestamp.
+// timelineItems (PullRequestTimelineItemsConnection!)    This part of the schema is currently available for developers to preview. During this preview period, the API may change without any advance notice. Please see the Issues Preview preview for more details.
 
 // Note: The GraphQL resources under preview cannot be accessed via the Explorer at this time.
 
 // A list of events, comments, commits, etc. associated with the pull request.
 
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// itemTypes	    [PullRequestTimelineItemsItemType!]      Filter timeline items by type.
+// last	          Int          Returns the last n elements from the list.
+// since	        DateTime     Filter timeline items by a since timestamp.
+// skip	          Int          Skips the first n elements in the list.
+// userContentEdits (UserContentEditConnection)     A list of edits to this content.
 
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// itemTypes	[PullRequestTimelineItemsItemType!]	
-// Filter timeline items by type.
-
-// last	Int	
-// Returns the last n elements from the list.
-
-// since	DateTime	
-// Filter timeline items by a since timestamp.
-
-// skip	Int	
-// Skips the first n elements in the list.
-
-// userContentEdits (UserContentEditConnection)
-// A list of edits to this content.
-
-// Argument	Type	Description
-// after	String	
-// Returns the elements in the list that come after the specified cursor.
-
-// before	String	
-// Returns the elements in the list that come before the specified cursor.
-
-// first	Int	
-// Returns the first n elements from the list.
-
-// last	Int	
-// Returns the last n elements from the list.
+// Argument	      Type	       Description
+// after	        String       Returns the elements in the list that come after the specified cursor.
+// before	        String       Returns the elements in the list that come before the specified cursor.
+// first	        Int          Returns the first n elements from the list.
+// last	          Int          Returns the last n elements from the list.
 
 // Fields
 // activeLockReason (LockReason)
@@ -518,8 +385,8 @@ import { Node } from "../interfaces/Node";
 
 
 // A repository pull request.
-export class PullRequest implements Assignable, Closable, Comment, Labelable, 
-    Lockable, Node, Reactable, RepositoryNode, Subscribable, UniformResourceLocatable, 
+export class PullRequest implements Assignable, Closable, Comment, Labelable,
+    Lockable, Node, Reactable, RepositoryNode, Subscribable, UniformResourceLocatable,
     Updatable, UpdatableComment {
 
 
@@ -528,48 +395,48 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
 // A list of Users assigned to this object.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // comments (IssueCommentConnection!)
 // A list of comments associated with the pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // commits (PullRequestCommitConnection!)
 // A list of commits present in this pull request's head branch not present in the base branch.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // files (PullRequestChangedFileConnection)
@@ -580,148 +447,148 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
 // Lists the files changed within this pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // labels (LabelConnection)
 // A list of labels associated with the object.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // participants (UserConnection!)
 // A list of Users that are participating in the Pull Request conversation.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // projectCards (ProjectCardConnection!)
 // List of project cards associated with this pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// archivedStates	[ProjectCardArchivedState]	
+// archivedStates	[ProjectCardArchivedState]
 // A list of archived states to filter the cards by
 
 // The default value is ["ARCHIVED", "NOT_ARCHIVED"].
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // reactions (ReactionConnection!)
 // A list of Reactions left on the Issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// content	ReactionContent	
+// content	ReactionContent
 // Allows filtering Reactions by emoji.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReactionOrder	
+// orderBy	ReactionOrder
 // Allows specifying the order in which reactions are returned.
 
 // reviewRequests (ReviewRequestConnection)
 // A list of review requests associated with the pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // reviews (PullRequestReviewConnection)
 // A list of reviews associated with the pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// author	String	
+// author	String
 // Filter by author of the review.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// states	[PullRequestReviewState!]	
+// states	[PullRequestReviewState!]
 // A list of states to filter the reviews.
 
 // timeline (PullRequestTimelineConnection!)
 // A list of events, comments, commits, etc. associated with the pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// since	DateTime	
+// since	DateTime
 // Allows filtering timeline events by a since timestamp.
 
 // timelineItems (PullRequestTimelineItemsConnection!)
@@ -732,41 +599,41 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
 // A list of events, comments, commits, etc. associated with the pull request.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// itemTypes	[PullRequestTimelineItemsItemType!]	
+// itemTypes	[PullRequestTimelineItemsItemType!]
 // Filter timeline items by type.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// since	DateTime	
+// since	DateTime
 // Filter timeline items by a since timestamp.
 
-// skip	Int	
+// skip	Int
 // Skips the first n elements in the list.
 
 // userContentEdits (UserContentEditConnection)
 // A list of edits to this content.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
     //
@@ -902,7 +769,7 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
     publishedAt: Date
 
     // A list of reactions grouped by content left on the subject.
-    reactionGroups: Array<ReactionGroup>
+    // reactionGroups: Array<ReactionGroup>
 
     // The repository associated with this node.
     repository: Repository
@@ -920,7 +787,7 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
     state: PullRequestState
 
     // A list of reviewer suggestions based on commit history and past review comments.
-    suggestedReviewers: Array<SuggestedReviewer>
+    // suggestedReviewers: Array<SuggestedReviewer>
 
     // Identifies the pull request title.
     title: string
@@ -951,5 +818,4 @@ export class PullRequest implements Assignable, Closable, Comment, Labelable,
 
     // Identifies if the viewer is watching, not watching, or ignoring the subscribable entity.
     viewerSubscription: SubscriptionState
-
 }

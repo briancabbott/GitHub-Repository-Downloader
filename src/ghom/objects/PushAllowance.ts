@@ -22,22 +22,18 @@ import { ProtectedBranch } from "./ProtectedBranch";
 
 // Identifies the protected branch associated with the allowed user or team.
 
-
-
-
-
 // A team or user who has the ability to push to a protected branch.
 export class PushAllowance implements Node {
+    id: ID
 
     // Fields
 
     // The actor that can push.
-    actor: PushAllowanceActor
+    // actor: PushAllowanceActor
 
     // Identifies the branch protection rule associated with the allowed user or team.
     branchProtectionRule: BranchProtectionRule
 
-    id: ID
 
     // Deprecation notice
     // The ProtectedBranch type is deprecated and will be removed soon. Use Repository.branchProtectionRule instead. Removal on 2019-01-01 UTC.
@@ -46,4 +42,3 @@ export class PushAllowance implements Node {
 
 
 }
-

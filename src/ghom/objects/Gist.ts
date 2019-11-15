@@ -14,35 +14,35 @@ import { RepositoryOwner } from "../interfaces/RepositoryOwner";
 // A list of comments associated with the gist
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // stargazers (StargazerConnection!)
 // A list of users who have starred this starrable.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	StarOrder	
+// orderBy	StarOrder
 // Order for connection
 
 // Fields
@@ -96,7 +96,7 @@ export class Gist implements Node, Starrable {
     // last	        Int	        Returns the last n elements from the list.
 
     // Order for connection
-    orderBy: StarOrder
+    // orderBy: StarOrder
 
 
     // Identifies the date and time when the object was created.

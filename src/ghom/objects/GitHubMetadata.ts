@@ -28,7 +28,7 @@
 // Represents information about the GitHub instance.
 export class GitHubMetadata {
     // Returns a String that's a SHA of github-services
-    gitHubServicesSha: GitObjectID
+    // gitHubServicesSha: GitObjectID
 
     // IP addresses that users connect to for git operations
     gitIpAddresses: Array<String>

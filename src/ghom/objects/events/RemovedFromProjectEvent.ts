@@ -55,6 +55,4 @@ export interface RemovedFromProjectEvent extends Node {
 
     // Column name referenced by this project event.
     projectColumnName: string
-
-
 }

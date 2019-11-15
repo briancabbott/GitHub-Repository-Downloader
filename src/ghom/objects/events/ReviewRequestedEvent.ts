@@ -37,5 +37,5 @@ export interface ReviewRequestedEvent extends Node {
     pullRequest: PullRequest
 
     // Identifies the reviewer whose review was requested.
-    requestedReviewer: RequestedReviewer
+    // requestedReviewer: RequestedReviewer
 }

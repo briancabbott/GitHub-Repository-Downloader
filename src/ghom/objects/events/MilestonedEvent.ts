@@ -34,5 +34,5 @@ export interface MilestonedEvent extends Node {
     milestoneTitle: string
 
     // Object referenced by event.
-    subject: MilestoneItem
+    // subject: MilestoneItem
 }

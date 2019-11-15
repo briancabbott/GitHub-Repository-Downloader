@@ -25,16 +25,16 @@ import { Comment } from "../interfaces/Comment";
 // A list of edits to this content.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -122,7 +122,7 @@ export class GistComment implements Comment, Deletable, Minimizable, Node, Updat
     authorAssociation: CommentAuthorAssociation
 
     // Identifies the comment body.
-    body: String
+    body: string
 
     // The comment body rendered to HTML.
     bodyHTML: string

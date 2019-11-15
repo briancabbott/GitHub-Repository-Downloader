@@ -39,5 +39,4 @@ export interface UnlabeledEvent extends Node {
 
     // Identifies the Labelable associated with the event.
     labelable: Labelable
-
 }

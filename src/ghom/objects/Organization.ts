@@ -26,169 +26,169 @@ import { OrganizationIdentityProvider } from "./OrganizationIdentityProvider";
 // A list of users who are members of this organization.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // membersWithRole (OrganizationMemberConnection!)
 // A list of users who are members of this organization.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // pinnedRepositories (RepositoryConnection!)
 // A list of repositories this user has pinned to their profile
 
 // Argument	Type	Description
-// affiliations	[RepositoryAffiliation]	
+// affiliations	[RepositoryAffiliation]
 // Array of viewer's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the current viewer owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// isLocked	Boolean	
+// isLocked	Boolean
 // If non-null, filters repositories according to whether they have been locked
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RepositoryOrder	
+// orderBy	RepositoryOrder
 // Ordering options for repositories returned from the connection
 
-// ownerAffiliations	[RepositoryAffiliation]	
+// ownerAffiliations	[RepositoryAffiliation]
 // Array of owner's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the organization or user being viewed owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// privacy	RepositoryPrivacy	
+// privacy	RepositoryPrivacy
 // If non-null, filters repositories according to privacy
 
 // projects (ProjectConnection!)
 // A list of projects under the owner.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ProjectOrder	
+// orderBy	ProjectOrder
 // Ordering options for projects returned from the connection
 
-// search	String	
+// search	String
 // Query to search projects by, currently only searching by name.
 
-// states	[ProjectState!]	
+// states	[ProjectState!]
 // A list of states to filter the projects by.
 
 // repositories (RepositoryConnection!)
 // A list of repositories that the user owns.
 
 // Argument	Type	Description
-// affiliations	[RepositoryAffiliation]	
+// affiliations	[RepositoryAffiliation]
 // Array of viewer's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the current viewer owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// isFork	Boolean	
+// isFork	Boolean
 // If non-null, filters repositories according to whether they are forks of another repository
 
-// isLocked	Boolean	
+// isLocked	Boolean
 // If non-null, filters repositories according to whether they have been locked
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RepositoryOrder	
+// orderBy	RepositoryOrder
 // Ordering options for repositories returned from the connection
 
-// ownerAffiliations	[RepositoryAffiliation]	
+// ownerAffiliations	[RepositoryAffiliation]
 // Array of owner's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the organization or user being viewed owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// privacy	RepositoryPrivacy	
+// privacy	RepositoryPrivacy
 // If non-null, filters repositories according to privacy
 
 // teams (TeamConnection!)
 // A list of teams in this organization.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// ldapMapped	Boolean	
+// ldapMapped	Boolean
 // If true, filters teams that are mapped to an LDAP Group (Enterprise only)
 
-// orderBy	TeamOrder	
+// orderBy	TeamOrder
 // Ordering options for teams returned from the connection
 
-// privacy	TeamPrivacy	
+// privacy	TeamPrivacy
 // If non-null, filters teams according to privacy
 
-// query	String	
+// query	String
 // If non-null, filters teams with query on team name and team slug
 
-// role	TeamRole	
+// role	TeamRole
 // If non-null, filters teams according to whether the viewer is an admin or member on team
 
-// rootTeamsOnly	Boolean	
+// rootTeamsOnly	Boolean
 // If true, restrict to only root teams
 
 // The default value is false.
 
-// userLogins	[String!]	
+// userLogins	[String!]
 // User logins to filter by
 
 // Fields
@@ -196,7 +196,7 @@ import { OrganizationIdentityProvider } from "./OrganizationIdentityProvider";
 // A URL pointing to the organization's public avatar.
 
 // Argument	Type	Description
-// size	Int	
+// size	Int
 // The size of the resulting square image.
 
 // databaseId (Int)
@@ -234,7 +234,7 @@ import { OrganizationIdentityProvider } from "./OrganizationIdentityProvider";
 // Find project by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The project number to find.
 
 // projectsResourcePath (URI!)
@@ -247,7 +247,7 @@ import { OrganizationIdentityProvider } from "./OrganizationIdentityProvider";
 // Find Repository.
 
 // Argument	Type	Description
-// name	String!	
+// name	String!
 // Name of Repository to find.
 
 // requiresTwoFactorAuthentication (Boolean)
@@ -263,7 +263,7 @@ import { OrganizationIdentityProvider } from "./OrganizationIdentityProvider";
 // Find an organization's team by its slug.
 
 // Argument	Type	Description
-// slug	String!	
+// slug	String!
 // The name or slug of the team to find.
 
 // teamsResourcePath (URI!)
@@ -349,7 +349,7 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
 // The default value is ["OWNER", "COLLABORATOR"].
 
 // privacy	RepositoryPrivacy	If non-null, filters repositories according to privacy
- 
+
 // projects (ProjectConnection!)  A list of projects under the owner.
 
 // Argument	Type	Description
@@ -420,7 +420,7 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
 
 // userLogins	[String!]	User logins to filter by
 
-// 
+//
 // Fields
 //
 
@@ -428,7 +428,7 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
     avatarUrl: URL
 
     // Argument	Type	Description
-    // size	Int	
+    // size	Int
     // The size of the resulting square image.
 
     // Identifies the primary key from the database.
@@ -467,7 +467,7 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
     project: Project
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The project number to find.
 
     // The HTTP path listing organization's projects
@@ -480,7 +480,7 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
     repository: Repository
 
     // Argument	Type	Description
-    // name	String!	
+    // name	String!
     // Name of Repository to find.
 
     // When true the organization requires all members, billing managers, and outside collaborators to enable two-factor authentication.
@@ -493,10 +493,10 @@ export class Organization implements Actor, Node, ProjectOwner, RegistryPackageO
     samlIdentityProvider: OrganizationIdentityProvider
 
     // Find an organization's team by its slug.
-    team: Team
+    // team: Team
 
     // Argument	Type	Description
-    // slug	String!	
+    // slug	String!
     // The name or slug of the team to find.
 
     // The HTTP path listing organization's teams

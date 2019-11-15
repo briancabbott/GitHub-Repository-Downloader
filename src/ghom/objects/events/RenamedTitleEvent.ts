@@ -43,5 +43,5 @@ export interface RenamedTitleEvent extends Node {
     previousTitle: string
 
     // Subject that was renamed.
-    subject: RenamedTitleSubject
+    // subject: RenamedTitleSubject
 }

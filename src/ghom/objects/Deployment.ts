@@ -17,16 +17,16 @@ import { DeploymentStatus } from "./DeploymentStatus";
 // A list of statuses associated with the deployment.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -77,11 +77,11 @@ import { DeploymentStatus } from "./DeploymentStatus";
 
 // Represents triggered deployment instance.
 export class Deployment implements Node {
-    
+
     // Connections
 
     // A list of statuses associated with the deployment.
-    statuses: DeploymentStatusConnection
+    // statuses: DeploymentStatusConnection
 
     // Argument	    Type	Description
     // after	    String	Returns the elements in the list that come after the specified cursor.

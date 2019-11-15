@@ -12,16 +12,16 @@ import { Organization } from "./Organization";
 // External Identities provisioned by this Identity Provider
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -58,9 +58,9 @@ export class OrganizationIdentityProvider implements Node {
 // first	        Int	            Returns the first n elements from the list.
 // last	            Int	            Returns the last n elements from the list.
 
-// 
+//
 // Fields
-// 
+//
 
 
     // The digest algorithm used to sign SAML requests for the Identity Provider.
@@ -69,7 +69,7 @@ export class OrganizationIdentityProvider implements Node {
     id: ID
 
     // The x509 certificate used by the Identity Provder to sign assertions and responses.
-    idpCertificate: X509Certificate
+    // idpCertificate: X509Certificate
 
     // The Issuer Entity ID for the SAML Identity Provider
     issuer: string
@@ -81,6 +81,6 @@ export class OrganizationIdentityProvider implements Node {
     signatureMethod: URL
 
     // The URL endpoint for the Identity Provider's SAML SSO.
-    ssoUrl: URL 
+    ssoUrl: URL
 
 }

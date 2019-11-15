@@ -9,7 +9,7 @@ import { User } from "./User";
 // A URL pointing to the author's public avatar.
 
 // Argument	Type	Description
-// size	Int	
+// size	Int
 // The size of the resulting square image.
 
 // date (GitTimestamp)
@@ -37,7 +37,7 @@ export class GitActor {
     // size	        Int	        The size of the resulting square image.
 
     // The timestamp of the Git action (authoring or committing).
-    date: GitTimestamp
+    // date: GitTimestamp
 
     // The email in the Git commit.
     email: string

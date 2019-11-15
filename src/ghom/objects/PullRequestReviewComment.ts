@@ -34,38 +34,38 @@ import { CommentCannotUpdateReason } from "../enums/CommentCannotUpdateReason";
 // A list of Reactions left on the Issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// content	ReactionContent	
+// content	ReactionContent
 // Allows filtering Reactions by emoji.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReactionOrder	
+// orderBy	ReactionOrder
 // Allows specifying the order in which reactions are returned.
 
 // userContentEdits (UserContentEditConnection)
 // A list of edits to this content.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -189,7 +189,8 @@ import { CommentCannotUpdateReason } from "../enums/CommentCannotUpdateReason";
 
 
 // A review comment associated with a given repository pull request.
-export class PullRequestReviewComment implements Comment, Deletable, Minimizable, Node, Reactable, RepositoryNode, Updatable, UpdatableComment {
+export class PullRequestReviewComment implements Comment, Deletable, Minimizable, Node, Reactable,
+                                                 RepositoryNode, Updatable, UpdatableComment {
 
 
     // Connections
@@ -197,38 +198,38 @@ export class PullRequestReviewComment implements Comment, Deletable, Minimizable
     // A list of Reactions left on the Issue.
 
     // Argument	Type	Description
-    // after	String	
+    // after	String
     // Returns the elements in the list that come after the specified cursor.
 
-    // before	String	
+    // before	String
     // Returns the elements in the list that come before the specified cursor.
 
-    // content	ReactionContent	
+    // content	ReactionContent
     // Allows filtering Reactions by emoji.
 
-    // first	Int	
+    // first	Int
     // Returns the first n elements from the list.
 
-    // last	Int	
+    // last	Int
     // Returns the last n elements from the list.
 
-    // orderBy	ReactionOrder	
+    // orderBy	ReactionOrder
     // Allows specifying the order in which reactions are returned.
 
     // userContentEdits (UserContentEditConnection)
     // A list of edits to this content.
 
     // Argument	Type	Description
-    // after	String	
+    // after	String
     // Returns the elements in the list that come after the specified cursor.
 
-    // before	String	
+    // before	String
     // Returns the elements in the list that come before the specified cursor.
 
-    // first	Int	
+    // first	Int
     // Returns the first n elements from the list.
 
-    // last	Int	
+    // last	Int
     // Returns the last n elements from the list.
 
     //
@@ -310,7 +311,7 @@ export class PullRequestReviewComment implements Comment, Deletable, Minimizable
     pullRequestReview: PullRequestReview
 
     // A list of reactions grouped by content left on the subject.
-    reactionGroups: Array<ReactionGroup>
+    // reactionGroups: Array<ReactionGroup>
 
     // The comment this is a reply to.
     replyTo: PullRequestReviewComment

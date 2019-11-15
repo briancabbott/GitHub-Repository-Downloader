@@ -56,7 +56,7 @@ export class ProjectCard implements Node {
     column: ProjectColumn
 
     // The card content item
-    content: ProjectCardItem
+    // content: ProjectCardItem
 
     // Identifies the date and time when the object was created.
     createdAt: Date

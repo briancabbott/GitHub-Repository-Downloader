@@ -32,38 +32,38 @@ import { PullRequest } from "./PullRequest";
 // A list of Reactions left on the Issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// content	ReactionContent	
+// content	ReactionContent
 // Allows filtering Reactions by emoji.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReactionOrder	
+// orderBy	ReactionOrder
 // Allows specifying the order in which reactions are returned.
 
 // userContentEdits (UserContentEditConnection)
 // A list of edits to this content.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -183,7 +183,7 @@ export class IssueComment implements Comment, Deletable, Minimizable, Node, Reac
     authorAssociation: CommentAuthorAssociation
 
     // The body as Markdown.
-    body: String
+    body: string
 
     // The body rendered to HTML.
     bodyHTML: string
@@ -227,7 +227,7 @@ export class IssueComment implements Comment, Deletable, Minimizable, Node, Reac
     pullRequest: PullRequest
 
     // A list of reactions grouped by content left on the subject.
-    reactionGroups: Array<ReactionGroup>
+    // reactionGroups: Array<ReactionGroup>
 
     // The repository associated with this node.
     repository: Repository

@@ -25,14 +25,14 @@ import { ID } from "../scalars/Id";
 
 // Represents a subject that can be reacted on.
 export interface Reactable {
-    
+
     // Identifies the primary key from the database.
     databaseId: number;
 
     id: ID;
 
     // A list of reactions grouped by content left on the subject.
-    reactionGroups: Array<ReactionGroup>;
+    // reactionGroups: Array<ReactionGroup>;
 
     // Can user react to this subject
     viewerCanReact: boolean;

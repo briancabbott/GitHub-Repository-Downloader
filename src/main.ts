@@ -8,11 +8,11 @@ import crypto from 'crypto';
 
 // "auth-token-briancabbott-github-app.tk"
 export interface OperationConfig {
-    tokenFile: string;
-    token: string;
-    organizations: Array<string>;
-    workingDirectory: string;
-    globalStoreDirectory: string;
+    tokenFile: string | unknown;
+    token: string | unknown;
+    organizations: Array<string | unknown>;
+    workingDirectory: string | unknown;
+    globalStoreDirectory: string | unknown;
 }
 
 
@@ -25,16 +25,16 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
         tok = fs.readFileSync(opConfig.tokenFile).toString();
     }
     let gitHubConfig = new GitHubConfiguration(tok);
-    
+
     // Setup the "global" download-operation
     let downloadOp = new RepositoryDownloadOperation();
     downloadOp.githubConfiguration = gitHubConfig;
     downloadOp.globalStoreDirectory = opConfig.globalStoreDirectory;
     downloadOp.applicationWorkingDirectory = opConfig.workingDirectory;
     downloadOp.globalOperationStartTime = new Date();
-    
+
     //
-    // Now perform active operations for preparing derived/generated values/artifacts from 
+    // Now perform active operations for preparing derived/generated values/artifacts from
     // download-op settings (i.e. create dirs, set calculated values, etc).
 
     // add requested organizations...
@@ -68,12 +68,12 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 
 
 
-// 
+//
 // Do List-Initialization
 //
-export function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> { 
+export function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
     let orgsByNameMap = new Map<string, Organization>();
-    let promisesArr: Array<Promise<RepositoryList>> = new Array<Promise<RepositoryList>>(); 
+    let promisesArr: Array<Promise<RepositoryList>> = new Array<Promise<RepositoryList>>();
 
     let listGen = new RepositoryLister(downloadOp);
     for (let organization of downloadOp.organizations) {
@@ -86,7 +86,7 @@ export function performListRetrieval(downloadOp: RepositoryDownloadOperation): P
         val.forEach((repositoryList) => {
             let org = orgsByNameMap.get(repositoryList.organizationName);
             let listQueryLogFile = listGen.writeToFile(org, repositoryList);
-            
+
             console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
 
             downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
@@ -96,22 +96,22 @@ export function performListRetrieval(downloadOp: RepositoryDownloadOperation): P
     });
 }
 
-// 
+//
 // Perform download
 //
-export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> { 
+export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
     return performListRetrieval(downloadOp).then((downloadOp) => {
         for (let organization of downloadOp.organizations) {
             console.log("download for org: " + organization.name);
-    
+
             if (downloadOp.repositoryListFilesMap.has(organization.name)) {
-    
+
                 let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
                 let repositoryList = JSON.parse(buf.toString());
                 console.log(JSON.stringify(repositoryList, undefined, 4));
-                let downloader = new Downloader(downloadOp, organization); 
+                let downloader = new Downloader(downloadOp, organization);
                 let cloneCommandResults = downloader.downloadRepositories(repositoryList);
-                cloneCommandResults.forEach((cci) => { 
+                cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
             }
@@ -120,7 +120,7 @@ export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperati
         return downloadOp;
     });
 }
-// 
+//
 // Perform validation
 //
 // cloneCommandResults.forEach((cci) => {
@@ -143,8 +143,8 @@ export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperati
 // });
 
 // let downloader = new Downloader(tok);
-// listPromise.then((list: RepositoryList) => { 
+// listPromise.then((list: RepositoryList) => {
 //     list.repositories.forEach((r) => {
-//         downloader.verifyDownloadSuccess(list.organizationName, r); 
+//         downloader.verifyDownloadSuccess(list.organizationName, r);
 //     });
 // });

@@ -34,6 +34,6 @@ export interface ReviewRequestRemovedEvent extends Node {
     pullRequest: PullRequest
 
     // Identifies the reviewer whose review request was removed.
-    requestedReviewer: RequestedReviewer
+    // requestedReviewer: RequestedReviewer
 
 }

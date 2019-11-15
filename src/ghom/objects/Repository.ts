@@ -22,6 +22,7 @@ import { Release } from "./Release";
 import { HTMLString } from "../scalars/HTMLString";
 import { RepositoryPermission } from "../enums/RepositoryPermission";
 import { SubscriptionState } from "../enums/SubscriptionState";
+import { CodeOfConduct } from "./CodeOfConduct";
 
 // Repository
 // A repository contains the content for a project.
@@ -39,67 +40,67 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // A list of users that can be assigned to issues in this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // branchProtectionRules (BranchProtectionRuleConnection!)
 // A list of branch protection rules for this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // collaborators (RepositoryCollaboratorConnection)
 // A list of collaborators associated with the repository.
 
 // Argument	Type	Description
-// affiliation	CollaboratorAffiliation	
+// affiliation	CollaboratorAffiliation
 // Collaborators affiliation level with a repository.
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // commitComments (CommitCommentConnection!)
 // A list of commit comments associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // dependencyGraphManifests (DependencyGraphManifestConnection)
@@ -110,350 +111,350 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // A list of dependency manifests contained in the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// dependenciesAfter	String	
+// dependenciesAfter	String
 // Cursor to paginate dependencies
 
-// dependenciesFirst	Int	
+// dependenciesFirst	Int
 // Number of dependencies to fetch
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// withDependencies	Boolean	
+// withDependencies	Boolean
 // Flag to scope to only manifests with dependencies
 
 // deployKeys (DeployKeyConnection!)
 // A list of deploy keys that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // deployments (DeploymentConnection!)
 // Deployments associated with the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// environments	[String!]	
+// environments	[String!]
 // Environments to list deployments for
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // forks (RepositoryConnection!)
 // A list of direct forked repositories.
 
 // Argument	Type	Description
-// affiliations	[RepositoryAffiliation]	
+// affiliations	[RepositoryAffiliation]
 // Array of viewer's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the current viewer owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// isLocked	Boolean	
+// isLocked	Boolean
 // If non-null, filters repositories according to whether they have been locked
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RepositoryOrder	
+// orderBy	RepositoryOrder
 // Ordering options for repositories returned from the connection
 
-// ownerAffiliations	[RepositoryAffiliation]	
+// ownerAffiliations	[RepositoryAffiliation]
 // Array of owner's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the organization or user being viewed owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// privacy	RepositoryPrivacy	
+// privacy	RepositoryPrivacy
 // If non-null, filters repositories according to privacy
 
 // issues (IssueConnection!)
 // A list of issues that have been opened in the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// filterBy	IssueFilters	
+// filterBy	IssueFilters
 // Filtering options for issues returned from the connection.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// labels	[String!]	
+// labels	[String!]
 // A list of label names to filter the pull requests by.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	IssueOrder	
+// orderBy	IssueOrder
 // Ordering options for issues returned from the connection.
 
-// states	[IssueState!]	
+// states	[IssueState!]
 // A list of states to filter the issues by.
 
 // labels (LabelConnection)
 // A list of labels associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// query	String	
+// query	String
 // If provided, searches labels by name and description.
 
 // languages (LanguageConnection)
 // A list containing a breakdown of the language composition of the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	LanguageOrder	
+// orderBy	LanguageOrder
 // Order for connection
 
 // mentionableUsers (UserConnection!)
 // A list of Users that can be mentioned in the context of the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // milestones (MilestoneConnection)
 // A list of milestones associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	MilestoneOrder	
+// orderBy	MilestoneOrder
 // Ordering options for milestones.
 
-// states	[MilestoneState!]	
+// states	[MilestoneState!]
 // Filter by the state of the milestones.
 
 // projects (ProjectConnection!)
 // A list of projects under the owner.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ProjectOrder	
+// orderBy	ProjectOrder
 // Ordering options for projects returned from the connection
 
-// search	String	
+// search	String
 // Query to search projects by, currently only searching by name.
 
-// states	[ProjectState!]	
+// states	[ProjectState!]
 // A list of states to filter the projects by.
 
 // protectedBranches (ProtectedBranchConnection!)
 // A list of protected branches that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // pullRequests (PullRequestConnection!)
 // A list of pull requests that have been opened in the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// baseRefName	String	
+// baseRefName	String
 // The base ref name to filter the pull requests by.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// headRefName	String	
+// headRefName	String
 // The head ref name to filter the pull requests by.
 
-// labels	[String!]	
+// labels	[String!]
 // A list of label names to filter the pull requests by.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	IssueOrder	
+// orderBy	IssueOrder
 // Ordering options for pull requests returned from the connection.
 
-// states	[PullRequestState!]	
+// states	[PullRequestState!]
 // A list of states to filter the pull requests by.
 
 // refs (RefConnection)
 // Fetch a list of refs from the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// direction	OrderDirection	
+// direction	OrderDirection
 // DEPRECATED: use orderBy. The ordering direction.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RefOrder	
+// orderBy	RefOrder
 // Ordering options for refs returned from the connection.
 
-// refPrefix	String!	
+// refPrefix	String!
 // A ref name prefix like refs/heads/, refs/tags/, etc.
 
 // releases (ReleaseConnection!)
 // List of releases which are dependent on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReleaseOrder	
+// orderBy	ReleaseOrder
 // Order for connection
 
 // repositoryTopics (RepositoryTopicConnection!)
 // A list of applied repository-topic associations for this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // stargazers (StargazerConnection!)
 // A list of users who have starred this starrable.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	StarOrder	
+// orderBy	StarOrder
 // Order for connection
 
 // vulnerabilityAlerts (RepositoryVulnerabilityAlertConnection)
@@ -464,32 +465,32 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // A list of vulnerability alerts that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // watchers (UserConnection!)
 // A list of users watching the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -546,21 +547,21 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // Returns a single issue from the current repository by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The number for the issue to be returned.
 
 // issueOrPullRequest (IssueOrPullRequest)
 // Returns a single issue-like object from the current repository by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The number for the issue to be returned.
 
 // label (Label)
 // Returns a single label by name
 
 // Argument	Type	Description
-// name	String!	
+// name	String!
 // Label name
 
 // licenseInfo (License)
@@ -576,7 +577,7 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // Returns a single milestone from the current repository by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The number for the milestone to be returned.
 
 // mirrorUrl (URI)
@@ -592,10 +593,10 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // A Git object in the repository
 
 // Argument	Type	Description
-// expression	String	
+// expression	String
 // A Git revision expression suitable for rev-parse
 
-// oid	GitObjectID	
+// oid	GitObjectID
 // The Git object ID
 
 // owner (RepositoryOwner!)
@@ -611,7 +612,7 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // Find project by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The project number to find.
 
 // projectsResourcePath (URI!)
@@ -624,7 +625,7 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // Returns a single pull request from the current repository by number.
 
 // Argument	Type	Description
-// number	Int!	
+// number	Int!
 // The number for the pull request to be returned.
 
 // pushedAt (DateTime)
@@ -637,14 +638,14 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // Fetch a given ref from the repository
 
 // Argument	Type	Description
-// qualifiedName	String!	
+// qualifiedName	String!
 // The ref to retrieve. Fully qualified matches are checked in order (refs/heads/master) before falling back onto checks for short name matches (master).
 
 // release (Release)
 // Lookup a single release given various criteria.
 
 // Argument	Type	Description
-// tagName	String!	
+// tagName	String!
 // The name of the Tag the Release was created from
 
 // resourcePath (URI!)
@@ -654,7 +655,7 @@ import { SubscriptionState } from "../enums/SubscriptionState";
 // A description of the repository, rendered to HTML without any links in it.
 
 // Argument	Type	Description
-// limit	Int	
+// limit	Int
 // How many characters to return.
 
 // The default value is 200.
@@ -718,67 +719,67 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
 // A list of users that can be assigned to issues in this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // branchProtectionRules (BranchProtectionRuleConnection!)
 // A list of branch protection rules for this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // collaborators (RepositoryCollaboratorConnection)
 // A list of collaborators associated with the repository.
 
 // Argument	Type	Description
-// affiliation	CollaboratorAffiliation	
+// affiliation	CollaboratorAffiliation
 // Collaborators affiliation level with a repository.
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // commitComments (CommitCommentConnection!)
 // A list of commit comments associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // dependencyGraphManifests (DependencyGraphManifestConnection)
@@ -789,350 +790,350 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
 // A list of dependency manifests contained in the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// dependenciesAfter	String	
+// dependenciesAfter	String
 // Cursor to paginate dependencies
 
-// dependenciesFirst	Int	
+// dependenciesFirst	Int
 // Number of dependencies to fetch
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// withDependencies	Boolean	
+// withDependencies	Boolean
 // Flag to scope to only manifests with dependencies
 
 // deployKeys (DeployKeyConnection!)
 // A list of deploy keys that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // deployments (DeploymentConnection!)
 // Deployments associated with the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// environments	[String!]	
+// environments	[String!]
 // Environments to list deployments for
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // forks (RepositoryConnection!)
 // A list of direct forked repositories.
 
 // Argument	Type	Description
-// affiliations	[RepositoryAffiliation]	
+// affiliations	[RepositoryAffiliation]
 // Array of viewer's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the current viewer owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// isLocked	Boolean	
+// isLocked	Boolean
 // If non-null, filters repositories according to whether they have been locked
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RepositoryOrder	
+// orderBy	RepositoryOrder
 // Ordering options for repositories returned from the connection
 
-// ownerAffiliations	[RepositoryAffiliation]	
+// ownerAffiliations	[RepositoryAffiliation]
 // Array of owner's affiliation options for repositories returned from the connection. For example, OWNER will include only repositories that the organization or user being viewed owns.
 
 // The default value is ["OWNER", "COLLABORATOR"].
 
-// privacy	RepositoryPrivacy	
+// privacy	RepositoryPrivacy
 // If non-null, filters repositories according to privacy
 
 // issues (IssueConnection!)
 // A list of issues that have been opened in the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// filterBy	IssueFilters	
+// filterBy	IssueFilters
 // Filtering options for issues returned from the connection.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// labels	[String!]	
+// labels	[String!]
 // A list of label names to filter the pull requests by.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	IssueOrder	
+// orderBy	IssueOrder
 // Ordering options for issues returned from the connection.
 
-// states	[IssueState!]	
+// states	[IssueState!]
 // A list of states to filter the issues by.
 
 // labels (LabelConnection)
 // A list of labels associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// query	String	
+// query	String
 // If provided, searches labels by name and description.
 
 // languages (LanguageConnection)
 // A list containing a breakdown of the language composition of the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	LanguageOrder	
+// orderBy	LanguageOrder
 // Order for connection
 
 // mentionableUsers (UserConnection!)
 // A list of Users that can be mentioned in the context of the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // milestones (MilestoneConnection)
 // A list of milestones associated with the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	MilestoneOrder	
+// orderBy	MilestoneOrder
 // Ordering options for milestones.
 
-// states	[MilestoneState!]	
+// states	[MilestoneState!]
 // Filter by the state of the milestones.
 
 // projects (ProjectConnection!)
 // A list of projects under the owner.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ProjectOrder	
+// orderBy	ProjectOrder
 // Ordering options for projects returned from the connection
 
-// search	String	
+// search	String
 // Query to search projects by, currently only searching by name.
 
-// states	[ProjectState!]	
+// states	[ProjectState!]
 // A list of states to filter the projects by.
 
 // protectedBranches (ProtectedBranchConnection!)
 // A list of protected branches that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // pullRequests (PullRequestConnection!)
 // A list of pull requests that have been opened in the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// baseRefName	String	
+// baseRefName	String
 // The base ref name to filter the pull requests by.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// headRefName	String	
+// headRefName	String
 // The head ref name to filter the pull requests by.
 
-// labels	[String!]	
+// labels	[String!]
 // A list of label names to filter the pull requests by.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	IssueOrder	
+// orderBy	IssueOrder
 // Ordering options for pull requests returned from the connection.
 
-// states	[PullRequestState!]	
+// states	[PullRequestState!]
 // A list of states to filter the pull requests by.
 
 // refs (RefConnection)
 // Fetch a list of refs from the repository
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// direction	OrderDirection	
+// direction	OrderDirection
 // DEPRECATED: use orderBy. The ordering direction.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	RefOrder	
+// orderBy	RefOrder
 // Ordering options for refs returned from the connection.
 
-// refPrefix	String!	
+// refPrefix	String!
 // A ref name prefix like refs/heads/, refs/tags/, etc.
 
 // releases (ReleaseConnection!)
 // List of releases which are dependent on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReleaseOrder	
+// orderBy	ReleaseOrder
 // Order for connection
 
 // repositoryTopics (RepositoryTopicConnection!)
 // A list of applied repository-topic associations for this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // stargazers (StargazerConnection!)
 // A list of users who have starred this starrable.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	StarOrder	
+// orderBy	StarOrder
 // Order for connection
 
 // vulnerabilityAlerts (RepositoryVulnerabilityAlertConnection)
@@ -1143,45 +1144,45 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
 // A list of vulnerability alerts that are on this repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // watchers (UserConnection!)
 // A list of users watching the repository.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 
 
     //
     // Fields
-    // 
+    //
 
     // Returns the code of conduct for this repository
     codeOfConduct: CodeOfConduct
 
     // Identifies the date and time when the object was created.
-    createdAt: DateTime!
+    createdAt: Date
 
     // Identifies the primary key from the database.
     databaseId: number
@@ -1231,21 +1232,21 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     issue: Issue
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The number for the issue to be returned.
 
     // Returns a single issue-like object from the current repository by number.
-    issueOrPullRequest: IssueOrPullRequest
+    // issueOrPullRequest: IssueOrPullRequest
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The number for the issue to be returned.
 
     // Returns a single label by name
     label: Label
 
     // Argument	Type	Description
-    // name	String!	
+    // name	String!
     // Label name
 
     // The license associated with the repository
@@ -1261,7 +1262,7 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     milestone: Milestone
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The number for the milestone to be returned.
 
     // The repository's original mirror URL.
@@ -1277,7 +1278,7 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     object: GitObject
 
     // Argument	Type	Description
-    // expression	String	
+    // expression	String
     // A Git revision expression suitable for rev-parse
 
     // The Git object ID
@@ -1296,7 +1297,7 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     project: Project
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The project number to find.
 
     // The HTTP path listing the repository's projects
@@ -1309,7 +1310,7 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     pullRequest: PullRequest
 
     // Argument	Type	Description
-    // number	Int!	
+    // number	Int!
     // The number for the pull request to be returned.
 
     // Identifies when the repository was last pushed to.
@@ -1322,14 +1323,14 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     ref: Ref
 
     // Argument	Type	Description
-    // qualifiedName	String!	
+    // qualifiedName	String!
     // The ref to retrieve. Fully qualified matches are checked in order (refs/heads/master) before falling back onto checks for short name matches (master).
 
     // Lookup a single release given various criteria.
     release: Release
 
     // Argument	Type	Description
-    // tagName	String!	
+    // tagName	String!
     // The name of the Tag the Release was created from
 
     // The HTTP path for this repository
@@ -1347,7 +1348,7 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     squashMergeAllowed: boolean
 
     // The SSH URL to clone this repository
-    sshUrl: GitSSHRemote
+    // sshUrl: GitSSHRemote
 
     // Temporary authentication token for cloning this repository.
     tempCloneToken: string
@@ -1380,4 +1381,3 @@ export class Repository implements Node, ProjectOwner, RegistryPackageOwner, Rep
     // Identifies if the viewer is watching, not watching, or ignoring the subscribable entity.
     viewerSubscription: SubscriptionState
 }
-

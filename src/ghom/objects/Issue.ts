@@ -41,126 +41,126 @@ import { Milestone } from "./Milestone";
 // A list of Users assigned to this object.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // comments (IssueCommentConnection!)
 // A list of comments associated with the Issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // labels (LabelConnection)
 // A list of labels associated with the object.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // participants (UserConnection!)
 // A list of Users that are participating in the Issue conversation.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // projectCards (ProjectCardConnection!)
 // List of project cards associated with this issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// archivedStates	[ProjectCardArchivedState]	
+// archivedStates	[ProjectCardArchivedState]
 // A list of archived states to filter the cards by
 
 // The default value is ["ARCHIVED", "NOT_ARCHIVED"].
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // reactions (ReactionConnection!)
 // A list of Reactions left on the Issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// content	ReactionContent	
+// content	ReactionContent
 // Allows filtering Reactions by emoji.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// orderBy	ReactionOrder	
+// orderBy	ReactionOrder
 // Allows specifying the order in which reactions are returned.
 
 // timeline (IssueTimelineConnection!)
 // A list of events, comments, commits, etc. associated with the issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// since	DateTime	
+// since	DateTime
 // Allows filtering timeline events by a since timestamp.
 
 // timelineItems (IssueTimelineItemsConnection!)
@@ -171,41 +171,41 @@ import { Milestone } from "./Milestone";
 // A list of events, comments, commits, etc. associated with the issue.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// itemTypes	[IssueTimelineItemsItemType!]	
+// itemTypes	[IssueTimelineItemsItemType!]
 // Filter timeline items by type.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// since	DateTime	
+// since	DateTime
 // Filter timeline items by a since timestamp.
 
-// skip	Int	
+// skip	Int
 // Skips the first n elements in the list.
 
 // userContentEdits (UserContentEditConnection)
 // A list of edits to this content.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -312,7 +312,7 @@ import { Milestone } from "./Milestone";
 
 
 // An Issue is a place to discuss ideas, enhancements, tasks, and bugs for a project.
-export class Issue implements Assignable, Closable, Comment, Labelable, Lockable, Node, 
+export class Issue implements Assignable, Closable, Comment, Labelable, Lockable, Node,
     Reactable, RepositoryNode, Subscribable, UniformResourceLocatable, Updatable, UpdatableComment {
 
 
@@ -359,7 +359,7 @@ export class Issue implements Assignable, Closable, Comment, Labelable, Lockable
     // after	    String      Returns the elements in the list that come after the specified cursor.
 
 
-    // archivedStates	[ProjectCardArchivedState]	
+    // archivedStates	[ProjectCardArchivedState]
     // A list of archived states to filter the cards by
     // The default value is ["ARCHIVED", "NOT_ARCHIVED"].
     // before	    String	    Returns the elements in the list that come before the specified cursor.
@@ -389,8 +389,8 @@ export class Issue implements Assignable, Closable, Comment, Labelable, Lockable
 
 
     // timelineItems (IssueTimelineItemsConnection!)
-    // This part of the schema is currently available for developers to preview. During this preview 
-    // period, the API may change without any advance notice. Please see the Issues Preview preview 
+    // This part of the schema is currently available for developers to preview. During this preview
+    // period, the API may change without any advance notice. Please see the Issues Preview preview
     // for more details.
 
     // Note: The GraphQL resources under preview cannot be accessed via the Explorer at this time.
@@ -402,7 +402,7 @@ export class Issue implements Assignable, Closable, Comment, Labelable, Lockable
     // before	    String      Returns the elements in the list that come before the specified cursor.
     // first	    Int	        Returns the first n elements from the list.
 
-    // itemTypes	[IssueTimelineItemsItemType!]	
+    // itemTypes	[IssueTimelineItemsItemType!]
     // Filter timeline items by type.
 
     // last	        Int	        Returns the last n elements from the list.
@@ -429,7 +429,7 @@ export class Issue implements Assignable, Closable, Comment, Labelable, Lockable
     authorAssociation: CommentAuthorAssociation
 
     // Identifies the body of the issue.
-    body: String
+    body: string
 
     // Identifies the body of the issue rendered to HTML.
     bodyHTML: string
@@ -476,8 +476,8 @@ export class Issue implements Assignable, Closable, Comment, Labelable, Lockable
     publishedAt: Date
 
     // A list of reactions grouped by content left on the subject.
-    reactionGroups: Array<ReactionGroup>
-    
+    // reactionGroups: Array<ReactionGroup>
+
     // The repository associated with this node.
     repository: Repository
 

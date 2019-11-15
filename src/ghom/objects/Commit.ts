@@ -28,79 +28,79 @@ import { GitSignature } from "../interfaces/GitSignature";
 // The check suites associated with a commit.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// filterBy	CheckSuiteFilter	
+// filterBy	CheckSuiteFilter
 // Filters the check suites by this type.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // comments (CommitCommentConnection!)
 // Comments made on the commit.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // history (CommitHistoryConnection!)
 // The linear commit history starting from (and including) this commit, in the same order as `git log`.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// author	CommitAuthor	
+// author	CommitAuthor
 // If non-null, filters history to only show commits with matching authorship.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
-// path	String	
+// path	String
 // If non-null, filters history to only show commits touching files under this path.
 
-// since	GitTimestamp	
+// since	GitTimestamp
 // Allows specifying a beginning time or date for fetching commits.
 
-// until	GitTimestamp	
+// until	GitTimestamp
 // Allows specifying an ending time or date for fetching commits.
 
 // parents (CommitConnection!)
 // The parents of a commit.
 
 // Argument	Type	Description
-// after	String	
+// after	String
 // Returns the elements in the list that come after the specified cursor.
 
-// before	String	
+// before	String
 // Returns the elements in the list that come before the specified cursor.
 
-// first	Int	
+// first	Int
 // Returns the first n elements from the list.
 
-// last	Int	
+// last	Int
 // Returns the last n elements from the list.
 
 // Fields
@@ -123,7 +123,7 @@ import { GitSignature } from "../interfaces/GitSignature";
 // Fetches git blame information.
 
 // Argument	Type	Description
-// path	String!	
+// path	String!
 // The file whose Git blame information you want.
 
 // changedFiles (Int!)
@@ -204,10 +204,6 @@ import { GitSignature } from "../interfaces/GitSignature";
 
 // zipballUrl (URI!)
 // Returns a URL to download a zipball archive for a repository. Note: For private repositories, these links are temporary and expire after five minutes.
-
-
-
-
 
 
 // Represents a Git commit.
@@ -334,13 +330,13 @@ export class Commit implements GitObject, Node, Subscribable, UniformResourceLoc
     signature: GitSignature
 
     // Status information for this commit
-    status: Status
+    // status: Status
 
     // Returns a URL to download a tarball archive for a repository. Note: For private repositories, these links are temporary and expire after five minutes.
     tarballUrl: URL
 
     // Commit's root Tree
-    tree: Tree
+    // tree: Tree
 
     // The HTTP path for the tree of this commit
     treeResourcePath: URL

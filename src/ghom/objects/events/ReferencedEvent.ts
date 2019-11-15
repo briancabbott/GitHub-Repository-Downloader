@@ -54,5 +54,5 @@ export interface ReferencedEvent extends Node {
     isDirectReference: boolean
 
     // Object referenced by event.
-    subject: ReferencedSubject
+    // subject: ReferencedSubject
 }
