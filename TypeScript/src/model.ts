@@ -86,16 +86,16 @@ export class Organization {
 // short.uuid(); // From the constructor without creating a translator
 
 export class RepositoryDownloadOperation {
-    operationUUID: string | unknown;
-    operationName: string | unknown;
-    operationSysName: string | unknown;
+    operationUUID: string; // | unknown;
+    operationName: string; // | unknown;
+    operationSysName: string; // | unknown;
 
-    globalOperationTimestamp: Date | unknown;
+    globalOperationTimestamp: Date;
     globalOperationStartTime: Date | unknown;
     globalOperationEndingTime: Date | unknown;
 
     // TODO: default this to repo-store/_grd-meta
-    globalStoreDirectory: string | unknown;
+    globalStoreDirectory: string; // | unknown;
     applicationWorkingDirectory: string | unknown;
 
     githubConfiguration: GitHubConfiguration;
@@ -132,7 +132,7 @@ export class RepositoryDownloadOperation {
     }
 
     public makeDownloadDirectoryPath(organizationName: string): string {
-        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, this.operationUUID)}`;
+        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, <string>this.operationUUID)}`;
     }
 }
 

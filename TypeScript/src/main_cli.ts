@@ -101,11 +101,11 @@ let repositoriesListCommand: yargs.CommandModule = {
         let awd = argv["application-working-directory"];
 
         let oc: OperationConfig = {
-            tokenFile: ghautf,
-            token: ghaut,
+            tokenFile: <string>ghautf,
+            token: <string>ghaut,
             organizations: organizations,
-            workingDirectory: awd,
-            globalStoreDirectory: gsd,
+            workingDirectory: <string>awd,
+            globalStoreDirectory: <string>gsd,
         };
 
         let downloadOp = performOperationSetup(oc);
@@ -184,11 +184,11 @@ let downloadCommand: yargs.CommandModule = {
         let awd = argv["application-working-directory"];
 
         let oc: OperationConfig = {
-            tokenFile: ghautf,
-            token: ghaut,
-            organizations: organizations,
-            workingDirectory: awd,
-            globalStoreDirectory: gsd,
+            tokenFile: <string>ghautf,
+            token: <string>ghaut,
+            organizations: <string[]>organizations,
+            workingDirectory: <string>awd,
+            globalStoreDirectory: <string>gsd,
         };
 
         let downloadOp = performOperationSetup(oc);
@@ -213,7 +213,7 @@ let ghomVerifierCommand: yargs.CommandModule = {
         let uriValue = argv["schemaUri"];
         console.log(typeof uriValue)
         let ghomVerifier = new GHOMVerifier();
-        let source = ghomVerifier.loadSchema(uriValue);
+        let source = ghomVerifier.loadSchema(<string>uriValue);
         let doc = ghomVerifier.parseSchema(source);
         console.log("got source: ", source);
 

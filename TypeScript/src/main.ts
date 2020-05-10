@@ -8,21 +8,26 @@ import crypto from 'crypto';
 
 // "auth-token-briancabbott-github-app.tk"
 export interface OperationConfig {
-    tokenFile: string | unknown;
-    token: string | unknown;
-    organizations: Array<string | unknown>;
-    workingDirectory: string | unknown;
-    globalStoreDirectory: string | unknown;
+    tokenFile: string; // | unknown;
+    token: string; //  | unknown;
+    organizations: Array<string>; // | unknown>;
+    workingDirectory: string; //  | unknown;
+    globalStoreDirectory: string; // | unknown;
 }
 
 
 export function performOperationSetup(opConfig: OperationConfig): RepositoryDownloadOperation {
     // Setup GitHub auth-token
+
+    if (opConfig.token != null && opConfig.tokenFile != null || opConfig.token == null && opConfig.tokenFile == null) {
+        throw new Error('A token value or token-file containing a valid token must be provided.');
+    }
+
     let tok: string;
     if (opConfig.token != null) {
-        tok = opConfig.token;
-    } else {
-        tok = fs.readFileSync(opConfig.tokenFile).toString();
+        tok = <string>opConfig.token;
+    } else if (opConfig.tokenFile != null) {
+      tok = fs.readFileSync(<string>opConfig.tokenFile).toString();
     }
     let gitHubConfig = new GitHubConfiguration(tok);
 

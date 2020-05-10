@@ -1,5 +1,7 @@
 
-import { Source, parse, Document } from 'graphql/language';
+import { Source, parse,
+  //Document
+} from 'graphql/language';
 const axios = require('axios');
 import { existsSync, readFileSync } from 'fs';
 
@@ -58,7 +60,7 @@ export class GHOMVerifier {
         return source;
     }
 
-    parseSchema(source: Source): Document {
+    parseSchema(source: Source): any {
         return parse(source);
     }
 }
