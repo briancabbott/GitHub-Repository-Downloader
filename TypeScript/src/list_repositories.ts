@@ -12,35 +12,35 @@ const fetch = require("node-fetch");
 
 export class RepositoryLister {
     getRepositoriesForOrganization = gql`
-        query GetRepositoriesForOrganization($organizationName: String!, $cursor: String) {
-            viewer {
-                login
-            }
-            organization(login: $organizationName) {
-                name
-                id
-                repositories(first: 100, after: $cursor) {
-                    totalCount
-                    edges {
-                        node {
-                            url
-                            id
-                            createdAt
-                            description
-                            diskUsage
-                            homepageUrl
-                            name
-                            pushedAt
+            query GetRepositoriesForOrganization($organizationName: String!, $cursor: String) {
+                viewer {
+                    login
+                }
+                organization(login: $organizationName) {
+                    name
+                    id
+                    repositories(first: 100, after: $cursor) {
+                        totalCount
+                        edges {
+                            node {
+                                url
+                                id
+                                createdAt
+                                description
+                                diskUsage
+                                homepageUrl
+                                name
+                                pushedAt
+                            }
+                            cursor
                         }
-                        cursor
-                    }
-                    pageInfo {
-                        hasNextPage
-                        endCursor
+                        pageInfo {
+                            hasNextPage
+                            endCursor
+                        }
                     }
                 }
             }
-        }
     `;
 
     totalRepositories: number = -1;
@@ -86,6 +86,7 @@ export class RepositoryLister {
                 this.authorizedLink,
                 operation,
                 (arr: Repository[]) =>{
+                  console.log("arr: ", arr)
                     repositoryList.repositories.push(...arr);
                 },
                 ()=>{

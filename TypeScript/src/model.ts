@@ -18,12 +18,20 @@ export class RepositoryList {
 
 export class Repository {
     url: string;
+
     id: string;
+
     createdAt: string;
+
     description: string;
+
+    /** The number of kilobytes this repository occupies on disk. */
     diskUsage: string;
+
     homepageUrl: string;
+
     name: string;
+
     pushedAt: string;
 
     constructor(url: string, id: string, createdAt: string, description: string, diskUsage: string, homepageUrl: string, name: string, pushedAt: string) {
