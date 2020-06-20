@@ -32,18 +32,18 @@ export class GitCloneTemp_CommandInfo {
     constructor(commandText?: string, repo?: string, targetPath?: string, startTime?: Date, endTime?: Date,
         cloneOperationFailed?: boolean, childProcessPid?: number, commandLogFilePath?: string,
         executionErrors?: Array<Error>) {
-    
-        this.commandText = commandText; 
+
+        this.commandText = commandText;
         this.repo = repo;
-        this.targetPath = targetPath; 
+        this.targetPath = targetPath;
         this.startTime = startTime;
         this.endTime = endTime,
-        this.cloneOperationFailed = cloneOperationFailed;  
+        this.cloneOperationFailed = cloneOperationFailed;
         this.childProcessPid = childProcessPid;
 
-        // this.stdOutDataMessages = stdOutDataMessages || new Array<string>(); 
+        // this.stdOutDataMessages = stdOutDataMessages || new Array<string>();
         // this.stdOutErrMessages = stdOutErrMessages || new Array<string>();
-        // this.stdErrDataMessages = stdErrDataMessages || new Array<string>(); 
+        // this.stdErrDataMessages = stdErrDataMessages || new Array<string>();
         // this.stdErrErrMessages = stdErrErrMessages || new Array<string>();
         // this.closeMessage = closeMessage;
 
@@ -54,12 +54,12 @@ export class GitCloneTemp_CommandInfo {
     public determineFailureStatus() {
         // let messages = this.stdOutDataMessages.concat(this.stdOutErrMessages).concat(this.stdErrDataMessages)
         //     .concat(this.stdErrErrMessages).concat(this.closeMessage);
-        
-        // let capturedMsgsLength = this.stdOutDataMessages.length + this.stdOutErrMessages.length + this.stdErrDataMessages.length + 
+
+        // let capturedMsgsLength = this.stdOutDataMessages.length + this.stdOutErrMessages.length + this.stdErrDataMessages.length +
         //     this.stdErrErrMessages.length + 1; // +1 for close message.
-        
+
         // if (messages.length !== capturedMsgsLength) {
-        //     let errorMessage = "Messages incorrectly concatenated. Concatenated length was: " + 
+        //     let errorMessage = "Messages incorrectly concatenated. Concatenated length was: " +
         //         messages.length + ". ChildProc CapturedMsg.Length was: " + capturedMsgsLength;
 
         //     console.log(errorMessage);
@@ -72,12 +72,12 @@ export class GitCloneTemp_CommandInfo {
         //         this.cloneOperationFailed = true;
         //         return;
         //     }
-        // }); 
+        // });
     }
 
     public writeToFile(dirName?: string): string {
         let ciWritePath = join(dirName || this.targetPath, "GitCloneTemp_CommandInfo.json");
-        let jsonContent = JSON.stringify(this, undefined, 4);  
+        let jsonContent = JSON.stringify(this, undefined, 4);
 
         try {
             writeFileSync(ciWritePath, jsonContent, { flag: "a+" });
@@ -95,18 +95,18 @@ export class GitCloneTemp {
 
     constructor() {
         this.commandInfo = new GitCloneTemp_CommandInfo();
-        
+
     }
 
     public execute(repo: string, targetPath: string, cb: (commandInfo: GitCloneTemp_CommandInfo) => void) {
         var git = 'git';
-        var args = ['clone'];    
+        var args = ['clone'];
         args.push('--progress')
         args.push('--verbose');
         args.push(repo);
         args.push(targetPath);
 
-        this.commandInfo.commandText = git + " " + args.join(" ");    
+        this.commandInfo.commandText = git + " " + args.join(" ");
         this.commandInfo.repo = repo;
         this.commandInfo.targetPath = targetPath;
         this.commandInfo.startTime = new Date();
@@ -115,9 +115,9 @@ export class GitCloneTemp {
         var osProcess = spawn(git, args);
         this.commandInfo.childProcessPid = osProcess.pid;
 
-        let workingDir = process.cwd() + "\\workingdir";
-        fsext.ensureDirSync(workingDir); 
-              
+        let workingDir = process.cwd() + "/workingdir";
+        fsext.ensureDirSync(workingDir);
+
         let commandLogger = new GitCloneTempLogger(osProcess.pid, this.commandInfo.startTime, repo, workingDir);
         this.commandInfo.commandLogFilePath = commandLogger.logFileLocationPath();
 
@@ -137,7 +137,7 @@ export class GitCloneTemp {
             let procStdErrErrMsg = "child_process(" + osProcess.pid + ")::clone("+ repo +"):stderr:error: " + error.message;
             commandLogger.log(procStdErrErrMsg);
         });
-    
+
         osProcess.on('close', (status) => {
             this.commandInfo.endTime = new Date();
             let closeMessage = "child_process(" + osProcess.pid + ")::clone("+ repo +"):close()";
