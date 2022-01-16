@@ -1,5 +1,5 @@
 import { ApolloLink, GraphQLRequest, execute, FetchResult } from "apollo-link";
-import { Repository, RepositoryList, RepositoryDownloadOperation, Organization } from "./model";
+import { Repository, OrganizationRepositoriesList, RepositoryDownloadOperation, Organization } from "./model";
 import { createHttpLink } from "apollo-link-http";
 import gql from 'graphql-tag';
 import * as fs from "fs";
@@ -49,7 +49,7 @@ export class RepositoryLister {
         console.log("downloadOp: ", downloadOp);
     }
 
-    public generateList(organization: Organization, writeFile: boolean = false): Promise<RepositoryList> {
+    public async generateList(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
         console.log("organization: ", organization);
         const operation = {
             query: this.getRepositoriesForOrganization,
@@ -78,31 +78,31 @@ export class RepositoryLister {
 
         console.log("authorizedLink: ", this.authorizedLink);
 
-        let p = new Promise<RepositoryList>((resolve, reject) => {
-            let repositoryList = new RepositoryList(organization.name, new Date(), new Array<Repository>());
-            this.executeRequest(
-                organization,
-                this.authorizedLink,
-                operation,
-                (arr: Repository[]) =>{
-                    console.log("arr: ", arr);
-                    repositoryList.repositories.push(...arr);
-                },
-                ()=>{
-                    if (this.totalRepositories === repositoryList.repositories.length) {
-                        this.sort(repositoryList);
-                        if (writeFile) {
-                            this.writeToFile(organization, repositoryList);
-                        }
-                        resolve(repositoryList);
-                    }
+        let repositoryList = new OrganizationRepositoriesList(organization.name, new Date(), new Array<Repository>());
+        
+        let compFn = () => {
+            if (this.totalRepositories === repositoryList.repositories.length) {
+                this.sort(repositoryList);
+                if (writeFile) {
+                    this.writeToFile(organization, repositoryList);
                 }
-            );
-        })
-        return p;
+                // resolve(repositoryList);
+            }
+        }
+        this.executeRequest(
+            organization,
+            this.authorizedLink,
+            operation,
+            (arr: Repository[]) =>{
+                console.log("arr: ", arr);
+                repositoryList.repositories.push(...arr);
+            },
+            compFn);
+        // return p;
+        return repositoryList;
     }
 
-    private executeRequest(organization: Organization, link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[])=>void, compFn: ()=>void) {
+    private executeRequest(organization: Organization, link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[]) => void, compFn: ()=>void) {
         execute(link, operation).subscribe({
             next: data => {
               console.log("data: ", data);
@@ -118,7 +118,7 @@ export class RepositoryLister {
             complete: () => {
                 compFn();
             }
-        })
+        });
     }
 
     private captureRepositories(organization: Organization, fetch: FetchResult, nextFn: (data: Repository[])=>void, compFn: () => void) {
@@ -144,7 +144,7 @@ export class RepositoryLister {
         }
     }
 
-    public sort(list: RepositoryList) {
+    public sort(list: OrganizationRepositoriesList) {
         if (list.repositories && list.repositories.length > 0) {
             list.repositories.sort((repository1, repository2) => {
                 if (repository1.name > repository2.name) {
@@ -158,7 +158,7 @@ export class RepositoryLister {
         }
     }
 
-    public writeToFile(organization: Organization, list: RepositoryList): string {
+    public writeToFile(organization: Organization, list: OrganizationRepositoriesList): string {
         let filename = "repoList--" + organization.name + "--" + this.downloadOp.globalOperationTimestamp.getTime() + ".json";
         let _writeFilename = path.join(this.downloadOp.globalStoreDirectory || process.cwd(), filename);
 

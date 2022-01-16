@@ -126,7 +126,6 @@ let downloadCommand: yargs.CommandModule = {
     describe: 'Download all GitHub Repositories for the organizations specified',
     builder: {
         "organization": {
-            demand: true,
             requiresArg: true,
             skipValidation: false,
             string: true,
@@ -134,7 +133,6 @@ let downloadCommand: yargs.CommandModule = {
             alias: ["o", "org"]
         },
         "github-auth-token": {
-            demand: false,
             requiresArg: true,
             skipValidation: false,
             string: true,
@@ -150,7 +148,6 @@ let downloadCommand: yargs.CommandModule = {
             alias: ["auth-token-file", "gatf", "atf"]
         },
         "global-store-directory": {
-            demand: false,
             requiresArg: true,
             skipValidation: false,
             string: true,
@@ -158,12 +155,18 @@ let downloadCommand: yargs.CommandModule = {
             alias: ["storedir", "sd", "s"]
         },
         "application-working-directory": {
-            demand: false,
             requiresArg: true,
             skipValidation: false,
             string: true,
             type: "string",
             alias: ["workdir", "wd", "w"]
+        },
+        "is-longrunning-download": {
+            requiresArg: true,
+            skipValidation: false,
+            default: false,
+            type: "boolean",
+            alias: ["lrd"]
         }
 
         // Retries downloads on repositories that have failed.
@@ -189,6 +192,7 @@ let downloadCommand: yargs.CommandModule = {
         let ghautf = argv["github-auth-token-file"];
         let gsd = argv["global-store-directory"];
         let awd = argv["application-working-directory"];
+        let lrdo = argv["is-longrunning-download"];
 
         let oc: OperationConfig = {
             tokenFile: <string>ghautf,
@@ -196,6 +200,8 @@ let downloadCommand: yargs.CommandModule = {
             organizations: <string[]>organizations,
             workingDirectory: <string>awd,
             globalStoreDirectory: <string>gsd,
+            organizationDownloadPath: "",
+            isLongRunningDownloadOperation: <boolean>lrdo
         };
 
         let downloadOp = performOperationSetup(oc);
@@ -282,6 +288,7 @@ let updateCommand: yargs.CommandModule = {
             organizationDownloadPath: <string>organizationDownloadPath,
             workingDirectory: <string>awd,
             globalStoreDirectory: <string>gsd,
+            isLongRunningDownloadOperation: <boolean>lrdo,
         };
 
         let downloadOp = performOperationSetup(oc);

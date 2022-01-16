@@ -1,4 +1,4 @@
-import { RepositoryList, Repository, RepositoryDownloadOperation, Organization } from "./model";
+import { OrganizationRepositoriesList, Repository, RepositoryDownloadOperation, Organization } from "./model";
 import * as fs from "fs";
 import { GitCloneTemp, GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 import { join } from "path";
@@ -16,8 +16,7 @@ export class Downloader {
         this.organization = organization;
     }
 
-    public downloadRepositories(reposList: RepositoryList): Array<GitCloneTemp_CommandInfo> {
-
+    public downloadRepositories(reposList: OrganizationRepositoriesList): Array<GitCloneTemp_CommandInfo> {
         this.organization.makeNameAckro();
         this.organization.downloadOpDirectory = this.downloadOp.makeDownloadDirectoryPath(this.organization.shortNameAckro);
         fsext.ensureDirSync(this.organization.downloadOpDirectory);
@@ -92,5 +91,24 @@ export class Downloader {
         });
 
         return failedRepositories;
+    }
+}
+
+export class LongRunningDownloader extends Downloader {
+    constructor(downloadOp: RepositoryDownloadOperation, organization: Organization) {
+        super(downloadOp, organization);
+    }
+
+    private getAlreadyDownloaded(): Array<Repository> {
+        // this.downloadOp.repositoryListFilesMap.get(this.organization.name)
+        
+        let buf = fs.readFileSync(this.downloadOp.repositoryListFilesMap.get(this.organization.name));
+        let repositoryList: OrganizationRepositoriesList = <OrganizationRepositoriesList>JSON.parse(buf.toString());
+
+        repositoryList.repositories
+    }
+
+    public resumeLongRunningOperation() {
+
     }
 }

@@ -8,10 +8,10 @@ NODE_OPTS=""
 #    - Clojure (as "clj")
 #    - TypeScript (as "ts")
 #
-GHRD_PLATFORM="clj"
+GHRD_PLATFORM="ts"
 # For the given platform, what is the toplevel directory within the Project of the
 # where the artifacts reside. Choices are:
 #    - Clojure (as "Clojure")
 #    - TypeScript (as "TypeScript")
-GHRD_PLATFORM_DIR="Clojure"
+GHRD_PLATFORM_DIR="TypeScript"
 GHRD_INSTALL_LOCATION=/usr/local/github-repository-downloader

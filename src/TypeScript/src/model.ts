@@ -2,7 +2,7 @@
 import shortUUID from 'short-uuid';
 import { createFileFolderSuffix } from "./utils";
 
-export class RepositoryList {
+export class OrganizationRepositoriesList {
     organizationName: string;
     generationTime: Date;
     repositories: Array<Repository>;
@@ -96,6 +96,7 @@ export class RepositoryDownloadOperation {
 
     // TODO: default this to repo-store/_grd-meta
     globalStoreDirectory: string; // | unknown;
+
     applicationWorkingDirectory: string | unknown;
 
     githubConfiguration: GitHubConfiguration;
@@ -103,6 +104,7 @@ export class RepositoryDownloadOperation {
     logToStdOut: boolean | unknown;
 
     repositoryListFilesMap: Map<string, string>;
+    isLongRunningDownloadOperation: boolean; 
 
     constructor(operationUUID?: string,
             globalOperationTimestamp?: Date,
@@ -111,7 +113,8 @@ export class RepositoryDownloadOperation {
             globalStoreDirectory?: string,
             workingDirectory?: string,
             githubConfiguration?: GitHubConfiguration,
-            organizations?: Array<Organization>) {
+            organizations?: Array<Organization>,
+            isLongRunningDownloadOperation?: boolean) {
 
         this.operationUUID = operationUUID;
         this.globalOperationTimestamp = globalOperationTimestamp || new Date();
@@ -122,8 +125,9 @@ export class RepositoryDownloadOperation {
         this.applicationWorkingDirectory = workingDirectory  || null;
 
         this.organizations = organizations || new Array<Organization>();
-        this.repositoryListFilesMap = new Map<string, string>();
+        this.isLongRunningDownloadOperation = isLongRunningDownloadOperation || false;
 
+        this.repositoryListFilesMap = new Map<string, string>();
         this.githubConfiguration = githubConfiguration || null;
 
         if (this.operationUUID == null) {

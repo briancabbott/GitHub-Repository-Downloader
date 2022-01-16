@@ -1,6 +1,6 @@
 import { RepositoryLister } from "./list_repositories";
 import * as fs from "fs";
-import { RepositoryList, RepositoryDownloadOperation, RepositoryDownloadNewReposOperation, Organization, GitHubConfiguration } from "./model";
+import { OrganizationRepositoriesList, RepositoryDownloadOperation, RepositoryDownloadNewReposOperation, Organization, GitHubConfiguration } from "./model";
 import { Downloader } from "./download";
 import crypto from 'crypto';
 
@@ -15,6 +15,7 @@ export interface OperationConfig {
     workingDirectory: string; //  | unknown;
     globalStoreDirectory: string; // | unknown;
     organizationDownloadPath: string;
+    isLongRunningDownloadOperation: boolean;
 }
 
 
@@ -39,6 +40,7 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
     downloadOp.globalStoreDirectory = opConfig.globalStoreDirectory;
     downloadOp.applicationWorkingDirectory = opConfig.workingDirectory;
     downloadOp.globalOperationStartTime = new Date();
+    downloadOp.isLongRunningDownloadOperation = opConfig.isLongRunningDownloadOperation;
 
     //
     // Now perform active operations for preparing derived/generated values/artifacts from
@@ -57,11 +59,11 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
     });
 
     return downloadOp;
-// downloadOp.organizations.forEach((org) => {
-//     let instanceDir = -downloadOp.operationUUID;
-//     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
-// }
-// let cloneOperationFailures = new Array<GitCloneTemp_CommandInfo>();
+    // downloadOp.organizations.forEach((org) => {
+    //     let instanceDir = -downloadOp.operationUUID;
+    //     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
+    // }
+    // let cloneOperationFailures = new Array<GitCloneTemp_CommandInfo>();
 }
 
 // listPromise.then((list: RepositoryList) => {
@@ -78,30 +80,30 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 //
 // Do List-Initialization
 //
-export function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
+export async function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
     let orgsByNameMap = new Map<string, Organization>();
-    let promisesArr: Array<Promise<RepositoryList>> = new Array<Promise<RepositoryList>>();
+    let orgsRepoList: Array<OrganizationRepositoriesList> = new Array<OrganizationRepositoriesList>();
 
     let listGen = new RepositoryLister(downloadOp);
     for (let organization of downloadOp.organizations) {
         orgsByNameMap.set(organization.name, organization);
-        let listPromise = listGen.generateList(organization);
-        promisesArr.push(listPromise);
+        let listPromise = await listGen.generateList(organization);
+        orgsRepoList.push(listPromise);
     }
 
-    return Promise.all(promisesArr).then((val) => {
-        val.forEach((repositoryList) => {
-            let org = orgsByNameMap.get(repositoryList.organizationName);
-            let listQueryLogFile = listGen.writeToFile(org, repositoryList);
+    orgsRepoList.forEach((orgRepositories) => {
+        let org = orgsByNameMap.get(orgRepositories.organizationName);
+        let listQueryLogFile = listGen.writeToFile(org, orgRepositories);
 
-            console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
+        downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
 
-            downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
-        });
-    }).then(() => {
-        return downloadOp;
+        console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
     });
+    return downloadOp;
 }
+
+
+
 
 
 export function performLocalListGeneration(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
@@ -118,25 +120,34 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
 //
 // Perform download
 //
-export function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
-    return performListRetrieval(downloadOp).then((downloadOp) => {
-        for (let organization of downloadOp.organizations) {
-            console.log("download for org: " + organization.name);
+export async function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
+    let repositories = await performListRetrieval(downloadOp);
 
-            if (downloadOp.repositoryListFilesMap.has(organization.name)) {
-                let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
-                let repositoryList = JSON.parse(buf.toString());
-                console.log(JSON.stringify(repositoryList, undefined, 4));
-                let downloader = new Downloader(downloadOp, organization);
+    for (let organization of downloadOp.organizations) {
+        console.log("download for org: " + organization.name);
+
+        if (downloadOp.repositoryListFilesMap.has(organization.name)) {
+            let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
+            let repositoryList = JSON.parse(buf.toString());
+    
+            console.log(JSON.stringify(repositoryList, undefined, 4));
+    
+            let downloader = new Downloader(downloadOp, organization);
+            if (!downloadOp.isLongRunningDownloadOperation) {
                 let cloneCommandResults = downloader.downloadRepositories(repositoryList);
+                cloneCommandResults.forEach((cci) => {
+                    console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
+                });
+            } else {
+                let cloneCommandResults = downloader.downloadRepositoriesLongRunning(repositoryList);
                 cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
             }
         }
-    }).then(() => {
-        return downloadOp;
-    });
+    }
+
+    return downloadOp;
 }
 
 export function performNewRepositoryDownloads(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
