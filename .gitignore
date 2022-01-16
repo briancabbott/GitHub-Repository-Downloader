@@ -2,3 +2,5 @@ auth-token-*
 node_modules
 dist
 workingdir
+
+package-lock.json
