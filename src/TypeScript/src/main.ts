@@ -1,7 +1,7 @@
 import { RepositoryLister } from "./list_repositories";
 import * as fs from "fs";
 import { OrganizationRepositoriesList, RepositoryDownloadOperation, RepositoryDownloadNewReposOperation, Organization, GitHubConfiguration } from "./model";
-import { Downloader } from "./download";
+import { Downloader, LongRunningDownloader } from "./download";
 import crypto from 'crypto';
 
 import path from 'path';
@@ -9,18 +9,16 @@ import path from 'path';
 
 // "auth-token-briancabbott-github-app.tk"
 export interface OperationConfig {
-    tokenFile: string; // | unknown;
-    token: string; //  | unknown;
-    organizations: Array<string>; // | unknown>;
-    workingDirectory: string; //  | unknown;
-    globalStoreDirectory: string; // | unknown;
+    tokenFile: string;
+    token: string;
+    organizations: Array<string>;
+    workingDirectory: string;
+    globalStoreDirectory: string;
     organizationDownloadPath: string;
     isLongRunningDownloadOperation: boolean;
 }
 
-
 export function performOperationSetup(opConfig: OperationConfig): RepositoryDownloadOperation | RepositoryDownloadNewReposOperation {
-    // Setup GitHub auth-token
 
     if (opConfig.token != null && opConfig.tokenFile != null || opConfig.token == null && opConfig.tokenFile == null) {
         throw new Error('A token value or token-file containing a valid token must be provided.');
@@ -59,6 +57,8 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
     });
 
     return downloadOp;
+
+
     // downloadOp.organizations.forEach((org) => {
     //     let instanceDir = -downloadOp.operationUUID;
     //     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
@@ -69,7 +69,7 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 // listPromise.then((list: RepositoryList) => {
 //     listQueryLogFile = listGen.writeToFile(organization, list);
 //     orgRepoListMap.set(organization.name, listQueryLogFile);
-
+//
 //     console.log("Wrote RepoList file to: " + listQueryLogFile);
 // }).catch((reason) => {
 //     console.error("Error occured processing requests. Error was: " + reason);
@@ -80,14 +80,16 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 //
 // Do List-Initialization
 //
-export async function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
+export function performListRetrieval(downloadOp: RepositoryDownloadOperation): RepositoryDownloadOperation {
+    console.log("performListRetrieval()");
+
     let orgsByNameMap = new Map<string, Organization>();
     let orgsRepoList: Array<OrganizationRepositoriesList> = new Array<OrganizationRepositoriesList>();
-
     let listGen = new RepositoryLister(downloadOp);
+
     for (let organization of downloadOp.organizations) {
         orgsByNameMap.set(organization.name, organization);
-        let listPromise = await listGen.generateList(organization);
+        let listPromise = listGen.generateList(organization, true);
         orgsRepoList.push(listPromise);
     }
 
@@ -99,12 +101,9 @@ export async function performListRetrieval(downloadOp: RepositoryDownloadOperati
 
         console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
     });
+
     return downloadOp;
 }
-
-
-
-
 
 export function performLocalListGeneration(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
     if ( downloadOp.organizationDownloadPath  ) {
@@ -113,7 +112,6 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
             console.log(file);
         });
     }
-
     return Promise.any([new RepositoryDownloadNewReposOperation()]);
 }
 
@@ -121,25 +119,27 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
 // Perform download
 //
 export async function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
-    let repositories = await performListRetrieval(downloadOp);
+    console.log("performRepositoryDownloads()....  ");
 
+    let repositories = await performListRetrieval(downloadOp);
     for (let organization of downloadOp.organizations) {
         console.log("download for org: " + organization.name);
 
         if (downloadOp.repositoryListFilesMap.has(organization.name)) {
             let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
             let repositoryList = JSON.parse(buf.toString());
-    
-            console.log(JSON.stringify(repositoryList, undefined, 4));
-    
-            let downloader = new Downloader(downloadOp, organization);
+            console.log(JSON.stringify(repositoryList, undefined, 4));    
             if (!downloadOp.isLongRunningDownloadOperation) {
+                let downloader = new Downloader(downloadOp, organization);
                 let cloneCommandResults = downloader.downloadRepositories(repositoryList);
+
                 cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
             } else {
-                let cloneCommandResults = downloader.downloadRepositoriesLongRunning(repositoryList);
+                let downloader = new LongRunningDownloader(downloadOp, organization);
+                let cloneCommandResults = downloader.resumeLongRunningOperation();
+                
                 cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
@@ -150,23 +150,22 @@ export async function performRepositoryDownloads(downloadOp: RepositoryDownloadO
     return downloadOp;
 }
 
-export function performNewRepositoryDownloads(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
-    return performListRetrieval(<RepositoryDownloadNewReposOperation>downloadOp)
-             .then((downloadOp) => {
-                return performLocalListGeneration(<RepositoryDownloadNewReposOperation>downloadOp);
-             });
-}
+// export function performNewRepositoryDownloads(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
+//     return performListRetrieval(<RepositoryDownloadNewReposOperation>downloadOp);
+//             //  .then((downloadOp) => {
+//             //     return performLocalListGeneration(<RepositoryDownloadNewReposOperation>downloadOp);
+//             //  });
+// }
+
+
 //
 // Perform validation
 //
 // cloneCommandResults.forEach((cci) => {
 //     cci.commandLogFilePath
 // });
-
 // downloader.verifyDownloadSuccessFromListFile(listQueryLogFile, downloadOp.downloadDirectory);
 // downloader.verifyDownloadSuccessFromLogFile(list.organizationName, listQueryLogFile);
-
-
 // console.log("The following repos exited with failure conditions.");
 // cloneOperationFailures.forEach((cci) => { console.log(cci.repo) });
 // let jsonContent = JSON.stringify(cloneOperationFailures, undefined, 4);
@@ -177,7 +176,7 @@ export function performNewRepositoryDownloads(downloadOp: RepositoryDownloadNewR
 //     };
 //     console.log("File has been created");
 // });
-
+//
 // let downloader = new Downloader(tok);
 // listPromise.then((list: RepositoryList) => {
 //     list.repositories.forEach((r) => {

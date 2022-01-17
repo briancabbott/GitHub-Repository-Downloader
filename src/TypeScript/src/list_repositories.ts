@@ -49,9 +49,9 @@ export class RepositoryLister {
         console.log("downloadOp: ", downloadOp);
     }
 
-    public async generateList(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
+    public generateList(organization: Organization, writeFile: boolean = false): OrganizationRepositoriesList {
         console.log("organization: ", organization);
-        const operation = {
+        const graphqlOperation = {
             query: this.getRepositoriesForOrganization,
             variables: { organizationName: organization.name },
             operationName: "",
@@ -75,41 +75,33 @@ export class RepositoryLister {
 
         let githubGraphqlEndpoint = createHttpLink({ uri: "https://api.github.com/graphql", fetch: fetch });
         this.authorizedLink = middlewareLink.concat(githubGraphqlEndpoint);
-
-        console.log("authorizedLink: ", this.authorizedLink);
-
         let repositoryList = new OrganizationRepositoriesList(organization.name, new Date(), new Array<Repository>());
-        
-        let compFn = () => {
-            if (this.totalRepositories === repositoryList.repositories.length) {
-                this.sort(repositoryList);
-                if (writeFile) {
-                    this.writeToFile(organization, repositoryList);
-                }
-                // resolve(repositoryList);
-            }
-        }
         this.executeRequest(
             organization,
             this.authorizedLink,
-            operation,
+            graphqlOperation,
             (arr: Repository[]) =>{
                 console.log("arr: ", arr);
                 repositoryList.repositories.push(...arr);
             },
-            compFn);
-        // return p;
+            () => {
+                if (this.totalRepositories === repositoryList.repositories.length) {
+                    this.sort(repositoryList);
+                    if (writeFile) {
+                        this.writeToFile(organization, repositoryList);
+                    }
+                } else {
+
+                }
+            });
         return repositoryList;
     }
 
     private executeRequest(organization: Organization, link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[]) => void, compFn: ()=>void) {
         execute(link, operation).subscribe({
             next: data => {
-              console.log("data: ", data);
-
+                console.log("data: ", data);
                 if (!data.errors) {
-                    console.log("data: ", data);
-
                     this.totalRepositories = data.data.organization.repositories.totalCount;
                     this.captureRepositories(organization, data, nextFn, compFn);
                 }

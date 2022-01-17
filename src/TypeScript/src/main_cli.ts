@@ -2,7 +2,6 @@
 import * as yargs from "yargs"
 import { OperationConfig, performOperationSetup, performListRetrieval, performRepositoryDownloads } from "./main";
 import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
-import fs from "./fs";
 
 const path = './file.txt'
 
@@ -10,9 +9,7 @@ const path = './file.txt'
 
 
 // let validateAuthToken = () => {}
-
 // let m: { [key: string]: yargs.Options }
-
 //         alias?: string | string[];
 //         array?: boolean;
 //         boolean?: boolean;
@@ -113,6 +110,8 @@ let repositoriesListCommand: yargs.CommandModule = {
             organizations: organizations,
             workingDirectory: <string>awd,
             globalStoreDirectory: <string>gsd,
+            organizationDownloadPath: "",
+            isLongRunningDownloadOperation: false
         };
 
         let downloadOp = performOperationSetup(oc);
@@ -288,11 +287,11 @@ let updateCommand: yargs.CommandModule = {
             organizationDownloadPath: <string>organizationDownloadPath,
             workingDirectory: <string>awd,
             globalStoreDirectory: <string>gsd,
-            isLongRunningDownloadOperation: <boolean>lrdo,
+            isLongRunningDownloadOperation: false
         };
 
         let downloadOp = performOperationSetup(oc);
-        performNewRepositoryDownloads(downloadOp);
+        // performNewRepositoryDownloads(downloadOp);
 
     }
 }
@@ -316,10 +315,10 @@ let y = yargs
     .command(updateCommand)
     .command(repositoriesListCommand)
     .command(ghomVerifierCommand)
+    .usage("GitHub Downloader")
     .strict();
 
     // .demandCommand()
     // .demandCommand(0, 0) // minMsg?: string, maxMsg?: string): Argv;
     // .command(validateCommand)
-
 y.argv;
