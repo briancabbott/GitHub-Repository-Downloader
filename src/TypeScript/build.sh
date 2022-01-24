@@ -1,3 +1,5 @@
 
 npm install --force
-tsc --diagnostics --extendedDiagnostics
+
+# --listFiles --explainFiles --verbose --traceResolution
+tsc --build --diagnostics --extendedDiagnostics  

@@ -1,4 +1,4 @@
-import { Downloader } from "../src/download";
+import { Downloader } from "../download";
 // import { readFileSync } from "fs";
 // import { RepositoryList } from "../src/model";
 

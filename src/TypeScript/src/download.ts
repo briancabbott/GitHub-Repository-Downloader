@@ -6,12 +6,12 @@ var fsext = require("fs-extra");
 
 
 export class Downloader {
-    cloneCommandResults = new Array<GitCloneTemp_CommandInfo>();
     
     downloadOp: RepositoryDownloadOperation;
     organization: Organization
     
     constructor(downloadOp: RepositoryDownloadOperation, organization: Organization) {
+    
         this.downloadOp = downloadOp;
         this.organization = organization;
     }
@@ -22,38 +22,42 @@ export class Downloader {
         fsext.ensureDirSync(this.organization.downloadOpDirectory);
     }
 
-    public downloadRepositories(reposList: OrganizationRepositoriesList): Array<GitCloneTemp_CommandInfo> {
-        this.setupDirectories();
-        // Make sure the output directory is there.
-        console.log("Starting downloads... "); 
+    // reposList.repositories.forEach((repository) => {
+    //     this.downloadRepository(reposList.organizationName, repository);
+    // });
+    public async downloadRepositories(reposList: OrganizationRepositoriesList): Promise<Array<GitCloneTemp_CommandInfo>> {
+        const p = new Promise<GitCloneTemp_CommandInfo[]>((resolve, rejected) => {
+            const cloneCommandResults = new Array<GitCloneTemp_CommandInfo>();
 
-        // reposList.repositories.
-        let it = reposList.repositories.entries();
-        let nxt = ()=>{
-            let ir = it.next()
-            if (!ir.done) {
-                this.downloadRepository(reposList.organizationName, ir.value[1], nxt);
+            // Make sure the output directory is there.
+            this.setupDirectories();
+            console.log("Starting downloads... "); 
+
+            let it = reposList.repositories.entries();
+            let nxt = () => {
+                let ir = it.next()
+                if (!ir.done) {
+                    this.downloadRepository(cloneCommandResults, reposList.organizationName, ir.value[1], nxt);
+                }
             }
-        }
-        let n = it.next();
-        if (n !== undefined && n.value !== undefined) {
-            this.downloadRepository(reposList.organizationName, n.value[1], nxt); 
-        }
-        // reposList.repositories.forEach((repository) => {
-        //     this.downloadRepository(reposList.organizationName, repository);
-        // });
 
-        return this.cloneCommandResults;
+            let n = it.next();
+            if (n !== undefined && n.value !== undefined) {
+                this.downloadRepository(cloneCommandResults, reposList.organizationName, n.value[1], nxt); 
+            }
+            resolve(cloneCommandResults);
+        });
+        return p;
     }
     
-    protected downloadRepository(orgName: string, repository: Repository, nextFn: () => void) {
+    protected downloadRepository(cloneCommandResults: GitCloneTemp_CommandInfo[], orgName: string, repository: Repository, nextFn: () => void) {
         console.log("Downloading: " + repository.url);
 
         let gitClone = new GitCloneTemp();
         let repoDownloadLocation = join(this.organization.downloadOpDirectory, repository.name);
         gitClone.execute(repository.url, repoDownloadLocation, (commandInfo) => {
             commandInfo.writeToFile(repoDownloadLocation);
-            this.cloneCommandResults.push(commandInfo);
+            cloneCommandResults.push(commandInfo);
             if (nextFn) {
                 nextFn();
             }

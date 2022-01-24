@@ -2,6 +2,9 @@
 import * as yargs from "yargs"
 import { OperationConfig, performOperationSetup, performListRetrieval, performRepositoryDownloads } from "./main";
 import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
+import { readFileSync } from "fs";
+import { Downloader } from "./download";
+import { Organization } from "./model";
 
 const path = './file.txt'
 
@@ -171,21 +174,16 @@ let downloadCommand: yargs.CommandModule = {
         // Retries downloads on repositories that have failed.
         // retry-on-failed
         // conflicts?: string | string[] | { [key: string]: string | string[] };
-
-
         // The maximum number of retries
         // maximum-retries
-
         // This set of methods to use for validation (simple-list-to-folder, log-parsing, local-git-command)
         // validation-methods
-
         // Skip performing post-download completness validation
         // skip-validation
-
         // Todo: Would need to create a merge-operation to support this...
         // merge-into-existing
     },
-    handler: (argv) => {
+    handler: async (argv) => {
         let organizations: Array<string> = <Array<string>> argv.organization;
         let ghaut = argv["github-auth-token"];
         let ghautf = argv["github-auth-token-file"];
@@ -204,7 +202,36 @@ let downloadCommand: yargs.CommandModule = {
         };
 
         let downloadOp = performOperationSetup(oc);
-        performRepositoryDownloads(downloadOp);
+        const list = await performListRetrieval(downloadOp);
+        console.log("REPO FILES FINISHED...");
+        list.forEach(file => {
+            console.log(file)
+        
+            console.log('repo-file: ', file);
+                
+            let buf = readFileSync(file);
+            let repositoryList = JSON.parse(buf.toString());
+            console.log("repositoryList: ", repositoryList);
+
+            for (let org of downloadOp.organizations.values()) {
+                const downloader = new Downloader(downloadOp, org);
+                const cloneCommandResults = await downloader.downloadRepositories(repositoryList);
+                cloneCommandResults.then((v) => {
+                    console.log("CloneCommandResults....");
+                    v.forEach(element => console.log("CloneCommand: ", element));
+                });
+            }
+        });
+    
+            // if (repoFiles.length > 0) {
+            //     for (let file in repoFiles.values()) {
+            //     }        
+            // } else {
+            //     console.log("REPO-FILES FAILED... ");
+            // }
+
+
+        // await performRepositoryDownloads(downloadOp);
     }
 };
 
@@ -310,15 +337,30 @@ let updateCommand: yargs.CommandModule = {
 // }
 
 // let y: yargs.Argv;
-let y = yargs
+// const argv = await parser.parse();
+
+const parser = yargs
     .command(downloadCommand)
     .command(updateCommand)
     .command(repositoriesListCommand)
     .command(ghomVerifierCommand)
     .usage("GitHub Downloader")
     .strict();
+// try {
+//     const argv = parser.parse();
 
-    // .demandCommand()
-    // .demandCommand(0, 0) // minMsg?: string, maxMsg?: string): Argv;
-    // .command(validateCommand)
-y.argv;
+// } catch (err) {
+//     console.info(`${err.message}\n ${await parser.getHelp()}`);
+// }
+
+(async() => {
+    const argv = await parser.argv;
+    argv.a
+    // => No error, type: boolean
+})();
+
+
+// .demandCommand()
+// .demandCommand(0, 0) // minMsg?: string, maxMsg?: string): Argv;
+// .command(validateCommand)
+

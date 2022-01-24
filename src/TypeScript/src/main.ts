@@ -5,6 +5,7 @@ import { Downloader, LongRunningDownloader } from "./download";
 import crypto from 'crypto';
 
 import path from 'path';
+import { GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 
 
 // "auth-token-briancabbott-github-app.tk"
@@ -58,7 +59,6 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 
     return downloadOp;
 
-
     // downloadOp.organizations.forEach((org) => {
     //     let instanceDir = -downloadOp.operationUUID;
     //     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
@@ -80,29 +80,35 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 //
 // Do List-Initialization
 //
-export function performListRetrieval(downloadOp: RepositoryDownloadOperation): RepositoryDownloadOperation {
-    console.log("performListRetrieval()");
-
-    let orgsByNameMap = new Map<string, Organization>();
-    let orgsRepoList: Array<OrganizationRepositoriesList> = new Array<OrganizationRepositoriesList>();
-    let listGen = new RepositoryLister(downloadOp);
-
-    for (let organization of downloadOp.organizations) {
-        orgsByNameMap.set(organization.name, organization);
-        let listPromise = listGen.generateList(organization, true);
-        orgsRepoList.push(listPromise);
-    }
-
-    orgsRepoList.forEach((orgRepositories) => {
-        let org = orgsByNameMap.get(orgRepositories.organizationName);
-        let listQueryLogFile = listGen.writeToFile(org, orgRepositories);
-
-        downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
-
-        console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
+export async function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        console.log("performListRetrieval()");
+    
+        const orgsByNameMap = new Map<string, Organization>();
+        const orgsRepoList: Array<OrganizationRepositoriesList> = new Array<OrganizationRepositoriesList>();
+        const listGen = new RepositoryLister(downloadOp);
+        
+        for (let organization of downloadOp.organizations) {
+            orgsByNameMap.set(organization.name, organization);
+            const listPromise = listGen.generateList(organization, true);
+            listPromise.then((v) => orgsRepoList.push(v));
+        }
+    
+        const repoFiles = new Array<string>();
+        orgsRepoList.forEach((orgRepositories) => {
+            let org = orgsByNameMap.get(orgRepositories.organizationName);
+            const listQueryLogFile = listGen.writeToFile(org, orgRepositories);
+            
+            repoFiles.push(listQueryLogFile);
+            
+            downloadOp.repositoryListFilesMap.set(org.name, listQueryLogFile);
+            console.log("Wrote Org-Repo-List (for: " + org.name + ") file to: " + listQueryLogFile);
+        });
+    
+        repoFiles.forEach(f => console.log("rf: ", f));
+        
+        resolve(repoFiles);    
     });
-
-    return downloadOp;
 }
 
 export function performLocalListGeneration(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
@@ -118,10 +124,12 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
 //
 // Perform download
 //
-export async function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<RepositoryDownloadOperation> {
+export async function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<Array<GitCloneTemp_CommandInfo>> {
     console.log("performRepositoryDownloads()....  ");
 
-    let repositories = await performListRetrieval(downloadOp);
+    const cloneCommands: Array<GitCloneTemp_CommandInfo> = new Array<GitCloneTemp_CommandInfo>();
+
+    // let repositories = await performListRetrieval(downloadOp);
     for (let organization of downloadOp.organizations) {
         console.log("download for org: " + organization.name);
 
@@ -131,11 +139,12 @@ export async function performRepositoryDownloads(downloadOp: RepositoryDownloadO
             console.log(JSON.stringify(repositoryList, undefined, 4));    
             if (!downloadOp.isLongRunningDownloadOperation) {
                 let downloader = new Downloader(downloadOp, organization);
-                let cloneCommandResults = downloader.downloadRepositories(repositoryList);
+                let cloneCommandResults = await downloader.downloadRepositories(repositoryList);
 
                 cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
+                cloneCommands.push(...cloneCommandResults);
             } else {
                 let downloader = new LongRunningDownloader(downloadOp, organization);
                 let cloneCommandResults = downloader.resumeLongRunningOperation();
@@ -147,7 +156,7 @@ export async function performRepositoryDownloads(downloadOp: RepositoryDownloadO
         }
     }
 
-    return downloadOp;
+    return Promise.resolve(cloneCommands);
 }
 
 // export function performNewRepositoryDownloads(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
