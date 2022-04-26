@@ -1,0 +1,1 @@
+node  ~/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader/src/TypeScript/dist/main_cli.js download --github-auth-token-file ~/.briancabbott/GitHub-Repository-Downloader/github-downloader.tk --organization "$1"

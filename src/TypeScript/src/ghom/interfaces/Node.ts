@@ -4,7 +4,7 @@ import { ID } from "../scalars/Id";
 Node
 An object with an ID.
 
-Implemented by
+Implemented by:
 
 AddedToProjectEvent, App, AssignedEvent, BaseRefChangedEvent, BaseRefForcePushedEvent, Blob, Bot,
 BranchProtectionRule, CheckRun, CheckSuite, ClosedEvent, CommentDeletedEvent, Commit, CommitComment, 

@@ -2,6 +2,7 @@ import { OrganizationRepositoriesList, Repository, RepositoryDownloadOperation, 
 import * as fs from "fs";
 import { GitCloneTemp, GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 import { join } from "path";
+
 var fsext = require("fs-extra");
 
 
@@ -11,10 +12,10 @@ export class Downloader {
     organization: Organization
     
     constructor(downloadOp: RepositoryDownloadOperation, organization: Organization) {
-    
         this.downloadOp = downloadOp;
         this.organization = organization;
     }
+
 
     protected setupDirectories() {
         this.organization.makeNameAckro();
@@ -25,7 +26,8 @@ export class Downloader {
     // reposList.repositories.forEach((repository) => {
     //     this.downloadRepository(reposList.organizationName, repository);
     // });
-    public async downloadRepositories(reposList: OrganizationRepositoriesList): Promise<Array<GitCloneTemp_CommandInfo>> {
+
+    public async downloadRepositories(reposList: OrganizationRepositoriesList): Promise<GitCloneTemp_CommandInfo[]> {
         const p = new Promise<GitCloneTemp_CommandInfo[]>((resolve, rejected) => {
             const cloneCommandResults = new Array<GitCloneTemp_CommandInfo>();
 
@@ -50,7 +52,8 @@ export class Downloader {
         return p;
     }
     
-    protected downloadRepository(cloneCommandResults: GitCloneTemp_CommandInfo[], orgName: string, repository: Repository, nextFn: () => void) {
+
+    protected downloadRepository(cloneCommandResults: GitCloneTemp_CommandInfo[], orgName: string, repository: Repository, nextFn?: () => void) {
         console.log("Downloading: " + repository.url);
 
         let gitClone = new GitCloneTemp();
@@ -65,6 +68,7 @@ export class Downloader {
         console.log("Finished cloning repository: " + repository.name);
     }
 
+
     // Use internal messages from ChildProcess's
     public verifyDownloadSuccess(orgName: string, repository: Repository): boolean {
         let repoLoc = this.organization.downloadOpDirectory + "\\" + repository.name;
@@ -74,10 +78,12 @@ export class Downloader {
         return true;
     } 
 
+
     public verifySuccessFromLogFiles() {
         let dirs = fs.readdirSync(this.organization.downloadOpDirectory);
         dirs.forEach((dir) => console.log(dir));
     }
+
 
     public verifyDownloadSuccessFromListFile(listQueryLogFile: string, downloadsDir: string): Array<Repository> {
         let jsonContent = fs.readFileSync(listQueryLogFile).toString();
@@ -104,6 +110,7 @@ export class Downloader {
         return failedRepositories;
     }
 }
+
 
 export class LongRunningDownloader extends Downloader {
     constructor(downloadOp: RepositoryDownloadOperation, organization: Organization) {
@@ -136,7 +143,9 @@ export class LongRunningDownloader extends Downloader {
     //     this.organization.shortNameAckro
     // }
 
-    public resumeLongRunningOperation(): Array<GitCloneTemp_CommandInfo> {
+    public resumeLongRunningOperation(): GitCloneTemp_CommandInfo[] {
+        const cloneCommandResults: Array<GitCloneTemp_CommandInfo> = new Array<GitCloneTemp_CommandInfo>();
+
         console.log(`RESUMING LONG RUNNING FOR: ${this.downloadOp}`);
         console.log(`RESUMING LONG RUNNING FOR: ${this.organization}`);
 
@@ -146,9 +155,9 @@ export class LongRunningDownloader extends Downloader {
         repos.repositories.forEach(r => {
             if (!downloadedRepositories.includes(r)) {
                 console.log(`RESUMING LONG RUNNING FOR: ${r.name}`);
-                this.downloadRepository(this.organization.name, r, null);
+                this.downloadRepository(cloneCommandResults, this.organization.name, r, null);
             }
         });
-        return this.cloneCommandResults;
+        return cloneCommandResults;
     }
 }

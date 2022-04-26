@@ -1,16 +1,40 @@
 
 import shortUUID from 'short-uuid';
+import { LockReason } from './ghom/enums/LockReason';
+import { License } from './ghom/objects/License';
 import { createFileFolderSuffix } from "./utils";
 
 export class OrganizationRepositoriesList {
+    filename: string;
     organizationName: string;
     generationTime: Date;
     repositories: Array<Repository>;
     
     constructor(organizationName: string, generationTime: Date, repositories: Array<Repository>) {
+        this.filename = null;
         this.organizationName = organizationName;
         this.generationTime = generationTime;
         this.repositories = repositories;
+    }
+}
+
+export class RepositoryOwner {
+    avatarUrl: string;
+    size: number;
+    id: number;
+    login: string;
+    name: string;
+    resourcePath: string;
+    url: string;
+
+    constructor(avatarUrl: string, size: number, id: number, login: string, name: string, resourcePath: string, url: string) {
+        this.avatarUrl = avatarUrl;
+        this.size = size;
+        this.id = id;
+        this.login = login;
+        this.name = name;
+        this.resourcePath = resourcePath;
+        this.url = url;
     }
 }
 
@@ -26,7 +50,43 @@ export class Repository {
     name: string;
     pushedAt: string;
 
-    constructor(url: string, id: string, createdAt: string, description: string, diskUsage: string, homepageUrl: string, name: string, pushedAt: string) {
+
+    descriptionHTML: string;
+    forkCount: number;
+    hasIssuesEnabled: boolean;
+    hasWikiEnabled: boolean;
+    isArchived: boolean;
+    isFork: boolean;
+    isLocked: boolean;
+    isMirror: boolean;
+    isPrivate: boolean;
+    // licenseInfo: License
+    // lockReason: RepositoryLockReason;
+    mirrorUrl: string;
+    resourcePath: string;
+    shortDescriptionHTML: string;
+    updatedAt: Date;
+
+    constructor(url: string, id: string, createdAt: string, description: string, diskUsage: string, homepageUrl: string, 
+            name: string, 
+            pushedAt: string, 
+            
+            descriptionHTML: string,
+            forkCount: number,
+            hasIssuesEnabled: boolean,
+            hasWikiEnabled: boolean,
+            isArchived: boolean,
+            isFork: boolean,
+            isLocked: boolean,
+            isMirror: boolean,
+            isPrivate: boolean,
+            licenseInfo: License,
+            lockReason: LockReason,
+            mirrorUrl: string,
+            owner: RepositoryOwner, 
+            resourcePath: string,
+            shortDescriptionHTML: string, 
+            updatedAt: Date) {
         this.url = url;
         this.id = id;
         this.createdAt = createdAt;
@@ -35,6 +95,25 @@ export class Repository {
         this.homepageUrl = homepageUrl;
         this.name = name;
         this.pushedAt = pushedAt;
+
+
+        this.descriptionHTML = descriptionHTML;
+        this.forkCount = forkCount;
+        this.hasIssuesEnabled = hasIssuesEnabled;
+        this.hasWikiEnabled = hasWikiEnabled;
+        this.isArchived = isArchived;
+        this.isFork = isFork;
+        this.isLocked = isLocked;
+        this.isMirror = isMirror;
+        this.isPrivate = isPrivate;
+        // this.licenseInfo = licenseInfo;
+        // this.lockReason = lockReason;
+        this.mirrorUrl = mirrorUrl;
+        // new RepositoryOwner(
+        //     );
+        this.resourcePath = resourcePath;
+        this.shortDescriptionHTML = shortDescriptionHTML;
+        this.updatedAt = updatedAt;
     }
 }
 

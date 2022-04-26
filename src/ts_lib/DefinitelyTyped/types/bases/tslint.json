@@ -1,0 +1,9 @@
+{
+    "extends": "@definitelytyped/dtslint/dt.json",
+    "rules": {
+        "dt-header": false,
+        "prefer-const": false,
+        "typedef-whitespace": false,
+        "whitespace": false
+    }
+}

@@ -1,0 +1,65 @@
+*.dll
+*.exe
+*.cmd
+*.pdb
+*.suo
+*.js
+*.cjs
+*.user
+*.cache
+*.cs
+*.sln
+*.csproj
+*.map
+*.swp
+*.code-workspace
+*.log
+.DS_Store
+
+_Resharper.DefinitelyTyped
+bin
+obj
+Properties
+
+# VIM backup files
+*~
+
+# test folder
+_infrastructure/tests/build
+
+# IntelliJ based IDEs
+.idea
+*.iml
+
+*.js.map
+!*.js/
+!scripts/not-needed.cjs
+!scripts/close-old-issues.cjs
+!scripts/ghostbuster.cjs
+!scripts/remove-empty.cjs
+!scripts/update-codeowners.cjs
+
+# npm
+node_modules
+package-lock.json
+npm-debug.log
+
+# Sublime
+.sublimets
+
+# Visual Studio Code
+.settings/launch.json
+.vs
+.vscode
+.history
+
+# yarn
+yarn.lock
+
+# pnpm
+shrinkwrap.yaml
+pnpm-lock.yaml
+pnpm-debug.log
+
+# Output of 'npm pack'
+*.tgz

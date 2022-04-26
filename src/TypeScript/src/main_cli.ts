@@ -1,12 +1,10 @@
 
 import * as yargs from "yargs"
-import { OperationConfig, performOperationSetup, performListRetrieval, performRepositoryDownloads } from "./main";
-import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
-import { readFileSync } from "fs";
-import { Downloader } from "./download";
-import { Organization } from "./model";
 
-const path = './file.txt'
+import { OperationConfig, performOperationSetup, performListRetrieval } from "./main";
+import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
+import { Downloader } from "./download";
+import { OrganizationRepositoriesList } from "./model";
 
 
 
@@ -202,36 +200,16 @@ let downloadCommand: yargs.CommandModule = {
         };
 
         let downloadOp = performOperationSetup(oc);
-        const list = await performListRetrieval(downloadOp);
+        let list: OrganizationRepositoriesList[] = await performListRetrieval(downloadOp);
+        console.log(list);
         console.log("REPO FILES FINISHED...");
-        list.forEach(file => {
-            console.log(file)
-        
-            console.log('repo-file: ', file);
-                
-            let buf = readFileSync(file);
-            let repositoryList = JSON.parse(buf.toString());
-            console.log("repositoryList: ", repositoryList);
-
-            for (let org of downloadOp.organizations.values()) {
+        list.forEach(async (orl) => {
+            for (let org of downloadOp.organizations) {
                 const downloader = new Downloader(downloadOp, org);
-                const cloneCommandResults = await downloader.downloadRepositories(repositoryList);
-                cloneCommandResults.then((v) => {
-                    console.log("CloneCommandResults....");
-                    v.forEach(element => console.log("CloneCommand: ", element));
-                });
+                const cloneCommandResults = await downloader.downloadRepositories(orl);
+                cloneCommandResults.forEach(element => console.log("CloneCommand: ", element));
             }
         });
-    
-            // if (repoFiles.length > 0) {
-            //     for (let file in repoFiles.values()) {
-            //     }        
-            // } else {
-            //     console.log("REPO-FILES FAILED... ");
-            // }
-
-
-        // await performRepositoryDownloads(downloadOp);
     }
 };
 

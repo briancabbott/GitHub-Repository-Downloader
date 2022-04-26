@@ -1,9 +1,11 @@
 import { spawn } from "child_process";
-import { GitCloneTempLogger } from "./git_clone_temp_logger";
 import { join } from "path";
+import 'process';
 import { writeFileSync } from "fs";
-var fsext = require("fs-extra");
 
+const fsext = require("fs-extra");
+
+import { GitCloneTempLogger } from "./git_clone_temp_logger";
 
 /**
  * Temp in the sense that I need a logging cloning agent now, but, will implement a better version later with the GitCommands Model.
@@ -18,7 +20,6 @@ export class GitCloneTemp_CommandInfo {
     endTime: Date;
     cloneOperationFailed: boolean;
     childProcessPid: number;
-
     commandLogFilePath: string;
 
     // stdOutDataMessages: Array<string>;
@@ -40,6 +41,7 @@ export class GitCloneTemp_CommandInfo {
         this.endTime = endTime,
         this.cloneOperationFailed = cloneOperationFailed;
         this.childProcessPid = childProcessPid;
+        this.commandLogFilePath = commandLogFilePath;
 
         // this.stdOutDataMessages = stdOutDataMessages || new Array<string>();
         // this.stdOutErrMessages = stdOutErrMessages || new Array<string>();
@@ -48,7 +50,6 @@ export class GitCloneTemp_CommandInfo {
         // this.closeMessage = closeMessage;
 
         this.executionErrors = executionErrors || new Array<Error>();
-        this.commandLogFilePath = commandLogFilePath;
     }
 
     public determineFailureStatus() {
@@ -95,7 +96,6 @@ export class GitCloneTemp {
 
     constructor() {
         this.commandInfo = new GitCloneTemp_CommandInfo();
-
     }
 
     public execute(repo: string, targetPath: string, cb: (commandInfo: GitCloneTemp_CommandInfo) => void) {

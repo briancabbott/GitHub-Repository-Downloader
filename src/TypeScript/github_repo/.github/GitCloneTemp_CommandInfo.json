@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/github/.github undefined\\gith--01-28-2022--cHttzhKXKFzQioK5rdJaXF/.github",
+    "repo": "https://github.com/github/.github",
+    "targetPath": "undefined\\gith--01-28-2022--cHttzhKXKFzQioK5rdJaXF/.github",
+    "startTime": "2022-01-28T20:32:57.607Z",
+    "endTime": "2022-01-28T20:32:58.326Z",
+    "childProcessPid": 3144,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader/src/TypeScript/workingdir/--github--.github--3144",
+    "executionErrors": []
+}

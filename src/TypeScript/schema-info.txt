@@ -1,0 +1,6 @@
+
+
+
+
+github_repo/github-artifact-exporter
+    - github-artifact-exporter/packages/core/graphql.schema.json

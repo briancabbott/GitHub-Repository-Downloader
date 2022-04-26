@@ -1,9 +1,23 @@
-import { ApolloLink, GraphQLRequest, execute, FetchResult } from "apollo-link";
-import { Repository, OrganizationRepositoriesList, RepositoryDownloadOperation, Organization } from "./model";
-import { createHttpLink } from "apollo-link-http";
-import gql from 'graphql-tag';
+
 import * as fs from "fs";
 import * as path from "path";
+import {
+    ApolloClient,
+    ApolloLink,
+    ApolloClientOptions,
+    gql,
+    InMemoryCache,
+    NormalizedCacheObject,
+    QueryOptions,
+    ApolloQueryResult,
+    createHttpLink,
+    FetchMoreQueryOptions,
+    ObservableQuery,
+    OperationVariables
+  } from '@apollo/client';
+
+import { Repository, OrganizationRepositoriesList, RepositoryDownloadOperation, Organization, RepositoryOwner } from "./model";
+import { License } from "./ghom/objects/License";
 
 const fetch = require("node-fetch");
 
@@ -25,9 +39,36 @@ export class RepositoryLister {
                                 createdAt
                                 description
                                 diskUsage
-                                homepageUrl
                                 name
+                                nameWithOwner
+                            
                                 pushedAt
+                                descriptionHTML
+                                forkCount
+                                hasIssuesEnabled
+                                hasWikiEnabled
+                                homepageUrl
+                                isArchived
+                                isFork
+                                isLocked
+                                isMirror
+                                isPrivate
+                                licenseInfo {
+                                    body
+                                }
+                                lockReason
+                                mirrorUrl
+                                owner {
+                                    avatarUrl
+                                    id
+                                    login
+                                    resourcePath
+                                    url
+                                }
+                                pushedAt
+                                resourcePath
+                                shortDescriptionHTML
+                                updatedAt
                             }
                             cursor
                         }
@@ -43,22 +84,13 @@ export class RepositoryLister {
     totalRepositories: number = -1;
     authorizedLink: ApolloLink;
     downloadOp: RepositoryDownloadOperation;
+    client: ApolloClient<NormalizedCacheObject>;
 
     constructor(downloadOp: RepositoryDownloadOperation) {
         this.downloadOp = downloadOp;
-        console.log("downloadOp: ", downloadOp);
     }
 
-    public async generateList(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
-        console.log("organization: ", organization);
-        const graphqlOperation = {
-            query: this.getRepositoriesForOrganization,
-            variables: { organizationName: organization.name },
-            operationName: "",
-            context: {},
-            extensions: {}
-        };
-
+    public async generateList_ApolloClient(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
@@ -71,72 +103,132 @@ export class RepositoryLister {
                 return undefined;
             }
         });
-        
-        let githubGraphqlEndpoint = createHttpLink({ uri: "https://api.github.com/graphql", fetch: fetch });
-        this.authorizedLink = middlewareLink.concat(githubGraphqlEndpoint);
-        const repositoryList = new OrganizationRepositoriesList(organization.name, new Date(), new Array<Repository>());
-
-        const p: Promise<OrganizationRepositoriesList> = new Promise((resolve, reject) => {
-            try {
-                this.executeRequest(
-                    organization,
-                    this.authorizedLink,
-                    graphqlOperation,
-                    (arr: Repository[]) => {
-                        repositoryList.repositories.push(...arr);
-                    },
-                    () => {
-                        if (this.totalRepositories === repositoryList.repositories.length) {
-                            this.sort(repositoryList);
-                            this.writeToFile(organization, repositoryList);
-                        }
-                    }
-                );
-                resolve(repositoryList);
-            } catch (error) {
-                console.error(error);
-                reject(error);
-            }
-        })
-        return p;
-    }
-
-    private executeRequest(organization: Organization, link: ApolloLink, operation: GraphQLRequest, nextFn: (data: Repository[]) => void, compFn: ()=>void) {
-        execute(link, operation).subscribe({
-            next: data => {
-                if (!data.errors) {
-                    this.totalRepositories = data.data.organization.repositories.totalCount;
-                    this.captureRepositories(organization, data, nextFn, compFn);
-                }
+        const httpLink = createHttpLink({
+            uri: "https://api.github.com/graphql",
+            fetch: fetch,
+        });
+        const queryOptions: QueryOptions = {
+            query: this.getRepositoriesForOrganization,
+            variables: { organizationName: organization.name },
+            fetchPolicy: 'network-only',
+            errorPolicy: "all"
+        };
+        const clientOptions: ApolloClientOptions<NormalizedCacheObject> = {
+            uri: 'https://api.github.com/graphql',
+            link: middlewareLink.concat(httpLink),
+            cache: new InMemoryCache(),
+            headers: {
+                authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
             },
-            error: error => console.log(`received error ${error}`),
-            complete: () => {
-                compFn();
+        };
+
+        let apclient = new ApolloClient<NormalizedCacheObject>(clientOptions);
+        let wq = apclient.watchQuery(queryOptions);
+        const repos: Repository[] = new Array<Repository>();
+        const opts = {
+            query: this.getRepositoriesForOrganization, 
+            variables: { 
+                organizationName: organization.name 
             }
-        });
+        };
+        await this.getNexts(wq, organization, repos, opts);
+
+        const orl = new OrganizationRepositoriesList(organization.name, new Date(), repos);
+        this.sort(orl);
+        return orl;
     }
 
-    private captureRepositories(organization: Organization, fetch: FetchResult, nextFn: (data: Repository[])=>void, compFn: () => void) {
-        let repos = new Array<Repository>();
-        fetch.data.organization.repositories.edges.forEach((e) => {
-            repos.push(new Repository(e.node.url, e.node.id, e.node.createdAt, e.node.description, e.node.diskUsage, e.node.url.homepageUrl, e.node.name, e.node.pushedAt));
-        });
-        nextFn(repos);
+    public async getNexts(wq: ObservableQuery<any, OperationVariables>, organization: Organization, repos: Repository[], options): Promise<{file: string, orl: OrganizationRepositoriesList}> {        
+        const p: Promise<ApolloQueryResult<any>> = wq.fetchMore(options);
+        let val = null;
+        const pp = await p.then(async (result) => {
+            result.data.organization.repositories.edges.forEach((e) => { 
+                let r = new Repository(
+                    e.node.url,
+                    e.node.id,
+                    e.node.createdAt,
+                    e.node.description,
+                    e.node.diskUsage,
+                    e.node.homepageUrl,
+                    e.node.name,
+                    e.node.pushedAt,
 
-        if (fetch.data.organization.repositories.pageInfo.hasNextPage) {
-            let cursor = fetch.data.organization.repositories.edges[fetch.data.organization.repositories.edges.length -1].cursor;
-            let operation = {
-                query: this.getRepositoriesForOrganization,
-                variables: {
-                    organizationName: organization.name,
-                    cursor: cursor
-                },
-                operationName: "",
-                context: {},
-                extensions: {}
+                    e.node.descriptionHTML,
+                    e.node.forkCount,
+                    e.node.hasIssuesEnabled,
+                    e.node.hasWikiEnabled,
+                    e.node.isArchived,
+                    e.node.isFork,
+                    e.node.isLocked,
+                    e.node.isMirror,
+                    e.node.isPrivate,
+                    e.node.licenseInfo,
+                    e.node.lockReason,
+                    e.node.mirrorUrl,
+                    new RepositoryOwner(
+                        e.node.owner.avatarUrl,
+                        e.node.owner.size,
+                        e.node.owner.id,
+                        e.node.owner.login,
+                        e.node.owner.name,
+                        e.node.owner.resourcePath,
+                        e.node.owner.url),
+                    e.node.resourcePath,
+                    e.node.shortDescriptionHTML,
+                    e.node.updatedAt);
+                    
+                //     descriptionHTML
+                // : HTMLString
+                // forkCount
+                // : number
+                // hasIssuesEnabled
+                // : boolean
+                // hasWikiEnabled
+                // : boolean
+                // homepageUrl
+                // : URL
+                // isArchived
+                // : boolean
+                // isFork
+                // : boolean
+                // isLocked
+                // : boolean
+                // isMirror
+                // : boolean
+                // isPrivate
+                // : boolean
+                // licenseInfo
+                // : License
+                // lockReason
+                // : RepositoryLockReason
+                // mirrorUrl
+                // : URL
+                // owner
+                // : RepositoryOwner
+                // pushedAt
+                // : Date
+                // resourcePath
+                // : URL
+                // shortDescriptionHTML
+                // : HTMLString
+                // updatedAt
+                // : Date
+                repos.push(r);
+            });
+            if (result.data.organization.repositories.pageInfo.hasNextPage) {
+                const cursor = result.data.organization.repositories
+                    .edges[result.data.organization.repositories.edges.length -1].cursor;
+                const options = {
+                    query: this.getRepositoriesForOrganization, 
+                    variables: { 
+                        organizationName: organization.name,
+                        cursor: cursor
+                    }
+                }
+                await this.getNexts(wq, organization, repos, options);
             }
-            this.executeRequest(organization, this.authorizedLink, operation, nextFn, compFn);
-        }
+        });
+        return val;
     }
 
     public sort(list: OrganizationRepositoriesList) {
@@ -153,8 +245,8 @@ export class RepositoryLister {
         }
     }
 
-    public writeToFile(organization: Organization, list: OrganizationRepositoriesList): string {
-        let filename = "repoList--" + organization.name + "--" + this.downloadOp.globalOperationTimestamp.getTime() + ".json";
+    public writeToFile(list: OrganizationRepositoriesList): string {
+        let filename = "repoList--" + list.organizationName + "--" + this.downloadOp.globalOperationTimestamp.getTime() + ".json";
         let _writeFilename = path.join(this.downloadOp.globalStoreDirectory || process.cwd(), filename);
 
         let jsonContent = JSON.stringify(list, undefined, 4);
