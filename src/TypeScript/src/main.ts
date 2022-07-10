@@ -7,8 +7,6 @@ import crypto from 'crypto';
 import path from 'path';
 import { GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 
-
-// "auth-token-briancabbott-github-app.tk"
 export interface OperationConfig {
     tokenFile: string;
     token: string;
