@@ -1,3 +1,4 @@
 auth-token-*
 workingdir
 
+.DS_Store
