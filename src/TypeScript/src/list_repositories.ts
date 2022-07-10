@@ -16,7 +16,14 @@ import {
     OperationVariables
   } from '@apollo/client';
 
-import { Repository, OrganizationRepositoriesList, RepositoryDownloadOperation, Organization, RepositoryOwner } from "./model";
+import { 
+    Repository, 
+    OrganizationRepositoriesLatestCommitsList, 
+    OrganizationRepositoriesList, 
+    RepositoryDownloadOperation, 
+    Organization, 
+    RepositoryOwner 
+} from "./model";
 import { License } from "./ghom/objects/License";
 
 const fetch = require("node-fetch");
@@ -79,6 +86,38 @@ export class RepositoryLister {
                     }
                 }
             }
+    `;
+
+    getLatestCommitsForRepository = gql`
+        query GetLatestCommitsForRepository($repositoryName: String!, $owner: String!) {
+            viewer { 
+                login
+            }
+            repository(owner: $owner, name: $repositoryName) {
+                refs(refPrefix: "refs/heads/", orderBy: {direction: DESC, field: TAG_COMMIT_DATE}, first: 100) {
+                    edges {
+                        node {
+                            ... on Ref {
+                                name
+                                target {
+                                    ... on Commit {
+                                        history(first: 2) {
+                                            edges {
+                                                node {
+                                                    committedDate
+                                                    message
+                                                    changedFiles
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     `;
 
     totalRepositories: number = -1;
@@ -229,6 +268,72 @@ export class RepositoryLister {
             }
         });
         return val;
+    }
+
+    
+    public async generateListLatestCommits_ApolloClient(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesLatestCommitsList> {
+        console.log("generateListLatestCommits_ApolloClient");
+        
+        let reposList = await this.generateList_ApolloClient(organization)
+        console.log("generateListLatestCommits_ApolloClient reposList.length: ");
+        const middlewareLink = new ApolloLink((o, f) => {
+            o.setContext({
+                headers: {
+                    authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+                }
+            });
+            if (f != undefined) {
+                return f(o);
+            } else {
+                return undefined;
+            }
+        });
+        const httpLink = createHttpLink({
+            uri: "https://api.github.com/graphql",
+            fetch: fetch,
+        });
+        const clientOptions: ApolloClientOptions<NormalizedCacheObject> = {
+            uri: 'https://api.github.com/graphql',
+            link: middlewareLink.concat(httpLink),
+            cache: new InMemoryCache(),
+            headers: {
+                authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+            },
+        };
+        let apclient = new ApolloClient<NormalizedCacheObject>(clientOptions);
+
+
+        let repositoryCommitTimes: OrganizationRepositoriesLatestCommitsList = 
+            new OrganizationRepositoriesLatestCommitsList(organization.name, new Date(), new Map<Repository, Date>());
+        reposList.repositories.forEach(r => {
+            console.log("doing repository: " + r.name);
+            const queryOptions: QueryOptions = {
+                query: this.getLatestCommitsForRepository,
+                variables: { 
+                    repositoryName: r.name!, 
+                    owner: organization.name!
+                },
+                fetchPolicy: 'network-only',
+                errorPolicy: "all"
+            };
+            let wq = apclient.watchQuery(queryOptions);
+            wq.subscribe(async (result) => {
+                console.log("subscribe received");
+                console.log(result);
+                
+                if (result.data != undefined) {
+                    // let commits: Commit[] = new Array<Commit>();
+                    result.data.repository.ref.target.history.edges.forEach((e) => {
+                        console.log(`repo.name: ${r.name} => date: ${e.node.committedDate}`);
+                        // let c = new Commit();
+                        // commits.push(c);
+                    }
+                    );
+                    // r.commits = commits;
+                }
+            });
+        });
+        return repositoryCommitTimes;
     }
 
     public sort(list: OrganizationRepositoriesList) {

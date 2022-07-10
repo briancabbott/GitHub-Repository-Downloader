@@ -1,7 +1,7 @@
 
 import * as yargs from "yargs"
 
-import { OperationConfig, performOperationSetup, performListRetrieval } from "./main";
+import { OperationConfig, performOperationSetup, performListRetrieval, performListLatestCommitsRetrieval } from "./main";
 import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
 import { Downloader } from "./download";
 import { OrganizationRepositoriesList } from "./model";
@@ -213,6 +213,7 @@ let downloadCommand: yargs.CommandModule = {
     }
 };
 
+// TODO: Move this to an internal kind of maintenance place 
 let ghomVerifierCommand: yargs.CommandModule = {
     command: "ghom-verify",
     describe: "verifies the current GHOM implementation against an instance of the GitHub GraphQL Schema.",
@@ -239,6 +240,7 @@ let ghomVerifierCommand: yargs.CommandModule = {
     }
 };
 
+// NOTE: I dont believe that this is currently implemented....
 let updateCommand: yargs.CommandModule = {
     command: "update",
     describe: `Updates a current organization download collection with any repositories that have been added
@@ -299,7 +301,63 @@ let updateCommand: yargs.CommandModule = {
         // performNewRepositoryDownloads(downloadOp);
 
     }
-}
+};
+
+let listLatestCommitsForRepositories: yargs.CommandModule = { 
+    command: "latest-commits",
+    describe: "List the latest commits for an Organizations repositories or, the repositories present in a local directory that belong to an organization",
+    builder: {
+        "organization": {
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "array",
+            alias: ["o", "org"]
+        },
+        "github-auth-token": {
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "string",
+            alias: ["auth-token", "gat", "at"]
+        },
+        "github-auth-token-file": {
+            demand: false,
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "string",
+            alias: ["auth-token-file", "gatf", "atf"]
+        },
+        "global-store-directory": {
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "string",
+            alias: ["storedir", "sd", "s"]
+        }
+    },
+    handler:  (argv) => { 
+        let organizations = <Array<string>> argv.organization;
+        let ghaut = argv["github-auth-token"];
+        let ghautf = argv["github-auth-token-file"];
+        let gsd = argv["global-store-directory"];
+        let awd = argv["application-working-directory"];
+
+        let oc: OperationConfig = {
+            tokenFile: <string>ghautf,
+            token: <string>ghaut,
+            organizations: organizations,
+            workingDirectory: <string>awd,
+            globalStoreDirectory: <string>gsd,
+            organizationDownloadPath: "",
+            isLongRunningDownloadOperation: false
+        };
+        let downloadOp = performOperationSetup(oc);
+        performListLatestCommitsRetrieval(downloadOp);  
+    }
+} 
+
 
 /**
  * Performs a validation function using operation log data against a given Repository Store.
@@ -322,6 +380,7 @@ const parser = yargs
     .command(updateCommand)
     .command(repositoriesListCommand)
     .command(ghomVerifierCommand)
+    .command(listLatestCommitsForRepositories)
     .usage("GitHub Downloader")
     .strict();
 // try {

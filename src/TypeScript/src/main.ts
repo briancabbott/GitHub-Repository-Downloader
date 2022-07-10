@@ -1,6 +1,14 @@
 import { RepositoryLister } from "./list_repositories";
 import * as fs from "fs";
-import { OrganizationRepositoriesList, RepositoryDownloadOperation, RepositoryDownloadNewReposOperation, Organization, GitHubConfiguration } from "./model";
+import { 
+    OrganizationRepositoriesList, 
+    OrganizationRepositoriesLatestCommitsList,
+    RepositoryDownloadOperation, 
+    RepositoryDownloadNewReposOperation, 
+    Organization, 
+    GitHubConfiguration, 
+    Repository
+} from "./model";
 import { Downloader, LongRunningDownloader } from "./download";
 import crypto from 'crypto';
 
@@ -73,6 +81,18 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
 //     console.error("Error occured processing requests. Error was: " + reason);
 // });
 
+export async function performListLatestCommitsRetrieval(downloadOp: RepositoryDownloadOperation): Promise<OrganizationRepositoriesLatestCommitsList[]> {
+    
+    console.log("performListLatestCommitsRetrieval()");
+    
+    let list: OrganizationRepositoriesLatestCommitsList[] = new Array<OrganizationRepositoriesLatestCommitsList>();
+    const listGen = new RepositoryLister(downloadOp);
+    for (let organization of downloadOp.organizations) {
+        const org = await listGen.generateListLatestCommits_ApolloClient(organization, true);
+        list.push(org);
+    }
+    return list;
+}
 
 
 //
@@ -90,6 +110,7 @@ export async function performListRetrieval(downloadOp: RepositoryDownloadOperati
     return orgsRepoList;
 }
 
+
 export function performLocalListGeneration(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
     if ( downloadOp.organizationDownloadPath  ) {
       // arg: string | null | undefined
@@ -99,6 +120,7 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
     }
     return Promise.any([new RepositoryDownloadNewReposOperation()]);
 }
+
 
 //
 // Perform download

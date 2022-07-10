@@ -4,6 +4,21 @@ import { LockReason } from './ghom/enums/LockReason';
 import { License } from './ghom/objects/License';
 import { createFileFolderSuffix } from "./utils";
 
+
+export class OrganizationRepositoriesLatestCommitsList {
+    filename: string;
+    organizationName: string;
+    generationTime: Date;
+    repositoryCommitTimeMap: Map<Repository, Date>;
+    
+    constructor(organizationName: string, generationTime: Date, repositories: Map<Repository, Date>) {
+        this.filename = null;
+        this.organizationName = organizationName;
+        this.generationTime = generationTime;
+        this.repositoryCommitTimeMap = repositories;
+    }
+}
+
 export class OrganizationRepositoriesList {
     filename: string;
     organizationName: string;
