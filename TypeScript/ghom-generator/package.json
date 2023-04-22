@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.15.13",
     "graphql": "^16.6.0",
+    "node": "^19.8.1",
     "typescript": "^5.0.4"
   }
 }
