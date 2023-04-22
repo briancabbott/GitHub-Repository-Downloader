@@ -1,0 +1,1 @@
+node ./dist/main_cli.js download --user deep-diver --github-auth-token-file ~/.briancabbott/GitHub-Repository-Downloader/github-downloader.tk
