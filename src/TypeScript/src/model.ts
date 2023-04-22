@@ -19,6 +19,20 @@ export class OrganizationRepositoriesLatestCommitsList {
     }
 }
 
+export class UserRepositoriesList {
+    filename: string;
+    userName: string;
+    generationTime: Date;
+    repositories: Array<Repository>;
+    
+    constructor(userName: string, generationTime: Date, repositories: Array<Repository>) {
+        this.filename = null;
+        this.userName = userName;
+        this.generationTime = generationTime;
+        this.repositories = repositories;
+    }
+}
+
 export class OrganizationRepositoriesList {
     filename: string;
     organizationName: string;
@@ -168,88 +182,39 @@ export class Organization {
     }
 }
 
-//
-// var translator = short(); // Defaults to flickrBase58
-// var decimalTranslator = short("0123456789"); // Provide a specific alphabet for translation
-// var cookieTranslator = short(short.constants.cookieBase90); // Use a constant for translation
 
-// // Generate a shortened v4 UUID
-// translator.new();
+export class User {
+    name: string;
+    shortNameAckro: string;
+    nameHash: string;
+    downloadOpDirectory: string;
 
-// // Generate plain UUIDs
-// short.uuid(); // From the constructor without creating a translator
+    constructor(name?: string, shortNameAckro?: string, downloadOpDirectory?: string) {
+        this.name = name || null;
+        this.shortNameAckro = shortNameAckro || null;
+        this.downloadOpDirectory = downloadOpDirectory || null;
+    }
 
-export class RepositoryDownloadOperation {
-    operationUUID: string; // | unknown;
-    operationName: string; // | unknown;
-    operationSysName: string; // | unknown;
+    public makeNameAckro() {
+        if (this.shortNameAckro == null || this.shortNameAckro == "") {
+            let uppers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            let akroName = "";
+            for (let i = 0; i < this.name.length; i++) {
+                if (uppers.includes(this.name.charAt(i))) {
+                    akroName += this.name.charAt(i);
+                }
+            }
 
-    globalOperationTimestamp: Date;
-    globalOperationStartTime: Date | unknown;
-    globalOperationEndingTime: Date | unknown;
-
-    // TODO: default this to repo-store/_grd-meta
-    globalStoreDirectory: string; // | unknown;
-
-    applicationWorkingDirectory: string | unknown;
-
-    githubConfiguration: GitHubConfiguration;
-    organizations: Array<Organization>;
-    logToStdOut: boolean | unknown;
-
-    repositoryListFilesMap: Map<string, string>;
-    isLongRunningDownloadOperation: boolean; 
-
-    constructor(operationUUID?: string,
-            globalOperationTimestamp?: Date,
-            globalOperationStartTime?: Date,
-            globalOperationEndingTime?: Date,
-            globalStoreDirectory?: string,
-            workingDirectory?: string,
-            githubConfiguration?: GitHubConfiguration,
-            organizations?: Array<Organization>,
-            isLongRunningDownloadOperation?: boolean) {
-
-        this.operationUUID = operationUUID;
-        this.globalOperationTimestamp = globalOperationTimestamp || new Date();
-        this.globalOperationStartTime = globalOperationStartTime || null;
-        this.globalOperationEndingTime = globalOperationEndingTime || null;
-
-        this.globalStoreDirectory = globalStoreDirectory || null;
-        this.applicationWorkingDirectory = workingDirectory  || null;
-
-        this.organizations = organizations || new Array<Organization>();
-        this.isLongRunningDownloadOperation = isLongRunningDownloadOperation || false;
-
-        this.repositoryListFilesMap = new Map<string, string>();
-        this.githubConfiguration = githubConfiguration || null;
-
-        if (this.operationUUID == null) {
-            this.operationUUID = shortUUID().fromUUID(shortUUID.uuid());
+            if (akroName.length == 0) {
+                if (this.name.length > 4) {
+                    this.shortNameAckro = this.name.substring(0, 4);
+                } else {
+                    this.shortNameAckro = this.name;
+                }
+            } else {
+                this.shortNameAckro = akroName;
+            }
         }
-    }
-
-    public makeDownloadDirectoryPath(organizationName: string): string {
-        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, <string>this.operationUUID)}`;
-    }
-}
-
-export class RepositoryDownloadNewReposOperation extends RepositoryDownloadOperation {
-    organizationDownloadPath: string; // | unknown;
-
-    constructor(operationUUID?: string,
-                globalOperationTimestamp?: Date,
-                globalOperationStartTime?: Date,
-                globalOperationEndingTime?: Date,
-                globalStoreDirectory?: string,
-                workingDirectory?: string,
-                githubConfiguration?: GitHubConfiguration,
-                organizations?: Array<Organization>,
-                organizationDownloadPath?: string) {
-        super(operationUUID, globalOperationTimestamp,
-              globalOperationStartTime, globalOperationEndingTime, globalStoreDirectory,
-              workingDirectory, githubConfiguration, organizations);
-        this.organizationDownloadPath = organizationDownloadPath;
     }
 }
 
@@ -261,6 +226,149 @@ export class GitHubConfiguration {
         this.authorizationToken = authorizationToken;
     }
 }
+
+
+//
+// var translator = short(); // Defaults to flickrBase58
+// var decimalTranslator = short("0123456789"); // Provide a specific alphabet for translation
+// var cookieTranslator = short(short.constants.cookieBase90); // Use a constant for translation
+
+// // Generate a shortened v4 UUID
+// translator.new();
+
+// // Generate plain UUIDs
+// short.uuid(); // From the constructor without creating a translator
+
+export class Operation {
+    operationUUID?: string;
+    operationName?: string; // | unknown;
+    globalOperationTimestamp?: Date;
+    globalOperationStartTime?: Date;
+    globalOperationEndingTime?: Date;
+
+    globalStoreDirectory?: string;
+    applicationWorkingDirectory?: string;
+
+    githubConfiguration?: GitHubConfiguration;
+
+    constructor(
+        operationUUID?: string,
+        operationName?: string,
+        globalOperationTimestamp?: Date,
+        globalOperationStartTime?: Date,
+        globalOperationEndingTime?: Date,
+    
+        globalStoreDirectory?: string,
+        applicationWorkingDirectory?: string,
+    
+        githubConfiguration?: GitHubConfiguration) {
+        this.operationUUID = operationUUID || null;
+        this.operationName = operationName || null;
+        this.globalOperationTimestamp = globalOperationTimestamp || null;
+        this.globalOperationStartTime = globalOperationStartTime || null;
+        this.globalOperationEndingTime = globalOperationEndingTime || null;
+
+        this.globalStoreDirectory = globalStoreDirectory || null;
+        this.applicationWorkingDirectory = applicationWorkingDirectory || null;
+
+        this.githubConfiguration = githubConfiguration || null;
+
+        if (this.operationUUID == null) {
+            this.operationUUID = shortUUID().fromUUID(shortUUID.uuid());
+        }
+    }
+}
+export class RepositoryListOperation extends Operation {
+    organizations: Array<Organization>;
+    users: Array<User>;
+
+    logToStdOut: boolean | unknown;
+
+    repositoryListFilesMap: Map<string, string>; 
+
+    constructor(operationUUID?: string,
+        operationName?: string,
+            globalOperationTimestamp?: Date,
+            globalOperationStartTime?: Date,
+            globalOperationEndingTime?: Date,
+            globalStoreDirectory?: string,
+            applicationWorkingDirectory?: string,
+            githubConfiguration?: GitHubConfiguration,
+            organizations?: Array<Organization>,
+            users?: Array<User>) {
+        super(        operationUUID = operationUUID || null,
+            operationName = operationName || "RepositoryListOperation",
+            globalOperationTimestamp = globalOperationTimestamp || new Date(),
+            globalOperationStartTime = globalOperationStartTime || null,
+            globalOperationEndingTime = globalOperationEndingTime || null,
+            globalStoreDirectory = globalStoreDirectory || null,
+            applicationWorkingDirectory = applicationWorkingDirectory || null, 
+            githubConfiguration = githubConfiguration || null);
+        this.organizations = organizations || new Array<Organization>();
+        this.users = users || new Array<User>();
+        this.repositoryListFilesMap = new Map<string, string>();
+    }
+
+    public makeDownloadDirectoryPath(organizationName: string): string {
+        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, <string>this.operationUUID)}`;
+    }
+}
+
+export class RepositoryDownloadOperation  extends Operation  {
+    organizations: Array<Organization>;
+    users: Array<User>;
+
+    logToStdOut: boolean | unknown;
+
+    repositoryListFilesMap: Map<string, string>;
+    isLongRunningDownloadOperation: boolean; 
+
+    constructor(operationUUID?: string, operationName?: string, globalOperationTimestamp?: Date, globalOperationStartTime?: Date, globalOperationEndingTime?: Date,
+            globalStoreDirectory?: string, applicationWorkingDirectory?: string, githubConfiguration?: GitHubConfiguration,
+            organizations?: Array<Organization>, users?: Array<User>, isLongRunningDownloadOperation?: boolean) {
+        super(operationUUID = operationUUID || null,
+              operationName = operationName || "RepositoryListOperation",
+              globalOperationTimestamp = globalOperationTimestamp || new Date(),
+              globalOperationStartTime = globalOperationStartTime || null,
+              globalOperationEndingTime = globalOperationEndingTime || null,
+              globalStoreDirectory = globalStoreDirectory || null,
+              applicationWorkingDirectory = applicationWorkingDirectory || null, 
+              githubConfiguration = githubConfiguration || null);
+        
+        this.organizations = organizations || new Array<Organization>();
+        this.users = users || new Array<User>();
+        this.repositoryListFilesMap = new Map<string, string>();
+
+        this.isLongRunningDownloadOperation = isLongRunningDownloadOperation || false;
+    }
+
+    public makeDownloadDirectoryPath(organizationName: string): string {
+        return `${this.globalStoreDirectory}\\${organizationName}--${createFileFolderSuffix(this.globalOperationTimestamp, <string>this.operationUUID)}`;
+    }
+}
+
+export class RepositoryDownloadNewReposOperation extends RepositoryDownloadOperation {
+    organizationDownloadPath: string; // | unknown;
+
+    constructor(operationUUID?: string, 
+                operationName?: string, 
+                globalOperationTimestamp?: Date,
+                globalOperationStartTime?: Date,
+                globalOperationEndingTime?: Date,
+                globalStoreDirectory?: string,
+                applicationWorkingDirectory?: string,
+                githubConfiguration?: GitHubConfiguration,
+                organizations?: Array<Organization>,
+                users?: Array<User>,
+                organizationDownloadPath?: string) {
+        super(operationUUID, operationName = operationName || "RepositoryListOperation", globalOperationTimestamp, globalOperationStartTime, 
+            globalOperationEndingTime, globalStoreDirectory, applicationWorkingDirectory, 
+            githubConfiguration);
+
+            this.organizationDownloadPath = organizationDownloadPath;
+    }
+}
+
 
 
 export class Ref {

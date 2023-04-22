@@ -5,9 +5,13 @@ import {
     OrganizationRepositoriesLatestCommitsList,
     RepositoryDownloadOperation, 
     RepositoryDownloadNewReposOperation, 
+    RepositoryListOperation,
     Organization, 
+    User,
     GitHubConfiguration, 
-    Repository
+    Repository,
+    Operation,
+    UserRepositoriesList
 } from "./model";
 import { Downloader, LongRunningDownloader } from "./download";
 import crypto from 'crypto';
@@ -15,19 +19,206 @@ import crypto from 'crypto';
 import path from 'path';
 import { GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 
-export interface OperationConfig {
-    tokenFile: string;
-    token: string;
-    organizations: Array<string>;
-    workingDirectory: string;
-    globalStoreDirectory: string;
-    organizationDownloadPath: string;
-    isLongRunningDownloadOperation: boolean;
+export class Runtime {
+    constructor() {
+        // Node Running Directory:
+
+    }
+
+    static setupRuntimeVars() { 
+        let cwd = process.cwd();
+        let execPath = process.execPath
+        let env = process.env
+
+        console.log("cwd: " + cwd);
+        console.log("execPath: " + execPath);
+        console.log("env: " + JSON.stringify(env, undefined, 4));
+    }
+
+    static getDefault(key: string) {
+        if (key === "DEFAULT_ORGANIZATION_DOWNLOAD_PATH") {
+            return "./organizations";
+        } else {
+            throw new Error("Unknown default-configuration key: " + key);
+        }
+    }
 }
 
-export function performOperationSetup(opConfig: OperationConfig): RepositoryDownloadOperation | RepositoryDownloadNewReposOperation {
+export class OperationConfig {
+    constructor() {}
+}
+export class CommonOperationConfig extends OperationConfig {
+    private _tokenFile: string;
+    private _token: string;
+    private _workingDirectory: string;
+    private _globalStoreDirectory: string;
 
-    if (opConfig.token != null && opConfig.tokenFile != null || opConfig.token == null && opConfig.tokenFile == null) {
+    constructor(tokenFile?: string, token?: string, 
+            workingDirectory?: string, globalStoreDirectory?: string) {
+        super();
+        this.tokenFile = tokenFile;
+        this.token = token;
+        this.workingDirectory = workingDirectory;
+        this.globalStoreDirectory = globalStoreDirectory;   
+    }
+
+    public get tokenFile(): string {
+        return this._tokenFile;
+    }
+    public set tokenFile(value) {
+        this._tokenFile = value;
+    }
+    public get token(): string {
+        return this._token;
+    }
+    public set token(value) {
+        this._token = value;
+    }
+    public get workingDirectory() {
+        return this._workingDirectory;
+    }
+    public set workingDirectory(value) {
+        this._workingDirectory = value;
+    }
+    public get globalStoreDirectory() {
+        return this._globalStoreDirectory;
+    }
+    public set globalStoreDirectory(value) {
+        this._globalStoreDirectory = value;
+    }
+}
+
+export class ListOperationConfig extends CommonOperationConfig {
+    private _users: Array<string>
+    private _organizations: Array<string>
+    private _organizationDownloadPath: string; 
+    
+    constructor(tokenFile?: string, token?: string, workingDirectory?: string, globalStoreDirectory?: string, 
+        users?: Array<string>, 
+        organizations?: Array<string>, organizationDownloadPath?: string, isLongRunningDownloadOperation?: boolean) {
+        super(tokenFile, token, workingDirectory, globalStoreDirectory);
+        this.users = users;
+        this.organizations = organizations;
+        this.organizationDownloadPath = organizationDownloadPath;
+    }
+
+    get users(): Array<string> {
+        if (this._users == null) {
+            this._users = new Array<string>();
+        }
+        return this._users;
+    }
+    set users(value) {
+        if (this._users == null) {
+            this._users = new Array<string>();
+        }
+        this._users = value;
+    }
+    get organizations(): Array<string> {
+        if (this._organizations == null) {
+            this._organizations = new Array<string>();
+        }
+        return this._organizations;
+    }
+    set organizations(value) {
+        if (this._organizations == null) {
+            this._organizations = new Array<string>();
+        }
+        this._organizations = value;
+    }
+    get organizationDownloadPath() {
+        if (this._organizationDownloadPath == null || this._organizationDownloadPath == undefined || this._organizationDownloadPath == "") {
+            this._organizationDownloadPath = Runtime.getDefault("DEFAULT_ORGANIZATION_DOWNLOAD_PATH");
+        }
+        return this._organizationDownloadPath;
+    }
+    set organizationDownloadPath(value) {
+        if (value == null || value == undefined || value == "") {
+            this._organizationDownloadPath = Runtime.getDefault("DEFAULT_ORGANIZATION_DOWNLOAD_PATH");
+        }
+        this._organizationDownloadPath = value;
+    }
+
+}
+
+export class DownloadOperationConfig extends CommonOperationConfig {
+    private _users: Array<string>
+    private _organizations: Array<string>
+    private _organizationDownloadPath: string; 
+    private _isLongRunningDownloadOperation: boolean;
+
+    constructor(tokenFile?: string, token?: string, workingDirectory?: string, globalStoreDirectory?: string, 
+        users?: Array<string>, 
+        organizations?: Array<string>, organizationDownloadPath?: string, isLongRunningDownloadOperation?: boolean) {
+        super(tokenFile, token, workingDirectory, globalStoreDirectory);
+        this.users = users;
+        this.organizations = organizations;
+        this.organizationDownloadPath = organizationDownloadPath;
+        this.isLongRunningDownloadOperation = isLongRunningDownloadOperation;
+    }
+  get users(): Array<string> {
+        if (this._users == null) {
+            this._users = new Array<string>();
+        }
+        return this._users;
+    }
+    set users(value) {
+        if (this._users == null) {
+            this._users = new Array<string>();
+        }
+        this._users = value;
+    }
+    get organizations(): Array<string> {
+        if (this._organizations == null) {
+            this._organizations = new Array<string>();
+        }
+        return this._organizations;
+    }
+    set organizations(value) {
+        if (this._organizations == null) {
+            this._organizations = new Array<string>();
+        }
+        this._organizations = value;
+    }
+    get organizationDownloadPath() {
+        if (this._organizationDownloadPath == null || this._organizationDownloadPath == undefined || this._organizationDownloadPath == "") {
+            this._organizationDownloadPath = Runtime.getDefault("DEFAULT_ORGANIZATION_DOWNLOAD_PATH");
+        }
+        return this._organizationDownloadPath;
+    }
+    set organizationDownloadPath(value) {
+        if (value == null || value == undefined || value == "") {
+            this._organizationDownloadPath = Runtime.getDefault("DEFAULT_ORGANIZATION_DOWNLOAD_PATH");
+        }
+        this._organizationDownloadPath = value;
+    }
+
+    get isLongRunningDownloadOperation() {
+        if (this._isLongRunningDownloadOperation == null || this._isLongRunningDownloadOperation == undefined) {
+            this._isLongRunningDownloadOperation = false;
+        }
+        return this._isLongRunningDownloadOperation;
+    }
+    set isLongRunningDownloadOperation(value) {
+        if (this._isLongRunningDownloadOperation == null || this._isLongRunningDownloadOperation == undefined) {
+            this._isLongRunningDownloadOperation = false;
+        }
+        this._isLongRunningDownloadOperation = value;
+    }
+}
+
+export function PerformOperationSetup<T1 extends Operation | RepositoryListOperation | RepositoryDownloadOperation >
+    (opConfig: CommonOperationConfig | ListOperationConfig | DownloadOperationConfig): T1 {
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("performOperationSetup()");
+    console.log("opConfig: " + JSON.stringify(opConfig, undefined, 4));
+
+    let gitHubConfig: GitHubConfiguration = undefined;
+
+    // TODO: validate the token (one or the other setting, etc)...
+    if (opConfig.token == null && opConfig.tokenFile == null) {
         throw new Error('A token value or token-file containing a valid token must be provided.');
     }
 
@@ -35,35 +226,80 @@ export function performOperationSetup(opConfig: OperationConfig): RepositoryDown
     if (opConfig.token != null) {
         tok = <string>opConfig.token;
     } else if (opConfig.tokenFile != null) {
-      tok = fs.readFileSync(<string>opConfig.tokenFile).toString();
+        tok = fs.readFileSync(<string>opConfig.tokenFile).toString();
     }
-    let gitHubConfig = new GitHubConfiguration(tok);
+    gitHubConfig = new GitHubConfiguration(tok)
 
-    // Setup the "global" download-operation
+    if (opConfig instanceof ListOperationConfig) {
+        const listOp: RepositoryListOperation = new RepositoryListOperation();
+        listOp.githubConfiguration = gitHubConfig;
+        listOp.globalStoreDirectory = opConfig.globalStoreDirectory;
+        listOp.applicationWorkingDirectory = opConfig.workingDirectory;
+        listOp.globalOperationStartTime = new Date();
+        // add requested organizations...
+        opConfig.organizations.forEach((org) => {
+            let organization = new Organization();
+            organization.name = org;
+
+            let orgHash = crypto.createHash('sha256').update(organization.name, 'utf8').digest();
+            let namHsh = orgHash.toString(undefined, 0, 8);
+            organization.nameHash = organization.name.substr(0, 5) + namHsh;
+
+            listOp.organizations.push(organization);
+        });
+
+        opConfig.users.forEach((u) => {
+            let user = new User();
+            user.name = u;
+
+            let orgHash = crypto.createHash('sha256').update(user.name, 'utf8').digest();
+            let namHsh = orgHash.toString(undefined, 0, 8);
+            user.nameHash = user.name.substr(0, 5) + namHsh;
+
+            listOp.users.push(user);
+        });
+
+        return listOp as RepositoryListOperation as T1;
+    } 
+    if (opConfig instanceof DownloadOperationConfig) { 
+        // Setup the "global" download-operation
+        const downloadOp = new RepositoryDownloadOperation(); 
+        downloadOp.isLongRunningDownloadOperation = opConfig.isLongRunningDownloadOperation;
+
+        // add requested organizations...
+        opConfig.organizations.forEach((org) => {
+            let organization = new Organization();
+            organization.name = org;
+
+            let orgHash = crypto.createHash('sha256').update(organization.name, 'utf8').digest();
+            let namHsh = orgHash.toString(undefined, 0, 8);
+            organization.nameHash = organization.name.substr(0, 5) + namHsh;
+
+            downloadOp.organizations.push(organization);
+        });
+
+        opConfig.users.forEach((u) => {
+            let user = new User();
+            user.name = u;
+
+            let orgHash = crypto.createHash('sha256').update(user.name, 'utf8').digest();
+            let namHsh = orgHash.toString(undefined, 0, 8);
+            user.nameHash = user.name.substr(0, 5) + namHsh;
+
+            downloadOp.users.push(user);
+        });
+    
+        return downloadOp as RepositoryDownloadOperation as T1;
+    }
+
+
+    // //
+    // // Now perform active operations for preparing derived/generated values/artifacts from
+    // // download-op settings (i.e. create dirs, set calculated values, etc).
+
     let downloadOp = new RepositoryDownloadOperation();
-    downloadOp.githubConfiguration = gitHubConfig;
-    downloadOp.globalStoreDirectory = opConfig.globalStoreDirectory;
-    downloadOp.applicationWorkingDirectory = opConfig.workingDirectory;
-    downloadOp.globalOperationStartTime = new Date();
-    downloadOp.isLongRunningDownloadOperation = opConfig.isLongRunningDownloadOperation;
 
-    //
-    // Now perform active operations for preparing derived/generated values/artifacts from
-    // download-op settings (i.e. create dirs, set calculated values, etc).
-
-    // add requested organizations...
-    opConfig.organizations.forEach((org) => {
-        let organization = new Organization();
-        organization.name = org;
-
-        let orgHash = crypto.createHash('sha256').update(organization.name, 'utf8').digest();
-        let namHsh = orgHash.toString(undefined, 0, 8);
-        organization.nameHash = organization.name.substr(0, 5) + namHsh;
-
-        downloadOp.organizations.push(organization);
-    });
-
-    return downloadOp;
+    return downloadOp as T1;
 
     // downloadOp.organizations.forEach((org) => {
     //     let instanceDir = -downloadOp.operationUUID;
@@ -98,12 +334,12 @@ export async function performListLatestCommitsRetrieval(downloadOp: RepositoryDo
 //
 // Do List-Initialization
 //
-export async function performListRetrieval(downloadOp: RepositoryDownloadOperation): Promise<OrganizationRepositoriesList[]> {
+export async function performListRetrieval(listOp: RepositoryListOperation): Promise<UserRepositoriesList[] | OrganizationRepositoriesList[]> {
     console.log("performListRetrieval()");
 
     const orgsRepoList: Array<OrganizationRepositoriesList> = new Array<OrganizationRepositoriesList>();
-    const listGen = new RepositoryLister(downloadOp);
-    for (let organization of downloadOp.organizations) {
+    const listGen = new RepositoryLister(listOp);
+    for (let organization of listOp.organizations) {
         const org = await listGen.generateList_ApolloClient(organization, true);
         orgsRepoList.push(org);
     }

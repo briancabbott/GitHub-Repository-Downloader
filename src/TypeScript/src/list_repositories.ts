@@ -20,10 +20,10 @@ import {
     Repository, 
     OrganizationRepositoriesLatestCommitsList, 
     OrganizationRepositoriesList, 
-    RepositoryDownloadOperation, 
     Organization, 
     RepositoryOwner, 
-    Ref
+    Ref,
+    RepositoryListOperation
 } from "./model";
 import { License } from "./ghom/objects/License";
 
@@ -131,21 +131,22 @@ export class RepositoryLister {
 
     totalRepositories: number = -1;
     authorizedLink: ApolloLink;
-    downloadOp: RepositoryDownloadOperation;
+    listOp: RepositoryListOperation;
     client: ApolloClient<NormalizedCacheObject>;
+    repos: Repository[] = new Array<Repository>();
 
-    constructor(downloadOp: RepositoryDownloadOperation) {
-        this.downloadOp = downloadOp;
+    constructor(listOp: RepositoryListOperation) {
+        this.listOp = listOp;
     }
 
     public async generateList_ApolloClient(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
         console.log("generateList_ApolloClient");
-        console.log(this.downloadOp);
+        console.log(this.listOp);
 
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
-                    authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+                    authorization: `Bearer ${this.listOp.githubConfiguration.authorizationToken.trim()}`
                 }
             });
             if (f != undefined) {
@@ -169,23 +170,24 @@ export class RepositoryLister {
             link: middlewareLink.concat(httpLink),
             cache: new InMemoryCache(),
             headers: {
-                authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+                authorization: `Bearer ${this.listOp.githubConfiguration.authorizationToken.trim()}`
             },
         };
 
         let apclient = new ApolloClient<NormalizedCacheObject>(clientOptions);
         let wq = apclient.watchQuery(queryOptions);
-        const repos: Repository[] = new Array<Repository>();
         const opts = {
             query: this.getRepositoriesForOrganization, 
             variables: { 
                 organizationName: organization.name 
             }
         };
-        await this.getNexts(wq, organization, repos, opts);
+        await this.getNexts(wq, organization, this.repos, opts);
 
-        const orl = new OrganizationRepositoriesList(organization.name, new Date(), repos);
+        const orl = new OrganizationRepositoriesList(organization.name, new Date(), this.repos);
+
         this.sort(orl);
+        console.log(JSON.stringify(orl, undefined, "  "))
         return orl;
     }
 
@@ -194,6 +196,8 @@ export class RepositoryLister {
         let val = null;
         const pp = await p.then(async (result) => {
             result.data.organization.repositories.edges.forEach((e) => { 
+                console.log(e.node.name);
+                console.log(e.node.url);
                 let r = new Repository(
                     e.node.url,
                     e.node.id,
@@ -227,43 +231,6 @@ export class RepositoryLister {
                     e.node.resourcePath,
                     e.node.shortDescriptionHTML,
                     e.node.updatedAt);
-                    
-                //     descriptionHTML
-                // : HTMLString
-                // forkCount
-                // : number
-                // hasIssuesEnabled
-                // : boolean
-                // hasWikiEnabled
-                // : boolean
-                // homepageUrl
-                // : URL
-                // isArchived
-                // : boolean
-                // isFork
-                // : boolean
-                // isLocked
-                // : boolean
-                // isMirror
-                // : boolean
-                // isPrivate
-                // : boolean
-                // licenseInfo
-                // : License
-                // lockReason
-                // : RepositoryLockReason
-                // mirrorUrl
-                // : URL
-                // owner
-                // : RepositoryOwner
-                // pushedAt
-                // : Date
-                // resourcePath
-                // : URL
-                // shortDescriptionHTML
-                // : HTMLString
-                // updatedAt
-                // : Date
                 repos.push(r);
             });
             if (result.data.organization.repositories.pageInfo.hasNextPage) {
@@ -291,7 +258,7 @@ export class RepositoryLister {
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
-                    authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+                    authorization: `Bearer ${this.listOp.githubConfiguration.authorizationToken.trim()}`
                 }
             });
             if (f != undefined) {
@@ -309,7 +276,7 @@ export class RepositoryLister {
             link: middlewareLink.concat(httpLink),
             cache: new InMemoryCache(),
             headers: {
-                authorization: `Bearer ${this.downloadOp.githubConfiguration.authorizationToken.trim()}`
+                authorization: `Bearer ${this.listOp.githubConfiguration.authorizationToken.trim()}`
             },
         };
         let apclient = new ApolloClient<NormalizedCacheObject>(clientOptions);
@@ -409,8 +376,8 @@ export class RepositoryLister {
     }
 
     public writeToFile(list: OrganizationRepositoriesList): string {
-        let filename = "repoList--" + list.organizationName + "--" + this.downloadOp.globalOperationTimestamp.getTime() + ".json";
-        let _writeFilename = path.join(this.downloadOp.globalStoreDirectory || process.cwd(), filename);
+        let filename = "repoList--" + list.organizationName + "--" + this.listOp.globalOperationTimestamp.getTime() + ".json";
+        let _writeFilename = path.join(this.listOp.globalStoreDirectory || process.cwd(), filename);
 
         let jsonContent = JSON.stringify(list, undefined, 4);
 
