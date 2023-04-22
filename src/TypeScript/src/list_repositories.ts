@@ -22,9 +22,11 @@ import {
     OrganizationRepositoriesList, 
     RepositoryDownloadOperation, 
     Organization, 
-    RepositoryOwner 
+    RepositoryOwner, 
+    Ref
 } from "./model";
 import { License } from "./ghom/objects/License";
+
 
 const fetch = require("node-fetch");
 
@@ -93,12 +95,19 @@ export class RepositoryLister {
             viewer { 
                 login
             }
+            rateLimit {
+                limit
+                cost
+                remaining
+                resetAt
+            }
             repository(owner: $owner, name: $repositoryName) {
                 refs(refPrefix: "refs/heads/", orderBy: {direction: DESC, field: TAG_COMMIT_DATE}, first: 100) {
                     edges {
                         node {
                             ... on Ref {
                                 name
+                                prefix
                                 target {
                                     ... on Commit {
                                         history(first: 2) {
@@ -130,6 +139,9 @@ export class RepositoryLister {
     }
 
     public async generateList_ApolloClient(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
+        console.log("generateList_ApolloClient");
+        console.log(this.downloadOp);
+
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
@@ -304,35 +316,81 @@ export class RepositoryLister {
 
 
         let repositoryCommitTimes: OrganizationRepositoriesLatestCommitsList = 
-            new OrganizationRepositoriesLatestCommitsList(organization.name, new Date(), new Map<Repository, Date>());
-        reposList.repositories.forEach(r => {
-            console.log("doing repository: " + r.name);
-            const queryOptions: QueryOptions = {
-                query: this.getLatestCommitsForRepository,
-                variables: { 
-                    repositoryName: r.name!, 
-                    owner: organization.name!
-                },
-                fetchPolicy: 'network-only',
-                errorPolicy: "all"
-            };
-            let wq = apclient.watchQuery(queryOptions);
-            wq.subscribe(async (result) => {
-                console.log("subscribe received");
-                console.log(result);
-                
-                if (result.data != undefined) {
-                    // let commits: Commit[] = new Array<Commit>();
-                    result.data.repository.ref.target.history.edges.forEach((e) => {
-                        console.log(`repo.name: ${r.name} => date: ${e.node.committedDate}`);
-                        // let c = new Commit();
-                        // commits.push(c);
-                    }
-                    );
-                    // r.commits = commits;
+            new OrganizationRepositoriesLatestCommitsList(organization.name, new Date(), new Map<Repository, any>());
+        
+        
+        // console.log("rateLimit");
+        // console.log(rateLimit)
+
+        for (let repository of reposList.repositories) {
+            try {
+                console.log("doing repository: " + repository.name);
+
+                if (!repositoryCommitTimes.repositoryCommitTimeMap.has(repository)) {
+                    repositoryCommitTimes.repositoryCommitTimeMap.set(repository, new Array<any>());
                 }
-            });
-        });
+
+                const queryOptions: QueryOptions = {
+                    query: this.getLatestCommitsForRepository,
+                    variables: { 
+                        repositoryName: repository.name!, 
+                        owner: organization.name!
+                    },
+                    fetchPolicy: 'network-only',
+                    errorPolicy: "all",
+                };
+                
+                let wq = await apclient.watchQuery(queryOptions);
+                const p: Promise<ApolloQueryResult<any>> = wq.fetchMore(queryOptions)
+                const pp = await p.then(async (result) => {
+                    console.log(result.error);
+                    console.log(result.networkStatus);
+                    
+                    // const rateLimit = {
+                    //     limit: result.data.rateLimit.limit,
+                    //     cost: result.data.rateLimit.cost,
+                    //     remaining: result.data.rateLimit.remaining,
+                    //     resetAt: result.data.rateLimit.resetAt
+                    // };
+                    // console.log(result.partial);
+
+                    if (result.errors != undefined) {
+                        console.log("result.errors: " + JSON.stringify(result.errors));
+                    }
+                    if (result.data != undefined) {
+                        result.data.repository.refs.edges.forEach(async (e: any) => {
+                            // let associatedPullRequests = e.node.associatedPullRequests 
+                            // let branchProtectionRule = e.node.branchProtectionRule 
+                            let name = e.node.name
+                            let prefix = e.node.prefix
+                            // let refUpdateRule = e.node.refUpdateRule
+
+                            let ref = new Ref(name, prefix);
+
+                            e.node.target.history.edges.forEach(async (ee) => {
+                                try {
+                                    const commitObj = {
+                                        committedDate: ee.node.committedDate, 
+                                        message: ee.node.message,
+                                        changedFiles: ee.node.changedFiles
+                                    };
+                                    repositoryCommitTimes.repositoryCommitTimeMap.get(repository).push(commitObj);
+                                } catch (e) {
+                                    console.log("error 1: ", e);
+                                }
+                            });
+                        });
+                    } else {
+                        console.log("result.data is undefined");
+                    }
+                }).catch(async (e) => {
+                    console.log("error2: " + e);
+                });
+            } catch (error) {
+                console.log("error3: " + error);
+            }
+        }
+        console.log("returning!!!!");
         return repositoryCommitTimes;
     }
 
@@ -364,4 +422,8 @@ export class RepositoryLister {
 
         return _writeFilename;
     }
+}
+
+function onNext(onNext: any, arg1: (result: any) => Promise<void>) {
+    throw new Error("Function not implemented.");
 }

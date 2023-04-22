@@ -4,8 +4,10 @@ import * as yargs from "yargs"
 import { OperationConfig, performOperationSetup, performListRetrieval, performListLatestCommitsRetrieval } from "./main";
 import { GHOMVerifier } from "./ghom/utils/ghom-verifier/GhomVerifier";
 import { Downloader } from "./download";
-import { OrganizationRepositoriesList } from "./model";
+import { OrganizationRepositoriesList, Repository } from "./model";
 
+import { createObjectCsvWriter } from 'csv-writer';
+import { string } from "yargs";
 
 
 
@@ -335,14 +337,23 @@ let listLatestCommitsForRepositories: yargs.CommandModule = {
             string: true,
             type: "string",
             alias: ["storedir", "sd", "s"]
+        },
+        "csv-file-name": {
+            requiresArg: true,
+            skipValidation: false,
+            string: true,
+            type: "string",
+            alias: ["csv", "cv", "c"]
         }
     },
-    handler:  (argv) => { 
+    handler: async (argv) => { 
         let organizations = <Array<string>> argv.organization;
         let ghaut = argv["github-auth-token"];
         let ghautf = argv["github-auth-token-file"];
         let gsd = argv["global-store-directory"];
         let awd = argv["application-working-directory"];
+        let csvFilename: string = argv["csv-file-name"] as string;
+
 
         let oc: OperationConfig = {
             tokenFile: <string>ghautf,
@@ -354,7 +365,47 @@ let listLatestCommitsForRepositories: yargs.CommandModule = {
             isLongRunningDownloadOperation: false
         };
         let downloadOp = performOperationSetup(oc);
-        performListLatestCommitsRetrieval(downloadOp);  
+        console.log("\t\t HERE: performing list retrieval...");
+        // const m: Map<Repository, Date> = new Map<Repository, Date>()
+
+        let latestDates: Array<{repository: string, latestCommit: Date}> = [];
+
+        performListLatestCommitsRetrieval(downloadOp).then((list) => {
+            
+            list.forEach(async (e) => {
+                e.repositoryCommitTimeMap.forEach((value: any, key: Repository, map) => {
+                    console.log(`repository: ${key.name}`);
+                    let dates: Array<Date> = new Array<Date>();
+                    value.forEach((v: any) => {
+                        dates.push(new Date(v.committedDate)); 
+                    });
+                    dates.sort((a: Date, b: Date) => {
+                        return b.getTime() - a.getTime();
+                    });
+                    const latestCommit: Date = dates[0];
+                    // m.set(key, latestCommit);
+                    latestDates.push({repository: key.name, latestCommit: latestCommit});
+                });
+            });
+            
+            // latestDates.forEach( => {
+            //     console.log(`repository: ${key.name} latest commit: ${value.getDay()}/${value.getMonth()}/${value.getFullYear()}`);
+            
+
+            let cvsFile: string = csvFilename || "latest_repository_dates.csv";
+            let csvWriter = createObjectCsvWriter({
+                path: cvsFile,
+                header: [
+                    {id: 'repository', title: 'repository'},
+                    {id: 'latestCommit', title: 'latest commit'}
+                ]
+            });
+            
+            csvWriter.writeRecords(latestDates).then(() => {
+                console.log('...Done');
+            });
+
+        });        
     }
 } 
 

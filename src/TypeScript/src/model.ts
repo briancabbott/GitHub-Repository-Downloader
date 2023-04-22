@@ -9,13 +9,13 @@ export class OrganizationRepositoriesLatestCommitsList {
     filename: string;
     organizationName: string;
     generationTime: Date;
-    repositoryCommitTimeMap: Map<Repository, Date>;
+    repositoryCommitTimeMap: Map<Repository, any>;
     
-    constructor(organizationName: string, generationTime: Date, repositories: Map<Repository, Date>) {
+    constructor(organizationName: string, generationTime: Date, repositoryCommitTimeMap: Map<Repository, any>) {
         this.filename = null;
         this.organizationName = organizationName;
         this.generationTime = generationTime;
-        this.repositoryCommitTimeMap = repositories;
+        this.repositoryCommitTimeMap = repositoryCommitTimeMap;
     }
 }
 
@@ -260,4 +260,169 @@ export class GitHubConfiguration {
     constructor(authorizationToken?: string, authorizationTokenFile?: string) {
         this.authorizationToken = authorizationToken;
     }
+}
+
+
+export class Ref {
+    // associatedPullRequests;
+    // branchProtectionRule;
+    name: string;
+    prefix: string;
+    // refUpdateRule;
+    
+    constructor(
+            // associatedPullRequests: , 
+            // branchProtectionRule: , 
+            name: string, 
+            prefix: string 
+            // refUpdateRule
+            ) {
+        // this.associatedPullRequests = e.node.associatedPullRequests 
+        // this.branchProtectionRule = e.node.branchProtectionRule 
+        this.name = name
+        this.prefix = prefix
+        // this.refUpdateRule = e.node.refUpdateRule
+    }
+}
+
+export class BranchProtectionRule {
+    allowsDeletions: boolean; 
+    // (Boolean!) // Can this branch be deleted.
+    allowsForcePushes: boolean; 
+    // (Boolean!) // Are force pushes allowed on this branch.
+    blocksCreations: boolean; 
+    // (Boolean!) // Is branch creation a protected operation.
+    branchProtectionRuleConflicts: Array<BranchProtectionRuleConflict>; 
+    // (BranchProtectionRuleConflictConnection!) // A list of conflicts matching branches protection rule and other branch protection rules.
+    bypassForcePushAllowances: Array<BypassForcePushAllowance>; 
+    // (BypassForcePushAllowanceConnection!) // A list of actors able to force push for this branch protection rule.
+    bypassPullRequestAllowances: BypassPullRequestAllowance; 
+    // (BypassPullRequestAllowanceConnection!)
+    creator: Actor; 
+    // (Actor)  // The actor who created this branch protection rule.
+    databaseId: number; 
+    // (Int) // Identifies the primary key from the database.
+    dismissesStaleReviews: boolean; 
+    // (Boolean!) // Will new commits pushed to matching branches dismiss pull request review approvals.
+    isAdminEnforced: boolean; 
+    // (Boolean!) // Can admins overwrite branch protection.
+    matchingRefs: Array<Ref>; 
+    // (RefConnection!) // Repository refs that are protected by this rule.
+    pattern: string; 
+    // (String!) // Identifies the protection rule pattern.
+    pushAllowances: Array<PushAllowance>; 
+    // (PushAllowanceConnection!) // A list push allowances for this branch protection rule.
+    repository: Repository; 
+    // (Repository)  // The repository associated with this branch protection rule.
+    requiredApprovingReviewCount: number; 
+    // (Int) // Number of approving reviews required to update matching branches.
+    requiredStatusCheckContexts: Array<string>; 
+    //([String]) // List of required status check contexts that must pass for commits to be accepted to matching branches.
+    requiredStatusChecks: Array<RequiredStatusCheckDescription>; 
+    // ([RequiredStatusCheckDescription!]) // List of required status checks that must pass for commits to be accepted to matching branches.
+    requiresApprovingReviews: boolean; 
+    // (Boolean!)   // Are approving reviews required to update matching branches.
+    requiresCodeOwnerReviews: boolean; 
+    // (Boolean!) // Are reviews from code owners required to update matching branches.
+    requiresCommitSignatures: boolean; 
+    // (Boolean!) // Are commits required to be signed.
+    requiresConversationResolution: boolean; 
+    // (Boolean!) // Are conversations required to be resolved before merging.
+    requiresLinearHistory: boolean; 
+    // (Boolean!)  // Are merge commits prohibited from being pushed to this branch.
+    requiresStatusChecks: boolean; 
+    // (Boolean!) // Are status checks required to update matching branches.
+    requiresStrictStatusChecks: boolean; 
+    // (Boolean!) // Are branches required to be up to date before merging.
+    restrictsPushes: boolean; 
+    // (Boolean!) // Is pushing to matching branches restricted.
+    restrictsReviewDismissals: boolean; 
+    // (Boolean!) // Is dismissal of pull request reviews restricted.
+    reviewDismissalAllowances: Array<ReviewDismissalAllowance>; 
+    // (ReviewDismissalAllowanceConnection!) // A list review dismissal allowances for this branch protection ru
+
+    constructor(allowsDeletions: boolean, 
+                allowsForcePushes: boolean, 
+                blocksCreations: boolean, 
+                branchProtectionRuleConflicts: Array<BranchProtectionRuleConflict>, 
+                bypassForcePushAllowances: Array<BypassForcePushAllowance>, 
+                bypassPullRequestAllowances: BypassPullRequestAllowance, 
+                creator: Actor, 
+                databaseId: number, 
+                dismissesStaleReviews: boolean, 
+                isAdminEnforced: boolean, 
+                matchingRefs: Array<Ref>, 
+                pattern: string, 
+                pushAllowances: Array<PushAllowance>, 
+                repository: Repository, 
+                requiredApprovingReviewCount: number, 
+                requiredStatusCheckContexts: Array<string>, 
+                requiredStatusChecks: Array<RequiredStatusCheckDescription>, 
+                requiresApprovingReviews: boolean, 
+                requiresCodeOwnerReviews: boolean, 
+                requiresCommitSignatures: boolean, 
+                requiresConversationResolution: boolean, 
+                requiresLinearHistory: boolean, 
+                requiresStatusChecks: boolean, 
+                requiresStrictStatusChecks: boolean, 
+                restrictsPushes: boolean, 
+                restrictsReviewDismissals: boolean, 
+                reviewDismissalAllowances: Array<ReviewDismissalAllowance>) {
+
+        this.allowsDeletions = allowsDeletions;
+        this.allowsForcePushes = allowsForcePushes;
+        this.blocksCreations = blocksCreations;
+        this.branchProtectionRuleConflicts = branchProtectionRuleConflicts;
+        this.bypassForcePushAllowances = bypassForcePushAllowances;
+        this.bypassPullRequestAllowances = bypassPullRequestAllowances;
+        this.creator = creator;
+        this.databaseId = databaseId;
+        this.dismissesStaleReviews = dismissesStaleReviews;
+        this.isAdminEnforced = isAdminEnforced;
+        this.matchingRefs = matchingRefs;
+        this.pattern = pattern;
+        this.pushAllowances = pushAllowances;
+        this.repository = repository;
+        this.requiredApprovingReviewCount = requiredApprovingReviewCount;
+        this.requiredStatusCheckContexts = requiredStatusCheckContexts;
+        this.requiredStatusChecks = requiredStatusChecks;
+        this.requiresApprovingReviews = requiresApprovingReviews;
+        this.requiresCodeOwnerReviews = requiresCodeOwnerReviews;
+        this.requiresCommitSignatures = requiresCommitSignatures;
+        this.requiresConversationResolution = requiresConversationResolution;
+        this.requiresLinearHistory = requiresLinearHistory;
+        this.requiresStatusChecks = requiresStatusChecks;
+        this.requiresStrictStatusChecks = requiresStrictStatusChecks;
+        this.restrictsPushes = restrictsPushes;
+        this.restrictsReviewDismissals = restrictsReviewDismissals;
+        this.reviewDismissalAllowances = reviewDismissalAllowances;
+    }
+}
+
+export class BranchProtectionRuleConflict {
+
+}
+
+export class BypassForcePushAllowance {
+
+}
+
+export class BypassPullRequestAllowance {
+
+}
+
+export class Actor {
+
+}
+
+export class PushAllowance {
+
+}
+
+export class RequiredStatusCheckDescription {
+
+}
+
+export class ReviewDismissalAllowance {
+    
 }
