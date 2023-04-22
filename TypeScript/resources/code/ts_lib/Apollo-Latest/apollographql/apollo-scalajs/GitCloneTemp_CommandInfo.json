@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-scalajs undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-scalajs",
+    "repo": "https://github.com/apollographql/apollo-scalajs",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-scalajs",
+    "startTime": "2023-04-22T13:00:32.045Z",
+    "endTime": "2023-04-22T13:00:33.546Z",
+    "childProcessPid": 17197,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-scalajs--17197",
+    "executionErrors": []
+}

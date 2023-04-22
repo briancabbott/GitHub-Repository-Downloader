@@ -1,0 +1,44 @@
+[package]
+name = "apollo-parser"
+version = "0.5.1"
+authors = ["Irina Shestak <shestak.irina@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/apollographql/apollo-rs"
+documentation = "https://docs.rs/apollo-parser"
+description = "Spec-compliant GraphQL parser."
+keywords = ["graphql", "parser", "graphql-tooling", "apollographql"]
+categories = [
+    "compilers",
+    "development-tools",
+    "parser-implementations",
+    "parsing",
+    "web-programming",
+]
+edition = "2021"
+
+[dependencies]
+rowan = "0.15.5"
+thiserror = "1.0.30"
+
+[dev-dependencies]
+indexmap = "1.9.2"
+miette = { version = "3.2.0", features = ["fancy"] }
+apollo-encoder = { path = "../apollo-encoder", version = "0.5.0", features = [
+    "apollo-parser",
+] }
+anyhow = "1.0.66"
+pretty_assertions = "0.7.1"
+annotate-snippets = "0.9.1"
+expect-test = "1.1"
+unindent = "0.1.7"
+criterion = "0.3.0"
+
+[[bench]]
+name = "query"
+path = "benches/query.rs"
+harness = false
+
+[[bench]]
+name = "supergraph"
+path = "benches/supergraph.rs"
+harness = false

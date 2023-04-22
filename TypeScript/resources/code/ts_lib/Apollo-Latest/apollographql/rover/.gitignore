@@ -1,0 +1,28 @@
+/target
+
+# Local Netlify folder
+.netlify
+
+# output of `cargo xtask package`
+/artifacts
+
+# .env to store APOLLO_KEY for VS Code
+.env
+
+# Local dev-docs folder
+/dev-docs
+
+# output of `cargo xtask lint`
+node_modules
+
+# rover is in charge of reading/writing .apollo configuration
+# and rover devs may want to have one local to the rover repo
+# for testing purposes, though it should not be committed
+# (unless we start using .apollo to configure our schema fetching for rover-client)
+.apollo
+
+# JetBrains IDEs
+.idea
+
+# MacOS DS_Store files
+.DS_Store

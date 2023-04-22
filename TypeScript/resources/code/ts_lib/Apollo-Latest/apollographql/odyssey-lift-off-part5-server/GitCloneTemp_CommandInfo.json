@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/odyssey-lift-off-part5-server undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/odyssey-lift-off-part5-server",
+    "repo": "https://github.com/apollographql/odyssey-lift-off-part5-server",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/odyssey-lift-off-part5-server",
+    "startTime": "2023-04-22T13:02:31.004Z",
+    "endTime": "2023-04-22T13:02:31.687Z",
+    "childProcessPid": 17530,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--odyssey-lift-off-part5-server--17530",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/ac3-state-management-examples undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/ac3-state-management-examples",
+    "repo": "https://github.com/apollographql/ac3-state-management-examples",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/ac3-state-management-examples",
+    "startTime": "2023-04-22T12:58:41.920Z",
+    "endTime": "2023-04-22T12:58:44.197Z",
+    "childProcessPid": 17029,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--ac3-state-management-examples--17029",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/graphql-java undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/graphql-java",
+    "repo": "https://github.com/apollographql/graphql-java",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/graphql-java",
+    "startTime": "2023-04-22T13:01:52.603Z",
+    "endTime": "2023-04-22T13:01:55.444Z",
+    "childProcessPid": 17420,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--graphql-java--17420",
+    "executionErrors": []
+}

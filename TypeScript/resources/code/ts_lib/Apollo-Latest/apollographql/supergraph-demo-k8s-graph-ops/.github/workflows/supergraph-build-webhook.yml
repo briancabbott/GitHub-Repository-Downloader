@@ -1,0 +1,137 @@
+name: Supergraph Build Webhook
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [studio-build-webhook]
+
+jobs:
+  supergraph-build-webhook:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - graph-ref: "supergraph-router@dev"
+            short-name: dev
+            target-file: "router/dev/supergraph.graphql"
+            pr-branch: "bump-supergraph-dev"
+          - graph-ref: "supergraph-router@stage"
+            short-name: stage
+            target-file: "router/stage/supergraph.graphql"
+            pr-branch: "bump-supergraph-stage"
+          - graph-ref: "supergraph-router@prod"
+            short-name: prod
+            target-file: "router/prod/supergraph.graphql"
+            pr-branch: "bump-supergraph-prod"
+    name: ${{ matrix.graph-ref }}
+    concurrency:
+      group: ${{ matrix.graph-ref }}
+      cancel-in-progress: true
+    env:
+      APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
+      GRAPH_REF: ${{ matrix.graph-ref }}
+      SUPERGRAPH: ${{ matrix.target-file }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: install rover
+        run: |
+          curl -sSL https://rover.apollo.dev/nix/latest | sh
+          echo "PATH=$PATH:$HOME/.rover/bin" >> ${GITHUB_ENV}
+      -
+        id: pre-check
+        name: pre-check
+        run: |
+          SHA=$(shasum ${{ matrix.target-file }} | awk '{print $1}')
+          echo "::set-output name=sha::$SHA"
+          echo "::set-output name=sha-short::$(git rev-parse --short $SHA)"
+      -
+        name: supergraph fetch
+        run: |
+          rover supergraph fetch $GRAPH_REF > ${{ matrix.target-file }}
+          echo "$(git diff --name-only)"
+      -
+        id: check
+        name: check
+        run: |
+          echo "::set-output name=result::$(git diff --name-only | grep -E $SUPERGRAPH)"
+          SHA=$(shasum $SUPERGRAPH | awk '{print $1}')
+          echo "::set-output name=sha::$SHA"
+          echo "::set-output name=sha-short::$(git rev-parse --short $SHA)"
+      -
+        name: validate
+        if: steps.check.outputs.result == matrix.target-file
+        env:
+          RESULT: ${{ steps.check.outputs.result }}
+          SHA: ${{ steps.check.outputs.sha }}
+          SHA_SHORT: ${{ steps.check.outputs.sha-short }}
+        run: |
+          echo "RESULT: $RESULT"
+          echo "SHA: $SHA"
+          echo "SHA_SHORT: $SHA_SHORT"
+          DIFF=$(git diff $SUPERGRAPH)
+          echo "DIFF<<EOF" >> $GITHUB_ENV
+          echo "$DIFF" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "-----------------------"
+          echo "$SUPERGRAPH"
+          echo "-----------------------"
+          echo "$DIFF"
+      -
+        name: create pull request
+        id: cpr
+        if: steps.check.outputs.result == matrix.target-file
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          committer: Supergraph Demo Bot <prasek+bot@gmail.com>
+          author: Supergraph Demo Bot <prasek+bot@gmail.com>
+          commit-message: Bump ${{ matrix.short-name }} supergraph schema from ${{ steps.pre-check.outputs.sha-short }} to ${{ steps.check.outputs.sha-short }}
+          title:  Bump ${{ env.GRAPH_REF }} from ${{ steps.pre-check.outputs.sha-short }} to ${{ steps.check.outputs.sha-short }}
+          body: |
+            Bump ${{ env.GRAPH_REF }} from ${{ steps.pre-check.outputs.sha-short }} to ${{ steps.check.outputs.sha-short }}
+            * Old: SHA1 ${{ steps.pre-check.outputs.sha }} ( ${{ steps.pre-check.outputs.sha-short }} )
+            * New: SHA1 ${{ steps.check.outputs.sha }} ( ${{ steps.check.outputs.sha-short }} )
+
+            <details>
+            <summary>${{ env.GRAPH_REF }} changes</summary>
+
+            ```diff
+            ${{ env.DIFF }}
+
+            ```
+
+            </details>
+          branch: ${{ matrix.pr-branch }}
+          base: main
+          delete-branch: true
+      -
+        name: enable pull request automerge
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: peter-evans/enable-pull-request-automerge@v1
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: rebase
+      -
+        name: Check output
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        run: |
+          echo PR CREATED or MODIFIED
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      -
+        name: No changes detected
+        if: |
+          steps.cpr.outputs.pull-request-operation != 'created' &&
+          steps.cpr.outputs.pull-request-operation != 'updated'
+        run: |
+          echo "No changes detected."

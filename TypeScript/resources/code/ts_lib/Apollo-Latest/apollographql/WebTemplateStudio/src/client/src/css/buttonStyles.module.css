@@ -1,0 +1,26 @@
+.buttonHighlighted {
+  background-color: #0067b8;
+  color: white !important;
+}
+
+.buttonLight,
+.buttonHighlighted,
+.buttonDark {
+  text-decoration: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border: none;
+}
+
+.buttonDark {
+  background-color: var(--vscode-editorWidget-border);
+  color: var(--vscode-editor-foreground) !important;
+}
+
+.buttonCursorDefault {
+  cursor: default;
+}
+
+.buttonCursorPointer {
+  cursor: pointer;
+}

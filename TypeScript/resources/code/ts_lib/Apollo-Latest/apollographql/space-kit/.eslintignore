@@ -1,0 +1,9 @@
+src/icons/*.tsx
+!.eslintrc.js
+
+# Storybook
+!.storybook
+!.github
+
+# Programatically created Storybook story
+src/icons/Icons.story.mdx

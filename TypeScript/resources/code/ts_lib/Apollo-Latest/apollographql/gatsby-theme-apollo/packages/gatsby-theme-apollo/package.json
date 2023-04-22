@@ -1,0 +1,26 @@
+{
+  "name": "gatsby-theme-apollo",
+  "version": "4.0.0",
+  "main": "index.js",
+  "description": "Sets up your Gatsby website for use with Apollo",
+  "author": "Trevor Blades <blades@apollographql.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apollographql/gatsby-theme-apollo.git",
+    "directory": "packages/gatsby-theme-apollo"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "apollo-client"
+  ],
+  "peerDependencies": {
+    "@apollo/client": "^3.0.2",
+    "gatsby": "^3.0.0"
+  },
+  "devDependencies": {
+    "@apollo/client": "^3.0.2",
+    "gatsby": "^3.0.0"
+  }
+}

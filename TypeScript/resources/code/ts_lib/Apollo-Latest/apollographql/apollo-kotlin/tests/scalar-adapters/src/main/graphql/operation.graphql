@@ -1,0 +1,27 @@
+query CompileTimeAdapters {
+  int
+  nullableInt
+  string
+  nullableString
+}
+
+query BuiltInAdapters {
+  id
+  nullableId
+  long
+  float
+  any
+  geoPoints
+  boolean
+  nullableBoolean
+  notMapped
+  nullableNotMapped
+}
+
+query Address {
+  address
+}
+
+query Decimal {
+  decimal
+}

@@ -1,0 +1,4 @@
+{
+  "name": "Docs PR Preview Workflow",
+  "description": "Create a deploy preview on Netlify to review proposed docs changes."
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-json-schemas undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-json-schemas",
+    "repo": "https://github.com/apollographql/apollo-json-schemas",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-json-schemas",
+    "startTime": "2023-04-22T12:59:47.648Z",
+    "endTime": "2023-04-22T12:59:48.515Z",
+    "childProcessPid": 17123,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-json-schemas--17123",
+    "executionErrors": []
+}

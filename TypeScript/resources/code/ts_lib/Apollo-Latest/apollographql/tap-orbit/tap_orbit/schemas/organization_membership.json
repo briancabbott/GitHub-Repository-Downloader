@@ -1,0 +1,19 @@
+{
+    "type": [
+      "object"
+    ],
+    "properties": {
+      "member_id": {
+        "type": [
+          "string"
+        ]
+      },
+      "organization_id": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    }
+  }
+  

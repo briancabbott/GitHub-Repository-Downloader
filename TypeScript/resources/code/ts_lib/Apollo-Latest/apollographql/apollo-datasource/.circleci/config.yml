@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+# Important! When adding a new job to `jobs`, make sure to define when it
+# executes by also adding it to the `workflows` section below!
+jobs:
+  Build:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          node-version: '16.5'
+      - node/install-packages
+workflows:
+  build:
+    jobs:
+      - Build
+      - node/run:
+          name: Lint
+          npm-run: 'prettier-check'

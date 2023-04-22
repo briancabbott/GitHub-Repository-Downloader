@@ -1,0 +1,864 @@
+{
+  "streams": [
+    {
+      "tap_stream_id": "uptime",
+      "replication_key": "updated_at",
+      "replication_method": "INCREMENTAL",
+      "key_properties": "id",
+      "schema": {
+        "properties": {
+          "range_start": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "range_end": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "uptime_percentage": {
+            "type": ["null", "number"]
+          },
+          "major_outage": {
+            "type": ["null", "integer"]
+          },
+          "partial_outage": {
+            "type": ["null", "integer"]
+          },
+          "warnings": {
+            "type": ["null", "string"]
+          },
+          "id": {
+            "type": ["null", "string"]
+          },
+          "name": {
+            "type": ["null", "string"]
+          },
+          "related_events": {
+            "items": {
+              "properties": {
+                "id": {
+                  "type": ["null", "string"]
+                }
+              },
+              "type": ["null", "object"]
+            },
+            "type": ["null", "array"]
+          }
+        },
+        "type": ["null", "object"],
+        "additionalProperties": false
+      },
+      "stream": "uptime",
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "table-key-properties": "id",
+            "forced-replication-method": "INCREMENTAL",
+            "valid-replication-keys": ["updated_at"],
+            "inclusion": "available",
+            "selected": "True"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "range_start"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "range_end"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "uptime_percentage"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "major_outage"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "partial_outage"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "warnings"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "name"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "related_events"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    },
+    {
+      "tap_stream_id": "components",
+      "replication_key": "updated_at",
+      "replication_method": "INCREMENTAL",
+      "key_properties": "id",
+      "schema": {
+        "properties": {
+          "id": {
+            "type": ["null", "string"]
+          },
+          "page_id": {
+            "type": ["null", "string"]
+          },
+          "group_id": {
+            "type": ["null", "string"]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "group": {
+            "type": ["null", "boolean"]
+          },
+          "name": {
+            "type": ["null", "string"]
+          },
+          "description": {
+            "type": ["null", "string"]
+          },
+          "position": {
+            "type": ["null", "integer"]
+          },
+          "status": {
+            "type": ["null", "string"]
+          },
+          "showcase": {
+            "type": ["null", "boolean"]
+          },
+          "only_show_if_degraded": {
+            "type": ["null", "boolean"]
+          },
+          "automation_email": {
+            "type": ["null", "string"]
+          },
+          "start_date": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          }
+        },
+        "type": ["null", "object"],
+        "additionalProperties": false
+      },
+      "stream": "components",
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "table-key-properties": "id",
+            "forced-replication-method": "INCREMENTAL",
+            "valid-replication-keys": ["updated_at"],
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "page_id"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "group_id"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "created_at"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "updated_at"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "group"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "name"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "description"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "position"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "status"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "showcase"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "only_show_if_degraded"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "automation_email"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "start_date"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    },
+    {
+      "tap_stream_id": "incidents",
+      "replication_key": "updated_at",
+      "replication_method": "INCREMENTAL",
+      "key_properties": "id",
+      "schema": {
+        "properties": {
+          "id": {
+            "type": ["null", "string"]
+          },
+          "components": {
+            "items": {
+              "properties": {
+                "id": {
+                  "type": ["null", "string"]
+                },
+                "page_id": {
+                  "type": ["null", "string"]
+                },
+                "group_id": {
+                  "type": ["null", "string"]
+                },
+                "created_at": {
+                  "format": "date-time",
+                  "type": ["null", "string"]
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": ["null", "string"]
+                },
+                "group": {
+                  "type": ["null", "boolean"]
+                },
+                "name": {
+                  "type": ["null", "string"]
+                },
+                "description": {
+                  "type": ["null", "string"]
+                },
+                "position": {
+                  "type": ["null", "integer"]
+                },
+                "status": {
+                  "type": ["null", "string"]
+                },
+                "showcase": {
+                  "type": ["null", "boolean"]
+                },
+                "only_show_if_degraded": {
+                  "type": ["null", "boolean"]
+                },
+                "automation_email": {
+                  "type": ["null", "string"]
+                },
+                "start_date": {
+                  "format": "date-time",
+                  "type": ["null", "string"]
+                }
+              },
+              "type": ["null", "object"]
+            },
+            "type": ["null", "array"]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "impact": {
+            "type": ["null", "string"]
+          },
+          "impact_override": {
+            "type": ["null", "string"]
+          },
+          "incident_updates": {
+            "items": {
+              "properties": {
+                "id": {
+                  "type": ["null", "string"]
+                },
+                "incident_id": {
+                  "type": ["null", "string"]
+                },
+                "affected_components": {
+                  "items": {
+                    "properties": {
+                      "code": {
+                        "type": ["null", "string"]
+                      },
+                      "name": {
+                        "type": ["null", "string"]
+                      },
+                      "old_status": {
+                        "type": ["null", "string"]
+                      },
+                      "new_status": {
+                        "type": ["null", "string"]
+                      }
+                    },
+                    "type": ["null", "object"]
+                  },
+                  "type": ["null", "array"]
+                }
+              },
+              "type": ["null", "object"]
+            },
+            "type": ["null", "array"]
+          }
+        },
+        "type": ["null", "object"],
+        "additionalProperties": false
+      },
+      "stream": "incidents",
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "table-key-properties": "id",
+            "forced-replication-method": "INCREMENTAL",
+            "valid-replication-keys": ["updated_at"],
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "components"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "created_at"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "impact"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "impact_override"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "incident_updates"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    },
+    {
+      "tap_stream_id": "pages",
+      "replication_key": "updated_at",
+      "replication_method": "FULL_TABLE",
+      "key_properties": "id",
+      "schema": {
+        "properties": {
+          "id": {
+            "type": ["null", "string"]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": ["null", "string"]
+          },
+          "name": {
+            "type": ["null", "string"]
+          },
+          "page_description": {
+            "type": ["null", "string"]
+          },
+          "headline": {
+            "type": ["null", "string"]
+          },
+          "branding": {
+            "type": ["null", "string"]
+          },
+          "subdomain": {
+            "type": ["null", "string"]
+          },
+          "domain": {
+            "type": ["null", "string"]
+          },
+          "url": {
+            "type": ["null", "string"]
+          },
+          "support_url": {
+            "type": ["null", "string"]
+          },
+          "hidden_from_search": {
+            "type": ["null", "boolean"]
+          },
+          "allow_page_subscribers": {
+            "type": ["null", "boolean"]
+          },
+          "allow_incident_subscribers": {
+            "type": ["null", "boolean"]
+          },
+          "allow_email_subscribers": {
+            "type": ["null", "boolean"]
+          },
+          "allow_sms_subscribers": {
+            "type": ["null", "boolean"]
+          },
+          "allow_rss_atom_feeds": {
+            "type": ["null", "boolean"]
+          },
+          "allow_webhook_subscribers": {
+            "type": ["null", "boolean"]
+          },
+          "notifications_from_email": {
+            "type": ["null", "string"]
+          },
+          "notifications_email_footer": {
+            "type": ["null", "string"]
+          },
+          "activity_score": {
+            "type": ["null", "number"]
+          },
+          "twitter_username": {
+            "type": ["null", "string"]
+          },
+          "viewers_must_be_team_members": {
+            "type": ["null", "boolean"]
+          },
+          "ip_restrictions": {
+            "type": ["null", "string"]
+          },
+          "city": {
+            "type": ["null", "string"]
+          },
+          "state": {
+            "type": ["null", "string"]
+          },
+          "country": {
+            "type": ["null", "string"]
+          },
+          "time_zone": {
+            "type": ["null", "string"]
+          },
+          "css_body_background_color": {
+            "type": ["null", "string"]
+          },
+          "css_font_color": {
+            "type": ["null", "string"]
+          },
+          "css_light_font_color": {
+            "type": ["null", "string"]
+          },
+          "css_greens": {
+            "type": ["null", "string"]
+          },
+          "css_yellows": {
+            "type": ["null", "string"]
+          },
+          "css_oranges": {
+            "type": ["null", "string"]
+          },
+          "css_blues": {
+            "type": ["null", "string"]
+          },
+          "css_reds": {
+            "type": ["null", "string"]
+          },
+          "css_border_color": {
+            "type": ["null", "string"]
+          },
+          "css_graph_color": {
+            "type": ["null", "string"]
+          },
+          "css_link_color": {
+            "type": ["null", "string"]
+          },
+          "css_no_data": {
+            "type": ["null", "string"]
+          },
+          "favicon_logo": {
+            "type": ["null", "string"]
+          },
+          "transactional_logo": {
+            "type": ["null", "string"]
+          },
+          "hero_cover": {
+            "type": ["null", "string"]
+          },
+          "email_logo": {
+            "type": ["null", "string"]
+          },
+          "twitter_logo": {
+            "type": ["null", "string"]
+          }
+        },
+        "type": ["null", "object"],
+        "additionalProperties": false
+      },
+      "stream": "pages",
+      "metadata": [
+        {
+          "breadcrumb": [],
+          "metadata": {
+            "table-key-properties": "id",
+            "forced-replication-method": "FULL_TABLE",
+            "valid-replication-keys": ["updated_at"],
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "id"],
+          "metadata": {
+            "inclusion": "automatic"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "created_at"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "updated_at"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "name"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "page_description"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "headline"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "branding"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "subdomain"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "domain"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "url"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "support_url"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "hidden_from_search"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_page_subscribers"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_incident_subscribers"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_email_subscribers"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_sms_subscribers"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_rss_atom_feeds"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "allow_webhook_subscribers"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "notifications_from_email"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "notifications_email_footer"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "activity_score"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "twitter_username"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "viewers_must_be_team_members"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "ip_restrictions"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "city"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "state"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "country"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "time_zone"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_body_background_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_font_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_light_font_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_greens"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_yellows"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_oranges"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_blues"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_reds"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_border_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_graph_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_link_color"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "css_no_data"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "favicon_logo"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "transactional_logo"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "hero_cover"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "email_logo"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        },
+        {
+          "breadcrumb": ["properties", "twitter_logo"],
+          "metadata": {
+            "inclusion": "available"
+          }
+        }
+      ]
+    }
+  ]
+}

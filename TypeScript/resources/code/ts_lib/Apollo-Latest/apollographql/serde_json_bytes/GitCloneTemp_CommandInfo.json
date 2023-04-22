@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/serde_json_bytes undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/serde_json_bytes",
+    "repo": "https://github.com/apollographql/serde_json_bytes",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/serde_json_bytes",
+    "startTime": "2023-04-22T13:03:09.063Z",
+    "endTime": "2023-04-22T13:03:09.654Z",
+    "childProcessPid": 17634,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--serde_json_bytes--17634",
+    "executionErrors": []
+}

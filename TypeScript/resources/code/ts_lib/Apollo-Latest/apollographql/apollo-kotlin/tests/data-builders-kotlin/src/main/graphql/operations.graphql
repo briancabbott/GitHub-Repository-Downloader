@@ -1,0 +1,130 @@
+query GetInt {
+  nullableInt
+  nonNullableInt
+}
+
+query GetCustomScalar {
+  long1
+  long2
+  long3
+  listOfListOfLong1
+}
+
+query GetDirection {
+  direction
+}
+
+mutation PutInt {
+  nullableInt
+}
+
+query GetAliases {
+  aliasedNullableInt: nullableInt
+  cat {
+    species
+  }
+  aliasedCat: cat {
+    species
+  }
+}
+
+query GetAnimal {
+  animal {
+    species
+    ... on Lion {
+      roar
+    }
+  }
+}
+
+query GetNode {
+  node {
+    id
+  }
+}
+
+
+query GetFeline {
+  feline {
+    ... on Animal {
+      id
+    }
+    ... on Cat {
+      mustaches
+    }
+  }
+}
+
+query GetEverything {
+  nullableInt
+  nonNullableInt
+  listOfListOfInt
+  direction
+  listOfListOfAnimal {
+    species
+  }
+  cat {
+    mustaches
+  }
+  animal {
+    species
+  }
+  feline {
+    ... on Animal {
+      id
+    }
+    ... on Lion {
+      roar
+    }
+  }
+}
+
+query GetPartial {
+  listOfListOfAnimal {
+    species
+    ... on Lion {
+      roar
+    }
+  }
+}
+
+query GetEgotisticalCat {
+  cat {
+    id
+    species
+    mustaches
+    # This cat will be its own best friend :)
+    bestFriend {
+      species
+      ... on Cat {
+        mustaches
+      }
+    }
+  }
+}
+
+query GetCatAnimal {
+  animal {
+    ... on Cat {
+      species
+      mustaches
+    }
+  }
+}
+
+query GetProduct {
+  product {
+    name
+    price
+  }
+  promo {
+    product {
+      name
+      price
+    }
+  }
+}
+
+query Skip($skip: Boolean!) {
+  nonNullableInt @skip(if: $skip)
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/supergraph-demo-products undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/supergraph-demo-products",
+    "repo": "https://github.com/apollographql/supergraph-demo-products",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/supergraph-demo-products",
+    "startTime": "2023-04-22T13:03:33.950Z",
+    "endTime": "2023-04-22T13:03:34.588Z",
+    "childProcessPid": 17778,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--supergraph-demo-products--17778",
+    "executionErrors": []
+}

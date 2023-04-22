@@ -1,0 +1,14 @@
+query TestQuery {
+  __schema {
+    queryType {
+      name
+    }
+    types {
+      name
+    }
+  }
+  __type(name: "Vehicle") {
+    name
+    kind
+  }
+}

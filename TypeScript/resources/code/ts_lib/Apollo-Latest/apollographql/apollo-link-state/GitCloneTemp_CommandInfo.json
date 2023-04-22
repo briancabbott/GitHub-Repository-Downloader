@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-link-state undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-link-state",
+    "repo": "https://github.com/apollographql/apollo-link-state",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-link-state",
+    "startTime": "2023-04-22T13:00:28.787Z",
+    "endTime": "2023-04-22T13:00:29.623Z",
+    "childProcessPid": 17182,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-link-state--17182",
+    "executionErrors": []
+}

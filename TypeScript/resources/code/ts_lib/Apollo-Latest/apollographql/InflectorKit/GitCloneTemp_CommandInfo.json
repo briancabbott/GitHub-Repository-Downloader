@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/InflectorKit undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/InflectorKit",
+    "repo": "https://github.com/apollographql/InflectorKit",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/InflectorKit",
+    "startTime": "2023-04-22T12:58:16.180Z",
+    "endTime": "2023-04-22T12:58:16.786Z",
+    "childProcessPid": 16987,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--InflectorKit--16987",
+    "executionErrors": []
+}

@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "config:js-lib",
+    "group:allNonMajor",
+    "group:jestPlusTSJest",
+    "group:jestPlusTypes",
+    // Our default configuration. See
+    // https://github.com/apollographql/renovate-config-apollo-open-source/blob/master/package.json
+    "apollo-open-source",
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "16.x"
+    },
+  ],
+}

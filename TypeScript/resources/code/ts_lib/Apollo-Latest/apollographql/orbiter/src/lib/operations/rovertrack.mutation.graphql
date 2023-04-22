@@ -1,0 +1,23 @@
+mutation RoverTrack(
+  $anonymousId: ID!
+  $command: String!
+  $cwdHash: SHA256!
+  $os: String!
+  $remoteUrlHash: SHA256
+  $sessionId: ID!
+  $version: String!
+  $arguments: [RoverArgumentInput!]!
+  $ci: String
+) {
+  trackRoverSession(
+    anonymousId: $anonymousId
+    command: $command
+    cwdHash: $cwdHash
+    os: $os
+    remoteUrlHash: $remoteUrlHash
+    sessionId: $sessionId
+    version: $version
+    arguments: $arguments
+    ci: $ci
+  )
+}

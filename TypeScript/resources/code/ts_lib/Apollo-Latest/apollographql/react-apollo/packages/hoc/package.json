@@ -1,0 +1,30 @@
+{
+  "name": "@apollo/react-hoc",
+  "description": "React Apollo `graphql` higher-order component.",
+  "version": "4.0.0",
+  "author": "opensource@apollographql.com",
+  "keywords": [
+    "apollo",
+    "graphql",
+    "react",
+    "hoc"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.esm.js",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "apollographql/react-apollo"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": ""
+  },
+  "dependencies": {
+    "@apollo/client": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

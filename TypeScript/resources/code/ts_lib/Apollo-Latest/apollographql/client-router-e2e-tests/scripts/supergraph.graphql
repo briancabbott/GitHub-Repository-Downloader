@@ -1,0 +1,175 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION)
+  @link(url: "https://specs.apollo.dev/tag/v0.2")
+  @link(url: "https://specs.apollo.dev/inaccessible/v0.2", for: SECURITY)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @inaccessible on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @join__field(graph: join__Graph!, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+directive @tag(name: String!) repeatable on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+scalar join__FieldSet
+
+enum join__Graph {
+  PRODUCTS @join__graph(name: "products", url: "http://products:4000/graphql")
+  USERS @join__graph(name: "users", url: "http://users:4000/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type MakePaymentResult
+  @join__type(graph: USERS)
+{
+  id: ID!
+  user: PaymentUser!
+  paymentStatus: PaymentStatus
+}
+
+type Mutation
+  @join__type(graph: USERS)
+{
+  makePayment(userId: ID!, paymentInformation: PaymentInformationInput!): MakePaymentResult!
+}
+
+type PaymentFailed implements PaymentStatus
+  @join__implements(graph: USERS, interface: "PaymentStatus")
+  @join__type(graph: USERS)
+{
+  id: ID!
+  reason: String!
+}
+
+input PaymentInformationInput
+  @join__type(graph: USERS)
+{
+  fakeInfo: String!
+}
+
+interface PaymentStatus
+  @join__type(graph: USERS)
+{
+  id: ID!
+}
+
+type PaymentSuccess implements PaymentStatus
+  @join__implements(graph: USERS, interface: "PaymentStatus")
+  @join__type(graph: USERS)
+{
+  id: ID!
+  billedAmount: Float!
+}
+
+type PaymentUser
+  @join__type(graph: USERS)
+{
+  id: ID!
+  name: String!
+  email: String
+  username: String!
+  friends(first: Int = 10, after: Int = 0): [PaymentUser!]
+  phoneNumber: String
+  title: String
+  avatarUrl: String
+}
+
+type Product implements ProductItf & SkuItf
+  @join__implements(graph: PRODUCTS, interface: "ProductItf")
+  @join__implements(graph: PRODUCTS, interface: "SkuItf")
+  @join__type(graph: PRODUCTS, key: "id")
+  @join__type(graph: PRODUCTS, key: "sku package")
+  @join__type(graph: PRODUCTS, key: "sku variation { id }")
+{
+  id: ID! @tag(name: "hi-from-products")
+  sku: String
+  package: String
+  variation: ProductVariation
+  dimensions: ProductDimension
+  createdBy: User
+  errorField: String
+  nonNullErrorField: String!
+  promiseNonNullErrorField: String!
+  hidden: String
+  reviewsScore: Float!
+  oldField: String
+}
+
+type ProductDimension
+  @join__type(graph: PRODUCTS)
+{
+  size: String
+  weight: Float
+}
+
+interface ProductItf implements SkuItf
+  @join__implements(graph: PRODUCTS, interface: "SkuItf")
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  sku: String
+  package: String
+  variation: ProductVariation
+  dimensions: ProductDimension
+  createdBy: User
+  errorField: String
+  nonNullErrorField: String!
+  promiseNonNullErrorField: String!
+  hidden: String @inaccessible
+  oldField: String @deprecated(reason: "refactored out")
+}
+
+type ProductVariation
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  name: String
+}
+
+type Query
+  @join__type(graph: PRODUCTS)
+  @join__type(graph: USERS)
+{
+  allProducts: [ProductItf] @join__field(graph: PRODUCTS)
+  product(id: ID!): ProductItf @join__field(graph: PRODUCTS)
+  user(id: ID!): PaymentUser! @join__field(graph: USERS)
+  getPaymentStatus: PaymentStatus! @join__field(graph: USERS)
+  users: [PaymentUser!]! @join__field(graph: USERS)
+}
+
+interface SkuItf
+  @join__type(graph: PRODUCTS)
+{
+  sku: String
+}
+
+type User
+  @join__type(graph: PRODUCTS, key: "email")
+{
+  email: ID!
+  totalProductsCreated: Int
+}

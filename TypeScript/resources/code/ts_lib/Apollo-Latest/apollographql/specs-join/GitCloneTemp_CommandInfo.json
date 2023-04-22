@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/specs-join undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/specs-join",
+    "repo": "https://github.com/apollographql/specs-join",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/specs-join",
+    "startTime": "2023-04-22T13:03:17.329Z",
+    "endTime": "2023-04-22T13:03:17.964Z",
+    "childProcessPid": 17689,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--specs-join--17689",
+    "executionErrors": []
+}

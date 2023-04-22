@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "composite": true
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "packages/fastify/src/__tests__" },
+    { "path": "packages/lambda/src/__tests__" }
+  ]
+}

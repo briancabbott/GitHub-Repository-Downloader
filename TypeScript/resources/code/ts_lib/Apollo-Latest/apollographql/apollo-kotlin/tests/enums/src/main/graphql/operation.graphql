@@ -1,0 +1,8 @@
+query GetEnums {
+  direction
+  gravity
+  foo
+  fooSealed
+  fooClass
+  fooEnum
+}

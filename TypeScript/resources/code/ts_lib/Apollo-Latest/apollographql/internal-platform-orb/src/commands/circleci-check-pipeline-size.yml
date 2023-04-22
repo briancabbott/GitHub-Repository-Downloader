@@ -1,0 +1,22 @@
+description: "Processes the given config in an attempt to see if it is larger than allowed by Circle"
+parameters:
+  org-slug:
+    type: string
+    description: vsc provider plus org name. Example github/apollographql
+  pipeline-file-path:
+    type: string
+  circleci-token-environment-variable:
+    type: string
+steps:
+  - run:
+      name: processed config size check
+      command: |
+         # https://support.circleci.com/hc/en-us/articles/360045043634-Maximum-Size-of-a-CircleCI-Configuration-config-yml-
+         # https://circleci-public.github.io/circleci-cli/circleci_config_process.html
+
+         circleci config process \
+           --org-slug << parameters.org-slug >> \
+           --token $<< parameters.circleci-token-environment-variable >> \
+           << parameters.pipeline-file-path >> > /tmp/.circleci/processed.yml
+
+         ls -lh /tmp/.circleci/processed.yml

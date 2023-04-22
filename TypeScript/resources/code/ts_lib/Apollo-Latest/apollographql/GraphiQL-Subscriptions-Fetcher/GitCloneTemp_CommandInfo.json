@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/GraphiQL-Subscriptions-Fetcher undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/GraphiQL-Subscriptions-Fetcher",
+    "repo": "https://github.com/apollographql/GraphiQL-Subscriptions-Fetcher",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/GraphiQL-Subscriptions-Fetcher",
+    "startTime": "2023-04-22T12:58:15.505Z",
+    "endTime": "2023-04-22T12:58:16.179Z",
+    "childProcessPid": 16982,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--GraphiQL-Subscriptions-Fetcher--16982",
+    "executionErrors": []
+}

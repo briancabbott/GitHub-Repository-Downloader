@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/hack-the-supergraph undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/hack-the-supergraph",
+    "repo": "https://github.com/apollographql/hack-the-supergraph",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/hack-the-supergraph",
+    "startTime": "2023-04-22T13:02:01.616Z",
+    "endTime": "2023-04-22T13:02:02.709Z",
+    "childProcessPid": 17451,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--hack-the-supergraph--17451",
+    "executionErrors": []
+}

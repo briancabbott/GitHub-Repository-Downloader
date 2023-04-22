@@ -1,0 +1,80 @@
+---
+title: Mocking HTTP responses (experimental)
+---
+
+> ℹ️ `MockServer` is still experimental and most of the APIs are designed for Kotlin. `MockServer` is multiplatform but if you're using Java only, we recommend using [OkHttp MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) which will provide idiomatic Java APIs.
+
+`MockServer` implements an HTTP server that you can use to mock responses. It's useful for testing specific server behaviors, such as error cases, HTTP headers, and timeouts. Using it requires minimal changes to your production code, because you only need to change your `serverUrl`.
+
+> See also [`TestNetworkTransport`](./mocking-graphql-responses), which handles mocking at the GraphQL level instead of the HTTP level.
+
+Add the dependency to your project's `build.gradle` file:
+
+```kotlin title="build.gradle[.kts]"
+dependencies {
+  testImplementation("com.apollographql.apollo3:apollo-mockserver:4.0.0-dev.2")
+}
+```
+
+And here's how to use it:
+
+```kotlin
+// Create a mock server
+val mockServer = MockServer()
+
+// Provide its URL to your ApolloClient
+val apolloClient = ApolloClient.Builder().serverUrl(mockServer.url()).store(store).build()
+
+// Enqueue HTTP responses
+mockServer.enqueue("""{"data": {"random": 42}}""")
+mockServer.enqueue(
+    MockResponse(
+        body = "Internal server error",
+        statusCode = 500,
+        headers = mapOf("X-Test" to "true"),
+        // Optionally pass a delay to simulate network latency
+        delayMillis = 1000L,
+    )
+)
+
+// Execute queries
+val response1 = apolloClient
+    .query(GetRandomQuery())
+    .execute()
+
+val response2 = apolloClient
+    .query(GetRandomQuery())
+    .execute()
+
+// Don't forget to stop the server when you're done
+mockServer.stop()
+```
+
+The `enqueue` function normally takes a `MockResponse` as a parameter, but it also supports a shorthand version that takes a `String` (both are shown above).
+
+### Advanced usage
+
+By default, `MockServer` is configured with a `QueueMockServerHandler`, which returns responses in the order they've been enqueued. If you need more control over the responses to return, you can implement your own `MockServerHandler` and pass it to the `MockServer`:
+
+```kotlin
+val customHandler = object : MockServerHandler {
+  override fun handle(request: MockRequest): MockResponse {
+    return if (/* Your custom logic here */) {
+      MockResponse(
+          body = """{"data": {"random": 42}}""",
+          headers = mapOf("X-Test" to "true"),
+      )
+    } else {
+      MockResponse(
+          body = "Internal server error",
+          statusCode = 500,
+      )
+    }
+  }
+}
+
+val mockServer = MockServer(customHandler)
+```
+
+Note that if you use a custom `MockServerHandler`, calling `MockServer.enqueue()` is no longer possible because it expects the handler to be
+a `QueueMockServerHandler`.

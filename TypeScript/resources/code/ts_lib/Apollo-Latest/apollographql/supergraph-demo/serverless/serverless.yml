@@ -1,0 +1,55 @@
+service: supergraph-serverless
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+
+functions:
+  router:
+    handler: router.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+  inventory:
+    handler: subgraphs/inventory.handler
+    events:
+      - http:
+          path: inventory 
+          method: ANY
+          cors: true
+  products:
+    handler: subgraphs/products.handler
+    events:
+      - http:
+          path: products
+          method: ANY
+          cors: true
+  users:
+    handler: subgraphs/users.handler
+    events:
+      - http:
+          path: users
+          method: ANY
+          cors: true
+  pandas:
+    handler: subgraphs/pandas.handler
+    events:
+      - http:
+          path: pandas
+          method: ANY
+          cors: true
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+    useChildProcesses: true
+    host: 0.0.0.0
+    httpPort: 4000

@@ -1,0 +1,156 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:dubnium
+  working_directory: ~/space-kit
+  
+commands:
+  npm-install:
+    steps:
+      - restore_cache:
+          name: Restore npm cache
+          keys:
+            - npm-cache--{{ checksum ".circleci/config.yml" }}--{{ checksum "package-lock.json" }}
+            - npm-cache--{{ checksum ".circleci/config.yml" }}
+            - npm-cache
+      - run:
+          name: Install npm dependencies with `npm ci`
+          command: npm ci --prefer-offline --no-audit
+      - save_cache:
+          name: Save npm and Cypress caches
+          key: npm-cache--{{ checksum ".circleci/config.yml" }}--{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+  
+jobs:
+  chromatic:
+    <<: *defaults
+    resource_class: medium+
+    steps:
+      - checkout
+      - npm-install
+      - restore_cache:
+          name: Restore storybook cache
+          keys:
+            - storybook-cache--{{ .Branch }}--{{ checksum ".circleci/config.yml" }}
+            - storybook-cache--main--{{ checksum ".circleci/config.yml" }}
+      - run:
+          name: Run Chromatic
+          command: npm run chromatic -- --exit-zero-on-changes --auto-accept-changes=main --exit-once-uploaded
+          environment:
+            CI: 1
+      - save_cache:
+          name: Save chromatic cache
+          key: storybook-cache--{{ .Branch }}--{{ checksum ".circleci/config.yml" }}--{{ epoch }}
+          paths:
+            - node_modules/.cache/storybook
+
+  check-conflicting-icon-components:
+    <<: *defaults
+    steps:
+      - checkout
+      - npm-install
+      - run:
+          name: Check for duplicate icons
+          command: npm run test:duplicate-icons -s
+
+  eslint:
+    <<: *defaults
+    steps:
+      - checkout
+      - npm-install
+      - run:
+          name: Ensure output directory exists
+          command: mkdir -p /tmp/test-reports/eslint
+      - run:
+          name: Eslint
+          command: npm run lint -- --quiet --no-cache --format junit --output-file /tmp/test-reports/eslint/results.xml
+      - store_test_results:
+          path: /tmp/test-reports
+
+  check-label:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Check labels
+          command: npx auto pr-check --pr ${CIRCLE_PULL_REQUEST##*/} --url ${CIRCLE_BUILD_URL}
+
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            # see https://circleci.com/gh/apollographql/space-kit/edit#checkout
+            - "66:03:9d:44:4c:ef:74:c5:ec:4e:23:21:8a:29:f3:cf"
+      - run:
+          name: Add NPM_TOKEN to `.npmrc`
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/space-kit/.npmrc
+      - npm-install
+      - run:
+          name: Release
+          command: npm run release
+
+  canary:
+    <<: *defaults
+    steps:
+      - checkout
+      - npm-install
+      - run:
+          name: Release
+          command: npx auto canary
+
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - npm-install
+      - run:
+          name: Test
+          command: npm run test:unit:coverage -- --silent --maxWorkers=2 --ci
+      - store_artifacts:
+          name: Store coverage artifacts
+          path: coverage
+
+  typescript:
+    <<: *defaults
+    steps:
+      - checkout
+      - npm-install
+      - run:
+          name: TypeScript
+          command: npm run test:typescript
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - chromatic
+      - check-conflicting-icon-components
+      - eslint
+      - typescript
+      - test
+      - canary:
+          filters:
+            branches:
+              ignore:
+                - main
+      - check-label:
+          filters:
+            branches:
+              ignore:
+                - main
+                - /^version-\d+$/
+      - release:
+          requires:
+            - check-conflicting-icon-components
+            - eslint
+            - typescript
+            - test
+          filters:
+            branches:
+              only:
+                - main
+                - /^version-\d+$/

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "jsx": "react",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "inlineSources": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "outDir": ".",
+    "pretty": true,
+    "rootDir": "src",
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "./node_modules",
+    "**/*.spec.*",
+    "**/*.story.*",
+    "**/*.stories.*",
+    "src/icons/scripts/**"
+  ],
+  "include": [
+    "./src/**/*"
+  ]
+}

@@ -1,0 +1,19 @@
+name: Deploy docs to production
+
+on:
+  push:
+    branches:
+      - main
+      - release-2.x
+    paths:
+      - docs/**
+env:
+  GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+
+jobs:
+  publish:
+    uses: apollographql/docs/.github/workflows/publish.yml@main
+    if: github.repository == 'apollographql/apollo-kotlin'
+    secrets:
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}

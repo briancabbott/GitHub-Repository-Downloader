@@ -1,0 +1,48 @@
+description: for any job that is old, cancel it and warn the people. Must run the setup command on each new executor
+
+parameters:
+  org-repo-slug:
+    type: string
+    description: "github-username-or-org-name/repo-name"
+  render-workflow-yml-file-path:
+    type: string
+    description: Use the generated information to render the mustache file at this path
+  circleci-token-variable:
+    description: the name of the environmental variable that contains the circleci token
+    default: "CIRCLECI_TOKEN"
+    type: string
+  ignore-when-all-on-hold-job-names-contain:
+    description: Do not warn about workflows where all of the on hold job names contain this string (also supported - comma seperated list)
+    type: string
+    default: ""
+  n-windows:
+    description: Number of windows to look back across. Default window length is 2 hours.
+    default: 6
+    type: integer
+steps:
+  - run:
+      name: Cancel long jobs
+      working_directory: /tmp/apollo_internal_platform_orb/src/scripts/circleci-job-canceller
+      command: |
+        python3 -m pip install -r requirements.txt
+        python3 long_job_canceller.py $<< parameters.circleci-token-variable >> << parameters.org-repo-slug >> --commit --n-windows << parameters.n-windows >> --ignore-job-names=<< parameters.ignore-when-all-on-hold-job-names-contain >>
+  - run:
+      name: Spawn workflow jobs for warnings
+      working_directory: /tmp/apollo_internal_platform_orb/src/scripts/render-yaml-from-tsv
+      command: |
+        python3 -m pip install -r requirements.txt
+        mkdir -p /tmp/circle/
+        python3 render-yaml-from-tsv.py "<< parameters.render-workflow-yml-file-path >>" /tmp/notifications.tsv  > /tmp/circle/warn-workflow.yml
+        echo "{}" > /tmp/circle/warn-workflow-params.json
+  - run:
+      name: Halt if no warning changes
+      command: |
+          if [ ! -s /tmp/circle/warn-workflow.yml ]
+          then
+             circleci-agent step halt
+          fi
+  - continuation/continue:
+        configuration_path: /tmp/circle/warn-workflow.yml
+        parameters: /tmp/circle/warn-workflow-params.json
+  - store_artifacts:
+        path: /tmp/circle/

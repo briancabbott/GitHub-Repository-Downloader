@@ -1,0 +1,359 @@
+import { findByRole } from "@testing-library/dom";
+import { FormControl } from "../FormControl";
+import { FormErrorMessage } from "../FormErrorMessage";
+import { Meta, Story, ArgsTable, Canvas } from "@storybook/addon-docs/blocks";
+import { PerformUserInteraction } from "../shared/PerformUserInteraction";
+import { Select as SpaceKitSelect } from "../Select";
+import userEvent from "@testing-library/user-event";
+import { base } from "../../typography";
+import { DebugTooltip } from "../shared/DebugTooltip";
+
+<Meta title="Form/Select" component={SpaceKitSelect} />
+
+export const Select = (props) => {
+  return (
+    <PerformUserInteraction
+      callback={async () => {
+        if (document.querySelector(".sbdocs")) {
+          // Do not perform interaction automatically if in Docs mode
+          return;
+        }
+        userEvent.click(await findByRole(document.body, "button"));
+      }}
+    >
+      <SpaceKitSelect {...props} />
+    </PerformUserInteraction>
+  );
+};
+
+export function SelectWithLabel({ label, ...props }) {
+  const [labelProps, setLabelProps] = React.useState();
+  // Wait for the label callback to be called and then click the button
+  const labelPropsCallback = React.useCallback(async (incomingLabelProps) => {
+    setLabelProps(incomingLabelProps);
+    if (!document.querySelector(".sbdocs")) {
+      // Only `click` if this is not storybook docs mode
+      userEvent.click(await findByRole(document.body, "button"));
+    }
+  }, []);
+  return (
+    <React.Fragment>
+      {React.cloneElement(label, labelProps)}
+      <SpaceKitSelect {...props} labelPropsCallbackRef={labelPropsCallback} />
+    </React.Fragment>
+  );
+}
+
+# Select
+
+**Select** is emulates a native `select` element, but rendered with Space Kit appearances.
+
+You must use the same `<option>` and `<optgroup>` elements you would use for a native `select` element. Any nested components will not work.
+
+<Canvas>
+  <Story name="basic options">
+    <Select
+      aria-labelledby="basic-options-label"
+      defaultValue=""
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <option value="value a">a</option>
+      <option value="value b">b</option>
+    </Select>
+  </Story>
+  <Story name="basic optgroup">
+    <Select
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <optgroup label="Group of options">
+        <option value="value a">a</option>
+        <option value="value b">b</option>
+      </optgroup>
+      <optgroup>
+        <option value="value c">c</option>
+        <option value="value d">d</option>
+      </optgroup>
+    </Select>
+  </Story>
+  <Story name="disabled">
+    <Select
+      disabled
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <option value="value a">a</option>
+      <option value="value b">b</option>
+    </Select>
+  </Story>
+  <Story name="disabled option">
+    <Select
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <option value="value a" disabled>
+        a
+      </option>
+      <option value="value b">b</option>
+      <option value="value c">c</option>
+    </Select>
+  </Story>
+</Canvas>
+
+## Custom content
+
+You can provide whatever you want as `children` to the `option` elements. The selection rendering requires that we are either given or can infer a value of each option element. You can pass a `value` prop or pass a `string`, `number`, or `null` as the `children` prop. Anything else will result in a `TypeError` being thrown.
+
+export const RichOption = ({ title, description }) => (
+  <div style={{ whiteSpace: "normal", overflow: "auto" }}>
+    <div style={{ ...base.base, fontWeight: "semibold" }}>{title}</div>
+    <div style={{ opacity: 0.75 }}>{description}</div>
+  </div>
+);
+
+<Canvas>
+  <Story name="rich option children">
+    <Select
+      defaultValue="Consumer"
+      margin="none"
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.value ?? "select an item"}</>
+      )}
+      selectionIndicator="checkmark"
+      truncate={false}
+    >
+      <option value="Consumer" style={{ height: "auto" }}>
+        <RichOption
+          title="Consumer"
+          description="Limited read-only user. Can use the Explorer, Schema Reference, and Changelog, but cannot see any graph metrics."
+        />
+      </option>
+      <option value="Observer" style={{ height: "auto" }}>
+        <RichOption
+          title="Observer"
+          description="Read-only user. Can view schemas and metrics on all graphs in the organization."
+        />
+      </option>
+      <option value="Contributor" style={{ height: "auto" }}>
+        <RichOption
+          title="Contributor"
+          description="Can view all graph data and push new schema versions to graphs in the org, but cannot manage graph configurations."
+        />
+      </option>
+      <option value="Graph Admin" style={{ height: "auto" }}>
+        <RichOption
+          title="Graph Admin"
+          description="Can view and manage configuration for every graph in the organization, but cannot manage members and billing."
+        />
+      </option>
+    </Select>
+  </Story>
+</Canvas>
+
+## Labels
+
+We're using [downshift](https://www.downshift-js.com/), specifically [`useSelect`](https://www.downshift-js.com/use-select) under the hood. `useSelect` automatically adds props to the trigger, to the list, and to the label. Space Kit's `Select` component does not render it's own `<label>` element and instead provides a `RefCallback` prop called `labelPropsCallbackRef` to provide access these props to the consumer.
+
+Here's an example:
+
+```tsx
+import * as React from "react";
+import { Select } from "@apollo/space-kit";
+
+export const YourFunction: React.FC = () => {
+  const [labelProps, setLabelProps] = React.useState();
+  return (
+    <React.Fragment>
+      <label {...labelProps}>your label</label>
+      <Select labelPropsCallbackRef={setLabelProps}>...</Select>
+    </React.Fragment>
+  );
+};
+```
+
+If you inspect the `label` shown in the following story; you'll see that `id` and `for` props are automatically added to the `label` to tie the `label` and `Select` together.
+
+<Canvas>
+  <Story name="basic options with label">
+    <DebugTooltip>
+      <SelectWithLabel
+        label={<label>label</label>}
+        defaultValue=""
+        renderTriggerNode={(selectedItem) => (
+          <>{selectedItem?.children ?? "select an item"}</>
+        )}
+      >
+        <option value="value a">a</option>
+        <option value="value b">b</option>
+      </SelectWithLabel>
+    </DebugTooltip>
+  </Story>
+</Canvas>
+
+## Control
+
+`Select` is intended to be a bare replacement for a `<select>` element. It can be either controlled or uncontrolled, see the [React: Uncontrolled Components](https://reactjs.org/docs/uncontrolled-components.html) docs for a more in-depth explanation.
+
+For controlled components, you must pass a `value` prop and have the option to pass an `onChange` prop. If you don't use an `onChange` prop, as expected, the `value` can not be changed.
+
+If you elect to use an uncontrolled component, do not pass `value` or `onChange` props. You can pass a `defaultValue` for the initial to be set and then the component will control the state on it's own.
+
+## Options
+
+### `selectionIndicator`
+
+We have the option to use a custom decoration to indicate an item is selected. Note that this is different from when an item is highlighted from a hover or keyboard arrow.
+
+#### `checkmark`
+
+<Canvas>
+  <Story name="selectionIndicator, checkmark">
+    <Select feel="flat" defaultValue="a" selectionIndicator="checkmark">
+      <option>a</option>
+      <option>b</option>
+    </Select>
+  </Story>
+</Canvas>
+
+### Feel
+
+Selects can be displayed using any of the `feel` values from `Button`.
+
+<Canvas>
+  <Story name="feel raised">
+    <Select
+      feel="raised"
+      defaultValue=""
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <option>a</option>
+      <optgroup label="header 1">
+        <option>b</option>
+      </optgroup>
+    </Select>
+  </Story>
+  <Story name="feel flat">
+    <Select
+      feel="flat"
+      defaultValue=""
+      renderTriggerNode={(selectedItem) => (
+        <>{selectedItem?.children ?? "select an item"}</>
+      )}
+    >
+      <option>a</option>
+      <optgroup label="header 1">
+        <option>b</option>
+      </optgroup>
+    </Select>
+  </Story>
+</Canvas>
+
+### Size
+
+By default, the component will match the width of it's content. The dropdown list will also match the size of the content. There are a few presets you can use to configure the width of the select trigger and you can have the dropdown list match the width of the trigger.
+
+#### Automatic Size
+
+<Canvas>
+  <Story name="Automatic Size, Narrow">
+    <Select defaultValue="a">
+      <option>a</option>
+    </Select>
+  </Story>
+  <Story name="Automatic Size, Wide">
+    <Select defaultValue="this is a super long to show how wide the select will be">
+      <option>this is a super long to show how wide the select will be</option>
+    </Select>
+  </Story>
+</Canvas>
+
+#### Sizes
+
+Sizes conform to the same sizes across space kit.
+
+Selects will grow to fit their current content. You can use `style` or `className` to force the size. Contents will automatically truncate.
+
+<Canvas>
+  <Story name="Small, Not Truncated">
+    <Select size="small" defaultValue="small">
+      <option>small</option>
+    </Select>
+  </Story>
+  <Story name="Small, Truncated">
+    <Select size="small" defaultValue="small truncated" style={{ width: 100 }}>
+      <option>small truncated</option>
+    </Select>
+  </Story>
+  <Story name="Standard, Not Truncated">
+    <Select size="standard" defaultValue="standard">
+      <option>standard</option>
+    </Select>
+  </Story>
+  <Story name="Standard, Truncated">
+    <Select
+      size="standard"
+      defaultValue="standard truncated truncated"
+      style={{ width: 150 }}
+    >
+      <option>standard truncated truncated</option>
+    </Select>
+  </Story>
+  <Story name="Large, Not Truncated">
+    <Select size="large" defaultValue="large">
+      <option>large</option>
+    </Select>
+  </Story>
+  <Story name="Large, Truncated">
+    <Select
+      size="large"
+      defaultValue="large truncated truncated"
+      style={{ width: 200 }}
+    >
+      <option>large truncated truncated</option>
+    </Select>
+  </Story>
+</Canvas>
+
+### Match Trigger width
+
+The menu width can be fixed to match the trigger button size with the `matchTriggerWidth` prop. This is most useful when you yourself define the size of the select element.
+
+<Canvas>
+  <Story name="Match Trigger Prop">
+    <Select defaultValue="small" matchTriggerWidth style={{ width: 150 }}>
+      <option>small</option>
+      <option>medium</option>
+      <option>large</option>
+    </Select>
+  </Story>
+</Canvas>
+
+## FormControl context
+
+`Select` is prepared to handle values passed from `FormControl` via `FormControlContext`.
+
+### Error State
+
+<Canvas>
+  <Story name="FormControlContext, error state">
+    <FormControl value={{ error: "error" }}>
+      <Select defaultValue="small" style={{ width: 150 }}>
+        <option>small</option>
+        <option>medium</option>
+        <option>large</option>
+      </Select>
+      <FormErrorMessage>error message</FormErrorMessage>
+    </FormControl>
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={SpaceKitSelect} />

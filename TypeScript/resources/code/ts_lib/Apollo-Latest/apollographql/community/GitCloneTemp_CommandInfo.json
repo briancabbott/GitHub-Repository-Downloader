@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/community undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/community",
+    "repo": "https://github.com/apollographql/community",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/community",
+    "startTime": "2023-04-22T13:01:04.118Z",
+    "endTime": "2023-04-22T13:01:06.184Z",
+    "childProcessPid": 17285,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--community--17285",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+query TestQuery {
+  hero {
+    name
+    birthDate
+    appearanceDates
+    fieldWithUnsupportedType
+    profileLink
+    links
+  }
+}

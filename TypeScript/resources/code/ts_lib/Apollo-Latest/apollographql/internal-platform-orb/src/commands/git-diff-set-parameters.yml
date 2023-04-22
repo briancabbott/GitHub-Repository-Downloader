@@ -1,0 +1,20 @@
+description: >-
+  This command outputs a JSON file where matching regex entries output their appropriate keys and values.
+  This does the heavy lifting for the enrich-mustache-from-path-file job, see that job for documentation
+parameters:
+  base-revision:
+    type: string
+    description: Compare this branch to its ancestor named
+  output-path:
+    type: string
+  mapping:
+    type: string
+
+steps:
+  - run:
+      name: generate parameters
+      command: python3 /tmp/apollo_internal_platform_orb/src/scripts/generate-mustache-parameters.py
+      environment:
+        BASE_REVISION: << parameters.base-revision >>
+        MAPPING: << parameters.mapping >>
+        OUTPUT_PATH: /tmp/enrich-parameters.json

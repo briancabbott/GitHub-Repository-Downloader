@@ -1,0 +1,61 @@
+init_config:
+
+instances:
+
+    ## @param url - string - required
+    ## Base URL to your event store instance.
+    #
+  - url: 'http://localhost:2113'
+
+    ## @param endpoints - list of strings - required
+    ## A list of API endpoints under the base URL to scrape for metrics
+    #
+    endpoints:
+      # Generic stats
+      - '/stats'
+      # # Node information
+      # - '/info'
+      # # Stats on projections
+      # - '/projections/all-non-transient'
+      # # Stats on subscriptions
+      # - '/subscriptions'
+      # # Clustering stats (enable only when running in a cluster, otherwise the whole instance will fail)
+      # - '/gossip'
+
+    ## @param user - string - optional
+    ## A name of the user to authenticate against metric endpoints
+    ## Should be specified if you're going to scrape /info/options, /projections/* or /subscriptions
+    #
+    # user: admin
+
+    ## @param password - string - optional
+    ## A password for the specified username to authenticate against metric endpoints
+    #
+    # password: changeit
+
+    ## @param name - string - optional
+    ## The name to tag the instance by, eg: AppEventStore
+    #
+    # name: '<INSTANCE_NAME>'
+
+    ## @param json_path - list of strings - required
+    ## A list of metrics you wish to capture, with wildcard support
+    ## The metric you wish to capture must be defined above, a wildcard captures
+    ## all available metrics at that point, eg :
+    ##   - es.* captures es.checksum and es.checksumNotFlushed but doesn't capture queues
+    ##   - es.queue.*.* captures all metrics for all queues
+    ##   - es.queue.*.length captures the length for all queues
+    #
+    json_path:
+      - 'es.queue.*.*'
+      - 'proc.cpu'
+      - 'proc.tcp.*'
+
+    ## @param tags - list of key:value elements - optional
+    ## List of tags to attach to every metric, event and service check emitted by this integration.
+    ##
+    ## Learn more about tagging: https://docs.datadoghq.com/tagging/
+    #
+    # tags:
+    #   - <KEY_1>:<VALUE_1>
+    #   - <KEY_2>:<VALUE_2>

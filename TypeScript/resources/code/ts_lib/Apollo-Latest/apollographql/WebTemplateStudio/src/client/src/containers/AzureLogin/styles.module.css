@@ -1,0 +1,66 @@
+.centerViewAzure {
+  padding: 0;
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  padding: 6vh;
+}
+
+.signedIn {
+  padding: 6vh;
+}
+
+.optionalFlag {
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  width: 100%;
+  background-color: #0067b8;
+  color: var(--vscode-extensionButton-prominentForeground);
+  text-align: center;
+  text-decoration: none;
+  font-weight: lighter;
+  font-size: 1.6em;
+  padding: 0.8em 0px;
+}
+
+.optionalFlag:hover {
+  color: var(--vscode-extensionButton-prominentForeground);
+}
+
+.loginCard {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.azureProfile {
+  display: flex;
+  position: absolute;
+  right: 14%;
+  top: 20px;
+}
+
+.profileName {
+  margin-right: 2em;
+}
+
+.button {
+  color: var(--vscode-textLink-foreground);
+  padding: 1px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: 1px solid var(--vscode-contrastActiveBorder);
+}
+
+@media (min-width: 830px) {
+  .azureProfile {
+    right: 7%;
+  }
+}

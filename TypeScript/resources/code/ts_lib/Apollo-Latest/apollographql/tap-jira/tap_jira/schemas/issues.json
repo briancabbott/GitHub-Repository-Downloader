@@ -1,0 +1,544 @@
+{
+  "title": "Issue",
+  "type": ["null", "object"],
+  "properties": {
+    "expand": {
+      "type": ["null", "string"]
+    },
+    "id": {
+      "type": ["null", "string"]
+    },
+    "self": {
+      "type": ["null", "string"],
+      "format": "uri"
+    },
+    "key": {
+      "type": ["null", "string"]
+    },
+    "fields": {
+      "type": ["null", "object"],
+      "properties": {
+        "updated": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "created": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "lastViewed": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "summary": {
+          "type": ["null", "string"]
+        },
+        "creator": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "accountId": {
+              "type": ["null", "string"]
+            },
+            "emailAddress": {
+              "type": ["null", "string"]
+            },
+            "displayName": {
+              "type": ["null", "string"]
+            },
+            "active": {
+              "type": ["null", "boolean"]
+            },
+            "timeZone": {
+              "type": ["null", "string"]
+            },
+            "accountType": {
+              "type": ["null", "string"]
+            }
+          }
+        },
+        "reporter": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "accountId": {
+              "type": ["null", "string"]
+            },
+            "emailAddress": {
+              "type": ["null", "string"]
+            },
+            "displayName": {
+              "type": ["null", "string"]
+            },
+            "active": {
+              "type": ["null", "boolean"]
+            },
+            "timeZone": {
+              "type": ["null", "string"]
+            },
+            "accountType": {
+              "type": ["null", "string"]
+            }
+          }
+        },
+        "assignee": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "accountId": {
+              "type": ["null", "string"]
+            },
+            "emailAddress": {
+              "type": ["null", "string"]
+            },
+            "displayName": {
+              "type": ["null", "string"]
+            },
+            "active": {
+              "type": ["null", "boolean"]
+            },
+            "timeZone": {
+              "type": ["null", "string"]
+            },
+            "accountType": {
+              "type": ["null", "string"]
+            }
+          }
+        },
+        "attachment": {
+          "type": ["null", "array"],
+          "items": {
+            "$ref": "attachment"
+          }
+        },
+        "storyPointEstimate": {
+          "type": ["null", "number"]
+        },
+        "monthlyMilestone": {
+          "type": ["null", "string"]
+        },
+        "nebulaEpicKey": {
+          "type": ["null", "string"]
+        },
+        "sprints": {
+          "type": ["null", "array"],
+          "items": {
+            "$ref": "sprint"
+          }
+        },
+        "statuscategorychangedate": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "issuetype": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"]
+            },
+            "id": {
+              "type": ["null", "string"]
+            },
+            "description": {
+              "type": ["null", "string"]
+            },
+            "iconUrl": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "name": {
+              "type": ["null", "string"]
+            },
+            "subtask": {
+              "type": ["null", "boolean"]
+            },
+            "avatarId": {
+              "type": ["null", "integer"]
+            },
+            "entityId": {
+              "type": ["null", "string"]
+            },
+            "hierarchyLevel": {
+              "type": ["null", "integer"]
+            }
+          }
+        },
+        "parent": {
+          "type": ["null", "object"],
+          "properties": {
+            "id": {
+              "type": ["null", "string"]
+            },
+            "key": {
+              "type": ["null", "string"]
+            },
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "priority": {
+              "type": ["null", "object"],
+              "properties": {
+                "self": {
+                  "type": ["null", "string"],
+                  "format": "uri"
+                },
+                "iconUrl": {
+                  "type": ["null", "string"],
+                  "format": "uri"
+                },
+                "name": {
+                  "type": ["null", "string"]
+                },
+                "id": {
+                  "type": ["null", "string"]
+                }
+              }
+            },
+            "issuetype": {
+              "type": ["null", "object"],
+              "properties": {
+                "self": {
+                  "type": ["null", "string"]
+                },
+                "id": {
+                  "type": ["null", "string"]
+                },
+                "description": {
+                  "type": ["null", "string"]
+                },
+                "iconUrl": {
+                  "type": ["null", "string"],
+                  "format": "uri"
+                },
+                "name": {
+                  "type": ["null", "string"]
+                },
+                "subtask": {
+                  "type": ["null", "boolean"]
+                },
+                "avatarId": {
+                  "type": ["null", "integer"]
+                },
+                "entityId": {
+                  "type": ["null", "string"]
+                },
+                "hierarchyLevel": {
+                  "type": ["null", "integer"]
+                }
+              }
+            }
+          }
+        },
+        "project": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "id": {
+              "type": ["null", "string"]
+            },
+            "key": {
+              "type": ["null", "string"]
+            },
+            "name": {
+              "type": ["null", "string"]
+            },
+            "projectTypeKey": {
+              "type": ["null", "string"]
+            },
+            "simplified": {
+              "type": ["null", "boolean"]
+            }
+          }
+        },
+        "watches": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "watchCount": {
+              "type": ["null", "integer"]
+            },
+            "isWatching": {
+              "type": ["null", "boolean"]
+            }
+          }
+        },
+        "priority": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "iconUrl": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "name": {
+              "type": ["null", "string"]
+            },
+            "id": {
+              "type": ["null", "string"]
+            }
+          }
+        },
+        "labels": {
+          "type": ["null", "array"],
+          "items": {
+            "type": ["null", "string"]
+          }
+        },
+        "status": {
+          "type": ["null", "object"],
+          "properties": {
+            "self": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "description": {
+              "type": ["null", "string"]
+            },
+            "iconUrl": {
+              "type": ["null", "string"],
+              "format": "uri"
+            },
+            "name": {
+              "type": ["null", "string"]
+            },
+            "id": {
+              "type": ["null", "string"]
+            },
+            "statusCategory": {
+              "type": ["null", "object"],
+              "properties": {
+                "self": {
+                  "type": ["null", "string"],
+                  "format": "uri"
+                },
+                "id": {
+                  "type": ["null", "integer"]
+                },
+                "key": {
+                  "type": ["null", "string"]
+                },
+                "colorName": {
+                  "type": ["null", "string"]
+                },
+                "name": {
+                  "type": ["null", "string"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "field-meta": {
+      "title": "Field Meta",
+      "type": ["null", "object"],
+      "properties": {
+        "required": {
+          "type": ["null", "boolean"]
+        },
+        "schema": {
+          "$ref": "json-type"
+        },
+        "name": {
+          "type": ["null", "string"]
+        },
+        "key": {
+          "type": ["null", "string"]
+        },
+        "autoCompleteUrl": {
+          "type": ["null", "string"]
+        },
+        "hasDefaultValue": {
+          "type": ["null", "boolean"]
+        },
+        "operations": {
+          "type": ["null", "array"],
+          "items": {
+            "type": ["null", "string"]
+          }
+        },
+        "allowedValues": {
+          "type": ["null", "array"],
+          "items": {}
+        },
+        "defaultValue": {}
+      },
+      "required": ["required"]
+    },
+    "json-type": {
+      "title": "Json Type",
+      "type": ["null", "object"],
+      "properties": {
+        "type": {
+          "type": ["null", "string"]
+        },
+        "items": {
+          "type": ["null", "string"]
+        },
+        "system": {
+          "type": ["null", "string"]
+        },
+        "custom": {
+          "type": ["null", "string"]
+        },
+        "customId": {
+          "type": ["null", "integer"]
+        }
+      }
+    },
+    "simple-link": {
+      "title": "Simple Link",
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": ["null", "string"]
+        },
+        "styleClass": {
+          "type": ["null", "string"]
+        },
+        "iconClass": {
+          "type": ["null", "string"]
+        },
+        "label": {
+          "type": ["null", "string"]
+        },
+        "title": {
+          "type": ["null", "string"]
+        },
+        "href": {
+          "type": ["null", "string"]
+        },
+        "weight": {
+          "type": ["null", "integer"]
+        }
+      }
+    },
+    "attachment": {
+      "properties": {
+        "self": {
+          "type": ["null", "string"]
+        },
+        "thumbnail": {
+          "type": ["null", "string"]
+        },
+        "filename": {
+          "type": ["null", "string"]
+        },
+        "created": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "id": {
+          "type": ["null", "string"]
+        },
+        "author": {
+          "properties": {
+            "name": {
+              "type": ["null", "string"]
+            },
+            "self": {
+              "type": ["null", "string"]
+            },
+            "timeZone": {
+              "type": ["null", "string"]
+            },
+            "accountId": {
+              "type": ["null", "string"]
+            },
+            "active": {
+              "type": ["null", "boolean"]
+            },
+            "key": {
+              "type": ["null", "string"]
+            },
+            "avatarUrls": {
+              "properties": {
+                "16x16": {
+                  "type": ["null", "string"]
+                },
+                "24x24": {
+                  "type": ["null", "string"]
+                },
+                "48x48": {
+                  "type": ["null", "string"]
+                },
+                "32x32": {
+                  "type": ["null", "string"]
+                }
+              },
+              "type": ["null", "object"]
+            },
+            "emailAddress": {
+              "type": ["null", "string"]
+            },
+            "displayName": {
+              "type": ["null", "string"]
+            }
+          },
+          "type": ["null", "object"]
+        },
+        "size": {
+          "type": ["null", "integer"]
+        },
+        "mimeType": {
+          "type": ["null", "string"]
+        },
+        "content": {
+          "type": ["null", "string"]
+        }
+      },
+      "type": ["null", "object"]
+    },
+    "sprint": {
+      "title": "Sprint",
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": ["null", "string"]
+        },
+        "name": {
+          "type": ["null", "string"]
+        },
+        "state": {
+          "type": ["null", "string"]
+        },
+        "boardId": {
+          "type": ["null", "integer"]
+        },
+        "goal": {
+          "type": ["null", "string"]
+        },
+        "startDate": {
+          "type": ["null", "string"]
+        },
+        "endDate": {
+          "type": ["null", "string"]
+        },
+        "completeDate": {
+          "type": ["null", "string"]
+        }
+      }
+    }
+  }
+}

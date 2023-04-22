@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-cache-control undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-cache-control",
+    "repo": "https://github.com/apollographql/apollo-cache-control",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-cache-control",
+    "startTime": "2023-04-22T12:58:54.573Z",
+    "endTime": "2023-04-22T12:58:55.489Z",
+    "childProcessPid": 17048,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-cache-control--17048",
+    "executionErrors": []
+}

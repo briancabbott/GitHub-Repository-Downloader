@@ -1,0 +1,75 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Test",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/dist/index.js",
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "preLaunchTask": "npm: build:compile",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ],
+      "args": [""],
+      "env": {
+        "DEBUG": "docker,test"
+      },
+      "outputCapture": "std"
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Users",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/dist/subgraphs/users.js",
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "preLaunchTask": "npm: build:compile"
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Inventory",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/dist/subgraphs/inventory.js",
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "preLaunchTask": "npm: build:compile"
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Products:apollo-server",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "index.js",
+      "outFiles": ["${workspaceFolder}/implementations/apollo-server/**/*.js"],
+      "cwd": "${workspaceFolder}/implementations/apollo-server"
+    },
+    {
+      "type": "java",
+      "name": "Debug Products:federation-jvm",
+      "request": "launch",
+      "mainClass": "com.apollographql.federation.compatibility.App"
+    },
+    {
+      "type": "java",
+      "name": "Debug Products:dgs",
+      "request": "launch",
+      "mainClass": "com.netflix.graphql.dgs.compatibility.App"
+    },
+    {
+      "type": "lldb",
+      "name": "Debug Products:async-graphql",
+      "request": "launch",
+      "program": "${workspaceFolder}/implementations/async-graphql/target/debug/federation-async-graphql-compatibility",
+      "args": [],
+      "cwd": "${workspaceFolder}/implementations/async-graphql",
+      "preLaunchTask": "build async-graphql"
+    }
+  ]
+}

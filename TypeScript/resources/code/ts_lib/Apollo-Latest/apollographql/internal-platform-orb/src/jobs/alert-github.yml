@@ -1,0 +1,67 @@
+description: >
+  Alert github with an updatable comment. Will continually purge and replace comments based on their
+  parameters.title.
+  NOTE: Must be paired with the github-orb context
+parameters:
+  title:
+    type: string
+    description: 'Title to be given to this PR comment in Github.'
+  notification-command:
+    type: string
+    description: 'Bash command which will be run to generate the markdown payload to comment on the PR in Github. Command must send desired output to /tmp/notification.txt '
+  path:
+    type: string
+    description: '`path` parameter to be passed to `proceed-if-changes`'
+    default: ''
+  workspace:
+    type: string
+    description: '`workspace` parameter to attach.'
+    default: /tmp/workspace
+  name-filter:
+    type: string
+    description: '`name-filter` parameter to be passed to `proceed-if-changes`'
+    default: ''
+  changes-iregex:
+    type: string
+    description: '`changes-iregex` parameter to be passed to `proceed-if-changes`'
+    default: ''
+  no-changes-iregex:
+    type: string
+    description: '`no-changes-iregex` parameter to be passed to `proceed-if-changes`'
+    default: ''
+  bot-making-comments:
+    type: string
+    description: "name of the bot making comments"
+  delete-bot-comments:
+    type: boolean
+    default: true
+    description: "Delete comments previously made by the delete-bot-comments bot"
+docker:
+  - image: cimg/base:stable
+resource_class: small
+steps:
+  - run:
+      name: Halt if not PR...
+      command: |
+        if [ -z $CIRCLE_PULL_REQUEST ]
+        then
+          circleci-agent step halt
+        fi
+  - gh/install
+  - attach_workspace:
+      at: /tmp/workspace
+  - github-auth
+  - github-bot-delete-bot-comments:
+      title: << parameters.title >>
+      bot-making-comments: << parameters.bot-making-comments >>
+      really-delete-comments: << parameters.delete-bot-comments >>
+  - proceed-if-changes:
+      path: << parameters.path >>
+      name-filter: << parameters.name-filter >>
+      changes-iregex: << parameters.changes-iregex >>
+      no-changes-iregex: << parameters.no-changes-iregex >>
+  - github-bot-comment-on-pr:
+      title: << parameters.title >>
+      command: << parameters.notification-command >>
+  - store_artifacts:
+     path: /tmp/notification.txt

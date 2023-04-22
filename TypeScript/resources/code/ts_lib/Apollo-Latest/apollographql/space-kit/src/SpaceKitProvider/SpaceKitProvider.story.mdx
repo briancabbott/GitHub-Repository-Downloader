@@ -1,0 +1,18 @@
+import { SpaceKitProvider } from "../SpaceKitProvider";
+import { ArgsTable, Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/SpaceKitProvider" component={SpaceKitProvider} />
+
+# SpaceKitProvider
+
+`SpaceKitProvider` can be used to set behaviors on all Space Kit components. It is completely optional.
+
+## `disableAnimations`
+
+We use framer motion for some of our components. Chromatic cannot automatically disable JavaScript based animations; so we have to disable them in some other way to prevent test flake.
+
+Disable animations in all Space Kit components by wrapping your tree with `<SpaceKitProvider>` with the `disableAnimations` prop set to `true`.
+
+## Props
+
+<ArgsTable of={SpaceKitProvider} />

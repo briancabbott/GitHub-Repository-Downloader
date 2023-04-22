@@ -1,0 +1,15 @@
+description: For every directory that has a .tf file, run tflint. Assumes tflint is installed in your executor
+parameters:
+  working-directory:
+    type: string
+    default: /code/
+  check-directories:
+    type: string
+    description: Which directories to check, seperated by space
+steps:
+  - run:
+      name: Run tflint on all directories that have .tf files
+      working_directory: << parameters.working-directory >>
+      command: |
+        tflint --init
+        bash /tmp/apollo_internal_platform_orb/src/scripts/tflint_all.sh << parameters.check-directories >>

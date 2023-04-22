@@ -1,0 +1,16 @@
+esm/
+cdn/
+webpack/
+monaco/
+cdn.html
+analyzer.html
+/graphiql.*js
+/graphiql.*js.map
+example/yarn.lock
+example/graphiql.js
+example/graphiql.css
+test/pid
+/*.html
+renderGraphiql.js
+cypress/screenshots
+.awcache

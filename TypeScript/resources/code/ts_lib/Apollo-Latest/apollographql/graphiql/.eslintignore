@@ -1,0 +1,61 @@
+################################################################################
+#
+# First things first; we need to ignore our built files. To achive this, we
+# have to do a bit of an ignore dance where we ignore everything, and then
+# specifically un-ignore the source code, configuration files, etc.
+#
+# First: ignore FILES (not folders!)
+/{packages,examples}/**/*.{js,jsx,ts,tsx}
+
+#
+# Now un-ignore source code, tests, configuration, etc
+!/{packages,examples}/*/{src,cypress,resources}/**
+
+# CRA example has its own eslint config
+examples/graphiql-create-react-app
+
+!.eslintrc.js
+!babel.config.js
+#
+# End of the ignore dance.
+#
+################################################################################
+
+# Regular eslintignore configuration follows.
+
+# ESLint automatically ignores node_modules _in the root_, so we only need to specify nested node_modules
+**/node_modules
+/packages/graphiql/graphiql.*
+
+# Build artifacts
+**/flow-typed
+**/dist
+**/esm
+**/bundle
+**/typedoc
+**/monaco
+**/webpack
+packages/graphiql/webpack
+packages/graphiql/storybook
+packages/graphiql/lsp
+packages/graphiql/monaco  
+packages/graphiql/*.html
+**/renderExample.js
+**/*.min.js
+**/coverage/
+.nyc_output/
+
+
+# codemirror's build artefacts are exported from the package root
+**/codemirror-graphql/variables
+**/codemirror-graphql/utils
+**/codemirror-graphql/results
+**/codemirror-graphql/jump.*
+**/codemirror-graphql/mode.*
+**/codemirror-graphql/lint.*
+**/codemirror-graphql/info.*
+**/codemirror-graphql/hint.*
+
+
+# Vendored files
+/packages/graphiql/test/vendor

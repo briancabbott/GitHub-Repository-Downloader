@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/subgraph-template-typescript-apollo-server-boilerplate undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/subgraph-template-typescript-apollo-server-boilerplate",
+    "repo": "https://github.com/apollographql/subgraph-template-typescript-apollo-server-boilerplate",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/subgraph-template-typescript-apollo-server-boilerplate",
+    "startTime": "2023-04-22T13:03:26.376Z",
+    "endTime": "2023-04-22T13:03:27.071Z",
+    "childProcessPid": 17745,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--subgraph-template-typescript-apollo-server-boilerplate--17745",
+    "executionErrors": []
+}

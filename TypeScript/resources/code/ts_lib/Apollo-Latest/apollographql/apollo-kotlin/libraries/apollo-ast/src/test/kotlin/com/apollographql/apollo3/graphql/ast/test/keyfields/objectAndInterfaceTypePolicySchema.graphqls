@@ -1,0 +1,16 @@
+extend schema @link(url: "https://specs.apollo.dev/kotlin_labs/v0.1/", import: ["@typePolicy", "@keyFields"])
+
+type Query {
+  node: Node
+}
+
+interface Node {
+  id: String!
+}
+
+extend interface Node @typePolicy(keyFields: "id")
+
+type Foo implements Node @typePolicy(keyFields: "x") {
+  id: String!
+  x: String!
+}

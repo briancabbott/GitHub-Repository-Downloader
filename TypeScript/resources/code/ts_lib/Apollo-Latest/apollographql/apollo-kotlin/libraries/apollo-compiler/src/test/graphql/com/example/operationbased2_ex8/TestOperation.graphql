@@ -1,0 +1,17 @@
+query TestOperation {
+  animal {
+    ... AnimalFragment
+  }
+}
+fragment AnimalFragment on Animal {
+  species
+  parent {
+    species
+    ... on Lion {
+      temperature
+    }
+    ... on Cat {
+      name
+    }
+  }
+}

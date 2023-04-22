@@ -1,0 +1,38 @@
+
+[[ rules ]]
+    id = "jwt"
+    [ rules.allowlist ]
+        commits = [
+            "ced58eac08780a833f7563aa5430322cd6d515b6",
+            "6dc97cbfa1fa16e4e7d13a87529c59171e171df7",
+            "f1e964c35f1fe46eaa114a8384438aad722ca60d",
+            "0d063242c6d8a241756c73db0e5b9d6d6d455937",
+            "6078c74a4cb087042f5c68e4f03f0e1cd529b7aa",
+            "637400331eaff62b566230d2a6eb3c5fabfaf195",
+            "66b6dccffdf2c5c650b9a068c70e28412c1ef511",
+            "a9daef683a3d13a9b2c62b750e002eb2afb54b13",
+            "c22743447d147b98f7be66f5f35dbdaeaaa4c351",
+            "c4a4d3d364291b102dc6f5f499bb98259449ed36",
+            "f884c520f76920e55abff5aa3d5b1b92778a25e5",
+            "089ba9db58150a563db098fe6d518e4a44a264b8",
+            
+        ]
+
+[[ rules ]]
+    id = "generic-api-key"
+    [ rules.allowlist ]
+        commits = [
+            "7d0132df091389ed430a7dc526ec7623a521e531",
+            "b2794ac0dd553054666461c100f3fc88f6d325cd",
+            "dfbb96b3f7544feec8cec84d8c23d6d0fe938450",
+            "37c03d7adac4145423b555774bdb87d85aeeca99",
+            
+        ]
+
+[[ rules ]]
+    id = "stripe-access-token"
+    [ rules.allowlist ]
+        commits = [
+            "37c03d7adac4145423b555774bdb87d85aeeca99",
+            
+        ]

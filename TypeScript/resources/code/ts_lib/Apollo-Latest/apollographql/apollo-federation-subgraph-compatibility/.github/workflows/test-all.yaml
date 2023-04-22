@@ -1,0 +1,95 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/**'
+      - '!**/README.md'
+  workflow_call:
+
+jobs:
+  build-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: generate matrix
+        id: matrix
+        run: |
+          echo "matrix=$(ls implementations | jq -cnR '[inputs | select(. | test("^[a-z]") and . != "appsync" and . != "stepzen")]')" >> $GITHUB_OUTPUT
+
+  test:
+    needs: build-matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      library: ${{ matrix.name }}
+      format: "json"
+
+  # need secrets so appsync is configured separately
+  test-appsync:
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      library: "appsync"
+      format: "json"
+    secrets:
+      API_KEY: ${{ secrets.API_KEY_APPSYNC }}
+      TEST_URL: ${{ secrets.URL_APPSYNC }}
+
+  # need secrets so stepzen is configured separately
+  test-stepzen:
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      library: "stepzen"
+      format: "json"
+    secrets:
+      TEST_URL: ${{ secrets.URL_STEPZEN }}
+
+  report:
+    timeout-minutes: 10
+    needs: [test, test-appsync, test-stepzen]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Compile script
+        run: npm run build
+      - name: Download Individual Results
+        uses: actions/download-artifact@v3
+      - name: Generate Final Results
+        run: |
+          echo "merging results"
+          jq -s . results*/results*.json > final_results.json
+
+          echo "generating markdown"
+          npm run compatibility:report -- final_results.json
+      - name: Generate Job Summary
+        run: |
+          cat results.md
+          cat results.md >> $GITHUB_STEP_SUMMARY
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: results.md
+          path: ./results.md
+          retention-days: 7
+
+  pr-info:
+    if: ${{ github.event_name == 'pull_request' }}
+    uses: ./.github/workflows/save-pr-info.yaml
+    with:
+      pr_number: ${{ github.event.number }}

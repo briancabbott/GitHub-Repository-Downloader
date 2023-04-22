@@ -1,0 +1,21 @@
+[package]
+name = "houston"
+version = "0.0.0"
+authors = ["Apollo Developers <opensource@apollographql.com>"]
+edition = "2021"
+
+publish = false
+
+[dependencies]
+# workspace dependencies 
+anyhow = { workspace = true }
+camino = { workspace = true }
+directories-next = { workspace = true }
+rover-std = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+thiserror = { workspace = true }
+toml = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+assert_fs = { workspace = true }

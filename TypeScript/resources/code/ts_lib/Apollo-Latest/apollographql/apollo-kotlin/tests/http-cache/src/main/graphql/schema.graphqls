@@ -1,0 +1,12 @@
+type Query {
+  random: Int!
+  random2: Int!
+}
+
+type Mutation {
+  setRandom: String
+}
+
+type Subscription {
+  random: Int!
+}

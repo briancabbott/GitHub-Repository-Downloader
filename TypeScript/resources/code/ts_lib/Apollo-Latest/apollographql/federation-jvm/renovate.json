@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "labels": ["type: dependencies"],
+  "packageRules": [
+    {
+      "groupName": "GraphQL Java (ignoring snapshot builds)",
+      "matchPackagePrefixes": ["com.graphql-java:"],
+      "allowedVersions": "/^[0-9]+\\.[0-9]+(\\.[0-9]+)?$/"
+    },
+    {
+      "groupName": "Gradle version updates",
+      "matchPaths": ["gradle-wrapper.properties"],
+      "labels": ["type: build"]
+    },
+    {
+      "groupName": "Gradle version updates",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["gradle"],
+      "labels": ["type: build"]
+    },
+    {
+      "groupName": "Protobuf",
+      "matchPackagePrefixes": ["com.google.protobuf:"]
+    }
+  ]
+}

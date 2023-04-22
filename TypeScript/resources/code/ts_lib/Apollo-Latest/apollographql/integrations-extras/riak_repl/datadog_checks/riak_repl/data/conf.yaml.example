@@ -1,0 +1,24 @@
+init_config:
+
+instances:
+
+    ## @param url - string - required
+    ## Riak replication statistic url to connect to.
+    #
+  - url: http://127.0.0.1:8098/riak-repl/stats
+
+    ## @param connected_clusters - list of strings - optional
+    ## List of connected cluster names to collect data about
+    #
+    # connected_clusters:
+    #   - <CLUSTER_NAME_1>
+    #   - <CLUSTER_NAME_2>
+
+    ## @param tags - list of key:value element - optional
+    ## List of tags to attach to every metric, event and service check emitted by this integration.
+    ##
+    ## Learn more about tagging: https://docs.datadoghq.com/tagging/
+    #
+    # tags:
+    #   - <KEY_1>:<VALUE_1>
+    #   - <KEY_2>:<VALUE_2>

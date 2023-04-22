@@ -1,0 +1,24 @@
+{
+  "name": "apollo-federation-integration-testsuite",
+  "private": true,
+  "version": "2.4.2",
+  "description": "Apollo Federation Integrations / Test Fixtures",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apollographql/federation",
+    "directory": "federation-integration-testsuite-js/"
+  },
+  "keywords": [],
+  "author": "Apollo <packages@apollographql.com>",
+  "license": "SEE LICENSE IN ./LICENSE",
+  "bugs": {
+    "url": "https://github.com/apollographql/federation/issues"
+  },
+  "homepage": "https://github.com/apollographql/federation#readme",
+  "dependencies": {
+    "graphql-tag": "^2.12.6",
+    "pretty-format": "^29.0.0"
+  }
+}

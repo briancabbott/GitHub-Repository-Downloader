@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-federation-subgraph-compatibility undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-federation-subgraph-compatibility",
+    "repo": "https://github.com/apollographql/apollo-federation-subgraph-compatibility",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-federation-subgraph-compatibility",
+    "startTime": "2023-04-22T12:59:25.720Z",
+    "endTime": "2023-04-22T12:59:28.693Z",
+    "childProcessPid": 17093,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-federation-subgraph-compatibility--17093",
+    "executionErrors": []
+}

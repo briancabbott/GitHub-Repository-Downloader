@@ -1,0 +1,18 @@
+{
+  "name": "supergraph-router",
+  "version": "1.1.44",
+  "description": "",
+  "main": "router.js",
+  "scripts": {
+    "start": "node router.js"
+  },
+  "dependencies": {
+    "@apollo/gateway": "0.54.1",
+    "apollo-server": "3.12.0",
+    "supergraph-demo-opentelemetry": "0.2.4",
+    "graphql": "15.8.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

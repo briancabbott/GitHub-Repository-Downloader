@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-workbench-vscode undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-workbench-vscode",
+    "repo": "https://github.com/apollographql/apollo-workbench-vscode",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-workbench-vscode",
+    "startTime": "2023-04-22T13:00:55.532Z",
+    "endTime": "2023-04-22T13:00:58.811Z",
+    "childProcessPid": 17245,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-workbench-vscode--17245",
+    "executionErrors": []
+}

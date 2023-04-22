@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/tap-statuspage undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/tap-statuspage",
+    "repo": "https://github.com/apollographql/tap-statuspage",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/tap-statuspage",
+    "startTime": "2023-04-22T13:03:39.503Z",
+    "endTime": "2023-04-22T13:03:40.814Z",
+    "childProcessPid": 17819,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--tap-statuspage--17819",
+    "executionErrors": []
+}

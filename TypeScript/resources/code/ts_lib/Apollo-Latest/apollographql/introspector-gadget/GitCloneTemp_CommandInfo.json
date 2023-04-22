@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/introspector-gadget undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/introspector-gadget",
+    "repo": "https://github.com/apollographql/introspector-gadget",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/introspector-gadget",
+    "startTime": "2023-04-22T13:02:08.034Z",
+    "endTime": "2023-04-22T13:02:08.676Z",
+    "childProcessPid": 17482,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--introspector-gadget--17482",
+    "executionErrors": []
+}

@@ -1,0 +1,145 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.0
+
+commands:
+  install-volta:
+    description: Install volta to manage Node/npm versions
+    steps:
+      - run:
+          name: Install volta
+          # Teach the volta installer to update Circle's special env
+          # file instead of the default.
+          command: |
+            curl https://get.volta.sh | PROFILE="$BASH_ENV" bash
+
+  setup-node:
+    parameters:
+      node-version:
+        type: string
+        default: ''
+    steps:
+      - install-volta
+      - checkout
+      - when:
+          condition: << parameters.node-version >>
+          steps:
+          - run: volta pin node@<< parameters.node-version >>
+      - run: node --version
+      - run: npm --version
+      - node/install-packages
+
+
+jobs:
+  NodeJS:
+    parameters:
+      node-version:
+        type: string
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - setup-node:
+          node-version: <<parameters.node-version>>
+      - run: npm run test:ci
+      - run: npm run coverage:upload
+      - store_test_results:
+          path: junit.xml
+
+  Smoke test built package:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - setup-node
+      - run: npm run test:smoke
+
+  Full incremental delivery tests with graphql-js 17 canary:
+    docker:
+    - image: cimg/base:stable
+    environment:
+      INCREMENTAL_DELIVERY_TESTS_ENABLED: t
+    steps:
+      - setup-node:
+          node-version: "18"
+      # Install a prerelease of graphql-js 17 with incremental delivery support.
+      # --legacy-peer-deps because nothing expects v17 yet.
+      - run: npm i --legacy-peer-deps graphql@17.0.0-alpha.1.canary.pr.3361.04ab27334641e170ce0e05bc927b972991953882
+      - run: npm run test:ci
+      - run: npm run test:smoke
+
+  Prettier:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - setup-node
+      - run: npm run prettier-check
+
+  ESLint:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - setup-node
+      - run: npm run lint
+
+  # Ensure that any PR that changes packages has a changeset on it (perhaps
+  # an empty one created with `changeset --empty`).
+  # We run the Changesets job itself on all branches so that we can require
+  # it to pass, but we don't run any steps on the "Version Packages" PRs
+  # themselves.
+  Changesets:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - run: echo Ensure there is at least one step
+      - unless:
+          condition:
+            matches:
+              pattern: "^changeset-release/.+$"
+              value: << pipeline.git.branch >>
+          steps:
+            - setup-node
+            - run: npm run changeset-check
+
+  Spell check:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - setup-node
+      - run: npm run spell-check
+
+  # We make CI fail if any file contains FIX and ME right next to each other.
+  # This means that when working on a big PR, you can throw in notes that you
+  # are forced to come back to before merging the PR.  Note that we don't block
+  # the tarball or publish steps on this, since you may want to try out builds
+  # on branches that still contain unresolved problems. In order for this file
+  # to not cause this job to fail, we obfuscate the target string by encoding
+  # the last letter in in hex (\x45 = E).
+  "Check for FIXM\x45":
+    docker:
+    - image: cimg/base:stable
+    steps:
+    - checkout
+    - run:
+        name: "Check for FIXM\x45"
+        # ! means this fails if git grep succeeds, ie if there are any matches
+        command: "! git grep FIXM\x45"
+
+workflows:
+  version: 2
+  Build:
+    jobs:
+      - NodeJS:
+          name: NodeJS << matrix.node-version >>
+          matrix:
+            parameters:
+              node-version:
+                - "14"
+                - "16"
+                - "18"
+      - "Check for FIXM\x45"
+      - Prettier
+      - ESLint
+      - Spell check
+      - Smoke test built package
+      - Full incremental delivery tests with graphql-js 17 canary
+      - Changesets

@@ -1,0 +1,204 @@
+{
+  "type": ["null", "object"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": ["null", "string"]
+    },
+    "components": {
+      "type": ["null", "array"],
+      "items": {
+        "type": ["null", "object"],
+        "properties": {
+          "id": {
+            "type": ["null", "string"]
+          },
+          "page_id": {
+            "type": ["null", "string"]
+          },
+          "group_id": {
+            "type": ["null", "string"]
+          },
+          "created_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "group": {
+            "type": ["null", "boolean"]
+          },
+          "name": {
+            "type": ["null", "string"]
+          },
+          "description": {
+            "type": ["null", "string"]
+          },
+          "position": {
+            "type": ["null", "integer"]
+          },
+          "status": {
+            "type": ["null", "string"]
+          },
+          "showcase": {
+            "type": ["null", "boolean"]
+          },
+          "only_show_if_degraded": {
+            "type": ["null", "boolean"]
+          },
+          "automation_email": {
+            "type": ["null", "string"]
+          },
+          "start_date": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "impact": {
+      "type": ["null", "string"]
+    },
+    "impact_override": {
+      "type": ["null", "string"]
+    },
+    "incident_updates": {
+      "type": ["null", "array"],
+      "items": {
+        "type": ["null", "object"],
+        "properties": {
+          "id": {
+            "type": ["null", "string"]
+          },
+          "incident_id": {
+            "type": ["null", "string"]
+          },
+          "affected_components": {
+            "type": ["null", "array"],
+            "items": {
+              "type": ["null", "object"],
+              "properties": {
+                "code": {
+                  "type": ["null", "string"]
+                },
+                "name": {
+                  "type": ["null", "string"]
+                },
+                "old_status": {
+                  "type": ["null", "string"]
+                },
+                "new_status": {
+                  "type": ["null", "string"]
+                }
+              }
+            }
+          },
+          "body": {
+            "type": ["null", "string"]
+          },
+          "created_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "custom_tweet": {
+            "type": ["null", "string"]
+          },
+          "deliver_notifications": {
+            "type": ["null", "boolean"]
+          },
+          "display_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "status": {
+            "type": ["null", "string"]
+          },
+          "tweet_id": {
+            "type": ["null", "string"]
+          },
+          "twitter_updated_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": ["null", "string"],
+            "format": "date-time"
+          },
+          "wants_twitter_update": {
+            "type": ["null", "boolean"]
+          }
+        }
+      }
+    },
+    "monitoring_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "name": {
+      "type": ["null", "string"]
+    },
+    "page_id": {
+      "type": ["null", "string"]
+    },
+    "postmortem_body": {
+      "type": ["null", "string"]
+    },
+    "postmortem_body_last_updated_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "postmortem_ignored": {
+      "type": ["null", "boolean"]
+    },
+    "postmortem_notified_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "postmortem_notified_twitter": {
+      "type": ["null", "boolean"]
+    },
+    "postmortem_published_at": {
+      "type": ["null", "boolean"]
+    },
+    "resolved_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "scheduled_auto_completed": {
+      "type": ["null", "boolean"]
+    },
+    "scheduled_auto_in_progress": {
+      "type": ["null", "boolean"]
+    },
+    "scheduled_for": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "scheduled_remind_prior": {
+      "type": ["null", "boolean"]
+    },
+    "scheduled_reminded_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "scheduled_until": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "shortlink": {
+      "type": ["null", "string"]
+    },
+    "status": {
+      "type": ["null", "string"]
+    },
+    "updated_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    }
+  }
+}

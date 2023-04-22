@@ -1,0 +1,19 @@
+name: Pothos Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'implementations/pothos/**'
+
+jobs:
+  compatibility:
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      library: "pothos"
+
+  pr-info:
+    uses: ./.github/workflows/save-pr-info.yaml
+    with:
+      pr_number: ${{ github.event.number }}

@@ -1,0 +1,15 @@
+query WithFragmentSpreads {
+  computers {
+    ...ComputerFields @defer(label: "foobar")
+  }
+}
+
+fragment ComputerFields on Computer {
+  screen {
+    ...ScreenFields @defer(label: "foobar")
+  }
+}
+
+fragment ScreenFields on Screen {
+  resolution
+}

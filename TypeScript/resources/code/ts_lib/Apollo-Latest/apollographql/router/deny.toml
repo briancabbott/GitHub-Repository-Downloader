@@ -1,0 +1,131 @@
+# This section is considered when running `cargo deny check advisories`
+# More documentation for the advisories section can be found here:
+# https://embarkstudios.github.io/cargo-deny/checks/advisories/cfg.html
+[advisories]
+# The path where the advisory database is cloned/fetched into
+db-path = "~/.cargo/advisory-db"
+# The url(s) of the advisory databases to use
+db-urls = ["https://github.com/rustsec/advisory-db"]
+# The lint level for security vulnerabilities
+vulnerability = "deny"
+# The lint level for unmaintained crates
+unmaintained = "warn"
+# The lint level for crates that have been yanked from their source registry
+yanked = "warn"
+# The lint level for crates with security notices. Note that as of
+# 2019-12-17 there are no security notice advisories in
+# https://github.com/rustsec/advisory-db
+notice = "warn"
+
+# If this is true, then cargo deny will use the git executable to fetch advisory database.
+# If this is false, then it uses a built-in git library.
+# Setting this to true can be helpful if you have special authentication requirements that cargo-deny does not support.
+# See Git Authentication for more information about setting up git authentication.
+git-fetch-with-cli = true
+
+# A list of advisory IDs to ignore. Note that ignored advisories will still
+# output a note when they are encountered.
+
+# while https://github.com/chronotope/chrono/issues/499 is open.
+# We need to keep track of this issue, and make sure `tracing-subscriber` is updated
+# We will then be able to remove this
+ignore = ["RUSTSEC-2020-0159", "RUSTSEC-2020-0071"]
+
+# This section is considered when running `cargo deny check licenses`
+# More documentation for the licenses section can be found here:
+# https://embarkstudios.github.io/cargo-deny/checks/licenses/cfg.html
+[licenses]
+# The lint level for crates which do not have a detectable license
+# TODO[igni]: remove this once the span / macro are fleshed out
+unlicensed = "warn"
+# List of explictly allowed licenses
+# See https://spdx.org/licenses/ for list of possible licenses
+# [possible values: any SPDX 3.11 short identifier (+ optional exception)].
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "CC0-1.0",
+    "ISC",
+    "LicenseRef-ring",
+    "MIT",
+    "MPL-2.0",
+    "Elastic-2.0",
+    "Unicode-DFS-2016"
+]
+copyleft = "warn"
+allow-osi-fsf-free = "neither"
+default = "deny"
+confidence-threshold = 0.8
+
+# ring has a rather complicated LICENSE file due to reasons spelled out
+# in said LICENSE file, but is basically OpenSSL for older parts, and ISC
+# for newer parts
+[[licenses.clarify]]
+name = "ring"
+expression = "LicenseRef-ring"
+version = "0.16.20"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+
+[[licenses.clarify]]
+name = "encoding_rs"
+version = "*"
+expression = "(Apache-2.0 OR MIT) AND BSD-3-Clause"
+license-files = [{ path = "COPYRIGHT", hash = 0x39f8ad31 }]
+
+# This section is considered when running `cargo deny check bans`.
+# More documentation about the 'bans' section can be found here:
+# https://embarkstudios.github.io/cargo-deny/checks/bans/cfg.html
+[bans]
+# Lint level for when multiple versions of the same crate are detected
+multiple-versions = "warn"
+# Lint level for when a crate version requirement is `*`
+wildcards = "warn"
+# The graph highlighting used when creating dotgraphs for crates
+# with multiple versions
+# * lowest-version - The path to the lowest versioned duplicate is highlighted
+# * simplest-path - The path to the version with the fewest edges is highlighted
+# * all - Both lowest-version and simplest-path are used
+highlight = "all"
+
+# List of crates to deny
+deny = [
+  # `cargo-scaffold` uses `git2` which uses `libssh2-sys` and `libgit2-sys`.
+  # Both require `openssl-sys`. Adding this rule in this way is sufficient to
+  # allow those to use `openssl-sys` (not a runtime dependency), leveraging the
+  # capabilities of `cargo-deny` to "block" `openssl-sys`.  However, this isn't
+  # defensive enough on its own since we could introduce `git2` in
+  # `apollo-router` and we would inadvertently get `openssl-sys` and it would
+  # _not_ be blocked.  That's bad!  Unfortunately, the `wrappers` technique of
+  # `cargo-deny` only enables exceptions for _direct_ dependencies.  To defend
+  # against the above risk, we add additional rules here (below) which _only_
+  # allows `git2` in `cargo-scaffold`.  This is a bit wonky, since we may at
+  # some point want `git2` but does accomplish what we want with the desired
+  # exception.
+  { name = "openssl-sys", wrappers = ["git2", "libssh2-sys", "libgit2-sys"] },
+  # Note! This line is required to support the above exception.
+  { name = "git2", wrappers = ["cargo-scaffold"] },
+  # Note! This line is required to support the above exception.
+  { name = "libgit2-sys", wrappers = ["git2"] },
+  # Note! This line is required to support the above exception.
+  { name = "libssh2-sys", wrappers = ["libgit2-sys"] },
+]
+
+# This section is considered when running `cargo deny check sources`.
+# More documentation about the 'sources' section can be found here:
+# https://embarkstudios.github.io/cargo-deny/checks/sources/cfg.html
+[sources]
+# Lint level for what to happen when a crate from a crate registry that is not
+# in the allow list is encountered
+unknown-registry = "deny"
+# Lint level for what to happen when a crate from a git repository that is not
+# in the allow list is encountered
+unknown-git = "deny"
+# List of URLs for allowed crate registries. Defaults to the crates.io index
+# if not specified. If it is specified but empty, no registries are allowed.
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+
+[sources.allow-org]
+# 1 or more github.com organizations to allow git sources for
+github = ["open-telemetry", "apollographql", "tokio-rs"]

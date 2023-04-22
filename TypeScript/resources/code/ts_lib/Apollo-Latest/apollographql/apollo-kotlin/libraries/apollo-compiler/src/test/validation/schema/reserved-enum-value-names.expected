@@ -1,0 +1,5 @@
+ERROR: ReservedEnumValueName (11:2)
+'foo' is already defined in this enum, please use a different name
+------------
+ERROR: ReservedEnumValueName (16:2)
+'bar' is already defined in this enum, please use a different name

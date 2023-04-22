@@ -1,0 +1,9 @@
+**/*.ts
+**/tsconfig.json
+!file.ts
+**/*.graphql
+**/*.vsix
+.env
+*.vsix
+apollo.config.json
+.vscode

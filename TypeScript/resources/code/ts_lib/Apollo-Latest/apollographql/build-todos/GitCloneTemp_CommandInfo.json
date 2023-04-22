@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/build-todos undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/build-todos",
+    "repo": "https://github.com/apollographql/build-todos",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/build-todos",
+    "startTime": "2023-04-22T13:01:01.156Z",
+    "endTime": "2023-04-22T13:01:02.406Z",
+    "childProcessPid": 17268,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--build-todos--17268",
+    "executionErrors": []
+}

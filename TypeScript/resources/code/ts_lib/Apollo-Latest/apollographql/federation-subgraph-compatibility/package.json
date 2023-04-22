@@ -1,0 +1,48 @@
+{
+  "name": "@apollo/apollo-federation-subgraph-compatibility-action",
+  "version": "1.0.0",
+  "description": "Github Action for checking a subgraph's compatibility with a federated gateway",
+  "main": "dist/index.js",
+  "author": "Apollo <packages@apollographql.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apollographql/apollo-federation-subgraph-compatibility-action"
+  },
+  "keywords": [
+    "github",
+    "action",
+    "apollo",
+    "federation",
+    "compatibility"
+  ],
+  "homepage": "https://github.com/apollographql/apollo-federation-subgraph-compatibility-action#readme",
+  "bugs": {
+    "url": "https://github.com/apollographql/apollo-federation-subgraph-compatibility-action/issues"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "clean": "git clean -dfqX",
+    "prettier-check": "prettier --check .",
+    "prettier-fix": "prettier --write .",
+    "postinstall": "npm run build"
+  },
+  "dependencies": {
+    "@actions/artifact": "^1.1.1",
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "@apollo/federation-subgraph-compatibility-tests": "^1.2.1",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/node": "16.18.12",
+    "@typescript-eslint/eslint-plugin": "5.52.0",
+    "@typescript-eslint/parser": "5.52.0",
+    "eslint": "8.34.0",
+    "eslint-plugin-import": "2.27.5",
+    "prettier": "2.8.4",
+    "typescript": "4.9.5",
+    "ts-node": "10.9.1"
+  }
+}

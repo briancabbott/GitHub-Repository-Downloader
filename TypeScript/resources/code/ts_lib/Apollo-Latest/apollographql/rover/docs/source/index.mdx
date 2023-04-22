@@ -1,0 +1,43 @@
+---
+title: The Rover CLI
+description: Overview
+---
+
+**Rover** is the command-line interface for managing and maintaining graphs with [Apollo GraphOS](/graphos/).
+
+```shell title="Example commands"
+# Publish a subgraph schema to GraphOS
+$ rover subgraph publish my-graph@my-variant --name my-subgraph --schema ./schema.graphql
+
+# Run your supergraph router locally and add multiple subgraphs
+$ rover dev
+
+# Fetch a GraphQL server's schema via introspection
+$ rover graph introspect http://localhost:4000/graphql
+
+# Compose a federated supergraph schema from multiple subgraphs
+$ rover supergraph compose --config ./supergraph.yaml
+```
+
+<p>
+  <ButtonLink
+    size="lg"
+    colorScheme="indigo"
+    href="./getting-started"
+  >
+    Get started with Rover
+  </ButtonLink>
+</p>
+
+> Rover does _not_ currently provide client-specific features, such as code generation or client checks. For these features, continue using the [Apollo CLI](/devtools/cli/).
+
+## Feedback
+
+If you have feedback on Rover or you experience issues using a command, _please_ [open an issue](https://github.com/apollographql/rover/issues/new/choose) and let us know!
+
+Here are some topics we're particularly interested in hearing about:
+
+* How discoverable are Rover features?
+* How intuitive does the Rover command structure feel?
+* How helpful are Rover error messages and logs?
+* What commands or features would you like to see in Rover?

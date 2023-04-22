@@ -1,0 +1,159 @@
+[
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            56: "0056_variables_are_input_types.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 56,
+            },
+            offset: 15,
+            length: 9,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 56,
+                    },
+                    offset: 21,
+                    length: 3,
+                },
+                text: "this is of `ObjectTypeDefinition` type",
+            },
+        ],
+        help: Some(
+            "objects, unions, and interfaces cannot be used because variables can only be of input type",
+        ),
+        data: InputType {
+            name: "cat",
+            ty: "ObjectTypeDefinition",
+        },
+    },
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            56: "0056_variables_are_input_types.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 56,
+            },
+            offset: 101,
+            length: 10,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 56,
+                    },
+                    offset: 107,
+                    length: 3,
+                },
+                text: "this is of `ObjectTypeDefinition` type",
+            },
+        ],
+        help: Some(
+            "objects, unions, and interfaces cannot be used because variables can only be of input type",
+        ),
+        data: InputType {
+            name: "dog",
+            ty: "ObjectTypeDefinition",
+        },
+    },
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            56: "0056_variables_are_input_types.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 56,
+            },
+            offset: 190,
+            length: 12,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 56,
+                    },
+                    offset: 197,
+                    length: 5,
+                },
+                text: "this is of `InterfaceTypeDefinition` type",
+            },
+        ],
+        help: Some(
+            "objects, unions, and interfaces cannot be used because variables can only be of input type",
+        ),
+        data: InputType {
+            name: "pets",
+            ty: "InterfaceTypeDefinition",
+        },
+    },
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            56: "0056_variables_are_input_types.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 56,
+            },
+            offset: 266,
+            length: 19,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 56,
+                    },
+                    offset: 277,
+                    length: 8,
+                },
+                text: "this is of `UnionTypeDefinition` type",
+            },
+        ],
+        help: Some(
+            "objects, unions, and interfaces cannot be used because variables can only be of input type",
+        ),
+        data: InputType {
+            name: "catOrDog",
+            ty: "UnionTypeDefinition",
+        },
+    },
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            56: "0056_variables_are_input_types.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 56,
+            },
+            offset: 369,
+            length: 17,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 56,
+                    },
+                    offset: 369,
+                    length: 17,
+                },
+                text: "not found in the type system",
+            },
+        ],
+        help: None,
+        data: UndefinedDefinition {
+            name: "Dragon",
+        },
+    },
+]

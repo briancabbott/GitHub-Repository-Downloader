@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/graphql-playground undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/graphql-playground",
+    "repo": "https://github.com/apollographql/graphql-playground",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/graphql-playground",
+    "startTime": "2023-04-22T13:01:57.723Z",
+    "endTime": "2023-04-22T13:01:59.183Z",
+    "childProcessPid": 17431,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--graphql-playground--17431",
+    "executionErrors": []
+}

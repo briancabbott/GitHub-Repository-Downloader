@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/invariant-packages undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/invariant-packages",
+    "repo": "https://github.com/apollographql/invariant-packages",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/invariant-packages",
+    "startTime": "2023-04-22T13:02:08.677Z",
+    "endTime": "2023-04-22T13:02:09.630Z",
+    "childProcessPid": 17487,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--invariant-packages--17487",
+    "executionErrors": []
+}

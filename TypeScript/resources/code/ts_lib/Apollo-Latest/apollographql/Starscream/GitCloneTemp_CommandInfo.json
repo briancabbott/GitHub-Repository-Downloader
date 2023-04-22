@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/Starscream undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/Starscream",
+    "repo": "https://github.com/apollographql/Starscream",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/Starscream",
+    "startTime": "2023-04-22T12:58:18.372Z",
+    "endTime": "2023-04-22T12:58:19.368Z",
+    "childProcessPid": 17002,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--Starscream--17002",
+    "executionErrors": []
+}

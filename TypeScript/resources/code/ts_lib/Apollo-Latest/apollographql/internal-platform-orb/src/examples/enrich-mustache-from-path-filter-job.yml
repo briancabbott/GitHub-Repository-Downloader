@@ -1,0 +1,63 @@
+description: >
+  Our enrich-mustache-from-path-filter is meant to be a drop in replacement for path-filtering/filter
+  BUT: meant to be used in a situation where EITHER you
+  want an easy way to use the rest of this orb's enhance-mustache
+  functionality OR find that Circle's official path-filtering orb
+  doesn't work for your use case anymore.
+
+  For example, Circle's path-filtering works great if you want to turn on or off
+  currently defined workflows or part of a pipeline. But if you have
+  a situation where you want to create many instances of the SAME
+  jobs, this is much harder to keep DRY.
+
+  If, for example, you have a dynamic configuration and for each
+  folder modified you want to do the same job, but with different parameters
+  depending on what folder.
+
+  For example, you always want to do `gradle`, but sometimes you want to do
+  gradle build microservice-a and sometimes you want to do gradle build microservice-b.
+
+  Now, with path-filtering you would need to set up indidivdual pipeline parameters
+  for each case and define seperate parts of the workflow, running using when statements.
+  Except these workflows or jobs are almost always the same - you're just always running gradle!
+
+  Instead, create a mustache template and let this job generate a pipeline based on the
+  mustache variables your MAPPING block defines.
+
+  If multiple mapping files match AND the last item is a JSON array, multiple matches will
+  append. (Normal JSON scalars will overwrite in an undefined way).
+
+  The following example depends on .circleci/continue-config.yml looking like so
+
+  version: 2.1
+  workflows:
+    build-it:
+      jobs:
+        - do-gradle:
+            task: "{{what-gradle-action}}"
+        {{#build-docs}}
+        - do-build-docs:
+            name: {{.}}
+        {{/build-docs}}
+
+
+# Provide a use-case based example for using this orb.
+# Everything in the `usage` section will be displayed in the orb registry.
+# Comments are not retained.
+usage:
+  version: 2.1
+  setup: true
+
+  orbs:
+    apollo-internal-platform-orb: apollo/internal-platform-orb@1.0.1
+  workflows:
+    launch-jobs:
+      jobs:
+       - apollo-internal-platform-orb/enrich-mustache-from-path-filter:
+          base-revision: main
+          config-path: .circleci/continue-config.yml
+          mapping: |
+            microservice-a/.* what-gradle-action ":a:build"
+            microservice-b/.* what-gradle-action ":b:build"
+            docs-a/.* build-docs ["a"]
+            docs-a/.* build-docs ["b"]

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/circleci-orb-oss-ci-cd-tooling undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/circleci-orb-oss-ci-cd-tooling",
+    "repo": "https://github.com/apollographql/circleci-orb-oss-ci-cd-tooling",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/circleci-orb-oss-ci-cd-tooling",
+    "startTime": "2023-04-22T13:01:02.406Z",
+    "endTime": "2023-04-22T13:01:03.076Z",
+    "childProcessPid": 17274,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--circleci-orb-oss-ci-cd-tooling--17274",
+    "executionErrors": []
+}

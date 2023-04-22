@@ -1,0 +1,4 @@
+/vendor
+
+# override defaults
+!app

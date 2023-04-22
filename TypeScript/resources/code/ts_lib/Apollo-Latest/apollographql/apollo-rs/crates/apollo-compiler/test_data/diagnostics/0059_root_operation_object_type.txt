@@ -1,0 +1,34 @@
+[
+    ApolloDiagnostic {
+        cache: {
+            0: "built_in_types.graphql",
+            59: "0059_root_operation_object_type.graphql",
+        },
+        location: DiagnosticLocation {
+            file_id: FileId {
+                id: 59,
+            },
+            offset: 13,
+            length: 20,
+        },
+        labels: [
+            Label {
+                location: DiagnosticLocation {
+                    file_id: FileId {
+                        id: 59,
+                    },
+                    offset: 13,
+                    length: 20,
+                },
+                text: "This is of `InterfaceTypeDefinition` type",
+            },
+        ],
+        help: Some(
+            "root operation type must be of an Object Type",
+        ),
+        data: ObjectType {
+            name: "SomeInterface",
+            ty: "InterfaceTypeDefinition",
+        },
+    },
+]

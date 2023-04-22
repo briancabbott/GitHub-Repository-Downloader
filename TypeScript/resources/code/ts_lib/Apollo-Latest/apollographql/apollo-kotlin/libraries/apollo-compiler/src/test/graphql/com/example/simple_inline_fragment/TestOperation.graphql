@@ -1,0 +1,16 @@
+query TestQuery {
+  hero {
+    ... on Character {
+      id
+      ... on Character {
+        name
+      }
+    }
+    ... on Human {
+      height
+    }
+    ... on Droid {
+      primaryFunction
+    }
+  }
+}

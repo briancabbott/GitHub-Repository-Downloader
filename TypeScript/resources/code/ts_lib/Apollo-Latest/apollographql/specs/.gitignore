@@ -1,0 +1,7 @@
+node_modules
+*.html
+.idea
+
+# these are copied from $name-$version.graphql
+# by the build script:
+*/v*.graphql

@@ -1,0 +1,19 @@
+description: Build checksum of all folders in `root`
+parameters:
+  root:
+    type: string
+    default: .
+  to:
+    type: string
+    default: DIRSUM
+steps:
+  - run:
+      name: Building checksum...
+      command: find << parameters.root >> -type f |
+        sort |
+        xargs md5sum |
+        md5sum |
+        cut -d ' ' -f 1 >> << parameters.to >>
+  - run:
+      name: DIRSUM
+      command: cat << parameters.to >>

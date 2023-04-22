@@ -1,0 +1,141 @@
+{
+  "extends": [
+    // Our default configuration. See
+    // https://github.com/apollographql/renovate-config-apollo-open-source/blob/master/package.json
+    "apollo-open-source",
+    // Bundle together Jest/TS-Jest updates (even major ones).
+    "group:jestMonorepo",
+    "group:jestPlusTSJest",
+    // Bundle together graphql-codegen updates (even major ones).
+    "group:graphqlcodegeneratorMonorepo",
+  ],
+  schedule: null,
+  // "Past" major version branches, preserved as
+  // "version-" branches, should be added here to ensure they get
+  // important updatets.
+  "baseBranches": [
+    "main",
+    "version-0.x",
+  ],
+  "dependencyDashboard": true,
+  // The "circleci" manager is intentionally disabled right now (e.g., not
+  // included in this list).  While we do benefit from its updating of "Orb"
+  // versions, the CircleCI manager also attempts to update Docker images using
+  // its "Docker" datasource.  This is really handy, in theory, but we have
+  // intentionally varying major Node.js docker image identifiers in our
+  // CircleCI configuration to test on each major Node.js platform.  Enabling
+  // the "circleci" manager would cause all of these to update to the latest
+  // version (e.g., 16) when we want them to be intentionally different!
+  // I'm going to try to craft an fix for this, but I might do it upstream
+  // on Renovate itself using its Regex manager.  It's also worth noting that
+  // there is other configuration that could be used to _only_ renovate "orbs"
+  // on this file, but I'm taking the short-cut route and not juggling with
+  // that right now.  I can test the repository locally with my own copy of
+  // Renovate and come up with another solution given some free time. -Jesse
+  "enabledManagers": ["npm"],
+  postUpdateOptions: ["npmDedupe"],
+  "packageRules": [
+    // We set this to the lowest supported Node.js version to ensure we don't
+    // use newer Node.js APIs unknowingly during development which are going to
+    // fail in CI anyway when they're run against the full range of Node.js
+    // versions we support.
+    {
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "14.x"
+    },
+    // node-fetch v3 only ships as ESM. We currently build to CommonJS and even
+    // if we start publishing as ESM we're not going to go ESM-only for a while.
+    // (Plus it requires Node v12.20 and we support v12.13.) So let's stay on
+    // v2. (Perhaps we could swap to undici instead if this pin gets to be a
+    // problem.)
+    {
+      "matchPackageNames": ["node-fetch", "@types/node-fetch"],
+      "allowedVersions": "2.x"
+    },
+    // strip-indent v4 can only be imported from ESM modules, and we don't currently
+    // build as ESM. Maybe we'll change our build strategy eventually, but until then
+    // we can continue using an old version of a simple indentation stripper in our tests.
+    // See https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+    {
+      matchPackageNames: ["strip-indent"],
+      allowedVersions: "3.x",
+    },
+    // chalk v5 is pure ESM. The recommendation in the changelog suggests this should
+    // be usable in TS v4.6.
+    // ref: https://github.com/chalk/chalk/releases/v5.0.0
+    {
+      matchPackageNames: ["chalk"],
+      allowedVersions: "4.x",
+    },
+    {
+      // v8 drops support for node < 16 so we can't take this for v0.x or main
+      "matchPackageNames": ["lru-cache"],
+      "allowedVersions": "7.x",
+    },
+    // Bunch up all non-major npm dependencies into a single PR.  In the common case
+    // where the upgrades apply cleanly, this causes less noise and is resolved faster
+    // than starting a bunch of upgrades in parallel for what may turn out to be
+    // a suite of related packages all released at once.
+    {
+      groupName: "all non-major dependencies",
+      matchUpdateTypes: ["patch", "minor"],
+      // Exclude all v0 dependencies from the patch/minor group. Changes to v0 packages
+      // should be treated as major updates, but renovate treats all patches and minors
+      // the same.
+      matchCurrentVersion: "!/^[\^~]?0/",
+      groupSlug: "all-npm-minor-patch",
+      matchManagers: [ "npm" ],
+    },
+    {
+      // Disable automerge for v0 packages since it's on by default for patch/minor in
+      // the "apollo-open-source" renovate config
+      matchCurrentVersion: "/^[\^~]?0/",
+      automerge: false,
+      matchManagers: [ "npm" ],
+    },
+    // v0.x is stuck on the following major package versions due to node 12 support
+    // the packages listed below have dropped support for node 12 in current major versions
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "12.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackagePatterns": ["^@apollo/utils"],
+      "allowedVersions": "1.x"
+    },
+    // v3.x utils packages drop support for node 14
+    {
+      "matchBaseBranches": ["main"],
+      "matchPackagePatterns": ["^@apollo/utils"],
+      "allowedVersions": "2.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackageNames": ["make-fetch-happen", "@types/make-fetch-happen"],
+      "allowedVersions": "10.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackageNames": ["lerna"],
+      "allowedVersions": "4.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackagePatterns": ["jest", "pretty-format"],
+      "allowedVersions": "28.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackagePatterns": ["@apollo/core-schema"],
+      "allowedVersions": "0.2.x"
+    },
+    {
+      "matchBaseBranches": ["version-0.x"],
+      "matchPackageNames": ["node"],
+      "matchPaths": ["v12-node-compatibility/package.json"],
+      "allowedVersions": "12.x",
+    },
+  ]
+}

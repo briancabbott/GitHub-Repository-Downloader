@@ -1,0 +1,29 @@
+{
+  "name": "apollo-server-integration-lambda",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example Lambda integration for Apollo Server v4",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apollographql/server-v4-integration-demos.git",
+    "directory": "packages/lambda/"
+  },
+  "keywords": [
+    "apollo",
+    "graphql",
+    "typescript",
+    "node",
+    "lambda"
+  ],
+  "author": "Apollo <packages@apollographql.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "peerDependencies": {
+    "@apollo/server": "^4.0.0-alpha.2",
+    "graphql": "^16.5.0"
+  }
+}

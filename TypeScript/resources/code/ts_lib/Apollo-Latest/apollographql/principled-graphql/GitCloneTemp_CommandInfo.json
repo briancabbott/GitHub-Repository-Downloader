@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/principled-graphql undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/principled-graphql",
+    "repo": "https://github.com/apollographql/principled-graphql",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/principled-graphql",
+    "startTime": "2023-04-22T13:02:50.547Z",
+    "endTime": "2023-04-22T13:02:51.556Z",
+    "childProcessPid": 17577,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--principled-graphql--17577",
+    "executionErrors": []
+}

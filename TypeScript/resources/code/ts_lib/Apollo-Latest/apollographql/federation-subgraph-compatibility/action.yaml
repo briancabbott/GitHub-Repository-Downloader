@@ -1,0 +1,41 @@
+name: 'Apollo Federation Subgraph Compatibility'
+description: "Github Action for checking a subgraph's compatibility with a federated gateway"
+inputs:
+  compose:
+    description: 'Docker Compose file to start up the subgraph'
+    required: true
+  schema:
+    description: 'Path to the GraphQL schema file'
+    required: true
+  path:
+    description: 'GraphQL endpoint path'
+    required: false
+    default: ''
+  port:
+    description: 'GraphQL endpoint HTTP port'
+    required: false
+    default: 4001
+  debug:
+    description: 'Debug mode with extra log info'
+    required: false
+    default: false
+  token:
+    description: 'Github Token for submitting PR comments'
+    required: false
+  failOnWarning:
+    description: 'Boolean flag to indicate whether any failing test should fail the script'
+    required: false
+    default: false
+  failOnRequired:
+    description: 'Boolean flag to indicate whether any failing required functionality test should fail the script'
+    required: false
+    default: false
+  workingDirectory:
+    description: 'Working directory to run the action from. Should be relative from the root of the project.'
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  color: 'blue'
+  icon: 'share-2'

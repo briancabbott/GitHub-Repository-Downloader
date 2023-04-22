@@ -1,0 +1,22 @@
+description: >-
+  Helper command which will `halt` the entire execution of the running `job` if the value of
+  `value` parameter is the value of the `stop-if-value-is` parameter.
+
+  Circle's "when" conditions are great, but you could use this as a pre-step in a workflow to avoid executing a job
+
+parameters:
+  value:
+    type: string
+    description: A value - maybe even a Circle parameter - to check
+  stop-if-value-is:
+    type: string
+    description: If the value parameter matches this value, halt job execution. Job will still be green, but further steps will not happen
+
+steps:
+  - run:
+      name: Halt if actual = expected
+      command: |
+        if [ "<< parameters.value >>" = "<< parameters.stop-if-value-is >>" ];
+        then
+          circleci-agent step halt
+        fi

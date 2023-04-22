@@ -1,0 +1,85 @@
+schema {
+  query: Query
+  mutation: MutationRoot
+}
+
+type Query {
+  nullableInt: Int
+  nonNullableInt: Int!
+  direction: Direction!,
+  cat: Cat!
+  animal: Animal!
+  feline: Feline!
+  long1: Long1
+  listOfListOfLong1: [[Long1]!]
+  long2: Long2
+  long3: Long3
+  listOfListOfInt: [[Int]!]
+  listOfListOfAnimal: [[Animal]!]
+  unusedType: UnusedType
+  node: Node
+  product: Product
+  promo: Promo
+}
+
+type Promo {
+  product: Product!
+}
+
+type Product {
+  name: String!
+  price: Float!
+}
+
+type UnusedType {
+  foo: String!
+}
+
+enum Direction {
+  SOUTH,
+  NORTH
+}
+
+type MutationRoot {
+  nullableInt: Int
+}
+
+interface Node {
+  id: ID!
+  species: String!
+}
+
+interface Animal @typePolicy(keyFields: "id") {
+  id: ID!
+  species: String!
+  country: String!
+}
+
+type Cat implements Animal & Animal2 & Node {
+  id: ID!
+  species: String!
+  mustaches: Int!
+  unusedField: String!
+  bestFriend: Animal!
+  country: String!
+}
+
+type Lion implements Animal {
+  id: ID!
+  species: String!
+  roar: String!
+  country: String!
+}
+
+union Feline = Cat | Lion
+
+# an interface that is not directly queried but still needs to be added because the data builders
+# will reference them
+interface Animal2 {
+  species: String!
+}
+union Feline2 = Cat | Lion
+
+scalar Long1
+scalar Long2
+scalar Long3

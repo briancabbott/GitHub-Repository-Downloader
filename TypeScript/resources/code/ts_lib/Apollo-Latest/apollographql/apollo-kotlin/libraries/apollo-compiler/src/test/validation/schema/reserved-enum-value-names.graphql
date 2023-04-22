@@ -1,0 +1,17 @@
+type Query {
+  enum: Enum
+}
+
+enum Enum {
+  type
+}
+
+enum Enum4 {
+  foo
+  bar @targetName(name: "foo")
+}
+
+enum Enum5 {
+  foo @targetName(name: "bar")
+  bar2 @targetName(name: "bar")
+}

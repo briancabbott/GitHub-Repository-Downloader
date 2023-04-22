@@ -1,0 +1,9 @@
+[build]
+  publish = "public"
+  command = "gatsby build"
+[build.environment]
+  NPM_VERSION = "6"
+[context.production.environment]
+  PREFIX_PATHS = "true"
+[context.branch-deploy.environment]
+  PREFIX_PATHS = "true"

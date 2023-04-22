@@ -1,0 +1,28 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "example"
+  ],
+  "eslintConfig": {
+    "extends": "@trevorblades/eslint-config/react",
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.js",
+          "**.test.js"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "@trevorblades/eslint-config": "^7.0.1",
+    "eslint": "^7.32.0",
+    "lerna": "^3.10.7"
+  },
+  "dependencies": {}
+}

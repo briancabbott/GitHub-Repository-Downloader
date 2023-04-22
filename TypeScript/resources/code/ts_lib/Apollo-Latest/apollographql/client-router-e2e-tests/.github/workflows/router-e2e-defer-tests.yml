@@ -1,0 +1,61 @@
+name: E2E @defer Tests
+
+on:
+  pull_request:
+    branches: [main]
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  ci-docker-local:
+    name: CI Router
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: install rover
+        run: |
+          curl -sSL https://rover.apollo.dev/nix/latest | sh -s -- --elv2-license accept
+          echo "$HOME/.rover/bin" >> ${GITHUB_PATH}
+
+      - name: update docker-compose
+        run: |
+          which docker-compose && exit 0 || true
+          BIN_DIR=$HOME/.docker-compose/bin
+          FILE=$BIN_DIR/docker-compose
+          mkdir -p $BIN_DIR
+          set -x
+          curl -L --fail https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o $FILE
+          chmod +x $FILE
+          echo "downloaded $($FILE --version)"
+          echo "$BIN_DIR" >> ${GITHUB_PATH}
+          set +x
+          echo ---------------------------------------------------------------
+
+      - name: check tools
+        run: |
+          echo ---------------------------------------------------------------
+          ( set -x; which rover )
+          echo "$(rover --version)"
+          echo ---------------------------------------------------------------
+          ( set -x; which docker-compose )
+          echo "$(docker-compose --version)"
+          echo ---------------------------------------------------------------
+
+      - name: docker-build-local-router
+        run: cd scripts && make docker-build-local-router
+
+      - name: docker-up-local-router
+        run: cd scripts && make docker-up-local-router
+
+      - name: cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          record: false
+          browser: chrome
+          working-directory: CRA-demo
+          command: npm run test
+
+      - name: docker-compose-down
+        run: cd scripts && make docker-compose-down

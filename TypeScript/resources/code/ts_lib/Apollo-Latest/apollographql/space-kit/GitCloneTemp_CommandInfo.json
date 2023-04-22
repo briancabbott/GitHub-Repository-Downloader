@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/space-kit undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/space-kit",
+    "repo": "https://github.com/apollographql/space-kit",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/space-kit",
+    "startTime": "2023-04-22T13:03:12.006Z",
+    "endTime": "2023-04-22T13:03:14.500Z",
+    "childProcessPid": 17654,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--space-kit--17654",
+    "executionErrors": []
+}

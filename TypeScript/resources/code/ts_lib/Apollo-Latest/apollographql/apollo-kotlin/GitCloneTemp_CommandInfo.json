@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-kotlin undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-kotlin",
+    "repo": "https://github.com/apollographql/apollo-kotlin",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-kotlin",
+    "startTime": "2023-04-22T12:59:48.516Z",
+    "endTime": "2023-04-22T13:00:21.156Z",
+    "childProcessPid": 17131,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-kotlin--17131",
+    "executionErrors": []
+}

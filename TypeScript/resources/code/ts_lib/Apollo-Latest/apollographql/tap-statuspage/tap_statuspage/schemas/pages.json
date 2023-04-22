@@ -1,0 +1,143 @@
+{
+  "type": ["null", "object"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": ["null", "string"]
+    },
+    "created_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "name": {
+      "type": ["null", "string"]
+    },
+    "page_description": {
+      "type": ["null", "string"]
+    },
+    "headline": {
+      "type": ["null", "string"]
+    },
+    "branding": {
+      "type": ["null", "string"]
+    },
+    "subdomain": {
+      "type": ["null", "string"]
+    },
+    "domain": {
+      "type": ["null", "string"]
+    },
+    "url": {
+      "type": ["null", "string"]
+    },
+    "support_url": {
+      "type": ["null", "string"]
+    },
+    "hidden_from_search": {
+      "type": ["null", "boolean"]
+    },
+    "allow_page_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "allow_incident_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "allow_email_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "allow_sms_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "allow_rss_atom_feeds": {
+      "type": ["null", "boolean"]
+    },
+    "allow_webhook_subscribers": {
+      "type": ["null", "boolean"]
+    },
+    "notifications_from_email": {
+      "type": ["null", "string"]
+    },
+    "notifications_email_footer": {
+      "type": ["null", "string"]
+    },
+    "activity_score": {
+      "type": ["null", "number"]
+    },
+    "twitter_username": {
+      "type": ["null", "string"]
+    },
+    "viewers_must_be_team_members": {
+      "type": ["null", "boolean"]
+    },
+    "ip_restrictions": {
+      "type": ["null", "string"]
+    },
+    "city": {
+      "type": ["null", "string"]
+    },
+    "state": {
+      "type": ["null", "string"]
+    },
+    "country": {
+      "type": ["null", "string"]
+    },
+    "time_zone": {
+      "type": ["null", "string"]
+    },
+    "css_body_background_color": {
+      "type": ["null", "string"]
+    },
+    "css_font_color": {
+      "type": ["null", "string"]
+    },
+    "css_light_font_color": {
+      "type": ["null", "string"]
+    },
+    "css_greens": {
+      "type": ["null", "string"]
+    },
+    "css_yellows": {
+      "type": ["null", "string"]
+    },
+    "css_oranges": {
+      "type": ["null", "string"]
+    },
+    "css_blues": {
+      "type": ["null", "string"]
+    },
+    "css_reds": {
+      "type": ["null", "string"]
+    },
+    "css_border_color": {
+      "type": ["null", "string"]
+    },
+    "css_graph_color": {
+      "type": ["null", "string"]
+    },
+    "css_link_color": {
+      "type": ["null", "string"]
+    },
+    "css_no_data": {
+      "type": ["null", "string"]
+    },
+    "favicon_logo": {
+      "type": ["null", "string"]
+    },
+    "transactional_logo": {
+      "type": ["null", "string"]
+    },
+    "hero_cover": {
+      "type": ["null", "string"]
+    },
+    "email_logo": {
+      "type": ["null", "string"]
+    },
+    "twitter_logo": {
+      "type": ["null", "string"]
+    }
+  }
+}

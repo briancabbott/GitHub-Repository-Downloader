@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/iOSTutorial undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/iOSTutorial",
+    "repo": "https://github.com/apollographql/iOSTutorial",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/iOSTutorial",
+    "startTime": "2023-04-22T13:02:04.142Z",
+    "endTime": "2023-04-22T13:02:04.904Z",
+    "childProcessPid": 17466,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--iOSTutorial--17466",
+    "executionErrors": []
+}

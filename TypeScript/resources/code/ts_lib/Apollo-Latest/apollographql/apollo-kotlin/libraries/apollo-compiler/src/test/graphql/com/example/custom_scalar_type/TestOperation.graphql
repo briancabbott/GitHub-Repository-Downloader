@@ -1,0 +1,12 @@
+# multiple scalar fields
+query TestQuery {
+  hero {
+    id
+    name
+    birthDate
+    appearanceDates
+    fieldWithUnsupportedType
+    profileLink
+    links
+  }
+}

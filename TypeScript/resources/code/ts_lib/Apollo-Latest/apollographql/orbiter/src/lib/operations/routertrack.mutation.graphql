@@ -1,0 +1,15 @@
+mutation RouterTrack(
+    $sessionId: ID!,
+    $version: String!,
+    $os: String!,
+    $usage: [RouterUsageInput!]!,
+    $ci: String,
+) {
+    trackRouterUsage(
+        sessionId: $sessionId,
+        version: $version,
+        os: $os,
+        usage: $usage,
+        ci: $ci,
+    )
+}

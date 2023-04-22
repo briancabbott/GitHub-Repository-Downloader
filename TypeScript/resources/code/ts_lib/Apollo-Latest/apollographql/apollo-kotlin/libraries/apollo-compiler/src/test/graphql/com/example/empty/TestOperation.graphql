@@ -1,0 +1,6 @@
+#A query that is empty/comments-only should make the codegen fail
+#query TestQuery {
+#  hero {
+#    name
+#  }
+#}

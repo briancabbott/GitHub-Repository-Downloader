@@ -1,0 +1,62 @@
+public final class com/apollographql/apollo3/mockserver/-MockServers {
+}
+
+public final class com/apollographql/apollo3/mockserver/MockRequest {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lokio/ByteString;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lokio/ByteString;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getBody ()Lokio/ByteString;
+	public final fun getHeaders ()Ljava/util/Map;
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getVersion ()Ljava/lang/String;
+}
+
+public final class com/apollographql/apollo3/mockserver/MockResponse {
+	public fun <init> ()V
+	public final fun getBody ()Lkotlinx/coroutines/flow/Flow;
+	public final fun getDelayMillis ()J
+	public final fun getHeaders ()Ljava/util/Map;
+	public final fun getStatusCode ()I
+}
+
+public final class com/apollographql/apollo3/mockserver/MockResponse$Builder {
+	public fun <init> ()V
+	public final fun addHeader (Ljava/lang/String;Ljava/lang/String;)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun body (Ljava/lang/String;)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun body (Lkotlinx/coroutines/flow/Flow;)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun body (Lokio/ByteString;)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun build ()Lcom/apollographql/apollo3/mockserver/MockResponse;
+	public final fun delayMillis (J)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun headers (Ljava/util/Map;)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+	public final fun statusCode (I)Lcom/apollographql/apollo3/mockserver/MockResponse$Builder;
+}
+
+public final class com/apollographql/apollo3/mockserver/MockServer : com/apollographql/apollo3/mockserver/MockServerInterface {
+	public fun <init> ()V
+	public fun <init> (Lcom/apollographql/apollo3/mockserver/MockServerHandler;)V
+	public synthetic fun <init> (Lcom/apollographql/apollo3/mockserver/MockServerHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun enqueue (Lcom/apollographql/apollo3/mockserver/MockResponse;)V
+	public fun getMockServerHandler ()Lcom/apollographql/apollo3/mockserver/MockServerHandler;
+	public fun stop (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun takeRequest ()Lcom/apollographql/apollo3/mockserver/MockRequest;
+	public fun url (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/apollographql/apollo3/mockserver/MockServerCommonKt {
+	public static final fun parseHeader (Ljava/lang/String;)Lkotlin/Pair;
+	public static final fun parseRequestLine (Ljava/lang/String;)Lkotlin/Triple;
+	public static final fun writeResponse (Lokio/BufferedSink;Lcom/apollographql/apollo3/mockserver/MockResponse;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/apollographql/apollo3/mockserver/MockServerHandler {
+	public abstract fun handle (Lcom/apollographql/apollo3/mockserver/MockRequest;)Lcom/apollographql/apollo3/mockserver/MockResponse;
+}
+
+public abstract interface class com/apollographql/apollo3/mockserver/MockServerInterface {
+	public abstract fun enqueue (Lcom/apollographql/apollo3/mockserver/MockResponse;)V
+	public abstract fun getMockServerHandler ()Lcom/apollographql/apollo3/mockserver/MockServerHandler;
+	public abstract fun stop (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun takeRequest ()Lcom/apollographql/apollo3/mockserver/MockRequest;
+	public abstract fun url (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+

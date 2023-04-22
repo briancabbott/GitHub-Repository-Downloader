@@ -1,0 +1,29 @@
+apiVersion: v2
+name: router
+description: Rust Graph Routing runtime for Apollo Federation
+
+# Note: Do not make changes to this document *unless* you are creating a router
+# release. For example, if you are providing a fix or enhancement, do not
+# change this file.
+#
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version, but we have chosen to match it with our appVersion
+# so it matches the shape of our release process and release automation.
+# By proxy of that decision, this version uses SemVer 2.0.0, though the prefix
+# of "v" is not included.
+version: 1.15.1
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "v1.15.1"

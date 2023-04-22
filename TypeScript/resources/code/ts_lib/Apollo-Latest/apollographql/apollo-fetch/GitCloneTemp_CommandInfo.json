@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-fetch undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-fetch",
+    "repo": "https://github.com/apollographql/apollo-fetch",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-fetch",
+    "startTime": "2023-04-22T12:59:28.694Z",
+    "endTime": "2023-04-22T12:59:29.725Z",
+    "childProcessPid": 17099,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-fetch--17099",
+    "executionErrors": []
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/module",
+    "target": "es5",
+    "module": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

@@ -1,0 +1,32 @@
+name: pr
+
+on:
+  pull_request
+
+# Cancel any current or previous job from the same PR
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Build current tutorial
+        working-directory: ./compose/final
+        run: |
+          ./gradlew assembleDebug
+      - name: Build legacy tutorial
+        working-directory: ./views/final
+        run: |
+          ./gradlew assembleDebug
+      - name: Build v4 tutorial
+        working-directory: ./v4/final
+        run: |
+          ./gradlew assembleDebug

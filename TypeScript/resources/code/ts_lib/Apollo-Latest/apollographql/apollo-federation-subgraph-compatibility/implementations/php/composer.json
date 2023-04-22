@@ -1,0 +1,13 @@
+{
+    "name": "apollo/php-implementation",
+    "type": "project",
+    "require": {
+        "webonyx/graphql-php": "^14.11",
+        "skillshare/apollo-federation-php": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "GraphQL\\Compatibility\\": "src/"
+        }
+    }
+}

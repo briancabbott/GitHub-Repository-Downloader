@@ -1,0 +1,14 @@
+
+query {
+  cat {
+    name
+  }
+}
+
+type Query {
+  cat: Pet
+}
+
+type Pet {
+  name: String
+}

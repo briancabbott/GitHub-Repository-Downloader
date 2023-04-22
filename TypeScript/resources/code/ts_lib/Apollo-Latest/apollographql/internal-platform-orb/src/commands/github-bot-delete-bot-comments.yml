@@ -1,0 +1,40 @@
+description: >
+  Finds any previous comments made by this bot, with a given header, on the current PR, and deletes them.
+parameters:
+  title:
+    type: string
+    description: delete comments that start with this header
+  bot-making-comments:
+    type: string
+    description: name of the bot making all these comments
+  really-delete-comments:
+    type: boolean
+    default: true
+  do-when:
+    type: string
+    description: Value passed to "when" parameter on job. Useful to let job run even after a prior step failed
+    default: on_success
+steps:
+  - run:
+      name: Delete all comments from this user
+      parameters:
+      command: |
+          export PR_NUMBER=$(echo "$CIRCLE_PULL_REQUEST" | cut -d '/' -f 7)
+          echo $CIRCLE_PULL_REQUEST $PR_NUMBER
+
+          if [ -z "$PR_NUMBER" ];
+          then
+            echo "No pull request (yet): do not try to delete commments"
+            exit 0
+          fi
+
+          if [ "<< parameters.really-delete-comments >>" != "true" ];
+          then
+            echo "Halted at step: do not actually delete comments"
+            exit 0
+          fi
+
+          gh api repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$PR_NUMBER/comments \
+            -q '.[] | select(.user.login == "<< parameters.bot-making-comments >>") | select(.body | startswith("## << parameters.title >>")) | .id' \
+          | xargs -I{} -n1 gh api repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/comments/{} -X=DELETE
+      when: << parameters.do-when >>

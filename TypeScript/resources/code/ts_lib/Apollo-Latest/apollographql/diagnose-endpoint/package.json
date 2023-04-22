@@ -1,0 +1,22 @@
+{
+  "name": "diagnose-endpoint",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "apollographql/diagnose-endpoint",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js --endpoint=https://gql.reddit.com"
+  },
+  "bin": {
+    "diagnose-endpoint": "./index.js"
+  },
+  "author": "Apollo Graph",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "8.1.0",
+    "got": "11.8.2",
+    "graphql": "16.0.0",
+    "websocket": "^1.0.34"
+  }
+}

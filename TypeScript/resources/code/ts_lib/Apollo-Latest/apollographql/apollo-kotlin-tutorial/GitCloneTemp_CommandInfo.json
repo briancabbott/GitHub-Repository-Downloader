@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/apollo-kotlin-tutorial undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-kotlin-tutorial",
+    "repo": "https://github.com/apollographql/apollo-kotlin-tutorial",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/apollo-kotlin-tutorial",
+    "startTime": "2023-04-22T13:00:21.961Z",
+    "endTime": "2023-04-22T13:00:23.083Z",
+    "childProcessPid": 17148,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--apollo-kotlin-tutorial--17148",
+    "executionErrors": []
+}

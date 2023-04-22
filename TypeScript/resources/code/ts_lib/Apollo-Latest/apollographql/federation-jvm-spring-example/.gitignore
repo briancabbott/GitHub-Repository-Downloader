@@ -1,0 +1,19 @@
+# idea
+*.iml
+.idea/
+
+# mac
+.DS_Store
+
+# gradle ignore
+.gradle
+build/
+out/
+
+# ignore files used for composition
+*.jar
+supergraph.graphql
+response.json
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar

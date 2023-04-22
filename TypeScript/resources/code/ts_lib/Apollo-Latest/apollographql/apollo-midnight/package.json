@@ -1,0 +1,42 @@
+{
+    "name": "apollo-midnight-color-theme",
+    "displayName": "Apollo Midnight Color Theme",
+    "description": "A dark theme based on Apollo Studio's color palette in Explorer dark mode.",
+    "version": "0.9.0",
+    "preview": true,
+    "publisher": "apollographql",
+    "license": "MIT",
+    "icon": "icon.png",
+    "galleryBanner": {
+        "color": "#2D1F66",
+        "theme": "dark"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/apollographql/apollo-midnight"
+    },
+    "bugs": {
+        "url": "https://github.com/apollographql/apollo-midnight/issues"
+    },
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "keywords": [
+        "theme",
+        "apollo",
+        "graphql",
+        "dark"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Apollo Midnight",
+                "uiTheme": "vs-dark",
+                "path": "./themes/apollo-midnight-color-theme.json"
+            }
+        ]
+    }
+}

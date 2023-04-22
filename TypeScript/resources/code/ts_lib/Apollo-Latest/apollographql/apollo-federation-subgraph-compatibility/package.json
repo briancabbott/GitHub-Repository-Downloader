@@ -1,0 +1,43 @@
+{
+  "name": "@apollo/federation-subgraph-compatibility-monorepo",
+  "description": "Monorepo for Apollo Federation Subgraph Compatibility Testing packages",
+  "bugs": {
+    "url": "https://github.com/apollographql/apollo-federation-subgraph-compatibility/issues"
+  },
+  "homepage": "https://github.com/apollographql/apollo-federation-subgraph-compatibility#readme",
+  "author": "Apollo <packages@apollographql.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "packages/subgraphs/*"
+  ],
+  "scripts": {
+    "build": "tsc --build tsconfig.json && npm run package",
+    "clean": "rm -rf packages/*/dist packages/*/tsconfig.tsbuildinfo",
+    "compatibility:report": "node packages/script/dist/generateReportCommand.js",
+    "compatibility:test": "node packages/script/dist/compatibilityTestCommand.js",
+    "lint": "eslint .",
+    "package": "cp implementations/_template_library_/products.graphql packages/compatibility && concurrently \"npm:package-subgraphs:*\"",
+    "package-subgraphs:inventory": "ncc build packages/subgraphs/inventory/index.js --source-map --out packages/compatibility/dist/subgraphs/inventory && cp packages/subgraphs/inventory/Dockerfile packages/subgraphs/inventory/inventory.graphql packages/compatibility/dist/subgraphs/inventory",
+    "package-subgraphs:users": "ncc build packages/subgraphs/users/index.js --source-map --out packages/compatibility/dist/subgraphs/users && cp packages/subgraphs/users/Dockerfile packages/subgraphs/users/users.graphql packages/compatibility/dist/subgraphs/users",
+    "prettier-check": "prettier --check .",
+    "prettier-fix": "prettier --write .",
+    "postinstall": "npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "@vercel/ncc": "0.36.1",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.34.0",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}

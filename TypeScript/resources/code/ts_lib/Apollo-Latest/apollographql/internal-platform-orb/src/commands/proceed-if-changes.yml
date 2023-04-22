@@ -1,0 +1,73 @@
+description: >
+  Helper command which will `halt` the the entire execution of the running `job`
+  when no changes are found underneath the specified path. ie, ONLY "proceed if
+  there are changes".
+
+  Very useful for instances such as looking through Terraform output which says
+  that running `apply` will result in nothing happening in remote because
+  "no changes present".
+parameters:
+  path:
+    type: string
+    description: Absolute path underneath which one will look for changes.
+    default: ''
+  name-filter:
+    type: string
+    default: ''
+    description: "Filter for pruning files underneath `path`. Will look at the full path (ie you might want to prefix your names with .*)"
+  changes-iregex:
+    type: string
+    description: "If present, looks for a line which indicates that the file being searched has changes. ie, no match means there are _no_ changes."
+    default: ''
+  no-changes-iregex:
+    type: string
+    description: "If present, looks for a line which indicates that the file being searched has no changes. ie, no match means there _are_ changes."
+    default: ''
+steps:
+  - run:
+      name: Proceed if empty parameters.[no-]changes-iregex
+      command: echo this is a placeholder to make when work...
+  - when:
+      condition:
+        or:
+        - matches:
+            pattern: ".+"
+            value: << parameters.changes-iregex >>
+        - matches:
+            pattern: ".+"
+            value: << parameters.no-changes-iregex >>
+      steps:
+        - run:
+            name: Check each info -> changes
+            command: |
+              for f in $(find << parameters.path >> -regex "<< parameters.name-filter >>"); do
+                if [ ! -z "<< parameters.no-changes-iregex >>" ]
+                then
+                  if grep -qiE "<< parameters.no-changes-iregex >>" $f
+                  then
+                    echo "No changes in: $f"
+                  else
+                    echo "Changes to apply in: $f"
+                    echo $f >> /tmp/changes-detected
+                  fi
+                fi
+                if [ ! -z "<< parameters.changes-iregex >>" ]
+                then
+                  if grep -qiE "<< parameters.changes-iregex >>" $f
+                  then
+                    echo "Changes to apply in: $f"
+                    echo $f >> /tmp/changes-detected
+                  else
+                    echo "No changes in: $f"
+                  fi
+                fi
+              done;
+        - store_artifacts:
+            path: /tmp/changes-detected
+        - run:
+            name: Halt if no changes
+            command: |
+              if [ ! -f /tmp/changes-detected ]
+              then
+                circleci-agent step halt
+              fi

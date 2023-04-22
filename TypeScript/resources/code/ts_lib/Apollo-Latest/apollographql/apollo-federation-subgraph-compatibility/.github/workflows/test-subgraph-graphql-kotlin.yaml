@@ -1,0 +1,19 @@
+name: GraphQL Kotlin Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'implementations/graphql-kotlin/**'
+
+jobs:
+  compatibility:
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      library: "graphql-kotlin"
+
+  pr-info:
+    uses: ./.github/workflows/save-pr-info.yaml
+    with:
+      pr_number: ${{ github.event.number }}

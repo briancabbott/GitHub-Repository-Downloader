@@ -1,0 +1,79 @@
+description: >-
+  Meant to be a drop in replacement for Circle's path-filtering/filter, to be used in a situation where:
+    * you want an easy way to use the rest of this orb's enhance-mustache functionality
+    * find that Circle's official path-filtering orb doesn't work for your use case anymore.
+
+  Circle's path-filtering works great if you want to turn on or off
+  currently defined workflows or part of a pipeline. But if you have
+  a situation where you want to create many instances of the SAME
+  jobs, this is much harder to keep DRY.
+
+  In enrich-mustache-from-path-filter instead of passing parameters
+  via CircleCI continutation pipeline, it renders the specified Circle
+  pipeline as a mustache document. This Circle job was created to make the
+  path from path-filter
+
+  Rules for parameters provided in the mappings section:
+    1. these must be JSON literals
+    2. If the JSON literal is an array [], if multiple matches are
+       found then all the matched values will be concatinated in an array
+    3. If a value is not marked as an array then subsequent sets will override
+
+docker:
+  - image: 'cimg/python:3.11'
+parameters:
+  base-revision:
+    description: Compare this branch to its ancestor named
+    type: string
+    default: main
+  config-path:
+    description: Location of the (mustache enriched) config file
+    type: string
+  mapping:
+    description: >-
+      Like path-filtering, the format is:
+        REGEX PARAMETER VALUE
+
+        (space seperated values)
+
+        For each line provided the results of git diff --name-only
+        is examined for matches. This uses PCRE style regex, as defined in Python3
+
+        the output of git diff $YOUR_BASE_REVISION_PARAMETER head is checked to
+        see if matches REGEX. If it does the mustache parameter PARAMETER will be
+        created, and given VALUE. (In Circle's path-filtering orb this sets pipeline parameters).
+
+        VALUE must be a JSON literal. For example: true, "hello", 2. NOTE: You must include quotes.
+
+        enrich-mustache-from-path-filter adds to this syntax in supporting appendable arrays.
+        Given two mapping lines
+        folder-one/.* build-what ["one"]
+        folder-two/.* build-what ["two"]
+
+        if BOTH folder-one and folder-two have changed files the value of the build-what variable will be ["one", "two"].
+
+        This is special casing for arrays only. Scalar types will have
+        path-filtering behavior: given two matches the last one wins.
+        Which is the last one? Potentially undefined behavior.
+
+
+    type: string
+steps:
+  - checkout
+  - setup
+  - git-diff-set-parameters:
+      base-revision: << parameters.base-revision >>
+      output-path: << parameters.config-path >>
+      mapping: << parameters.mapping >>
+  - enrich-mustache:
+      json-data-file-path: /tmp/enrich-parameters.json
+      template-file-path: << parameters.config-path >>
+      output-file-path: /tmp/generated_pipeline.yml
+  - run:
+      name: debugging output (pipeline)
+      command: cat /tmp/generated_pipeline.yml
+  - run:
+      name: debugging output (enrich-parameters)
+      command: cat /tmp/enrich-parameters.json
+  - continuation/continue:
+      configuration_path: /tmp/generated_pipeline.yml

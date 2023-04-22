@@ -1,0 +1,40 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+        cors:
+          allowed_origins:
+            - http://*
+            - https://*
+  otlp/spanmetrics:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:12346
+
+exporters:
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+  prometheus:
+    endpoint: "0.0.0.0:9464"
+
+processors:
+  batch:
+  spanmetrics:
+    metrics_exporter: prometheus
+
+extensions:
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+service:
+  extensions: [zpages]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [zipkin]
+      processors: [spanmetrics, batch]
+    metrics:
+      receivers: [otlp/spanmetrics]
+      exporters: [prometheus]
+      processors: [batch]

@@ -1,0 +1,11 @@
+query GetCharacter {
+    character {
+      ...CharacterFragment
+    }
+}
+
+fragment CharacterFragment on Human {
+  name
+  id
+  appearsIn
+}

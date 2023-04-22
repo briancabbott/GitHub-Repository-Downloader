@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/gatsby-theme-apollo undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/gatsby-theme-apollo",
+    "repo": "https://github.com/apollographql/gatsby-theme-apollo",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/gatsby-theme-apollo",
+    "startTime": "2023-04-22T13:01:47.677Z",
+    "endTime": "2023-04-22T13:01:49.961Z",
+    "childProcessPid": 17410,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--gatsby-theme-apollo--17410",
+    "executionErrors": []
+}

@@ -1,0 +1,127 @@
+
+[[ rules ]]
+    id = "generic-api-key"
+    [ rules.allowlist ]
+        commits = [
+            "291f69d01cd82947e5bb39faeae8a4b64e72f073",
+            "3449ebae02814bf983c69a64d8fde019c86adfb6",
+            "09be3956b6c6f57524d3daf7eabbadcd453d2d57",
+            "6b3caa46ac73a62f39f64f4df00df393eaaa48a2",
+            "86079ffb6e439656e934d8597d32aa5865038dd2",
+            "b8660a296aa547feedb1b6673db5a4eed2e642f1",
+            "c57024f63313b5566e3b8820693dfa502b6b4edd",
+            "0bc65f163b796263b437fe98be518f2fe14b2bcc",
+            "26dca076860b1ae0feeaca25da7029387f4423ac",
+            "40c53ba44256d4b07c9ea0c200d62bfbaef8b162",
+            "89fa98a7124bcdd9c37c4c75bbf026eb7a39726e",
+            "d4ebf9758d5288ad5ac107377766c7be67c91bf9",
+            "b6c343f2b39ea4f6a61ddd23abea390f455f4301",
+            "d6e5b0002e219eb563cf35e1fe938d3b6040625c",
+            "064fbc10453b1e14695816982a93b52e449bb02c",
+            "de91a324596564c43bb33304b47924d028d334bb",
+            "20dde569ba9f633ee862b7d834c5ef345a37482e",
+            "c2eb5ac249145f436ef7998f044a9edf2fb0b856",
+            "4319f2ed2840ea6003d0fe3d5cfc78be89825a85",
+            "3ec0a9d9eda47d21c7c06987a465bf574ed88707",
+            "1968358c88a97c20bd09d6aa9c6af8209acff4e8",
+            "dcda399637f7d78d7a7dd1c6ed1f5ccf01693a28",
+            "9e499b18c92c37ba50b374f59fe086b97acdec28",
+            "a348ce6aa33b6c56f84fd563fe315d1b54815f0f",
+            "de1d13bd54cc3a7fb65c04651a68c71bd2968882",
+            "25f2e05427bc4ca53c40bb0e6082d4dedeecee60",
+            "462d760cd26dc418cbefec061b4f32aef2d5e300",
+            "4de74cb527395c13ba20b438c3a7a419ad931f1c",
+            "53a1f820ca2b1ea6088b22270e1358b2b8955ac1",
+            "a732bb1c40d34e125ac462b1529119e7ccdcb2ce",
+            "ed08c5278d349854f5d6a49fdbe9beb925ba16b5",
+            "13a7504512df7fce4ae29a6c302f13a439bf2d6b",
+            "281e3ab86688dc1ce73a1c43b9433ac33f25997e",
+            "887dfd3c6810ed738321f66a7adb5a904b98e5ae",
+            "2957b69cee54aad0769be69b7848f892742043e4",
+            "96eb641927a96b39bdd3ed191bb1b94f2e049615",
+            "62b44e8bab74f490fd9efd131cf26e0d184f9ffa",
+            "f584d8748ce314643c01eaa84e47f8ae04ab38de",
+            "48ec69d35f16441cec6954a8a55612cbc9b21508",
+            "b3fad802289da6233ac27c399e57bd9f1d79e820",
+            "fff1399971d37e29860a11b979db6483b55e9c65",
+            "0b96bddf863b0f418a4bcf7947bb5f1a024f79c0",
+            "927c3555e0fb6c31f028a6c6965ee753f9e5ef1e",
+            "e818117186fa2d8b307be639575aeac7d586f9b1",
+            "a2510a9e90109329524564b20fbc08e0997a001c",
+            "1d4eb8f7ca36f96da68edf7b285e95ea95c014b2",
+            "68bd62d8e499526b4fe00f57fe3b9efbfb980d8a",
+            "c08ff42c6244ad335b5be2c11419dce4ca37d40b",
+            "6e26904116b72aeb5debdcaa674edd4d5c0811f1",
+            "c7331be0bf0fc117590323546183a6bf097cc022",
+            "7b43a570da85cdb1672b0c7f6fb8e329f6ea702e",
+            "5ecc5c6e55fdb345d9c94d0fc346e3db81b55cb1",
+            "d279dd93272ac4f32c6f0abd4565b3bd4dd811c6",            
+            "5bfe51cdce5f156c0559133e780c7566af270bf4",
+            "0edde72be8d59eaff8775a8ba992a43dbf2dccc0",
+        ]
+
+[[ rules ]]
+    id = "aws-access-token"
+    [ rules.allowlist ]
+        commits = [
+            "6c49782ce42d0fea3b018c3c23761fc5ad0c279e",
+            "3ec0a9d9eda47d21c7c06987a465bf574ed88707",
+            "fd9811c7608c7e2559b21be99b184a98997df7f2",
+            "e818117186fa2d8b307be639575aeac7d586f9b1",
+            
+        ]
+
+[[ rules ]]
+    id = "stripe-access-token"
+    [ rules.allowlist ]
+        commits = [
+            "f5ffcc4d5ec691741c52c2eea08905b476176f01",
+            "17119412908a8805d6c687ad7ebded8080693992",
+            "828ab6bf767edfc96b89059ecf24999c4556bc44",
+            "e3f8c31b2a0faa3d2e17e409b08e5d503be026ac",
+            "19e22df5dd73fbb9c6cd66c110ff66ce676b45d7",
+            
+        ]
+
+[[ rules ]]
+    id = "private-key"
+    [ rules.allowlist ]
+        commits = [
+            "788c75859172616772ffa543ee251a9b7fc445d2",
+            "1b54a38a4354106cdf445d6c75f149c73a5aa28a",
+            "4319f2ed2840ea6003d0fe3d5cfc78be89825a85",
+            "b178c7f6bb6e98bdb1cee20abe26bec8a03e5228",
+            "5ac4898aa93b785990e9908e228849cc8245d8fa",
+            "4f8a3d571bb2817343558394a2e5f3adc651432e",
+            "fac842126498758c553d23be1cbcb1bf3ddc1532",
+            
+        ]
+
+[[ rules ]]
+    id = "jwt"
+    [ rules.allowlist ]
+        commits = [
+            "8f7a306a4875d0fb1124e67a84c7ab3eea3f8d09",
+            "5bfe51cdce5f156c0559133e780c7566af270bf4",
+            "d279dd93272ac4f32c6f0abd4565b3bd4dd811c6",
+            "0edde72be8d59eaff8775a8ba992a43dbf2dccc0",
+            
+        ]
+
+[[ rules ]]
+    id = "slack-access-token"
+    [ rules.allowlist ]
+        commits = [
+            "096acdd72f227375cf3c575d9038895cd7b4415a",
+            
+        ]
+
+[[ rules ]]
+    id = "twitter-api-key"
+    [ rules.allowlist ]
+        commits = [
+            "ce1a362952514d191e9654d8a4ce1917cf72dfe5",
+            "4de74cb527395c13ba20b438c3a7a419ad931f1c",
+            "89cb02de7d8feacac634820dc59a727b662c1af5",
+            
+        ]

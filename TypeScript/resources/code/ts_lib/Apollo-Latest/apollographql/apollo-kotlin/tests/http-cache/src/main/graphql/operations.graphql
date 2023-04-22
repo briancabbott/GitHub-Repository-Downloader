@@ -1,0 +1,15 @@
+query GetRandom {
+  random
+}
+
+query GetRandom2 {
+  random2
+}
+
+mutation SetRandom {
+  setRandom
+}
+
+subscription RandomSubscription {
+  random
+}

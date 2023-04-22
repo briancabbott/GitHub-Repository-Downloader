@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/sandbox-demo undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/sandbox-demo",
+    "repo": "https://github.com/apollographql/sandbox-demo",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/sandbox-demo",
+    "startTime": "2023-04-22T13:03:08.480Z",
+    "endTime": "2023-04-22T13:03:09.063Z",
+    "childProcessPid": 17629,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--sandbox-demo--17629",
+    "executionErrors": []
+}

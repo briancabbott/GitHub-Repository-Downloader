@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/embeddable-next.js undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/embeddable-next.js",
+    "repo": "https://github.com/apollographql/embeddable-next.js",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/embeddable-next.js",
+    "startTime": "2023-04-22T13:01:20.705Z",
+    "endTime": "2023-04-22T13:01:21.495Z",
+    "childProcessPid": 17337,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--embeddable-next.js--17337",
+    "executionErrors": []
+}

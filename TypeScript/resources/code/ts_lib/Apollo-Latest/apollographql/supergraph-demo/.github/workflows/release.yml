@@ -1,0 +1,425 @@
+name: Publish artifacts
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - "router/**"
+      - "subgraphs/**"
+  workflow_dispatch:
+    inputs:
+      rebuildAll:
+        description: 'Rebuild/publish all packages (yes/no)'
+        required: false
+        default: 'yes'
+      forceVersionBump:
+        description: 'Force version bump all packages (yes/no)'
+        required: false
+        default: 'no'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  good-commits:
+    name: Check commits
+    runs-on: ubuntu-latest
+    outputs:
+      count: ${{ steps.commits.outputs.count }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Info
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      -
+        name: check commits
+        id: commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: |
+          if [[ "$COMMITS" != "null" ]]; then
+            MATCHING_COMMITS=$(jq -c ' . | map(select( .message | contains("CI: Bump artifact versions") | not )) ' <<< "$COMMITS" )
+            echo "$MATCHING_COMMITS" | jq
+            RESULT=$( echo "$MATCHING_COMMITS" | jq ' length ')
+            echo "RESULT: $RESULT"
+            echo "::set-output name=count::$RESULT"
+          else
+            echo "::set-output name=count::1"
+          fi
+
+  found-good-commits:
+    name: Found good commits
+    runs-on: ubuntu-latest
+    needs: good-commits
+    if: needs.good-commits.outputs.count > 0
+    steps:
+      - name: Found good commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: |
+          echo "ALL COMMITS"
+          echo "$COMMITS" | jq
+
+  build-matrix:
+    name: Create build matrix
+    runs-on: ubuntu-latest
+    needs: good-commits
+    if: needs.good-commits.outputs.count > 0
+    outputs:
+      packages: ${{ steps.matrix.outputs.packages }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      count: ${{ steps.matrix.outputs.count }}
+    steps:
+      - uses: actions/checkout@v3
+      -
+        name: generate matrix
+        id: matrix
+        env:
+          GITHUB_SHA: ${{ env.GITHUB_SHA}}
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          REBUILD_ALL: ${{ github.event.inputs && github.event.inputs.rebuildAll == 'yes' }}
+          FORCE_VERSION_BUMP: ${{ github.event.inputs && github.event.inputs.forceVersionBump == 'yes' }}
+        run: |
+          if [[ "$FORCE_VERSION_BUMP" == "true" ]]; then
+            PACKAGES=$(.scripts/build-matrix.sh main force-version-bump)
+          else
+            PACKAGES=$(.scripts/build-matrix.sh)
+          fi
+
+          if [[ "$REBUILD_ALL" == "true" ]]; then
+            MATRIX="$PACKAGES"
+          else
+            MATRIX=$(jq -c ' .include |= map(select(.changes=="1")) ' <<< "$PACKAGES")
+          fi
+          echo "::set-output name=packages::$( echo "$PACKAGES" )"
+          echo "::set-output name=matrix::$( echo "$MATRIX" )"
+          echo "::set-output name=count::$( echo "$MATRIX" | jq ' .include | length ' )"
+      -
+        name: packages
+        env:
+          PACKAGES: ${{ steps.matrix.outputs.packages }}
+          MATRIX: ${{ steps.matrix.outputs.matrix }}
+          COUNT: ${{ steps.matrix.outputs.count }}
+          REBUILD_ALL: ${{ github.event.inputs && github.event.inputs.rebuildAll == 'yes' }}
+        run: |
+          echo "--------------------------------"
+          echo "         ALL PACKAGES           "
+          echo "--------------------------------"
+          echo "$PACKAGES" | jq
+
+          echo "--------------------------------"
+          echo "       BUILD MATRIX             "
+          echo "--------------------------------"
+          if [[ "$REBUILD_ALL" == "true" ]]; then
+            echo "   *** FORCE REBUILD ***      "
+          fi
+          if [[ "$COUNT" -eq 0 ]]; then
+            echo "   *** EMPTY MATRIX ***      "
+          fi
+          echo "$MATRIX" | jq
+
+  found-packages-to-build:
+    name: Package changes detected
+    runs-on: ubuntu-latest
+    needs: build-matrix
+    if: needs.build-matrix.outputs.count > 0
+    steps:
+      - name: Found ${{ needs.build-matrix.outputs.count }} packages to build
+        env:
+          PACKAGES: ${{ needs.build-matrix.outputs.packages }}
+          MATRIX: ${{ needs.build-matrix.outputs.matrix }}
+          COUNT: ${{ needs.build-matrix.outputs.count }}
+          REBUILD_ALL: ${{ github.event.inputs && github.event.inputs.rebuildAll == 'yes' }}
+        run: |
+          echo "--------------------------------"
+          echo "         ALL PACKAGES           "
+          echo "--------------------------------"
+          echo "$PACKAGES" | jq
+
+          echo "--------------------------------"
+          echo "       BUILD MATRIX             "
+          echo "--------------------------------"
+          if [[ "$REBUILD_ALL" == "true" ]]; then
+            echo "   *** FORCE REBUILD ***      "
+          fi
+          if [[ "$COUNT" -eq 0 ]]; then
+            echo "   *** EMPTY MATRIX ***      "
+          fi
+          echo "$MATRIX" | jq
+
+  docker-ci:
+    name: Docker CI
+    needs: [build-matrix]
+    if: needs.build-matrix.outputs.count > 0
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      -
+        name: install rover
+        run: |
+          echo ---------------------------------------------------------------
+          echo rover - installing ...
+          echo ---------------------------------------------------------------
+          curl -sSL https://rover.apollo.dev/nix/latest | sh
+          echo "$HOME/.rover/bin" >> ${GITHUB_PATH}
+      -
+        name: update docker-compose
+        run: |
+          which docker-compose && exit 0 || true
+          echo ---------------------------------------------------------------
+          echo docker-compose - installing ...
+          echo ---------------------------------------------------------------
+          BIN_DIR=$HOME/.docker-compose/bin
+          FILE=$BIN_DIR/docker-compose
+          mkdir -p $BIN_DIR
+          set -x
+          curl -L --fail https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o $FILE
+          chmod +x $FILE
+          echo "downloaded $($FILE --version)"
+          echo "$BIN_DIR" >> ${GITHUB_PATH}
+          set +x
+          echo ---------------------------------------------------------------
+      -
+        name: check tools
+        run: |
+          echo ---------------------------------------------------------------
+          ( set -x; which rover )
+          echo "$(rover --version)"
+          echo ---------------------------------------------------------------
+          ( set -x; which docker-compose )
+          echo "$(docker-compose --version)"
+          echo ---------------------------------------------------------------
+      - name: make supergraph
+        run: |
+          make supergraph
+      - name: docker-compose up -d
+        run: |
+          docker-compose up -d
+          sleep 3
+          docker-compose logs
+      - name: smoke test
+        run: .scripts/smoke.sh 4000
+      - name: docker-compose down
+        run: docker-compose down
+
+  build-push:
+    runs-on: ubuntu-latest
+    needs: [docker-ci, build-matrix]
+    if: needs.build-matrix.outputs.count > 0
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
+    name: Build-push ${{ matrix.name }}
+    steps:
+      -
+        name: Info
+        run: |
+          echo --------------------------------------------
+          echo name: ${{ matrix.name }}
+          echo dir: ${{ matrix.dir }}
+          echo versionOld: ${{ matrix.versionOld }}
+          echo versionNew: ${{ matrix.versionNew }}
+          echo changes: ${{ matrix.changes }}
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.dir }}
+          push: true
+          tags: prasek/${{ matrix.name }}:${{ matrix.versionNew }}, prasek/${{ matrix.name }}:latest
+      -
+        name: Image digest
+        run: |
+          SHA=${{ steps.docker_build.outputs.digest }}
+          echo $SHA
+          echo "::set-output name=sha-${{ matrix.name }}::$( echo "$SHA" )"
+
+  k8s:
+    name: Smoke test - k8s
+    runs-on: ubuntu-latest
+    needs: [build-matrix, build-push]
+    if: |
+      always() &&
+      needs.build-matrix.outputs.count > 0
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: update kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+          chmod +x ./kind
+          mkdir -p $HOME/.kind/bin
+          mv ./kind $HOME/.kind/bin/kind
+          echo "PATH=$HOME/.kind/bin:$PATH" >> ${GITHUB_ENV}
+      -
+        name: test-k8s
+        run: .scripts/k8s-ci.sh
+
+  version-bump:
+    name: "Source PR: Bump versions"
+    runs-on: ubuntu-latest
+    needs: [build-matrix, build-push, k8s]
+    if: needs.build-matrix.outputs.count > 0
+    env:
+      PACKAGES: ${{ needs.build-matrix.outputs.packages }}
+      MATRIX: ${{ needs.build-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      -
+        name: Info
+        run: |
+          echo --------------------------------
+          echo ALL PACKAGES
+          echo --------------------------------
+          echo "$PACKAGES" | jq
+
+          echo --------------------------------
+          echo BUILD MATRIX
+          echo --------------------------------
+          echo "$MATRIX" | jq
+      -
+        name: verify-clean
+        env:
+          MATRIX: ${{ needs.build-matrix.outputs.matrix }}
+        run: |
+          # verify no changes
+          git diff --exit-code
+      - name: install kustomize
+        run: |
+          BIN_DIR="$HOME/.kustomize/bin"
+          mkdir -p $BIN_DIR
+          cd $BIN_DIR
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          echo "PATH=$PATH:$BIN_DIR" >> ${GITHUB_ENV}
+      -
+        name: version bump
+        id: version-bump
+        run: |
+          .scripts/bump-package-versions.sh "$MATRIX" >> $GITHUB_ENV
+          .scripts/bump-image-versions.sh "$MATRIX" >> $GITHUB_ENV
+          echo "$(git diff)"
+      -
+        name: create source repo pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PAT }}
+          committer: Supergraph Demo Bot <prasek+bot@gmail.com>
+          author: Supergraph Demo Bot <prasek+bot@gmail.com>
+          commit-message: 'CI: Bump artifact versions'
+          title:  'CI: Bump artifact versions'
+          body: |
+            ${{ env.PACKAGE_BUMP_PR_MSG }}
+
+            ${{ env.IMAGE_BUMP_PR_MSG }}
+          branch: version-bump
+          base: main
+          delete-branch: true
+      -
+        name: enable pull request automerge
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: rebase
+      - name: Check output
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        run: |
+          echo PR CREATED or MODIFIED
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      - name: No changes detected
+        if: |
+          steps.cpr.outputs.pull-request-operation != 'created' &&
+          steps.cpr.outputs.pull-request-operation != 'updated'
+        run: |
+          echo "No changes detected."
+
+  config-pr:
+    name: "Config PR: Bump versions"
+    needs: [build-matrix, build-push, k8s]
+    env:
+      PACKAGES: ${{ needs.build-matrix.outputs.packages }}
+      MATRIX: ${{ needs.build-matrix.outputs.matrix }}
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: checkout supergraph-demo-k8s-graph-ops
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: apollographql/supergraph-demo-k8s-graph-ops
+      -
+        name: version bump
+        id: version-bump
+        run: |
+          .scripts/bump-image-versions.sh "$MATRIX" >> $GITHUB_ENV
+          echo "$(git diff)"
+      -
+        name: create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PAT }}
+          committer: Supergraph Demo Bot <prasek+bot@gmail.com>
+          author: Supergraph Demo Bot <prasek+bot@gmail.com>
+          commit-message: Bump image versions
+          title:  Bump image versions
+          body: |
+            ${{ env.IMAGE_BUMP_PR_MSG }}
+          branch: bump-image-versions
+          base: main
+          delete-branch: true
+      -
+        name: enable pull request automerge
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: apollographql/supergraph-demo-k8s-graph-ops
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: rebase
+      -
+        name: Check output
+        if: |
+          steps.cpr.outputs.pull-request-operation == 'created' ||
+          steps.cpr.outputs.pull-request-operation == 'updated'
+        run: |
+          echo PR CREATED or MODIFIED
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      -
+        name: No changes detected
+        if: |
+          steps.cpr.outputs.pull-request-operation != 'created' &&
+          steps.cpr.outputs.pull-request-operation != 'updated'
+        run: |
+          echo "No changes detected."

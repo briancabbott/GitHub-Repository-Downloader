@@ -1,0 +1,11 @@
+query GetUser($input: SearchInput) {
+  search(searchInput: $input) {
+    firstName
+  }
+}
+
+query GetAnimal {
+  animal {
+    species
+  }
+}

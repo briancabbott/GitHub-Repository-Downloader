@@ -1,0 +1,9 @@
+query IsFederatedGraph($graph_id: ID!, $variant: String!) {
+  graph(id: $graph_id) {
+    variant(name: $variant) {
+      subgraphs {
+        name
+      }
+    }
+  }
+}

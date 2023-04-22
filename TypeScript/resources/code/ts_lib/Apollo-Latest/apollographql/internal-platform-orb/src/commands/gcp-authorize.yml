@@ -1,0 +1,68 @@
+description: Authorize GCP from the contents of an environmental variable with optional base64 decoding step. You must have installed the gcloud command line tool yourself, previously. This is a slightly enhanced version of the gcp-cli orb's authorize command
+parameters:
+  environment-variable-name:
+    type: string
+    description: "the value of this specified environment variable contains the key, either in base64 or just JSON (we'll figure it out)"
+    default: "GCLOUD_SERVICE_ACCOUNT"
+  do-docker-login:
+    type: enum
+    default: ""
+    enum: ["", "true"]
+    description: "Have Docker use these creds to log into Google Artifact Registry, where we have a Docker registry. Likely will need to run setup_remote_docker command first. "
+  do-helm-login:
+    type: enum
+    default: ""
+    enum: ["", "true"]
+    description: "Have Helm use these creds to log into Google Artifact Registry, using Helm's support for OCI registries."
+  do-activate-service-account:
+    type: enum
+    default: ""
+    enum: ["", "true"]
+    description: "This is a service account that should be authed"
+  delete-cred-file:
+    type: enum
+    default: "true"
+    enum: ["false", "true"]
+    description: delete the credentials file
+steps:
+  - run:
+      name: Setup cred file
+      command: |
+        printf '%s' "$<< parameters.environment-variable-name >>" > /tmp/google_auth.json
+
+        if [ ! -s /tmp/google_auth.json ]; then
+          echo "Contents of << parameters.environment-variable-name >> was empty"
+          exit 1
+        fi
+
+        if grep "{" /tmp/google_auth.json ; then
+          # not base64 encoded? Great!
+          echo "does not need base64 decoding"
+        else
+          base64 -d --ignore-garbage -i /tmp/google_auth.json > /tmp/google_auth_decoded.json
+          mv /tmp/google_auth_decoded.json /tmp/google_auth.json
+        fi
+  - run:
+      name: GCloud auth
+      command: gcloud auth login --cred-file=/tmp/google_auth.json
+  - run:
+      name: Container related registry logins
+      command: |
+        if [ -n "<< parameters.do-docker-login >>" ]; then
+          gcloud auth configure-docker --quiet us-central1-docker.pkg.dev,gcr.io
+        fi
+
+        if [ -n "<< parameters.do-helm-login >>" ]; then
+          cat /tmp/google_auth.json | helm registry login -u _json_key --password-stdin https://us-central1-docker.pkg.dev
+        fi
+
+        if [ -n "<< parameters.do-activate-service-account >>" ]; then
+          gcloud auth activate-service-account --key-file /tmp/google_auth.json
+        fi
+  - run:
+      name: Delete cred file
+      command: |
+        if [ "<< parameters.delete-cred-file >>" == "true" ]; then
+          rm -f /tmp/google_auth_decoded.json
+          rm /tmp/google_auth.json
+        fi

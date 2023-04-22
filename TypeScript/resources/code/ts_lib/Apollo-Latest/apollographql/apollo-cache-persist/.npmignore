@@ -1,0 +1,11 @@
+.travis.yml
+tsconfig.json
+dangerfile.ts
+appveyor.yml
+codecov.yml
+renovate.json
+rollup.config.js
+coverage
+.vscode
+.scripts
+examples/

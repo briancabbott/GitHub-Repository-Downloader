@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/integrations-extras undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/integrations-extras",
+    "repo": "https://github.com/apollographql/integrations-extras",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/integrations-extras",
+    "startTime": "2023-04-22T13:02:04.904Z",
+    "endTime": "2023-04-22T13:02:07.301Z",
+    "childProcessPid": 17471,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--integrations-extras--17471",
+    "executionErrors": []
+}

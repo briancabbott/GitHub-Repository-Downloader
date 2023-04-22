@@ -1,0 +1,20 @@
+name: <Implementation Name> Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'implementations/<implementation>/**'
+
+jobs:
+  compatibility:
+    uses: ./.github/workflows/test-subgraph.yaml
+    with:
+      # should match folder name
+      library: "<implementation>"
+
+  pr-info:
+    uses: ./.github/workflows/save-pr-info.yaml
+    with:
+      pr_number: ${{ github.event.number }}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/apollographql/IntegrationTemplate undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/IntegrationTemplate",
+    "repo": "https://github.com/apollographql/IntegrationTemplate",
+    "targetPath": "undefined\\apol--04-22-2023--u4rPHWycqnYjxGScmQV2TF/IntegrationTemplate",
+    "startTime": "2023-04-22T12:58:16.787Z",
+    "endTime": "2023-04-22T12:58:17.465Z",
+    "childProcessPid": 16992,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--apollographql--IntegrationTemplate--16992",
+    "executionErrors": []
+}
