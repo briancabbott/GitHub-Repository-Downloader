@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/graphql-spec undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-spec",
+    "repo": "https://github.com/graphql/graphql-spec",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-spec",
+    "startTime": "2023-04-22T13:07:40.720Z",
+    "endTime": "2023-04-22T13:07:41.830Z",
+    "childProcessPid": 17997,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--graphql-spec--17997",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/machinebox/videoanalysis undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/videoanalysis",
+    "repo": "https://github.com/machinebox/videoanalysis",
+    "targetPath": "undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/videoanalysis",
+    "startTime": "2023-04-22T13:08:38.268Z",
+    "endTime": "2023-04-22T13:08:38.918Z",
+    "childProcessPid": 18277,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/workingdir/--machinebox--videoanalysis--18277",
+    "executionErrors": []
+}

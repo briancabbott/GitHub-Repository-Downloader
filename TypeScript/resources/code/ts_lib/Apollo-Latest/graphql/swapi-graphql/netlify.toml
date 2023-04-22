@@ -1,0 +1,3 @@
+[build]
+  functions = "netlify-lambda-lib"
+  command = "npm run download && npm run build"

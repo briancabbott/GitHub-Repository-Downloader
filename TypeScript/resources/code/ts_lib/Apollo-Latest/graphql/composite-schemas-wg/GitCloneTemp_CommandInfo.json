@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/composite-schemas-wg undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/composite-schemas-wg",
+    "repo": "https://github.com/graphql/composite-schemas-wg",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/composite-schemas-wg",
+    "startTime": "2023-04-22T13:07:22.254Z",
+    "endTime": "2023-04-22T13:07:22.944Z",
+    "childProcessPid": 17909,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--composite-schemas-wg--17909",
+    "executionErrors": []
+}

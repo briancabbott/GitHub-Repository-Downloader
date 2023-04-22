@@ -1,0 +1,11 @@
+runtime: go
+api_version: go1.9
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /.*
+  script: _go_app
+
+skip_files:
+  - ^.*node_modules(/.*)?

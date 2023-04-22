@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "composite": true,
+    "baseUrl": ".",
+    "strictPropertyInitialization": false,
+    "types": ["node", "jest"],
+    "typeRoots": ["../../node_modules/@types", "node_modules/@types"],
+    "lib": ["dom", "ESNext"],
+    "moduleResolution": "node"
+  },
+  "references": [{ "path": "../../packages/monaco-graphql" }],
+  "include": ["src"],
+  "exclude": ["**/__tests__/**", "**/build/**.*", "../../node_modules"]
+}

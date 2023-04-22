@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/machinebox/faceboxtools undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/faceboxtools",
+    "repo": "https://github.com/machinebox/faceboxtools",
+    "targetPath": "undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/faceboxtools",
+    "startTime": "2023-04-22T13:08:25.561Z",
+    "endTime": "2023-04-22T13:08:26.231Z",
+    "childProcessPid": 18190,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/workingdir/--machinebox--faceboxtools--18190",
+    "executionErrors": []
+}

@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "apollo-server",
+  "url": "https://www.apollographql.com/docs/apollo-server",
+  "packageManager": "yarn@3.2.3",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "@apollo/server": "^4.6.0",
+    "graphql": "^16.6.0"
+  }
+}

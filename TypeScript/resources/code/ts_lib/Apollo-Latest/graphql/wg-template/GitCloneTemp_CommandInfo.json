@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/wg-template undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/wg-template",
+    "repo": "https://github.com/graphql/wg-template",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/wg-template",
+    "startTime": "2023-04-22T13:07:49.272Z",
+    "endTime": "2023-04-22T13:07:49.847Z",
+    "childProcessPid": 18089,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--wg-template--18089",
+    "executionErrors": []
+}

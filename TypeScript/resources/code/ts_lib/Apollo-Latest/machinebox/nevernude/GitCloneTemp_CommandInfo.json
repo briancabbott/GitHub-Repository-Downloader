@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/machinebox/nevernude undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/nevernude",
+    "repo": "https://github.com/machinebox/nevernude",
+    "targetPath": "undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/nevernude",
+    "startTime": "2023-04-22T13:08:30.472Z",
+    "endTime": "2023-04-22T13:08:31.052Z",
+    "childProcessPid": 18225,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/workingdir/--machinebox--nevernude--18225",
+    "executionErrors": []
+}

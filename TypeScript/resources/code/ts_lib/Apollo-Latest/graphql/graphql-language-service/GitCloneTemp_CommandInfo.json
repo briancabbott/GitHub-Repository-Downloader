@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/graphql-language-service undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-language-service",
+    "repo": "https://github.com/graphql/graphql-language-service",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-language-service",
+    "startTime": "2023-04-22T13:07:36.155Z",
+    "endTime": "2023-04-22T13:07:36.975Z",
+    "childProcessPid": 17972,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--graphql-language-service--17972",
+    "executionErrors": []
+}

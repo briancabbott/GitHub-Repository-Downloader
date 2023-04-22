@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/graphql-relay-js undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-relay-js",
+    "repo": "https://github.com/graphql/graphql-relay-js",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-relay-js",
+    "startTime": "2023-04-22T13:07:39.273Z",
+    "endTime": "2023-04-22T13:07:40.061Z",
+    "childProcessPid": 17987,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--graphql-relay-js--17987",
+    "executionErrors": []
+}

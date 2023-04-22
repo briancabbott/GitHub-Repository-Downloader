@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/marketing undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/marketing",
+    "repo": "https://github.com/graphql/marketing",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/marketing",
+    "startTime": "2023-04-22T13:07:45.752Z",
+    "endTime": "2023-04-22T13:07:46.461Z",
+    "childProcessPid": 18019,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--marketing--18019",
+    "executionErrors": []
+}

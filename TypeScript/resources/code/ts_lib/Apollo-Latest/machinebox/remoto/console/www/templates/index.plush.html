@@ -1,0 +1,86 @@
+<% contentFor("head") { %>
+	<title>Remoto - The simplest RPC ecosystem built for right now</title>
+	<meta itemprop="name" content="Remoto">
+	<meta name="og:title" content="Remoto">
+	<meta name="twitter:title" content="Remoto">
+	<style type="text/css" media="screen">
+		#editor { 
+			width: 100%;
+			height: 500px;
+		}
+		.console {
+			background-color: #272822;
+			border-top: 1px dashed #43443F;
+			color: #ddd;
+			padding: 5px;
+			text-align: right;
+		}
+		.console a {
+			color: #ddd;
+			text-decoration: underline;
+		}
+		.console a:hover {
+			color: white;
+		}
+		small {
+			line-height: 1em;
+		}
+	</style>
+<% } %>
+<% contentFor("body") { %>
+	<div class='container-fluid'>
+		<form method='post' action='definition'>
+			<div class='row'>
+				<div class='col-sm'>
+					<div id='editor' name='definition'>
+// Welcome to Remoto
+
+// Paste your Remoto Definition file here
+// For more information, check out https://github.com/machinebox/remoto 
+
+package remoto
+
+// Greeter is a friendly service.
+type Greeter interface {
+	// Greet makes a greeting.
+	Greet(*GreetRequest) *GreetResponse
+}
+
+// GreetRequest is the request object for Greeter.Greet.
+type GreetRequest struct {
+	// Name is the person to greet.
+	Name string
+}
+
+// GreetResponse is the response object for Greeter.Greet.
+type GreetResponse struct {
+	// Greeting is a personalized message
+	Greeting string
+}
+</div>
+					<div data-definition-valid='true'>
+					</div>
+					<div class='console'>
+						<a data-definition-valid-error></a>
+						&nbsp;
+					</div>
+				</div>
+				<div class='col-sm-3'>
+					<p>
+						Docs: <a href='https://github.com/machinebox/remoto#remoto-definition-files' target='_blank'>Remoto definition files</a>
+					</p>
+					<hr>
+					<button disabled='disabled' data-definition-invalid='disabled' class='btn btn-primary'>Save and continue</button>
+					<div data-definition-valid='false'>
+						<small class='text-muted'>Fix the problems in the definition to continue</small>
+					</div>
+				</div>
+			</div>
+			<textarea data-editor='true' name='definition' class='d-none'></textarea>
+		</form>
+	</div>
+<% } %>
+<% contentFor("scripts") { %>
+	<script src='/static/js/editor.js'></script>
+<% } %>
+<% contentFor("navbar") {} %>

@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "mercurius",
+  "url": "https://mercurius.dev",
+  "packageManager": "yarn@3.2.3",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "fastify": "^4.15.0",
+    "graphql": "^16.6.0",
+    "mercurius": "^12.2.0"
+  }
+}

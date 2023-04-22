@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/graphql-js-wg undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-js-wg",
+    "repo": "https://github.com/graphql/graphql-js-wg",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/graphql-js-wg",
+    "startTime": "2023-04-22T13:07:33.375Z",
+    "endTime": "2023-04-22T13:07:34.054Z",
+    "childProcessPid": 17955,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--graphql-js-wg--17955",
+    "executionErrors": []
+}

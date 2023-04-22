@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/machinebox/issues undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/issues",
+    "repo": "https://github.com/machinebox/issues",
+    "targetPath": "undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/issues",
+    "startTime": "2023-04-22T13:08:28.567Z",
+    "endTime": "2023-04-22T13:08:29.199Z",
+    "childProcessPid": 18210,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/workingdir/--machinebox--issues--18210",
+    "executionErrors": []
+}

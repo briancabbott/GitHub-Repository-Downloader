@@ -1,0 +1,25 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "avoid",
+  "proseWrap": "never",
+  "overrides": [
+    {
+      "files": ["*.md", "*.mdx"],
+      "options": {
+        "printWidth": 80,
+        "proseWrap": "preserve"
+      }
+    },
+    {
+      "files": [
+        "**/.changeset/*.md",
+        "**/CHANGELOG.md",
+        "working-group/agendas/**/*.md"
+      ],
+      "options": {
+        "proseWrap": "never"
+      }
+    }
+  ]
+}

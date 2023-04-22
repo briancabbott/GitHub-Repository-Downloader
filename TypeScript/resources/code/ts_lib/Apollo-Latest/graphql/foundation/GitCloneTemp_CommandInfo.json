@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/graphql/foundation undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/foundation",
+    "repo": "https://github.com/graphql/foundation",
+    "targetPath": "undefined\\grap--04-22-2023--eDxQB4sgrEwWbGZ5eUS1om/foundation",
+    "startTime": "2023-04-22T13:07:25.128Z",
+    "endTime": "2023-04-22T13:07:25.787Z",
+    "childProcessPid": 17929,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/Apollo-Latest/workingdir/--graphql--foundation--17929",
+    "executionErrors": []
+}

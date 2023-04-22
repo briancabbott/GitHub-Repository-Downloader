@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/machinebox/appify undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/appify",
+    "repo": "https://github.com/machinebox/appify",
+    "targetPath": "undefined\\mach--04-22-2023--aLovjhq6Aft8Sdh9NapdBM/appify",
+    "startTime": "2023-04-22T13:08:24.191Z",
+    "endTime": "2023-04-22T13:08:24.896Z",
+    "childProcessPid": 18179,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/src/ts_lib/workingdir/--machinebox--appify--18179",
+    "executionErrors": []
+}

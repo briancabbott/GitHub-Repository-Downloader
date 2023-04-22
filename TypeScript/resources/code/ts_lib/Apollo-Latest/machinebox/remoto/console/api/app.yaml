@@ -1,0 +1,7 @@
+service: api
+runtime: go
+api_version: go1.9
+
+handlers:
+- url: /api/.*
+  script: _go_app
