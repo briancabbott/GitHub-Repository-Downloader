@@ -1,93 +1,51 @@
 
-import {readFileSync, readFile} from 'fs';
+import {readFileSync, readFile, writeFileSync} from 'fs';
 import { URL } from 'url';
 
-import http from 'http';
-import https from 'https';
 
+
+import { IncomingMessage } from 'http';
+
+function mapReplacer(key: string | number | Symbol, value: any) {
+    if (value instanceof Map) {
+      return Object.fromEntries(value.entries());
+    }
+    
+    return value;
+  }
+
+
+// import { parse, ParseOptions, DocumentNode, DocumentNode, Kind} from 'graphql/language';
+import 'graphql'; // ES6
+// var GraphQL = require('graphql'); // CommonJS
 import {
     graphql,
     GraphQLSchema,
     GraphQLObjectType,
     GraphQLString,
     buildASTSchema,
+    parse,
+    Source,
+    DefinitionNode,
+    ASTNode,
+    visit,
+    DocumentNode,
+    ObjectTypeDefinitionNode,
+    InterfaceTypeDefinitionNode,
+    NameNode,
 } from 'graphql';
+import { Type } from 'typescript';
+import { GHOMGenerator, GHOMGeneratorConfig } from './ghom_generator';
 
-import { parse, ParseOptions, DocumentNode} from 'graphql/language';
-import { IncomingMessage } from 'http';
-
-class GHOMGeneratorConfig {
-    schemaLocation: string;
-    
-    constructor(scemaLocation: string) {
-        this.schemaLocation = scemaLocation;
-    }
+async function  main() {
+    let schemaLoc = "https://docs.github.com/public/schema.docs.graphql";
+    const config: GHOMGeneratorConfig = {
+        schemaLocation: schemaLoc
+    };
+    const generator = new GHOMGenerator(config);
+    generator.generateGHOM();
 }
-
-
-class GHOMGenerator {
-    config: GHOMGeneratorConfig
-    constructor(config: GHOMGeneratorConfig) {
-        this.config = config;
-    }
-
-    async loadSchema(): Promise<GraphQLSchema> {
-        let schemaText: string = ""
-        if (this.config.schemaLocation.startsWith("http")) {
-            schemaText = await this.loadSchemaFromURI(new URL(this.config.schemaLocation));
-        } else if (this.config.schemaLocation.startsWith("https")) {
-            schemaText = await this.loadSchemaFromSecureURI(new URL(this.config.schemaLocation));
-        } else {
-            schemaText = await this.loadSchemaFromFile(this.config.schemaLocation);
-        }
-
-        let dn = new DocumentNode()
-        let schema: buildASTSchema = buildASTSchema(schemaText);
-        return schema;
-    }
-
-    async loadSchemaFromFile(filePath: string): Promise<string> {
-        let graphQLSchemaText = readFileSync(filePath, 'utf8')
-        return new Promise((resolve, reject) => {
-            readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-    }
-
-    async loadSchemaFromURI(webResource: URL): Promise<string> {
-        return await this.loadWebResource(webResource, http);
-    }
-
-    async loadSchemaFromSecureURI(webResource: URL): Promise<string> {
-        return await this.loadWebResource(webResource, https);
-    }
-
-    async loadWebResource(url: URL, httpModule: any): Promise<string> {
-        return new Promise((resolve, reject) => {
-            let client = httpModule;
-            client.get(url, (resp: IncomingMessage) => {
-                let data = '';    
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-                resp.on('end', () => {
-                    resolve(data);
-                });
-            }).on("error", (err: Error) => {
-                reject(err);
-            });
-        });
-    }
+let l = async () => {
+    await main();
 }
-  
-
-
-function main() {
-
-
-}
+l();
