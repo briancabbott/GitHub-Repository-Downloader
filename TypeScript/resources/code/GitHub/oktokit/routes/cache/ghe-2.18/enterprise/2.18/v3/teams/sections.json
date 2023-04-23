@@ -1,0 +1,82 @@
+[
+  {
+    "id": "list-teams",
+    "name": "List teams",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#list-teams"
+  },
+  {
+    "id": "get-a-team-by-name",
+    "name": "Get a team by name",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#get-a-team-by-name"
+  },
+  {
+    "id": "create-a-team",
+    "name": "Create a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#create-a-team"
+  },
+  {
+    "id": "list-teams-for-the-authenticated-user",
+    "name": "List teams for the authenticated user",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#list-teams-for-the-authenticated-user"
+  },
+  {
+    "id": "get-a-team",
+    "name": "Get a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#get-a-team"
+  },
+  {
+    "id": "update-a-team",
+    "name": "Update a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#update-a-team"
+  },
+  {
+    "id": "delete-a-team",
+    "name": "Delete a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#delete-a-team"
+  },
+  {
+    "id": "list-child-teams",
+    "name": "List child teams",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#list-child-teams"
+  },
+  {
+    "id": "list-team-repositories",
+    "name": "List team repositories",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#list-team-repositories"
+  },
+  {
+    "id": "check-team-permissions-for-a-repository",
+    "name": "Check team permissions for a repository",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#check-team-permissions-for-a-repository"
+  },
+  {
+    "id": "add-or-update-team-repository-permissions",
+    "name": "Add or update team repository permissions",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#add-or-update-team-repository-permissions"
+  },
+  {
+    "id": "remove-a-repository-from-a-team",
+    "name": "Remove a repository from a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#remove-a-repository-from-a-team"
+  },
+  {
+    "id": "list-team-projects",
+    "name": "List team projects",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#list-team-projects"
+  },
+  {
+    "id": "check-team-permissions-for-a-project",
+    "name": "Check team permissions for a project",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#check-team-permissions-for-a-project"
+  },
+  {
+    "id": "add-or-update-team-project-permissions",
+    "name": "Add or update team project permissions",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#add-or-update-team-project-permissions"
+  },
+  {
+    "id": "remove-a-project-from-a-team",
+    "name": "Remove a project from a team",
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/#remove-a-project-from-a-team"
+  }
+]

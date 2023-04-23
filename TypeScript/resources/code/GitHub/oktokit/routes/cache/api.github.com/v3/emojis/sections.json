@@ -1,0 +1,7 @@
+[
+  {
+    "id": "get-emojis",
+    "name": "Get emojis",
+    "url": "https://developer.github.com/v3/emojis/#get-emojis"
+  }
+]

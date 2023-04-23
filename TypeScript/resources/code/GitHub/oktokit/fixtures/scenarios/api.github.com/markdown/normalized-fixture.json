@@ -1,0 +1,80 @@
+[
+  {
+    "scope": "https://api.github.com:443",
+    "method": "post",
+    "path": "/markdown",
+    "body": {
+      "text": "### Hello\n\nb597b5d",
+      "context": "octokit-fixture-org/hello-world",
+      "mode": "gfm"
+    },
+    "status": 200,
+    "response": "<h3 dir=\"auto\">Hello</h3>\n<p dir=\"auto\"><a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/octokit-fixture-org/hello-world/commit/b597b5d6eead8f1a9e9d3243cd70a890a6155ca8/hovercard\" href=\"https://github.com/octokit-fixture-org/hello-world/commit/b597b5d6eead8f1a9e9d3243cd70a890a6155ca8\"><tt>b597b5d</tt></a></p>",
+    "reqheaders": {
+      "accept": "text/html",
+      "content-type": "application/json; charset=utf-8",
+      "authorization": "token 0000000000000000000000000000000000000001",
+      "content-length": 88,
+      "host": "api.github.com"
+    },
+    "responseIsBinary": false,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "connection": "close",
+      "content-length": "352",
+      "content-security-policy": "default-src 'none'",
+      "content-type": "text/html;charset=utf-8",
+      "date": "Tue, 10 Oct 2017 16:00:00 GMT",
+      "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+      "x-commonmarker-version": "0.23.5",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "deny",
+      "x-github-request-id": "0000:00000:0000000:0000000:00000000",
+      "x-ratelimit-limit": "5000",
+      "x-ratelimit-remaining": "4999",
+      "x-ratelimit-reset": "1507651200000",
+      "x-ratelimit-resource": "core",
+      "x-ratelimit-used": 1,
+      "x-xss-protection": "0"
+    }
+  },
+  {
+    "scope": "https://api.github.com:443",
+    "method": "post",
+    "path": "/markdown/raw",
+    "body": "### Hello\n\nb597b5d",
+    "status": 200,
+    "response": "<h3>\n<a id=\"user-content-hello\" class=\"anchor\" href=\"#hello\" aria-hidden=\"true\"><span aria-hidden=\"true\" class=\"octicon octicon-link\"></span></a>Hello</h3>\n<p>b597b5d</p>\n",
+    "reqheaders": {
+      "accept": "text/html",
+      "content-type": "text/plain; charset=utf-8",
+      "authorization": "token 0000000000000000000000000000000000000001",
+      "content-length": 18,
+      "host": "api.github.com"
+    },
+    "responseIsBinary": false,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "connection": "close",
+      "content-length": "171",
+      "content-security-policy": "default-src 'none'",
+      "content-type": "text/html;charset=utf-8",
+      "date": "Tue, 10 Oct 2017 16:00:00 GMT",
+      "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+      "x-commonmarker-version": "0.23.5",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "deny",
+      "x-github-request-id": "0000:00000:0000000:0000000:00000000",
+      "x-ratelimit-limit": "5000",
+      "x-ratelimit-remaining": "4999",
+      "x-ratelimit-reset": "1507651200000",
+      "x-ratelimit-resource": "core",
+      "x-ratelimit-used": 1,
+      "x-xss-protection": "0"
+    }
+  }
+]

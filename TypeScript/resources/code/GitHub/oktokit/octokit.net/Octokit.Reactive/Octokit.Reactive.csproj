@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>An IObservable based GitHub API client library for .NET and .NET Core using Reactive Extensions</Description>
+    <AssemblyTitle>Octokit.Reactive</AssemblyTitle>
+    <Authors>GitHub</Authors>
+    <Version>0.0.0-dev</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>Octokit.Reactive</AssemblyName>
+    <PackageId>Octokit.Reactive</PackageId>
+    <DebugType>embedded</DebugType>
+    <RepositoryUrl>https://github.com/octokit/octokit.net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/octokit/octokit.net</PackageProjectUrl>
+    <PackageIconUrl>https://f.cloud.github.com/assets/19977/1510987/64af2b26-4a9d-11e3-89fc-96a185171c75.png</PackageIconUrl>
+    <PackageIcon>octokit.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>GitHub API Octokit linqpad-samples dotnetcore</PackageTags>
+    <Copyright>Copyright GitHub 2017</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);1591;1701;1702;1705</NoWarn>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Source Link">
+    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Octokit\Helpers\Ensure.cs;..\Octokit\Helpers\Pagination.cs" />
+    <None Include="app.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Octokit\Octokit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="images\octokit.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+</Project>

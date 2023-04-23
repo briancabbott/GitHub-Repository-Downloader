@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/plugin-throttling.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/plugin-throttling.js",
+    "repo": "https://github.com/octokit/plugin-throttling.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/plugin-throttling.js",
+    "startTime": "2023-04-23T15:56:34.899Z",
+    "endTime": "2023-04-23T15:56:41.947Z",
+    "childProcessPid": 2755,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--plugin-throttling.js--2755",
+    "executionErrors": []
+}

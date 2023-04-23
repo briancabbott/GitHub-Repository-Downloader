@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/octokit-next.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/octokit-next.js",
+    "repo": "https://github.com/octokit/octokit-next.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/octokit-next.js",
+    "startTime": "2023-04-23T15:44:11.634Z",
+    "endTime": "2023-04-23T15:44:21.386Z",
+    "childProcessPid": 2500,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--octokit-next.js--2500",
+    "executionErrors": []
+}

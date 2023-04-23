@@ -1,0 +1,103 @@
+{
+  "name": "@octokit/auth-basic",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-development",
+  "description": "GitHub API Basic authentication for browsers and Node.js",
+  "scripts": {
+    "build": "pika build",
+    "lint": "prettier --check '{src,test}/**/*.{ts,md}' README.md package.json",
+    "lint:fix": "prettier --write '{src,test}/**/*.{ts,md}' README.md package.json",
+    "pretest": "npm run -s lint",
+    "test": "jest --coverage"
+  },
+  "repository": "https://github.com/octokit/auth-basic.js",
+  "keywords": [
+    "github",
+    "octokit",
+    "authentication",
+    "basic",
+    "api"
+  ],
+  "author": "Gregor Martynus (https://github.com/gr2m)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/octokit/auth-basic.js/issues"
+  },
+  "homepage": "https://github.com/octokit/auth-basic.js#readme",
+  "dependencies": {
+    "@octokit/request": "^5.4.2",
+    "@octokit/request-error": "^2.0.0",
+    "@octokit/types": "^6.0.0",
+    "@types/btoa-lite": "^1.0.0",
+    "btoa-lite": "^1.0.0",
+    "universal-user-agent": "^6.0.0"
+  },
+  "devDependencies": {
+    "@pika/pack": "^0.5.0",
+    "@pika/plugin-build-node": "^0.9.0",
+    "@pika/plugin-build-web": "^0.9.0",
+    "@pika/plugin-ts-standard-pkg": "^0.9.0",
+    "@types/fetch-mock": "^7.3.1",
+    "@types/jest": "^26.0.0",
+    "@types/lolex": "^5.1.0",
+    "@types/node-fetch": "^2.3.7",
+    "fetch-mock": "^9.0.0",
+    "jest": "^26.1.0",
+    "lolex": "^6.0.0",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.0.4",
+    "semantic-release": "^17.0.0",
+    "semantic-release-plugin-update-version-in-files": "^1.0.0",
+    "ts-jest": "^26.1.3",
+    "typescript": "^4.0.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "coverageThreshold": {
+      "global": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    }
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg"
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ]
+    ]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./pkg"
+        }
+      ],
+      [
+        "semantic-release-plugin-update-version-in-files",
+        {
+          "files": [
+            "pkg/dist-web/*",
+            "pkg/dist-node/*",
+            "pkg/*/version.*"
+          ]
+        }
+      ]
+    ]
+  }
+}

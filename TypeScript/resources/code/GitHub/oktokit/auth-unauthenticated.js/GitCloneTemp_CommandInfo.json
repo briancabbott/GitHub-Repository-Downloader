@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/auth-unauthenticated.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/auth-unauthenticated.js",
+    "repo": "https://github.com/octokit/auth-unauthenticated.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/auth-unauthenticated.js",
+    "startTime": "2023-04-23T15:43:39.819Z",
+    "endTime": "2023-04-23T15:43:40.705Z",
+    "childProcessPid": 2414,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--auth-unauthenticated.js--2414",
+    "executionErrors": []
+}

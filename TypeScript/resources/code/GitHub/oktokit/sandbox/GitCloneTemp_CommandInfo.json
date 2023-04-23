@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/sandbox undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/sandbox",
+    "repo": "https://github.com/octokit/sandbox",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/sandbox",
+    "startTime": "2023-04-23T15:59:15.523Z",
+    "endTime": "2023-04-23T15:59:16.862Z",
+    "childProcessPid": 2863,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--sandbox--2863",
+    "executionErrors": []
+}

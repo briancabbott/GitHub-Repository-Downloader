@@ -1,0 +1,6 @@
+labels:
+  - first-timers-only
+  - hacktoberfest
+
+# load template from the ".github/first-timers-issue-template.md" in the ".github" repository
+template: .github:.github/first-timers-issue-template.md

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/fixtures-server undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/fixtures-server",
+    "repo": "https://github.com/octokit/fixtures-server",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/fixtures-server",
+    "startTime": "2023-04-23T15:43:46.394Z",
+    "endTime": "2023-04-23T15:43:47.212Z",
+    "childProcessPid": 2450,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--fixtures-server--2450",
+    "executionErrors": []
+}

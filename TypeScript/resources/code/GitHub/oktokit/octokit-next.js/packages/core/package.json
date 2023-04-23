@@ -1,0 +1,38 @@
+{
+  "name": "@octokit-next/core",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "0.0.0-development",
+  "description": "Core SDK module for upcoming Octokit",
+  "exports": "./index.js",
+  "types": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octokit/octokit-next.js.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/octokit/octokit-next.js/tree/main/packages/core#readme",
+  "keywords": [
+    "octokit",
+    "github",
+    "api"
+  ],
+  "author": "Gregor Martynus (https://twitter.com/gr2m)",
+  "license": "MIT",
+  "scripts": {
+    "test": "npm run test:code && npm run test:types",
+    "test:code": "c8 --100 ava test",
+    "test:types": "tsd"
+  },
+  "dependencies": {
+    "@octokit-next/auth-token": "0.0.0-development",
+    "@octokit-next/endpoint": "0.0.0-development",
+    "@octokit-next/graphql": "0.0.0-development",
+    "@octokit-next/request": "0.0.0-development",
+    "@octokit-next/types": "0.0.0-development",
+    "before-after-hook": "^3.0.2",
+    "universal-user-agent": "^7.0.1"
+  }
+}

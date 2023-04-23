@@ -1,0 +1,55 @@
+{
+  "summary": "Block a user from an organization",
+  "description": "",
+  "operationId": "orgs/block-user",
+  "tags": ["orgs"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/orgs/blocking/#block-a-user-from-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/blocks/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.blockUser({\n  org: 'org',\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.block_user(\n  'org',\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

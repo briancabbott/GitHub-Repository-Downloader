@@ -1,0 +1,293 @@
+{
+  "name": "octokit-next",
+  "version": "0.0.0-development",
+  "description": "Experimental Octokit SDK for exploration only - DO NOT USE 🚫⚠️",
+  "type": "module",
+  "author": "Gregor Martynus (https://twitter.com/gr2m)",
+  "license": "MIT",
+  "repository": "github:octokit/octokit-next.js",
+  "types": "./index.d.ts",
+  "exports": "./index.js",
+  "scripts": {
+    "test": "npm run test:workspaces && npm run test:code && npm run test:dts && npm run test:ts",
+    "test:code": "ava test.js",
+    "test:dts": "for d in tests/js/* ; do echo npx tsd $d; tsd $d; if [ $? -eq 0 ]; then echo ok; else echo \\n\nNOT ok\\n\\n\\n\\n; fi; done",
+    "test:ts": "for d in tests/ts/*/tsconfig.json ; do echo npx tsc -p $d; tsc -p $d; if [ $? -eq 0 ]; then echo ok; else echo \\n\nNOT ok\\n\\n\\n\\n; fi; done",
+    "test:workspaces": "npm test --workspaces --if-present"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "semantic-release-plugin-update-version-in-files",
+        {
+          "files": [
+            "packages/*/package.json",
+            "packages/*/lib/version.js"
+          ]
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/auth-token"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/core"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/endpoint"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/graphql"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/request"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/request-error"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.2"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.2-diff-to-ghes-3.3"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.3"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.3-diff-to-ghes-3.4"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.4"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.4-diff-to-ghes-3.5"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.5"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.5-diff-to-ghes-3.6"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.6"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghes-3.6-diff-to-api.github.com"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-github.ae"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-github.ae-diff-to-api.github.com"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghec"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-openapi-ghec-diff-to-api.github.com"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghec"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghec-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-github.ae"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-github.ae-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.2"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.2-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.3"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.3-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.4"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.4-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.5"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.5-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.6"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/types-rest-api-ghes-3.6-compatible"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/oauth-authorization-url"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "packages/oauth-methods"
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "ava": "^5.0.0",
+    "c8": "^7.7.3",
+    "fetch-mock": "npm:@gr2m/fetch-mock@9.11.0-pull-request-644.1",
+    "github-openapi-graphql-query": "^4.0.0",
+    "handlebars": "^4.7.7",
+    "open-cli": "^7.1.0",
+    "openapi-typescript": "^6.2.1",
+    "prettier": "^2.3.2",
+    "sinon": "^15.0.0",
+    "sort-keys": "^5.0.0",
+    "tsd": "^0.28.0",
+    "type-fest": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=16.5.0",
+    "npm": ">=7.17.0"
+  }
+}

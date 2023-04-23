@@ -1,0 +1,157 @@
+{
+  "summary": "Update an import",
+  "description": "An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.\n\nSome servers (e.g. TFS servers) can have several projects at a single URL. In those cases the import progress will have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array. You can select the project to import by providing one of the objects in the `project_choices` array in the update request.\n\nThe following example demonstrates the workflow for updating an import with \"project1\" as the project choice. Given a `project_choices` array like such:\n\nTo restart an import, no parameters are provided in the update request.",
+  "operationId": "migrations/update-import",
+  "tags": ["migrations"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/migrations/source_imports/#update-an-import"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "vcs": { "type": "string" },
+              "use_lfs": { "type": "string" },
+              "vcs_url": { "type": "string" },
+              "status": { "type": "string" },
+              "url": { "type": "string" },
+              "html_url": { "type": "string" },
+              "authors_url": { "type": "string" },
+              "repository_url": { "type": "string" }
+            }
+          },
+          "examples": {
+            "example-1": {
+              "summary": "Example 1",
+              "value": {
+                "vcs": "subversion",
+                "use_lfs": "undecided",
+                "vcs_url": "http://svn.mycompany.com/svn/myproject",
+                "status": "detecting",
+                "url": "https://api.github.com/repos/octocat/socm/import",
+                "html_url": "https://import.github.com/octocat/socm/import",
+                "authors_url": "https://api.github.com/repos/octocat/socm/import/authors",
+                "repository_url": "https://api.github.com/repos/octocat/socm"
+              }
+            },
+            "example-2": {
+              "summary": "Example 2",
+              "value": {
+                "vcs": "tfvc",
+                "use_lfs": "undecided",
+                "vcs_url": "http://tfs.mycompany.com/tfs/myproject",
+                "tfvc_project": "project1",
+                "status": "importing",
+                "status_text": "Importing...",
+                "has_large_files": false,
+                "large_files_size": 0,
+                "large_files_count": 0,
+                "authors_count": 0,
+                "percent": 42,
+                "commit_count": 1042,
+                "url": "https://api.github.com/repos/octocat/socm/import",
+                "html_url": "https://import.github.com/octocat/socm/import",
+                "authors_url": "https://api.github.com/repos/octocat/socm/import/authors",
+                "repository_url": "https://api.github.com/repos/octocat/socm"
+              }
+            },
+            "response": {
+              "summary": "Response",
+              "value": {
+                "vcs": "subversion",
+                "use_lfs": "undecided",
+                "vcs_url": "http://svn.mycompany.com/svn/myproject",
+                "status": "importing",
+                "status_text": "Importing...",
+                "has_large_files": false,
+                "large_files_size": 0,
+                "large_files_count": 0,
+                "authors_count": 0,
+                "percent": 42,
+                "commit_count": 1042,
+                "url": "https://api.github.com/repos/octocat/socm/import",
+                "html_url": "https://import.github.com/octocat/socm/import",
+                "authors_url": "https://api.github.com/repos/octocat/socm/import/authors",
+                "repository_url": "https://api.github.com/repos/octocat/socm"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/import \\\n  -d '{\"vcs_username\":\"vcs_username\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.migrations.updateImport({\n  owner: 'octocat',\n  repo: 'hello-world',\n  vcs_username: 'vcs_username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.update_import(\n  'hello-world',\n  'vcs_username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "vcs_username": {
+              "type": "string",
+              "description": "The username to provide to the originating repository."
+            },
+            "vcs_password": {
+              "type": "string",
+              "description": "The password to provide to the originating repository."
+            }
+          }
+        },
+        "examples": {
+          "example-1": {
+            "summary": "Example 1",
+            "value": { "vcs_username": "octocat", "vcs_password": "secret" }
+          }
+        }
+      }
+    }
+  }
+}

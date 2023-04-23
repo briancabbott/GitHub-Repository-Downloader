@@ -1,0 +1,22 @@
+[
+  {
+    "id": "list-users-blocked-by-the-authenticated-user",
+    "name": "List users blocked by the authenticated user",
+    "url": "https://developer.github.com/v3/users/blocking/#list-users-blocked-by-the-authenticated-user"
+  },
+  {
+    "id": "check-if-a-user-is-blocked-by-the-authenticated-user",
+    "name": "Check if a user is blocked by the authenticated user",
+    "url": "https://developer.github.com/v3/users/blocking/#check-if-a-user-is-blocked-by-the-authenticated-user"
+  },
+  {
+    "id": "block-a-user",
+    "name": "Block a user",
+    "url": "https://developer.github.com/v3/users/blocking/#block-a-user"
+  },
+  {
+    "id": "unblock-a-user",
+    "name": "Unblock a user",
+    "url": "https://developer.github.com/v3/users/blocking/#unblock-a-user"
+  }
+]

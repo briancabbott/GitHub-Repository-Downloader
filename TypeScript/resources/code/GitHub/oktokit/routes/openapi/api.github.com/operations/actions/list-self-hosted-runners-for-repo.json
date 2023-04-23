@@ -1,0 +1,107 @@
+{
+  "summary": "List self-hosted runners for a repository",
+  "description": "Lists all self-hosted runners for a repository. You must authenticate using an access token with the `repo` scope to use this endpoint.",
+  "operationId": "actions/list-self-hosted-runners-for-repo",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/self-hosted-runners/#list-self-hosted-runners-for-a-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total_count": { "type": "number" },
+              "runners": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "name": { "type": "string" },
+                    "os": { "type": "string" },
+                    "status": { "type": "string" }
+                  },
+                  "required": ["id", "name", "os", "status"]
+                }
+              }
+            }
+          },
+          "example": {
+            "total_count": 2,
+            "runners": [
+              { "id": 23, "name": "MBP", "os": "macos", "status": "online" },
+              { "id": 24, "name": "iMac", "os": "macos", "status": "offline" }
+            ]
+          }
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/runners"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.listSelfHostedRunnersForRepo({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.self_hosted_runners_for_repo(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

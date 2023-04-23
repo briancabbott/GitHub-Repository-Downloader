@@ -1,0 +1,42 @@
+[
+  {
+    "id": "list-workflow-runs",
+    "name": "List workflow runs",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#list-workflow-runs"
+  },
+  {
+    "id": "list-workflow-runs-for-a-repository",
+    "name": "List workflow runs for a repository",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#list-workflow-runs-for-a-repository"
+  },
+  {
+    "id": "get-a-workflow-run",
+    "name": "Get a workflow run",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#get-a-workflow-run"
+  },
+  {
+    "id": "re-run-a-workflow",
+    "name": "Re-run a workflow",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#re-run-a-workflow"
+  },
+  {
+    "id": "cancel-a-workflow-run",
+    "name": "Cancel a workflow run",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#cancel-a-workflow-run"
+  },
+  {
+    "id": "download-workflow-run-logs",
+    "name": "Download workflow run logs",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#download-workflow-run-logs"
+  },
+  {
+    "id": "delete-workflow-run-logs",
+    "name": "Delete workflow run logs",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#delete-workflow-run-logs"
+  },
+  {
+    "id": "get-workflow-run-usage",
+    "name": "Get workflow run usage",
+    "url": "https://developer.github.com/v3/actions/workflow-runs/#get-workflow-run-usage"
+  }
+]

@@ -1,0 +1,29 @@
+name: release
+"on":
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.OCTOKITBOT_PAT }}
+      - uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: lts/*
+      - run: npm ci
+      - run: npm run build
+      - run: rm .gitignore
+      - run: npx semantic-release --debug
+        env:
+          GITHUB_TOKEN: ${{ secrets.OCTOKITBOT_PAT }}
+      - run: >-
+          git push
+          https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          HEAD:refs/heads/v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

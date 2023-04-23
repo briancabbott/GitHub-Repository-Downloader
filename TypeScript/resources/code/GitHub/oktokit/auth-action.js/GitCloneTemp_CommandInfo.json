@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/auth-action.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/auth-action.js",
+    "repo": "https://github.com/octokit/auth-action.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/auth-action.js",
+    "startTime": "2023-04-23T15:43:31.695Z",
+    "endTime": "2023-04-23T15:43:32.598Z",
+    "childProcessPid": 2359,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--auth-action.js--2359",
+    "executionErrors": []
+}

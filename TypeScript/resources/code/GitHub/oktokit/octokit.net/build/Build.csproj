@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <SignAssembly>false</SignAssembly>
+    <TargetFramework>net6.0</TargetFramework>
+    <RunWorkingDirectory>$(MSBuildProjectDirectory)/..</RunWorkingDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cake.Coverlet" Version="3.0.4" />
+    <PackageReference Include="Cake.Frosting" Version="2.3.0" />
+  </ItemGroup>
+
+</Project>

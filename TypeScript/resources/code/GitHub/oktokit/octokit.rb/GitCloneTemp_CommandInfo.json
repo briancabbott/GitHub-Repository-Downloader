@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/octokit.rb undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/octokit.rb",
+    "repo": "https://github.com/octokit/octokit.rb",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/octokit.rb",
+    "startTime": "2023-04-23T15:45:45.254Z",
+    "endTime": "2023-04-23T15:46:13.274Z",
+    "childProcessPid": 2537,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--octokit.rb--2537",
+    "executionErrors": []
+}

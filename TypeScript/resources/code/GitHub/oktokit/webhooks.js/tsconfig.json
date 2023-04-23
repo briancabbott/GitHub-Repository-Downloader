@@ -1,0 +1,16 @@
+{
+  "extends": "@octokit/tsconfig",
+  "include": ["src/**/*"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "esModuleInterop": true
+    }
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "pkg/dist-types",
+    "emitDeclarationOnly": true,
+    "sourceMap": true
+  }
+}

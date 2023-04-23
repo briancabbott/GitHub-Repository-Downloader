@@ -1,0 +1,58 @@
+{
+  "summary": "Check if a user is blocked by an organization",
+  "description": "If the user is blocked:\n\nIf the user is not blocked:",
+  "operationId": "orgs/check-blocked-user",
+  "tags": ["orgs"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/orgs/blocking/#check-if-a-user-is-blocked-by-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "204": { "description": "If the user is blocked:" },
+    "404": { "description": "If the user is not blocked:" }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/blocks/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.checkBlockedUser({\n  org: 'org',\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.check_blocked_user(\n  'org',\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

@@ -1,0 +1,32 @@
+{
+  "name": "tmp.whQdSZZ7",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Gregor Martynus (https://twitter.com/gr2m)",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/auth-app": "https://github.pika.dev/octokit/auth-app.js/pr/85",
+    "@octokit/core": "^2.5.3",
+    "@octokit/plugin-enterprise-cloud": "^3.0.3",
+    "@octokit/plugin-paginate-rest": "^2.2.1",
+    "@octokit/plugin-retry": "^3.0.2"
+  },
+  "release": {
+    "branches": [
+      "+([0-9]).x",
+      "main",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
+  },
+  "devDependencies": {},
+  "description": "",
+  "repository": "github:octokit/sandbox"
+}

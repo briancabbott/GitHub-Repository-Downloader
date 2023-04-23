@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/discussions undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/discussions",
+    "repo": "https://github.com/octokit/discussions",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/discussions",
+    "startTime": "2023-04-23T15:43:43.343Z",
+    "endTime": "2023-04-23T15:43:43.933Z",
+    "childProcessPid": 2435,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--discussions--2435",
+    "executionErrors": []
+}

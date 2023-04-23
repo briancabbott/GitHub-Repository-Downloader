@@ -1,0 +1,17 @@
+[
+  {
+    "id": "list-jobs-for-a-workflow-run",
+    "name": "List jobs for a workflow run",
+    "url": "https://developer.github.com/v3/actions/workflow-jobs/#list-jobs-for-a-workflow-run"
+  },
+  {
+    "id": "get-a-job-for-a-workflow-run",
+    "name": "Get a job for a workflow run",
+    "url": "https://developer.github.com/v3/actions/workflow-jobs/#get-a-job-for-a-workflow-run"
+  },
+  {
+    "id": "download-job-logs-for-a-workflow-run",
+    "name": "Download job logs for a workflow run",
+    "url": "https://developer.github.com/v3/actions/workflow-jobs/#download-job-logs-for-a-workflow-run"
+  }
+]

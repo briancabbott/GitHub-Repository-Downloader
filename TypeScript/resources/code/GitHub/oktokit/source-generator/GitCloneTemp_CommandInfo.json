@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/source-generator undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/source-generator",
+    "repo": "https://github.com/octokit/source-generator",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/source-generator",
+    "startTime": "2023-04-23T15:59:16.864Z",
+    "endTime": "2023-04-23T15:59:25.971Z",
+    "childProcessPid": 2868,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--source-generator--2868",
+    "executionErrors": []
+}

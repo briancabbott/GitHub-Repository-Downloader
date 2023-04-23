@@ -1,0 +1,92 @@
+{
+  "summary": "Get large files",
+  "description": "List files larger than 100MB found during the import",
+  "operationId": "migrations/get-large-files",
+  "tags": ["migrations"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/migrations/source_imports/#get-large-files"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref_name": { "type": "string" },
+                "path": { "type": "string" },
+                "oid": { "type": "string" },
+                "size": { "type": "number" }
+              }
+            }
+          },
+          "example": [
+            {
+              "ref_name": "refs/heads/master",
+              "path": "foo/bar/1",
+              "oid": "d3d9446802a44259755d38e6d163e820",
+              "size": 10485760
+            },
+            {
+              "ref_name": "refs/heads/master",
+              "path": "foo/bar/2",
+              "oid": "6512bd43d9caa6e02c990b0a82652dca",
+              "size": 11534336
+            },
+            {
+              "ref_name": "refs/heads/master",
+              "path": "foo/bar/3",
+              "oid": "c20ad4d76fe97759aa27a0c99bff6710",
+              "size": 12582912
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/import/large_files"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.migrations.getLargeFiles({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.large_files(\n  'hello-world'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

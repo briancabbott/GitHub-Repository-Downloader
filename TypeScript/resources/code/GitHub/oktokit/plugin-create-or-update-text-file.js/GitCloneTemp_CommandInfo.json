@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/plugin-create-or-update-text-file.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/plugin-create-or-update-text-file.js",
+    "repo": "https://github.com/octokit/plugin-create-or-update-text-file.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/plugin-create-or-update-text-file.js",
+    "startTime": "2023-04-23T15:55:02.059Z",
+    "endTime": "2023-04-23T15:55:03.438Z",
+    "childProcessPid": 2674,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--plugin-create-or-update-text-file.js--2674",
+    "executionErrors": []
+}

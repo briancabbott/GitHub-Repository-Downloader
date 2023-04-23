@@ -1,0 +1,37 @@
+[
+  {
+    "id": "start-an-organization-migration",
+    "name": "Start an organization migration",
+    "url": "https://developer.github.com/v3/migrations/orgs/#start-an-organization-migration"
+  },
+  {
+    "id": "list-organization-migrations",
+    "name": "List organization migrations",
+    "url": "https://developer.github.com/v3/migrations/orgs/#list-organization-migrations"
+  },
+  {
+    "id": "get-an-organization-migration-status",
+    "name": "Get an organization migration status",
+    "url": "https://developer.github.com/v3/migrations/orgs/#get-an-organization-migration-status"
+  },
+  {
+    "id": "list-repositories-in-an-organization-migration",
+    "name": "List repositories in an organization migration",
+    "url": "https://developer.github.com/v3/migrations/orgs/#list-repositories-in-an-organization-migration"
+  },
+  {
+    "id": "download-an-organization-migration-archive",
+    "name": "Download an organization migration archive",
+    "url": "https://developer.github.com/v3/migrations/orgs/#download-an-organization-migration-archive"
+  },
+  {
+    "id": "delete-an-organization-migration-archive",
+    "name": "Delete an organization migration archive",
+    "url": "https://developer.github.com/v3/migrations/orgs/#delete-an-organization-migration-archive"
+  },
+  {
+    "id": "unlock-an-organization-repository",
+    "name": "Unlock an organization repository",
+    "url": "https://developer.github.com/v3/migrations/orgs/#unlock-an-organization-repository"
+  }
+]

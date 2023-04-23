@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/types.ts undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/types.ts",
+    "repo": "https://github.com/octokit/types.ts",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/types.ts",
+    "startTime": "2023-04-23T15:59:28.179Z",
+    "endTime": "2023-04-23T15:59:38.384Z",
+    "childProcessPid": 2897,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--types.ts--2897",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/oauth-authorization-url.js undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/oauth-authorization-url.js",
+    "repo": "https://github.com/octokit/oauth-authorization-url.js",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/oauth-authorization-url.js",
+    "startTime": "2023-04-23T15:44:03.182Z",
+    "endTime": "2023-04-23T15:44:07.543Z",
+    "childProcessPid": 2490,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--oauth-authorization-url.js--2490",
+    "executionErrors": []
+}

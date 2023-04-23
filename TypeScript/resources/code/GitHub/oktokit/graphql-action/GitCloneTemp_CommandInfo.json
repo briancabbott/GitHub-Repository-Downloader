@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/graphql-action undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/graphql-action",
+    "repo": "https://github.com/octokit/graphql-action",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/graphql-action",
+    "startTime": "2023-04-23T15:43:48.163Z",
+    "endTime": "2023-04-23T15:43:49.163Z",
+    "childProcessPid": 2460,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--graphql-action--2460",
+    "executionErrors": []
+}

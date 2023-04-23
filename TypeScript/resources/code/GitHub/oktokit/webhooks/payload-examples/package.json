@@ -1,0 +1,22 @@
+{
+  "name": "@octokit/webhooks-examples",
+  "version": "0.0.0-development",
+  "description": "Example webhook payloads contributed by the community",
+  "keywords": [],
+  "repository": "github:octokit/webhooks",
+  "license": "MIT",
+  "author": "Gregor Martynus (https://github.com/gr2m)",
+  "main": "api.github.com/index.json",
+  "files": [
+    "index.d.ts",
+    "api.github.com/index.json"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@octokit/webhooks-types": "^6.0.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}

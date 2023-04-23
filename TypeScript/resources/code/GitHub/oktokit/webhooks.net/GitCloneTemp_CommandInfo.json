@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/octokit/webhooks.net undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/webhooks.net",
+    "repo": "https://github.com/octokit/webhooks.net",
+    "targetPath": "undefined\\octo--04-23-2023--kLdyTNcTZzeRNgWpzqL4u5/webhooks.net",
+    "startTime": "2023-04-23T16:00:26.063Z",
+    "endTime": "2023-04-23T16:00:33.450Z",
+    "childProcessPid": 2939,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/GitHub-Repository-Downloader2/TypeScript/resources/code/ts_lib/GitHub/workingdir/--octokit--webhooks.net--2939",
+    "executionErrors": []
+}
