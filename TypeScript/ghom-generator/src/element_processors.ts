@@ -80,9 +80,9 @@ export class ElementDefinition {
     }
 }
 
-type ElementRefDef = {ref: ElementDefinition_Ref, def: ElementDefinition};
+export type ElementRefDef = {ref: ElementDefinition_Ref, def: ElementDefinition};
 
-type ElementProcessorResultSet = {
+export type ElementProcessorResultSet = {
     editedAST: DocumentNode, 
     elementsMap: Map<String, Map<string, ElementRefDef>>,
     elementTypesUnhandled: Map<string, number>

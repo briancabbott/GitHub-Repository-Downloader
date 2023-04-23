@@ -1,6 +1,6 @@
-import { visit } from "graphql";
+import { visit, DocumentNode } from "graphql";
 import { GHOMGraphQLLoader } from "./graphql_loader";
-import { ElementProcessor } from "./element_processors";
+import { ElementProcessor, ElementProcessorResultSet } from "./element_processors";
 
 
 
@@ -18,16 +18,17 @@ export class GHOMGenerator {
         this.config = config;
     }
 
-    async loadInitialAst(): DocumentNode {
-
+    async loadInitialAst() {
         let graphqlLoader = new GHOMGraphQLLoader(this.config)
         let documentAst = await graphqlLoader.loadSchema();
     
         let elementProcessor = new ElementProcessor();
-
+        let elementResultSet: ElementProcessorResultSet = await elementProcessor.processDocumentAST(documentAst);
         
-    
-    let elementsAsJSON = JSON.stringify(ElementsMap, mapReplacer, 4);
-    writeFileSync("elements.json", elementsAsJSON);
-    // console.log(editedAST)
+        this.generateGHOMFromElements(elementResultSet);
+    }
+
+    async generateGHOMFromElements(elementResultSet: ElementProcessorResultSet) {
+        
+    }    
 }
