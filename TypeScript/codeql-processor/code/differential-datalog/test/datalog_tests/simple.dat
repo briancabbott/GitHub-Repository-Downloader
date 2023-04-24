@@ -1,0 +1,617 @@
+# Comment
+echo Metro test;
+
+start;
+
+insert Links(4, "St.Germain", "Odeon"),
+insert Links(4, "Odeon", "St.Michel"),
+insert Links(4, "St.Michel", "Chatelet"),
+insert Links(1, "Chatelet", "Louvres"),
+insert Links(1, "Louvres", "Palais Royal"),
+insert Links(1, "Palais-Royal", "Tuileries"),
+insert Links(1, "Tuileries", "Concorde");
+
+commit dump_changes;
+
+dump;
+
+echo Rules test;
+start;
+insert R3(0, true),
+insert R3(1, true),
+insert R3(2, true),
+insert R3(3, true),
+insert R3(4, true),
+insert R3(5, true),
+insert R3(6, true);
+commit dump_changes;
+dump;
+
+start;
+insert Table1(0, "foo"),
+insert Table1(1, "foo"),
+insert Table1(0xabcdef000, "foo"),
+insert Table1(125, "buzzzzzzzz");
+insert Table2("foo", 1234567890, S{(true,true),5}),
+insert Table2("foo", 12, S{(true,false),0xabcd}),
+insert Table2("foo", 100000000000000, S{(false,true),10000}),
+insert Table2("buzzzzzzzz", 1234567890, S{(true,true),5});
+commit dump_changes;
+dump Table12;
+
+start;
+
+insert Rel1(0, IP4{100}),
+insert Rel1(1, IP6{200}),
+insert Rel2(0, Option1{0, IP4{300}, (true, "foo")});
+
+commit dump_changes;
+
+echo Rel3:;
+dump Rel3;
+
+start;
+
+insert AggregateMe1("a", "1"),
+insert AggregateMe1("a", "2"),
+insert AggregateMe1("a", "3"),
+insert AggregateMe1("a", "a"),
+insert AggregateMe1("b", "1"),
+insert AggregateMe1("b", "2"),
+insert AggregateMe1("b", "3");
+
+insert AggregateMe3("a", "1", "z"),
+insert AggregateMe3("a", "2", "z"),
+insert AggregateMe3("a", "3", "z"),
+insert AggregateMe3("b", "1", "z"),
+insert AggregateMe3("b", "2", "z"),
+insert AggregateMe3("b", "3", "z");
+
+commit dump_changes;
+
+echo Aggregate1;
+dump Aggregate1;
+
+echo AggregateCnt;
+dump AggregateCnt;
+
+echo AggregateCnt2;
+dump AggregateCnt2;
+
+echo AggregateCnt3;
+dump AggregateCnt3;
+
+echo Aggregate2;
+dump Aggregate2;
+
+echo Aggregate3;
+dump Aggregate3;
+
+echo Aggregate4;
+dump Aggregate4;
+
+echo AggregateByX;
+dump AggregateByX;
+
+echo Disaggregate;
+dump Disaggregate;
+
+start;
+
+insert AggregateMeInts("a", 100),
+insert AggregateMeInts("a", 10),
+insert AggregateMeInts("a", 1),
+insert AggregateMeInts("b", 10),
+insert AggregateMeInts("b", 20),
+insert AggregateMeInts("b", 30);
+
+commit dump_changes;
+
+echo Sum;
+dump Sum;
+
+
+start;
+
+insert WithKey(0, "foo"),
+insert WithKey(1, "bar"),
+insert WithKey(2, "buzz");
+
+commit dump_changes;
+
+echo WithKeyDbg;
+dump WithKeyDbg;
+
+start;
+
+delete WithKey(0, "foo");
+
+commit dump_changes;
+
+echo WithKeyDbg after deletion by value;
+dump WithKeyDbg;
+
+start;
+
+delete_key WithKey 1;
+
+commit dump_changes;
+
+echo WithKeyDbg after deletion by key;
+dump WithKeyDbg;
+
+
+start;
+
+insert WithKey(1, "bar2"),
+insert WithKey(3, "xxx"),
+insert WithKey(4, "hello"),
+delete_key WithKey 2,
+delete_key WithKey 3;
+
+commit dump_changes;
+
+echo WithKeyDbg: +3, -2;
+dump WithKeyDbg;
+
+start;
+
+insert_or_update WithKey(1, "bar3");
+
+commit dump_changes;
+
+start;
+
+insert Gangster("Billy Jack", "Vito Giacalone"),
+insert Gangster("Black Leo", "Leonardo Cellura"),
+insert Gangster("Black Sam", "Sam Todaro"),
+insert Gangster("Blackie", "James T. Licavoli"),
+insert Gangster("Bobby Doyle", "Girolamo Santucci"),
+insert Gangster("Bobby Ha Ha", "Robert Attanasio"),
+insert Gangster("Bobby Phones", "Robert Sanseverino"),
+insert Gangster("Bomp", "Frank Bompensiero"),
+insert Gangster("Boo Boo", "Max Hoff"),
+insert Gangster("Boobie", "John Cerasini"),
+insert Gangster("Bozey", "Arnold Squitieri"),
+insert Gangster("The Brain", "Arnold Rothstein"),
+insert Gangster("The Bug", "Charles Workman"),
+insert Gangster("Bugs", "George Moran"),
+insert Gangster("Bugsy", "Benjamin Siegel"),
+insert Gangster("The Builder", "Joe Andriacchi"),
+insert Gangster("Butsey", "Frank Morelli"),
+
+insert Suspect("John Doe"),
+insert Suspect("Bill Smith"),
+insert Suspect("Arnold Squitieri"),
+insert Suspect("Frank Morelli");
+
+commit dump_changes;
+
+echo Innocent;
+dump Innocent;
+
+start;
+
+insert Address(IPAddr{10,10,10,101}),
+insert Address(IPAddr{10,10,10,102}),
+insert Address(IPAddr{10,10,10,103}),
+insert Address(IPAddr{10,10,10,104}),
+insert Address(IPAddr{10,10,10,105}),
+insert Address(IPAddr{192,168,0,1}),
+insert Address(IPAddr{192,168,0,2}),
+insert Address(IPAddr{192,168,0,3}),
+insert Address(IPAddr{192,168,0,4}),
+insert Address(IPAddr{192,168,0,5}),
+
+insert Blocklist(IPAddr{192,168,0,0}),
+insert Blocklist(IPAddr{172,16,0,0});
+
+commit dump_changes;
+
+echo ValidDestination;
+dump ValidDestination;
+
+start;
+insert HostAddresses(0, ["10.10.10.101", "10.10.10.102", "10.10.10.103"]),
+insert HostAddresses(0, ["10.10.10.103", "10.10.10.104", "10.10.10.105"]),
+insert HostAddresses(1, ["192.168.0.1", "192.168.0.2", "192.168.0.3"]);
+commit dump_changes;
+
+dump HostAddress;
+
+
+start;
+
+insert ExternalIds(0, [("a", "1"),("b", "2"),("c", "3")]),
+insert ExternalIds(0, [("c", "4"),("d", "5"),("e", "6")]);
+commit dump_changes;
+
+dump ExternalId;
+
+start;
+
+insert Realized("a", "1", 30),
+insert Realized("a", "2", 31),
+insert Realized("a", "3", 50),
+
+insert Realized("b", "1", 10000),
+insert Realized("b", "2", 100),
+insert Realized("b", "3", 16777215),
+
+insert Request("a", "1"),
+insert Request("a", "2"),
+insert Request("a", "3"),
+insert Request("a", "4"),
+insert Request("a", "5"),
+
+insert Request("b", "1"),
+insert Request("b", "3"),
+insert Request("b", "4"),
+insert Request("b", "5");
+
+commit dump_changes;
+
+dump Allocation;
+
+start;
+
+clear Request;
+clear Realized;
+
+commit dump_changes;
+
+echo Allocation after clear;
+dump Allocation;
+
+start;
+
+insert Referenced(true, ddlog_std::Some{"hello"});
+
+commit dump_changes;
+
+echo Referee;
+dump Referee;
+
+echo Filtered;
+dump Filtered;
+
+echo Referee2;
+dump Referee2;
+
+echo Filtered2;
+dump Filtered2;
+
+start;
+
+insert Alloc(.id = 1,
+             .allocated = [],
+             .toallocate = [],
+             .min_val = 0,
+             .max_val = 0),
+
+insert Alloc(.id = 2,
+             .allocated = [],
+             .toallocate = ["a"],
+             .min_val = 0,
+             .max_val = 0),
+
+insert Alloc(.id = 3,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 0,
+             .max_val = 0),
+
+insert Alloc(.id = 4,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 0,
+             .max_val = 1),
+
+insert Alloc(.id = 5,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 1000,
+             .max_val = 1001),
+
+insert Alloc(.id = 5,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 1000,
+             .max_val = 1001),
+
+insert Alloc(.id = 5,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 0xfffffffe,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 6,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 0xfffffffc,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 7,
+             .allocated = [],
+             .toallocate = ["a", "b"],
+             .min_val = 0x0,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 8,
+             .allocated = [],
+             .toallocate = ["a", "b", "c", "d", "e", "f"],
+             .min_val = 0x0,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 9,
+             .allocated = [("x", 0), ("y", 1000), ("z", 10000)],
+             .toallocate = ["x", "b", "c", "d", "e", "z"],
+             .min_val = 0x0,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 10,
+             .allocated = [("x", 0), ("y", 0xffffffff), ("z", 10000)],
+             .toallocate = ["x", "b", "c", "d", "e", "z"],
+             .min_val = 0x0,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 11,
+             .allocated = [("x", 1), ("y", 3), ("z", 5)],
+             .toallocate = ["x", "b", "c", "d", "e", "z"],
+             .min_val = 0,
+             .max_val = 10),
+
+insert Alloc(.id = 12,
+             .allocated = [("x", 1), ("y", 3), ("z", 5)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q"],
+             .min_val = 0,
+             .max_val = 10),
+
+insert Alloc(.id = 13,
+             .allocated = [("x", 1), ("y", 3), ("z", 5)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0,
+             .max_val = 10),
+
+insert Alloc(.id = 14,
+             .allocated = [("x", 0xfffffff7), ("y", 0xfffffff9), ("z", 0xffffffff)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0xfffffff6,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 15,
+             .allocated = [("x", 0xfffff7), ("y", 0xfffff9), ("z", 0xffffff)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0xfffffff6,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 16,
+             .allocated = [("x", 11), ("y", 13), ("z", 20)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 10,
+             .max_val = 20),
+
+insert Alloc(.id = 17,
+             .allocated = [("x", 10), ("y", 11), ("z", 12)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 10,
+             .max_val = 12),
+
+insert Alloc(.id = 18,
+             .allocated = [("x", 0xfffffffd), ("y", 0xfffffffe), ("z", 0xffffffff)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0xfffffffd,
+             .max_val = 0xffffffff),
+
+insert Alloc(.id = 19,
+             .allocated = [("x", 0), ("y", 1), ("z", 2)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0,
+             .max_val = 2),
+
+insert Alloc(.id = 20,
+             .allocated = [("x", 0), ("y", 1), ("z", 2)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 0,
+             .max_val = 0),
+
+insert Alloc(.id = 21,
+             .allocated = [("x", 0), ("y", 1), ("z", 2)],
+             .toallocate = ["x", "b", "c", "d", "e", "z", "p", "q", "r"],
+             .min_val = 1,
+             .max_val = 1),
+
+commit dump_changes;
+
+echo NewAllocation;
+dump NewAllocation;
+
+echo NewAllocationOpt;
+dump NewAllocationOpt;
+
+echo Adjusted;
+dump Adjusted;
+
+start;
+
+insert XY(.x = 1, .y = 10),
+insert XY(.x = 2, .y = 20),
+insert XY(.x = 3, .y = 30),
+insert XY(.x = 4, .y = 40),
+insert YZX(.y = 10, .z = 100, .x = 1),
+insert YZX(.y = 20, .z = 200, .x = 2),
+insert YZX(.y = 30, .z = 300, .x = 3),
+insert YZX(.y = 40, .z = 400, .x = 4),
+insert YZX(.y = 50, .z = 500, .x = 5);
+
+commit dump_changes;
+
+echo YX;
+dump YX;
+
+start;
+
+insert Edge(1,2),
+insert Edge(2,3),
+insert Edge(3,4),
+insert Edge(4,2),
+insert Edge(3,9),
+insert Edge(9,5),
+insert Edge(5,6),
+insert Edge(6,7),
+insert Edge(7,6),
+insert Edge(7,5),
+insert Edge(7,8),
+insert Edge(0,7),
+insert Edge(11,12);
+
+commit dump_changes;
+
+echo SCCLabel;
+dump SCCLabel;
+
+start;
+
+insert IString1("Hello, "),
+insert IString1("Foo "),
+
+insert String2("world"),
+insert String2("bar");
+
+commit dump_changes;
+
+echo ConcatString;
+dump ConcatString;
+
+start;
+
+insert BMethod("d", "???"),
+insert AMethod("d", "!!!"),
+
+insert BMethod("c", "foo"),
+insert AMethod("foo", "bar"),
+insert AMethod("foo", "buzz"),
+
+insert BMethod("c", "world"),
+insert AMethod("world", "hello"),
+
+commit dump_changes;
+
+echo CMethod;
+dump CMethod;
+
+echo DMethod;
+dump DMethod;
+
+start;
+
+insert Numbers(0),
+insert Numbers(1),
+insert Numbers(2),
+insert Numbers(3),
+insert Numbers(4);
+
+commit dump_changes;
+
+echo Power3;
+dump Power3;
+
+start;
+
+insert Regex("[0-9]{3}-[0-9]{3}-[0-9]{4}", "phone: 111-222-3333"),
+insert Regex("[0-9]{3}-[0-9]{3}-[0-9]{4}", "111-222-3333"),
+insert Regex("[0-9]{3}-[0-9]{3}-[0-9]{4}", "111-222-333"),
+insert Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "2014-01-01"),
+insert Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "2014-0101"),
+insert Regex("(?i)a+(?-i)b+", "AaAaAbbBBBb"),
+insert Regex("a+b+", "aaaaabbbbbb"),
+insert Regex("a+b+", "AaAaAbbBBBb"),
+
+commit dump_changes;
+
+echo RegexMatch;
+dump RegexMatch;
+
+echo Arithm;
+dump Arithm;
+
+echo Signed;
+dump Signed;
+
+echo Cast_u32;
+dump Cast_u32;
+
+echo Cast_s32;
+dump Cast_s32;
+
+echo Cast_u24;
+dump Cast_u24;
+
+echo Cast_u256;
+dump Cast_u256;
+
+echo Cast_bigint;
+dump Cast_bigint;
+
+echo UMinus_s32;
+dump UMinus_s32;
+
+echo UMinus_bigint;
+dump UMinus_bigint;
+
+
+echo J;
+dump J;
+
+start;
+insert DdlogNode[DdlogNode{0}],
+insert DdlogNode[DdlogNode{1}],
+insert DdlogNode[DdlogNode{2}],
+insert DdlogNode[DdlogNode{3}],
+insert DdlogNode[DdlogNode{4}],
+insert DdlogNode[DdlogNode{5}],
+insert DdlogNode[DdlogNode{6}],
+insert DdlogNode[DdlogNode{7}],
+insert DdlogNode[DdlogNode{8}],
+insert DdlogNode[DdlogNode{9}],
+insert DdlogBinding[DdlogBinding{0, 9}],
+insert DdlogNode[DdlogNode{10}],
+insert DdlogBinding[DdlogBinding{1, 10}],
+insert DdlogNode[DdlogNode{11}],
+insert DdlogBinding[DdlogBinding{2, 11}],
+insert DdlogNode[DdlogNode{12}],
+insert DdlogBinding[DdlogBinding{3, 12}],
+insert DdlogNode[DdlogNode{13}],
+insert DdlogBinding[DdlogBinding{4, 13}],
+insert DdlogDependency[DdlogDependency{1, 2}],
+insert DdlogDependency[DdlogDependency{2, 1}],
+insert DdlogDependency[DdlogDependency{3, 4}],
+insert DdlogDependency[DdlogDependency{4, 3}],
+insert DdlogDependency[DdlogDependency{5, 6}],
+insert DdlogDependency[DdlogDependency{6, 5}],
+insert DdlogDependency[DdlogDependency{7, 8}],
+insert DdlogDependency[DdlogDependency{8, 7}],
+insert DdlogDependency[DdlogDependency{0, 1}],
+insert DdlogDependency[DdlogDependency{1, 0}],
+insert DdlogDependency[DdlogDependency{2, 3}],
+insert DdlogDependency[DdlogDependency{3, 2}],
+insert DdlogDependency[DdlogDependency{6, 7}],
+insert DdlogDependency[DdlogDependency{7, 6}],
+insert DdlogDependency[DdlogDependency{0, 8}],
+insert DdlogDependency[DdlogDependency{11, 1}],
+insert DdlogDependency[DdlogDependency{3, 5}],
+insert DdlogDependency[DdlogDependency{9, 0}],
+insert DdlogDependency[DdlogDependency{10, 4}],
+insert DdlogDependency[DdlogDependency{12, 5}],
+insert DdlogDependency[DdlogDependency{13, 7}];
+commit dump_changes;
+start;
+insert DdlogDependency[DdlogDependency{1, 6}],
+insert DdlogDependency[DdlogDependency{6, 1}];
+commit dump_changes;
+
+start;
+
+insert Long(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+
+commit dump_changes;

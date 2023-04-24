@@ -1,0 +1,42 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* Description: DDlog debugging library contains functions that emit events to
+ * an external debugger tool.
+ */
+
+import ddlog_rt
+import ddlog_std
+
+typedef DDlogOpId = (u32, u32, u32)
+
+/*
+ * Function declarations in this file must match their usage in Debug.hs
+ */
+
+extern function debug_event(operator_id: DDlogOpId, w: DDWeight, ts: 'T1,
+                            operator_type: string, input1: 'A1, out: 'A2): ()
+extern function debug_event_join(operator_id: DDlogOpId, w: DDWeight, ts: 'T1,
+                                 input1: 'A1, input2: 'A2, out: 'A3): ()
+
+extern function debug_split_group(g: Group<'K, ('I,'V)>): (Vec<'I>, Group<'K, 'V>)

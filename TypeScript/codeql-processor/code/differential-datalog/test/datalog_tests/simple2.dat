@@ -1,0 +1,125 @@
+dump RFloatToInt;
+
+start;
+
+insert Arrng1(TArrng2{true, TArrng1{true, 1000}}, 10),
+insert Arrng2(TArrng2{true, TArrng1{true, 5}}, 1000, true),
+
+insert TArrng1[(TArrng2{true, TArrng1{true, 1000}}, 10)],
+insert TArrng2[(TArrng2{true, TArrng1{true, 5}}, 1000)],
+
+commit dump_changes;
+
+dump FuncTest;
+
+start;
+
+insert Doubles([1.0, 2.0, 3.5]),
+
+commit dump_changes;
+
+dump InspectSimpleSum;
+
+start;
+
+insert InputTuples(1, 1);
+insert InputTuples(1, 2);
+
+commit dump_changes;
+
+dump FilteredRelation;
+
+start;
+
+insert TestRelation(1, 1);
+insert TestRelation(1, 2);
+insert TestRelation(6, 2);
+insert TestRelation(6, 3);
+insert TestRelation(3, 4);
+insert TestRelation(6, 5);
+
+commit dump_changes;
+
+start;
+
+delete TestRelation(3, 4);
+delete TestRelation(6, 2);
+
+commit dump_changes;
+
+dump OutputInspectNot;
+
+start;
+
+insert InputInspectNot2(1);
+insert InputInspectNot2(2);
+insert InputInspectNot2(3);
+
+commit dump_changes;
+
+start;
+
+insert InputInspectNot1(1, 1);
+insert InputInspectNot1(2, 2);
+insert InputInspectNot1(3, 3);
+insert InputInspectNot1(4, 4);
+
+commit dump_changes;
+
+start;
+
+delete InputInspectNot2(2);
+
+commit dump_changes;
+
+# Test multisets
+start;
+insert Chunk("{\"field\": 1}"),
+insert Chunk("{\"fild\": 1}"),
+commit dump_changes;
+
+start;
+
+# multiset semantics means that we should see a duplicate output record.
+insert Chunk("{\"field\": 1}"),
+insert Chunk("{\"field\": 1}"),
+insert Chunk("{\"fild\": 1}"),
+insert Chunk("{\"field\": 2}"),
+
+commit dump_changes;
+
+dump Fib;
+dump Ack;
+
+start;
+
+insert Rletter("foo"),
+insert Rletter("bar"),
+insert Rseqs(TSeq1{("buzz", TSeqNone)}),
+
+commit dump_changes;
+
+start;
+
+insert GroupThis(1, "1"),
+insert GroupThis(11, "1"),
+insert GroupThis(111, "1"),
+insert GroupThis(2, "2"),
+insert GroupThis(2, "2"),
+insert GroupThis(222, "2"),
+
+commit dump_changes;
+
+start;
+
+insert DataForSingletonTest(100),
+
+commit dump_changes;
+
+start;
+
+insert InList(        Lst{1,
+              ListNxt{Lst{2,
+              ListNxt{Lst{3,
+              ListNxt{EMPTY}}}}}});
+commit dump_changes;

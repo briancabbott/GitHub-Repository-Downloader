@@ -1,0 +1,417 @@
+start;
+
+insert Word1("Hello,"      , CategoryOther),
+insert Word1("Goodbye,"    , CategoryOther),
+insert Word2("World"       , CategoryOther),
+insert Word2("Ruby Tuesday", CategoryOther);
+
+insert Word1("Help me,"      , CategoryStarWars),
+insert Word1("I am your"     , CategoryStarWars),
+insert Word2("Obi-Wan Kenobi", CategoryStarWars),
+insert Word2("father"        , CategoryStarWars);
+
+
+commit;
+
+echo Phrases:;
+dump Phrases;
+
+start;
+
+insert Host(0, "h0", 0xaabbccdd),
+insert Host(1, "h1", 0xaabbccee),
+insert Host(2, "h2", 0xaaff1234),
+insert Subnet(0, 0xaabb0000, 0xffff0000),
+insert Subnet(1, 0xaaff0000, 0xffff0000);
+
+commit;
+
+echo HostInSubnet:;
+dump HostInSubnet;
+
+start;
+
+insert School("school1", ""),
+insert School("school2", ""),
+insert Student(1, "Adam", "school1", 1400),
+insert Student(1, "Aaron", "school2", 1500),
+insert Student(1, "Alice", "school1", 1300),
+insert Student(1, "Ann", "school2", 1600),
+
+commit;
+
+echo TopScore;
+dump TopScore;
+
+start;
+
+insert OnlineOrder(1, "milk"),
+insert OnlineOrder(1, "eggs"),
+insert OnlineOrder(1, "jackfruit"),
+
+insert OnlineOrder(2, "sursild"),
+insert OnlineOrder(2, "milk"),
+insert OnlineOrder(2, "eggs"),
+
+commit dump_changes;
+
+start;
+
+insert StoreInventory(StoreItem{"milk", "Just your regular cow milk"}),
+insert StoreInventory(StoreItem{"kumis", "Horse milk"}),
+insert StoreInventory(StoreItem{"goat milk", "Another milk variety"}),
+
+commit dump_changes;
+
+start;
+
+insert Logical_Switch(0),
+insert Logical_Switch(1),
+insert Load_Balancer(0, 0, "10.10.10.101", ddlog_std::Some{"TCP"}, "lb1"),
+insert Load_Balancer(0, 0, "10.10.10.102", ddlog_std::None, "lb2"),
+insert Load_Balancer(0, 1, "10.10.10.103", ddlog_std::Some{"UDP"}, "lb3"),
+insert Load_Balancer(0, 1, "10.10.10.104", ddlog_std::None, "lb4");
+
+commit;
+
+echo Flows:;
+dump Flow;
+
+echo Flows generated using FTL:;
+dump Flow1;
+
+start;
+
+insert Number(1),
+insert Number(10),
+insert Number(100),
+insert Number(1000),
+insert Number(10000),
+insert Number(100000),
+insert Number(1000000),
+insert Number(10000000),
+insert Number(100000000);
+
+commit;
+
+echo Pow2:;
+dump Pow2;
+
+start;
+
+insert NetHost(1, NHost{IPAddr{0xaabbccdd}, MACAddr{0x112233445566}}),
+insert NetHost(2, NHost{IPAddr{0xa0b0c0d0}, MACAddr{0x102030405060}});
+
+commit;
+
+echo NetHostString:;
+dump NetHostString;
+
+start;
+
+insert Bytes(10,10,10,101),
+insert Bytes(127,0,0,1),
+insert Bytes(224,0,0,1);
+
+commit;
+
+echo Address:;
+dump Address;
+
+echo MCastAddress:;
+dump MCastAddress;
+
+start;
+
+insert Endpoint(IPAddr{0xaabbccdd}, "FTP",   0),
+insert Endpoint(IPAddr{0xaabbccdd}, "HTTPS", 0),
+insert Endpoint(IPAddr{0xaabbccdd}, "HTTP",  0),
+insert Endpoint(IPAddr{0xaabbccdd}, "HTTP",  8080);
+
+commit;
+
+echo EndpointString;
+dump EndpointString;
+
+echo First5;
+
+dump First5;
+
+start;
+
+insert Blocklisted("170.187.204.221:80"),
+insert Blocklisted("170.187.204.221:20");
+
+commit;
+
+echo SanitizedEndpoint:;
+dump SanitizedEndpoint;
+
+
+start;
+
+insert HostAddress(1, "10.10.10.101 10.10.10.102"),
+insert HostAddress(2, "192.168.0.1"),
+insert HostAddress(3, "192.168.0.3 192.168.0.4 192.168.0.5 192.168.0.6");
+
+commit;
+
+echo HostIP:;
+dump HostIP;
+
+echo HostIPVSep:;
+dump HostIPVSep;
+
+start;
+insert Library(Book{"Ernest Hemingway", "For Whom the Bell Tolls"}),
+insert Library(Book{"Dav Pilkey", "For Whom the Ball Rolls"}),
+insert Author("Ernest Hemingway", 1899),
+insert Author("Dav Pilkey", 1966),
+commit;
+
+echo BookByAuthor;
+dump BookByAuthor;
+
+start;
+insert EvensAndOdds([0,1,2,3,4,5]),
+insert EvensAndOdds([1,3,5,7]),
+commit;
+
+echo Evens:;
+dump Evens;
+
+start;
+insert Vect(["a", "--", "b"], "--"),
+insert Vect(["--", "a", "b"], "--"),
+insert Vect(["a", "b", "--"], "--"),
+commit;
+
+echo Prefix:;
+dump Prefix;
+
+start;
+
+insert X(10),
+insert X(20),
+insert X(100),
+insert X(150);
+
+commit;
+
+echo Sum:;
+dump Sum;
+
+echo Product;
+dump Product;
+
+start;
+
+insert Price("A", "Overpriced Inc", 120),
+insert Price("A", "Scrooge Ltd", 110),
+insert Price("A", "Discount Corp", 100),
+insert Price("B", "Overpriced Inc", 123),
+insert Price("B", "Scrooge Ltd", 150),
+insert Price("B", "Discount Corp", 111);
+
+commit;
+
+start;
+
+delete Price("A", "Discount Corp", 100),
+delete Price("B", "Discount Corp", 111),
+
+commit;
+
+echo BestPrice:;
+dump BestPrice;
+
+echo WorstPrice:;
+dump WorstPrice;
+
+echo BestVendor:;
+dump BestVendor;
+
+echo BestDeal:;
+dump BestDeal;
+
+
+start;
+
+insert Article("D. L. Parnas", "On the Criteria To Be Used in Decomposing System into Modules", 1974, 6),
+insert Article("C. A. R. Hoare", "Communicating Sequential Processes", 1980, 40),
+insert Article("Test Author", "Test Title", 2020, 10),
+
+# Delete test record by only specifying its primary key.
+delete_key Article ("Test Author", "Test Title"),
+
+# We accidentally specified incorrect year for Parnas's article.
+# Modify the record by only specifying values of field(s) we want to change.
+modify Article ("D. L. Parnas", "On the Criteria To Be Used in Decomposing System into Modules") <- Article{.year = 1972},
+
+# Delete Hoare's paper and replace it with a new record with the same primary key.
+insert_or_update Article("C. A. R. Hoare", "Communicating Sequential Processes", 1978, 30),
+
+commit;
+
+echo OutArticle:;
+dump OutArticle;
+
+start;
+
+insert MSetIn(0),
+# Insert the same value twice; due to the multiset semantics, it will appear twice in MSetOut.
+insert MSetIn(1),
+insert MSetIn(1),
+commit dump_changes;
+# expected output:
+# MSetOut:
+# MSetOut{.x = 0}: +1
+# MSetOut{.x = 1}: +2
+
+start;
+# Add one more instance of the same record.
+insert MSetIn(1),
+commit dump_changes;
+
+# expected output:
+# MSetOut:
+# MSetOut{.x = 1}: +1
+
+start;
+# Delete one instance of the record; we're down to 2.
+delete MSetIn(1),
+commit dump_changes;
+# expected output:
+# MSetOut:
+# MSetOut{.x = 1}: -1
+
+dump MSetOut;
+# expected output:
+# MSetOut{.x = 0} +1
+# MSetOut{.x = 1} +2
+
+echo Populating the zip code table.;
+start;
+insert ZipCodes(94022, "Los Altos"),
+insert ZipCodes(94035, "Moffett Field"),
+insert ZipCodes(94039, "Mountain View"),
+insert ZipCodes(94085, "Sunnyvale"),
+commit dump_changes;
+
+echo Feeding data to the Parcel stream;
+start;
+insert Parcel(94022, 2),
+insert Parcel(94085, 6),
+commit dump_changes;
+
+echo Send more parcels!;
+start;
+insert Parcel(94022, 8),
+insert Parcel(94085, 10),
+insert Parcel(94022, 1),
+commit dump_changes;
+
+echo Modifying both inputs in the same transaction.;
+start;
+insert ZipCodes(94301, "Palo Alto"),
+insert Parcel(94301, 4),
+insert Parcel(94035, 1),
+commit dump_changes;
+
+start;
+
+insert Packet(EthPacket{
+    0xaabbccddeeff,
+    0x112233445566,
+    EthIP4{
+        IP4Pkt{
+            5,
+            0xa1b1c1d1,
+            0xa1a2a3a4,
+            IPTCP {
+                TCPPkt {
+                    100,
+                    80,
+                    0
+                }
+            }
+        }
+    }
+}),
+insert Packet(EthPacket{
+    0x112233445566,
+    0xaabbccddeeff,
+    EthIP6{
+        IP6Pkt{
+            5,
+            0xa1b1c1d1,
+            0xa1a2a3a4,
+            IPTCP {
+                TCPPkt {
+                    200,
+                    8080,
+                    0
+                }
+            }
+        }
+    }
+}),
+insert Packet(EthPacket{
+    0x112233445566,
+    0xaabbccddeeff,
+    EthIP6{
+        IP6Pkt{
+            5,
+            0xa1b1c1d1,
+            0xa1a2a3a4,
+            IPUDP {
+                UDPPkt {
+                    300,
+                    22,
+                    100
+                }
+            }
+        }
+    }
+});
+
+
+commit;
+
+echo TCPDstPort:;
+dump TCPDstPort;
+
+echo UDPDstPort:;
+dump UDPDstPort;
+
+echo UDPDstPort2:;
+dump UDPDstPort2;
+
+start;
+
+insert KnownHost(0xc0a80001),
+insert KnownHost(0xc0a80102),
+insert KnownHost(0xc0100001),
+insert KnownHost(0x0a0a0001);
+
+commit;
+
+echo IntranetHost:;
+dump IntranetHost;
+
+echo IntranetHost2:;
+dump IntranetHost2;
+
+echo IntranetHost3:;
+dump IntranetHost3;
+
+start;
+
+insert Person("Alice", "USA", "student");
+insert Person("Bob", "USA", "engineer");
+insert Person("Eve", "UK", "student");
+
+commit;
+
+echo TargetAudience:;
+dump TargetAudience;

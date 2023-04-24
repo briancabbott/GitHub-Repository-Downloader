@@ -1,0 +1,640 @@
+import fp
+import inspect_log as log
+import group
+
+/* Test `arrangeInput` logic in Compile.hs */
+
+typedef TArrng1 = TArrng1{
+    f1: bool,
+    f2: bigint
+}
+
+typedef TArrng2 = TArrng2{
+    f1: bool,
+    f2: Ref<Ref<TArrng1>>
+}
+
+input relation Arrng1(
+    f1: Ref<Ref<Ref<TArrng2>>>,
+    f2: bigint
+)
+
+input relation Arrng2(
+    f1: Ref<TArrng2>,
+    f2: bigint,
+    f3: bool
+)
+
+output relation Arrng1Arrng2(x: bigint)
+
+Arrng1Arrng2(x.f2.f2) :-
+    Arrng1(f1, f2),
+    Arrng2(x, f1.f2.f2, _).
+
+output relation Arrng1Arrng2_2(x: bigint)
+
+Arrng1Arrng2_2(x.f2.f2) :-
+    Arrng1(f1, f2),
+    Arrng2(x, f1.f2.f2, f1.f2.f1).
+
+input relation TArrng1[(Ref<Ref<Ref<TArrng2>>>, bigint)]
+
+input relation TArrng2[(Ref<TArrng2>, bigint)]
+
+output relation TArrng1Arrng2(x: bigint)
+
+TArrng1Arrng2(x.f2.f2) :-
+    TArrng1[t],
+    TArrng2[(x, t.0.f2.f2)].
+
+
+function ftoi_(l: double): signed<32> = {
+    match (int_from_d(l)) {
+        None -> 0,
+        Some{x} -> {
+            x as signed<32>
+        }
+    }
+}
+
+relation RFtoIDummy(x: signed<32>)
+RFtoIDummy(0).
+output relation RFloatToInt(_x:signed<32>)
+RFloatToInt(_x) :- RFtoIDummy(0), var _x = ftoi_((- (64'f333.36: double))).
+
+/* See #596 */
+input relation Ints(x: bigint)
+output relation SomeInts(x: Option<bigint>)
+
+SomeInts(y) :-
+    Ints(x),
+    var y = Some{x},
+    SomeInts(y).
+
+/* See #592 */
+function agg_avg_double_N(aggregate: Option<(double, double)>, item: Option<double>):
+    Option<(double, double)> =
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{(x, 1)},
+        (Some{x}, None)    -> Some{x},
+        (Some{(sum,ct)}, Some{y}) -> Some{(sum + y, ct + 1)}
+    }
+
+
+/* See #603. New function syntax avoids ambiguity. */
+output relation &FuncTest(x: string)
+function myfunc(x: string): string { x }
+&FuncTest("foo").
+
+output relation SumsOfDoubles(x: double, y: double, sum: double)
+input relation Doubles(xs: Vec<double>)
+
+SumsOfDoubles(x, y, z) :-
+    Doubles(xs),
+    var x = FlatMap(xs),
+    Doubles(ys),
+    var y = FlatMap(ys),
+    var z = x + y,
+    Inspect log::log("../simple2.log", "${ddlog_timestamp}: ${if (ddlog_weight > 0) {\"insert\"} else {\"delete\"}}: (${x}, ${y}, ${z})").
+
+/* Attempt to confuse statics */
+
+function weird_zero(x: 'A): usize {
+    var empty_vec: Vec<'A> = vec_empty();
+    vec_len(empty_vec)
+}
+
+function zero_test(): usize {
+    weird_zero(32'd0)
+}
+
+/* See #618. New Inspect operator syntax. */
+output relation InspectSimpleSum(x: bit<32>, total: bit<32>)
+
+input relation InputTuples(x: bit<32>, y: bit<32>)
+
+InspectSimpleSum(x, total) :-
+    InputTuples(x, y),
+    var total = y.group_by(x).sum_of(|y| y),
+    Inspect {
+        var z = 1 + 2;
+        var w = ddlog_weight;
+        var t = ddlog_timestamp;
+        log::log("../simple2.log", "${t}: ${if (w > 0) {\"insert\"} else {\"delete\"}}: x=${x}, total=${total}")
+    }.
+
+/* Test Inspect with atom as filter */
+input relation TestRelation(x: bit<32>, y: bit<32>)
+output relation FilteredRelation(y: bit<32>)
+
+FilteredRelation(y) :-
+    TestRelation(6, y),
+    Inspect log::log("../simple2.log", "${ddlog_timestamp}: ${if (ddlog_weight > 0) {\"insert\"} else {\"delete\"}}: y=${y}").
+
+/* Test Inspect with not. */
+input relation InputInspectNot1(x: bit<32>, y: bit<32>)
+input relation InputInspectNot2(x: bit<32>)
+output relation OutputInspectNot(x: bit<32>, y: bit<32>)
+
+OutputInspectNot(x, y) :-
+    InputInspectNot1(x, y),
+    not InputInspectNot2(x),
+    Inspect log::log("../simple2.log", "${ddlog_timestamp}: ${if (ddlog_weight > 0) {\"insert\"} else {\"delete\"}}: x=${y} y=${y}").
+
+// Type inference test.
+function ti_f(value: Option<string>): Option<(string, string)> {
+    var strs = match (value) {
+        Some{s} -> string_split(s, ":"),
+        None -> return None
+    };
+    match ((vec_nth(strs, 0), vec_nth(strs, 1))) {
+        (Some{port_name}, Some{src_ip}) -> Some{(port_name, src_ip)},
+        _ -> None
+    }
+}
+
+// Type inference test.
+relation TI_R(a: Set<string>)
+TI_R(a) :- TI_R(a), set_size(a) > 1.
+
+typedef ModifyMe = ModifyMe {
+    x: string,
+    y: s128
+}
+
+function write_to_struct_field(): ModifyMe {
+    var m = ModifyMe{"foo", 123456789};
+    m.x = "bar";
+    m.y = -m.y;
+    m
+}
+
+function write_to_tuple_field(): (string, u64) {
+    var m = ("foo", 123456789);
+    m.0 = "bar";
+    m.1 = -m.1;
+    m
+}
+
+function mutable_match() {
+    var m = ModifyMe{"foo", 123456789};
+    match (m) {
+        ModifyMe{x, 123456789} -> x = "bar",
+        _ -> ()
+    }
+}
+
+typedef NestedStruct = NestedStruct {
+    x: Option<ModifyMe>
+}
+
+function mutable_match_field(n: mut NestedStruct) {
+    match (n.x) {
+        Some{ModifyMe{x, 123456789}} -> x = "bar",
+        Some{m} -> m.x = "bar",
+        x -> x = Some{ModifyMe{"buzz", 0}}
+    }
+}
+
+output relation Nested(descr: string, n: NestedStruct)
+Nested("1",{
+    var n = NestedStruct{Some{ModifyMe{"foo", 123456789}}};
+    n.mutable_match_field();
+    n
+}).
+Nested("2",{
+    var n = NestedStruct{Some{ModifyMe{"", 0}}};
+    n.mutable_match_field();
+    n
+}).
+Nested("3",{
+    var n = NestedStruct{None};
+    n.mutable_match_field();
+    n
+}).
+
+
+/* Test "multiset" relations. */
+
+import json
+
+typedef Object = Object {
+    field: u128
+}
+
+/* Raw JSON chunks. */
+input multiset Chunk(json: string)
+
+/* Output an error message for each chunk that failed to parse. */
+output multiset ChunkParseError(err: string)
+ChunkParseError(err) :- ParsedChunk(Err{err}).
+
+/* Contains the result of parsing a chunk. */
+relation ParsedChunk(data: Result<Object, string>)
+
+ParsedChunk(from_json_string(json)) :- Chunk(json).
+
+/* Successfully parsed chunks are stored in the Objects
+ * relation. */
+relation Objects(chunk: Object)
+Objects(objs) :- ParsedChunk(Ok{objs}).
+
+/* Convert chunks back to JSON. */
+output multiset CompressedChunk(json: string)
+CompressedChunk(json) :-
+    Objects(objs),
+    Ok{var json} = to_json_string(objs).
+
+/*
+ * Recursive functions
+ */
+
+// Fibonacci sequence
+function fib(x: u64): u64 {
+    if (x == 0) {
+        0
+    } else if (x == 1) {
+        1
+    } else {
+        fib(x-1) + fib(x-2)
+    }
+}
+
+output relation Fib(x: u64, f: u64)
+
+Fib(0, fib(0)).
+Fib(1, fib(1)).
+Fib(2, fib(2)).
+Fib(3, fib(3)).
+Fib(4, fib(4)).
+Fib(10, fib(10)).
+Fib(20, fib(20)).
+
+// Ackerman-Peter function
+function ack(m: u64, n: u64): u64 {
+    if (m == 0) {
+        n + 1
+    } else if (n == 0) {
+        ack(m-1, 1)
+    } else {
+        ack(m-1, ack(m, n-1))
+    }
+}
+
+output relation Ack(m: u64, n: u64, a: u64)
+
+Ack(2, 1, ack(2,1)).
+
+
+output relation Strings(descr: string, str: string)
+
+Strings("x={10:bit<12>}, y={10:float}, z={-4:signed<125>}", "x=${10:bit<12>}, y=${10:float}, z=${-4:signed<128>}").
+
+/*
+ * Issue 649.
+ */
+
+typedef TSeq = TSeq1{x: (string, Ref<TSeq>)}
+             | TSeqNone
+
+input relation Rletter(_l:string)
+input relation Rseqs(_s:TSeq)
+output relation Rseq(_s:TSeq)
+Rseq(TSeq1{(_l, ref_new(_s))}) :- Rletter(_l), Rseqs(_s).
+
+/*
+ * ?-operator
+ */
+
+function try1(name: string): Option<(string, string)> {
+    var components = name.split(" ");
+    var first_name = components.nth(0)?;
+    var last_name = components.nth(1)?;
+    Some{(first_name, last_name)}
+}
+
+// makes sure it works with type aliases.
+typedef Opt<'X> = Option<'X>
+typedef SResult<'V> = Result<'V, string>
+
+output relation Try1(description: string, result: Opt<(string, string)>)
+
+Try1("Isaac Newton", try1("Isaac Newton")).
+Try1("", try1("")).
+Try1("Albert_Einstein", try1("Albert_Einstein")).
+
+function try2(name: string): Result<(string, string), string> {
+    var components = name.split(" ");
+    var first_name = match (components.nth(0)) {
+        None -> Err{"No first name"},
+        Some{n} -> Ok{n}
+    }?;
+    var last_name = match (components.nth(1)) {
+        None -> Err{"No last name"},
+        Some{n} -> Ok{n}
+    }?;
+    Ok{(first_name, last_name)}
+}
+
+output relation Try2(description: string, result: SResult<(string, string)>)
+
+Try2("Isaac Newton", try2("Isaac Newton")).
+Try2("", try2("")).
+Try2("Albert_Einstein", try2("Albert_Einstein")).
+
+function try3(name: string): Opt<(string, string)> {
+    var components = name.split(" ");
+    var first_name = match (components.nth(0)) {
+        None -> Err{"No first name"},
+        Some{n} -> Ok{n}
+    }?;
+    var last_name = match (components.nth(1)) {
+        None -> Err{"No last name"},
+        Some{n} -> Ok{n}
+    }?;
+    Some{(first_name, last_name)}
+}
+
+output relation Try3(description: string, result: Opt<(string, string)>)
+
+Try3("Isaac Newton", try3("Isaac Newton")).
+Try3("", try3("")).
+Try3("Albert_Einstein", try3("Albert_Einstein")).
+
+/*
+ * Vector literals.
+ */
+
+output relation BoolVectors(v: Vec<bool>)
+BoolVectors([true, false, true]).
+
+output relation BoolVecVec(v: Vec<Vec<bool>>)
+BoolVecVec([[true, false, true], [true], [false]]).
+
+output relation StringMaps(m: Map<string, (usize, bool)>)
+StringMaps(["foo" -> (1, true), "bar" -> (2, false), "foobar" -> (3, false)]).
+
+output relation MapOfMaps(m: Map<string, Map<double, (usize, bool)>>)
+MapOfMaps(["foo" -> [1.0 -> (1, true), 2 -> (4, false)],
+           "bar" -> [-10 -> (10000, true), 200 -> (2, false)],
+           "foobar" -> map_empty()
+          ]).
+
+output relation MapOfVecs(m: Map<(u32, bigint), Vec<double>>)
+MapOfVecs([ (100, 100) -> [0.1, -100, 0, 1000000],
+            (100, -100) -> vec_empty(),
+            (0, -0) -> [0.1, -100, 0, 1000000]
+          ]).
+
+output relation VecOfMaps(m: Vec<Map<(u32, bigint), double>>)
+VecOfMaps([ [(100, 100) -> 0.1],
+            [(100, 100) -> 0.1, (1000, -100) -> -0.1],
+            [(100, 100) -> 0.1, (1000, -100) -> -0.1, (1000, -10000000000000000000000000000000000000) -> 0]
+          ]).
+
+/* Variable shadowing (now legal). */
+
+typedef Alt = C0{x: bit<32>}
+            | C1{x: bit<32>}
+
+// shadow argument name
+function shadow(v: string) {
+    var a: Alt = C0{1};
+
+    var i: bit<32> = match (a) {
+        C0{.x = v} -> v,
+        C1{v} -> v
+    }
+}
+
+// shadow local variable
+function shadow2() {
+    var v: string = "bar";
+
+    var v = "foo"
+}
+
+function do_nothing() {}
+
+// Test 32-bit timestamp.
+
+relation Rb(x: u32)
+output relation Rque(x: u32)
+
+Rb(0).
+Rb(x+1) :- Rb(x), x < 65599.
+Rque(x) :- Rb(x), x > 65530.
+
+// Polymorphic functions.
+
+function poly(x: string): () {}
+// same name, different first argument type.
+function poly(x: u64): () {}
+// same first argument type, different number of arguments.
+function poly(x: u64, y: u32): () {}
+// same number of args; different second argument type.
+function poly(x: u64, y: string): () {}
+// functions differ only in the type of the last argument.
+function poly(x: u64, y: string): string {"foo"}
+
+function poly_test(): ((), string) {
+    (poly(0, "bar"), poly(0, "foo"))
+}
+
+// Closure with mutable and generic arguments.
+function apply_transform(x: mut 'A, f: |mut 'A|) {
+    f(x)
+}
+
+// Instantiate the closure with different type arguments.
+output relation ApplyTransform(description: string, value: string)
+
+ApplyTransform("foo_foo", {
+    var s = "foo";
+    apply_transform(s, |x|{ x = "${x}_${x}" });
+    s
+}).
+
+ApplyTransform("5*10", {
+    var factor = 10;
+    var x = 5;
+    apply_transform(x, |x| x = x*factor);
+    "${x}"
+}).
+
+// FlatMap a group.
+input relation GroupThis(x: u32, y: string)
+
+output relation FlatGroup(x: u32)
+
+FlatGroup(x) :-
+    GroupThis(x, y),
+    var g = x.group_by(y),
+    (var x, _) = FlatMap(g).
+
+/*
+ * for-loop patterns
+ */
+
+typedef ForStruct1<'T> = ForStruct1 {
+    f1: 'T,
+    f2: istring
+}
+
+typedef ForStruct2 = ForStruct2 {
+    f1: (bool, double),
+    f2: ForStruct1<(usize, usize)>
+}
+
+function testMap(): Map<(usize, string), ForStruct2> {
+    [ (1, "1") -> ForStruct2{ .f1 = (true, 1.0), .f2 = ForStruct1{ .f1 = (1, 1), .f2 = i"foo"}}
+    , (2, "2") -> ForStruct2{ .f1 = (false, 2.0), .f2 = ForStruct1{ .f1 = (2, 2), .f2 = i"bar"}}
+    , (3, "3") -> ForStruct2{ .f1 = (false, 4.0), .f2 = ForStruct1{ .f1 = (3, 3), .f2 = i"buzz"}}
+    ]
+}
+
+output relation ForTests(id: usize, result: string)
+
+ForTests(1, {
+    var res = "";
+    for ((k, v) in testMap()) {
+        res = res ++ k.1
+    };
+    res
+}).
+
+ForTests(2, {
+    var res = "";
+    for (((_, k), v) in testMap()) {
+        res = res ++ k
+    };
+    res
+}).
+
+ForTests(3, {
+    var res = "";
+    for (((_, _), ForStruct2{.f2 = ForStruct1{_,s}}) in testMap()) {
+        res = "${res} ${s}"
+    };
+    res
+}).
+
+ForTests(4, {
+    var res = "";
+    for (((_, s1), ForStruct2{.f2 = ForStruct1{_,s2}}) in testMap()) {
+        res = "${res} ${s1}:${s2}"
+    };
+    res
+}).
+
+function testSet1(): Set<ForStruct2> {
+    [ ForStruct2{ .f1 = (true, 1.0), .f2 = ForStruct1{ .f1 = (1, 1), .f2 = i"foo"}} ].to_set()
+}
+
+function testSet2(): Set<ForStruct2> {
+    [ ForStruct2{ .f1 = (false, 2.0), .f2 = ForStruct1{ .f1 = (2, 2), .f2 = i"bar"}}
+    , ForStruct2{ .f1 = (false, 4.0), .f2 = ForStruct1{ .f1 = (3, 3), .f2 = i"buzz"}}
+    ].to_set()
+}
+
+function testVec(): Vec<ForStruct1<Set<ForStruct2>>> {
+    [ ForStruct1{ .f1 = testSet1(), .f2 = i"foo"}
+    , ForStruct1{ .f1 = testSet2(), .f2 = i"bar"}
+    , ForStruct1{ .f1 = testSet2(), .f2 = i"buzz"}
+    ]
+}
+
+ForTests(5, {
+    var res = "";
+    for (ForStruct1{_,s2} in testVec()) {
+        res = "${res}${s2}"
+    };
+    res
+}).
+
+ForTests(6, {
+    var res = "";
+    for (ForStruct1{set,f2} in testVec()) {
+        res = "${res} ${f2}";
+        for (ForStruct2{.f2 = ForStruct1{_,s2}} in set) {
+            res = "${res}${s2}"
+        }
+    };
+    res
+}).
+
+/*
+ * FlatMap patterns
+ */
+
+output relation FlatMapTests(id: usize, result: string)
+
+relation FMapMaps(map: Map<(usize, string), ForStruct2>)
+
+FMapMaps(testMap()).
+
+FlatMapTests(1, k.1) :-
+    FMapMaps(map),
+    (var k, var v) = FlatMap(map).
+
+FlatMapTests(2, k) :-
+    FMapMaps(map),
+    ((_, var k), var v) = FlatMap(map).
+
+FlatMapTests(3, s.ival()) :-
+    FMapMaps(map),
+    ((_, _), ForStruct2{.f2 = ForStruct1{_, var s}}) = FlatMap(map).
+
+FlatMapTests(4, "${s1}:${s2}") :-
+    FMapMaps(map),
+    ((_, var s1), ForStruct2{.f2 = ForStruct1{_, var s2}}) = FlatMap(map).
+
+FlatMapTests(5, "${s2}") :-
+    FMapMaps(),
+    ForStruct1{_, var s2} = FlatMap(testVec()).
+
+FlatMapTests(6, "${f2} ${s2}") :-
+    FMapMaps(),
+    ForStruct1{var set, var f2} = FlatMap(testVec()),
+    ForStruct2{.f2 = ForStruct1{_, var s2}} = FlatMap(set).
+
+/*
+ * Rules that don't start with a positive literal.
+ */
+
+input relation DataForSingletonTest(x: usize)
+
+output relation SingletonTest(s: string)
+
+SingletonTest("DataForSingletonTest is empty") :- not DataForSingletonTest().
+SingletonTest("${v}") :- var v = 5.
+
+/*
+ * Relation with `original` annotation.
+ */
+#[original="original_name"]
+input relation Renamed()
+
+
+/*
+ * Test IntoRecord/FromRecord implementations for `Ref<'T>`, where
+ * 'T is a type argument (see issue #1017).
+ */
+
+typedef LinkedList<'N> = Lst { node: 'N, nxt: ListNxt<'N> } | EMPTY
+typedef ListNxt<'N> = ListNxt { nxt: Ref<LinkedList<'N>> }
+
+function map(l: LinkedList<'T1>, f: (function ('T1) : 'T2)): LinkedList<'T2> {
+    match (l) {
+        EMPTY -> EMPTY,
+        Lst{n, ListNxt{nxt}} -> Lst{f(n), ListNxt{ref_new(nxt.deref().map(f))}}
+    }
+}
+
+input relation InList(l: LinkedList<usize>)
+output relation OutList(l: LinkedList<string>)
+
+OutList(out_list) :-
+    InList(in_list),
+    var out_list = in_list.map(|x| "${x}").

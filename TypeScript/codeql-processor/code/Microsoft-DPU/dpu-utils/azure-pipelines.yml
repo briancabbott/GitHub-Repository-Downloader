@@ -1,0 +1,116 @@
+jobs:
+
+- job: 'Python_Test'
+  pool:
+    vmImage: 'Ubuntu 20.04'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
+      Python38:
+        python.version: '3.8'
+    maxParallel: 4
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+      architecture: 'x64'
+
+  - script: python -m pip install --upgrade pip && pip install -r requirements.txt && pip install torch==1.6.0
+    displayName: 'Install dependencies'
+    workingDirectory: 'python/'
+
+  - task: Bash@3
+    displayName: "Install Azurite"
+    inputs:
+        targetType: 'inline'
+        script: 'sudo npm install -g azurite'
+
+  - task: Bash@3
+    displayName: "Run Azurite"
+    inputs:
+      targetType: 'inline'
+      script: 'sudo azurite --silent -l /tmp --loose &'
+
+  - script: |
+      pip install pytest
+      pytest tests --doctest-modules --junitxml=junit/test-results.xml
+    displayName: 'pytest'
+    workingDirectory: 'python/'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: 'python/**/test-results.xml'
+      testRunTitle: 'Python $(python.version)'
+    condition: succeededOrFailed()
+
+- job: 'Python_Publish'
+  dependsOn: 'Python_Test'
+  pool:
+    vmImage: 'Ubuntu 20.04'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      architecture: 'x64'
+
+  - script: python setup.py sdist
+    displayName: 'Build sdist'
+    workingDirectory: 'python/'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifact: dist'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      pathtoPublish: './'
+      artifactName: 'dist'
+
+- job: 'DotNet_Build'
+  pool:
+    vmImage: 'Ubuntu 20.04'
+
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+       packageType: sdk
+       version: 3.x
+       installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - script: dotnet restore
+    workingDirectory: 'dotnet/'
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: 'dotnet/**/*.csproj'
+      arguments: '--configuration Release'
+
+  # One of these days, we should add tests:
+  #- task: DotNetCoreCLI@2
+  #  inputs:
+  #    command: test
+  #    projects: 'dotnet/**/*Tests/*.csproj'
+  #    arguments: '--configuration $(buildConfiguration)'
+
+- job: 'DotNet_Publish'
+  dependsOn: 'DotNet_Build'
+  pool:
+    vmImage: 'Ubuntu 20.04'
+
+  steps:
+  - script: dotnet pack
+    workingDirectory: 'dotnet/'
+
+#   - task: NuGetCommand@2
+#     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#     inputs:
+#       command: push
+#       nuGetFeedType: external
+#       publishFeedCredentials: 'mabrocks-DPU.Utils-NuGet'
+#       packagesToPush: 'dotnet/**/*.nupkg'

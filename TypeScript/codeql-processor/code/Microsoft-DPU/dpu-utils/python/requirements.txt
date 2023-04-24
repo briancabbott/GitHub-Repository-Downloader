@@ -1,0 +1,11 @@
+SetSimilaritySearch
+tqdm
+docopt
+azure-storage-blob
+azure-identity
+msgpack
+numpy
+typing_extensions
+sentencepiece
+cffi
+regex

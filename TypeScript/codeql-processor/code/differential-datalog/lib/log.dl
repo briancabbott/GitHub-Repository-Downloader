@@ -1,0 +1,96 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/*
+ * Logging API.
+ *
+ * This API has two facets.  First, it provides the `log()` function that can
+ * be invoked from a DDlog rule's Inspect operator to provide more visibility
+ * into the rule's evaluation.  In addition to the usual log level and log
+ * message arguments, this function takes a `module` argument, which identifies
+ * the module or subsystem that this log message is associated with.
+ *
+ * Second, it provides a Rust configuration API that can only be invoked by the
+ * "host" program to set log level for individual modules and to supply a
+ * logging callback for each module (see `rust/template/types/log.rs`).  This
+ * way, different modules can produce separate log streams or even use different
+ * logging mechanisms.
+ *
+ * NOTE: Internally, this library maintains a global module-to-log_callback
+ * map shared by all DDlog instances running in the same address space.  The host
+ * program is responsible for maintaining this mapping via the Rust API in
+ * `log.rs`.
+ *
+ * Other related files:
+ * `log4j.dl` - specializes the logging API for using log4j loggers
+ * `ddlog_log.rs` - Rust logging API
+ * `ddlog_log.h` - matching C bindings
+ * `DDlogAPI.java (DDlogAPI.log_set_callback method)` - Java API to control
+ *  logging.
+ *
+ * === Example ===
+ *
+ * In DDlog:
+ * ```
+ * // Declare module id's for logging purposes
+ * function mod_SPAN_UUID(): log.module_t = 100
+ *
+ * // Use log() function in a rule
+ * Span(entity, tn) :- Binding(entity, tn),
+ *                     Inspect log(mod_SPAN_UUID(), 5, "Span(entity,tn) :- Binding(.entity=${deref(entity)},.tn=${deref(tn)}))").
+ * ```
+ *
+ * In Java:
+ * ```
+ * // Module id declarations must match DDlog values:
+ * static int MOD_SPAN_UUID1 = 100;
+ * // Set logging callback and log level from Java
+ * DDlogAPI.log_set_callback(
+ *     MOD_SPAN_UUID1,
+ *     (msg, level) -> System.err.println("Log msg from module1 (" + level + "): " + msg),
+ *     5);
+ * ```
+ * ===============
+ *
+ */
+
+/* `module_t` type identifies the subsystem or component for logging purposes.
+ */
+typedef module_t = signed<32>
+
+typedef log_level_t = signed<32>
+
+/*
+ * Write to a log stream
+ *
+ * `module` - Identifies the subsystem writing to the log.  A log record is only
+ *            produced if logging has been enabled for this subsystem (see
+ *            `log.rs`)
+ * `level`  - log level
+ * `msg`    - error message (UTF-8)
+ *
+ * This function returns a `()` so that it can be used as part of an expression
+ * of an Inspect operator.
+ */
+#[has_side_effects]
+extern function log(module: module_t, level: log_level_t, msg: string)

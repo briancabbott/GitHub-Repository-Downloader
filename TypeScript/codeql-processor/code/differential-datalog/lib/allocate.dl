@@ -1,0 +1,87 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* Allocate a unique identifier in the range `min_val..max_val` for each element in `toallocate`.
+ * `allocated` stores already allocated ids that must not be re-used.
+ *
+ * Returns new allocations.  May only assign a subset of values if the address space has been
+ * exhausted.
+ *
+ * `N` must be a numeric type, i.e., its Rust representation must have `Num`, `Add`, `Ord`, and
+ * `Copy` traits.  However, as DDlog does not have traits, it will happily compile programs with
+ * any `N` type, leaving it to the Rust compiler to detect the unsatisfied trait.
+ */
+extern function allocate(
+    allocated: Set<'N>,
+    #[by_val] toallocate: Vec<'B>,
+    min_val: 'N,
+    max_val: 'N): Vec<('B, 'N)>
+
+/* Allocate a unique identifier in the range `min_val..max_val` for each element in `toallocate`;
+ * use optional hint as starting point to search for available identifier.
+ * `allocated` stores already allocated ids that must not be re-used.
+ *
+ * Returns new allocations.  May only assign a subset of values if the address space has been
+ * exhausted.
+ *
+ * `N` must be a numeric type, i.e., its Rust representation must have `Num`, `Add`, `Ord`, and
+ * `Copy` traits.  However, as DDlog does not have traits, it will happily compile programs with
+ * any `N` type, leaving it to the Rust compiler to detect the unsatisfied trait.
+ */
+extern function allocate_with_hint(
+    allocated: Set<'N>,
+    #[by_val] toallocate: Vec<('B, Option<'N>)>,
+    min_val: 'N,
+    max_val: 'N): Vec<('B, 'N)>
+
+/* Allocate a unique identifier in the range `min_val..max_val` for each element in `toallocate`.
+ * `allocated` stores already allocated ids that must not be re-used.
+ *
+ * Returns new allocations.  After exhausting the address space, assigns `None` to all remaining
+ * items.
+ *
+ * `N` must be a numeric type, i.e., its Rust representation must have `Num`, `Add`, `Ord`, and
+ * `Copy` traits.  However, as DDlog does not have traits, it will happily compile programs with
+ * any `N` type, leaving it to the Rust compiler to detect the unsatisfied trait.
+ */
+extern function allocate_opt(
+    allocated: Set<'N>,
+    #[by_val] toallocate: Vec<'B>,
+    min_val: 'N,
+    max_val: 'N): Vec<('B, Option<'N>)>
+
+/* Allocate a unique identifier in the range `min_val..max_val` for each element in `toallocate`,
+ * while preserving existing allocations in `allocated`.
+ *
+ * For each value in `toallocate`, either returns existing allocation in `allocated` or allocates
+ * an unused value in the range.
+ *
+ * `N` must be a numeric type, i.e., its Rust representation must have `Num`, `Add`, `Ord`, and
+ * `Copy` traits.  However, as DDlog does not have traits, it will happily compile programs with
+ * any `N` type, leaving it to the Rust compiler to detect the unsatisfied trait.
+ */
+extern function adjust_allocation(
+    allocated: Map<'A, 'N>,
+    toallocate: Vec<'A>,
+    min_val: 'N,
+    max_val: 'N): Vec<('A, 'N)>

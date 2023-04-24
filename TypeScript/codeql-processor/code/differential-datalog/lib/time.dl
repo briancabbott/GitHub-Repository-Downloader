@@ -1,0 +1,323 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/// Library supporting dates, times, and date-times
+/// Based on the chrono crate
+/// https://github.com/chronotope/chrono
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/// The clock time within a given date. Nanosecond precision.
+/// All minutes are assumed to have exactly 60 seconds; no attempt is
+/// made to handle leap seconds (either positive or negative).
+/// When comparing two Times, they are assumed to be in the same
+/// calendar date.
+/// ATTENTION: This module only contains deterministic function.
+/// Since DDlog programs are supposed to be deterministic, there are no
+/// functions such as today(), now()
+
+extern type Time
+
+/// Create a Time that is exactly midnight.
+extern function midnight(): Time
+
+/// Attempt to create a Time from the hour, minute, and second.
+extern function try_from_hms(hours: bit<8>, minutes: bit<8>, seconds: bit<8>): Result<Time, string>
+
+/// Attempt to create a Time from the hour, minute, second, and millisecond.
+extern function try_from_hms_milli(hours: bit<8>, minutes: bit<8>, seconds: bit<8>, milliseconds: bit<16>): Result<Time, string>
+
+/// Attempt to create a Time from the hour, minute, second, and microsecond.
+extern function try_from_hms_micro(hours: bit<8>, minutes: bit<8>, seconds: bit<8>, microseconds: bit<32>): Result<Time, string>
+
+/// Attempt to create a Time from the hour, minute, second, and nanosecond.
+extern function try_from_hms_nano(hours: bit<8>, minutes: bit<8>, seconds: bit<8>, microseconds: bit<32>): Result<Time, string>
+
+/// Get the clock hour.  The returned value will always be in the range 0..24.
+extern function hour(t: Time): bit<8>
+
+/// Get the minute within the hour.  The returned value will always be in the range 0..60.
+extern function minute(t: Time): bit<8>
+
+/// Get the second within the minute.  The returned value will always be in the range 0..60.
+extern function second(t: Time): bit<8>
+
+/// Get the milliseconds within the second.  The returned value will always be in the range 0..1000.
+extern function millisecond(t: Time): bit<16>
+
+/// Get the microseconds within the second.  The returned value will always be in the range 0..1000000.
+extern function microsecond(t: Time): bit<32>
+
+/// Get the nanoseconds within the second.  The returned value will always be in the range 0..1000000000.
+extern function nanosecond(t: Time): bit<32>
+
+// Here is a list of the format specifiers, which can be used for both parsing and formatting.
+// This is based on the strftime format specification.
+// https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html
+/*
+Spec.	Example	Description
+                        DATE SPECIFIERS:
+%Y	2001	        The full proleptic Gregorian year, zero-padded to 4 digits.
+%C	20	        The proleptic Gregorian year divided by 100, zero-padded to 2 digits.
+%y	01	        The proleptic Gregorian year modulo 100, zero-padded to 2 digits.
+
+%m	07		Month number (01--12), zero-padded to 2 digits.
+%b	Jul		Abbreviated month name. Always 3 letters.
+%B	July		Full month name. Also accepts corresponding abbreviation in parsing.
+%h	Jul		Same as %b.
+
+%d	08		Day number (01--31), zero-padded to 2 digits.
+%e	 8		Same as %d but space-padded. Same as %_d.
+
+%a	Sun		Abbreviated weekday name. Always 3 letters.
+%A	Sunday		Full weekday name. Also accepts corresponding abbreviation in parsing.
+%w	0		Sunday = 0, Monday = 1, ..., Saturday = 6.
+%u	7		Monday = 1, Tuesday = 2, ..., Sunday = 7. (ISO 8601)
+
+%U	28		Week number starting with Sunday (00--53), zero-padded to 2 digits.
+%W	27		Same as %U, but week 1 starts with the first Monday in that year instead.
+
+%G	2001		Same as %Y but uses the year number in ISO 8601 week date.
+%g	01		Same as %y but uses the year number in ISO 8601 week date.
+%V	27		Same as %U but uses the week number in ISO 8601 week date (01--53).
+
+%j	189		Day of the year (001--366), zero-padded to 3 digits.
+
+%D	07/08/01	Month-day-year format. Same as %m/%d/%y.
+%x	07/08/01	Locale's date representation (e.g., 12/31/99).
+%F	2001-07-08	Year-month-day format (ISO 8601). Same as %Y-%m-%d.
+%v	8-Jul-2001	Day-month-year format. Same as %e-%b-%Y.
+
+		TIME SPECIFIERS:
+%H	00		Hour number (00--23), zero-padded to 2 digits.
+%k	 0		Same as %H but space-padded. Same as %_H.
+%I	12		Hour number in 12-hour clocks (01--12), zero-padded to 2 digits.
+%l	12		Same as %I but space-padded. Same as %_I.
+
+%P	am		am or pm in 12-hour clocks.
+%p	AM		AM or PM in 12-hour clocks.
+
+%M	34		Minute number (00--59), zero-padded to 2 digits.
+%S	60		Second number (00--60), zero-padded to 2 digits.
+%f	026490000	The fractional seconds (in nanoseconds) since last whole second.
+%.f	.026490	        Similar to .%f but left-aligned. These all consume the leading dot.
+%.3f	.026    	Similar to .%f but left-aligned but fixed to a length of 3.
+%.6f	.026490	        Similar to .%f but left-aligned but fixed to a length of 6.
+%.9f	.026490000	Similar to .%f but left-aligned but fixed to a length of 9.
+%3f	026	        Similar to %.3f but without the leading dot.
+%6f	026490	        Similar to %.6f but without the leading dot.
+%9f	026490000	Similar to %.9f but without the leading dot.
+
+%R	00:34	        Hour-minute format. Same as %H:%M.
+%T	00:34:60	Hour-minute-second format. Same as %H:%M:%S.
+%X	00:34:60	Locale's time representation (e.g., 23:13:48).
+%r	12:34:60 AM	Hour-minute-second format in 12-hour clocks. Same as %I:%M:%S %p.
+
+		TIME ZONE SPECIFIERS:
+%Z	ACST	     Local time zone name. Skips all non-whitespace characters during parsing.
+%z	+0930	     Offset from the local time to UTC (with UTC being +0000).
+%:z	+09:30	     Same as %z but with a colon.
+%#z	+09	     Parsing only: Same as %z but allows minutes to be missing or present.
+
+		DATE & TIME SPECIFIERS:
+%c	Sun Jul  8 00:34:60 2001                Locale's date and time (e.g., Thu Mar 3 23:05:25 2005).
+%+	2001-07-08T00:34:60.026490+09:30	ISO 8601 / RFC 3339 date & time format.
+%s	994518299	                        UNIX timestamp, the number of seconds since 1970-01-01 00:00 UTC.
+
+		SPECIAL SPECIFIERS:
+%t		Literal tab (\t).
+%n		Literal newline (\n).
+%%		Literal percent sign.
+
+It is possible to override the default padding behavior of numeric specifiers %?. This is not allowed for other specifiers and will result in the BAD_FORMAT error.
+Modifier	Description
+%-?	        Suppresses any padding including spaces and zeroes. (e.g. %j = 012, %-j = 12)
+%_?	        Uses spaces as a padding. (e.g. %j = 012, %_j =  12)
+%0?	        Uses zeroes as a padding. (e.g. %e =  9, %0e = 09)
+*/
+
+extern function time2string(t: Time): string
+function to_string(t: Time): string {
+    time2string(t)
+}
+
+/// Convert the string to a time using a default format.  Inverse of time2string.
+extern function string2time(s: string): Result<Time, string>
+function to_time(s: string): Result<Time, string> {
+    string2time(s)
+}
+
+/// Format the Time using the provided string.
+/// Conversion can fail when the format string is incorrect
+extern function time_format(t: Time, format: string): Result<string, string>
+function format(t: Time, format: string): Result<string, string> {
+    time_format(t, format)
+}
+
+/// Attempt to parse a Time using the provided format string.
+extern function time_parse(s: string, format: string): Result<Time, string>
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/// Dates
+/// Calendar date.
+/// Years between -100_000 and +100_000 inclusive are guaranteed to be representable.
+
+extern type Date
+
+/// Attempt to create a Date from the year, month, and day.
+extern function try_from_ymd(year: signed<32>, month: bit<8>, day: bit<8>): Result<Date, string>
+
+/// Create a Date from the year and ordinal day number.
+extern function try_from_yo(year: signed<32>, ordinal: bit<16>): Result<Date, string>
+
+/// Attempt to create a Date from the ISO year, week, and weekday.
+extern function try_from_iso_ywd(year: signed<32>, week: bit<8>, weekday: Weekday): Result<Date, string>
+
+/// Get the year of the date.
+extern function year(date: Date): signed<32>
+
+/// Get the month.  The returned value will always be in the range 1..=12.
+extern function month(date: Date): bit<8>
+
+/// Get the day of the month.  The returned value will always be in the range 1..=31.
+extern function day(date: Date): bit<8>
+
+/// Get the day of the year.  The returned value will always be in the range 1..=366
+extern function ordinal(date: Date): bit<16>
+
+/// Get the ISO week number.  The returned value will always be in the range 1..=53.
+extern function week(date: Date): bit<8>
+
+/// Get the weekday.
+extern function weekday(date: Date): Weekday
+
+/// Get the next calendar date.
+extern function next_day(date: Date): Date
+
+/// Get the previous calendar date.
+extern function previous_day(date: Date): Date
+
+/// Get the Julian day for the date.
+extern function julian_day(date: Date): signed<64>
+
+/// Create a Date from the Julian day.
+extern function from_julian_day(julian_day: signed<64>): Date
+
+/// Attempt to parse a Date using the provided format string.
+extern function date_parse(s: string, format: string): Result<Date, string>
+
+/// format the Date using the specified format string
+/// Formatting can fail if the format string is incorrect.
+extern function date_format(date: Date, format: string): Result<string, string>
+function format(date: Date, format: string): Result<string, string> {
+    date_format(date, format)
+}
+
+/// Convert the date to a string using a default format.
+extern function date2string(t: Date): string
+function to_string(t: Date): string {
+    date2string(t)
+}
+
+/// Convert the string to a date using the default format.
+extern function string2date(s: string): Result<Date, string>
+function to_date(s: string): Result<Date, string> {
+    string2date(s)
+}
+
+typedef Weekday = Monday
+                | Tuesday
+                | Wednesday
+                | Thursday
+                | Friday
+                | Saturday
+                | Sunday
+
+// This is really a local date + time, without timezone information
+typedef DateTime = DateTime { date: Date, time: Time }
+
+/// Parse a string into a DateTime using the specified format
+extern function datetime_parse(s: string, format: string): Result<DateTime, string>
+
+/// Serialize a DateTime to a string representation using the default format
+extern function dateTime2string(d: DateTime): string
+function to_string(d: DateTime): string {
+    dateTime2string(d)
+}
+
+/// Inverse of datetime2string.
+extern function string2datetime(s: string): Result<DateTime, string>
+function to_datetime(s: string): Result<DateTime, string> {
+    string2datetime(s)
+}
+
+/// format the DateTime using the specified format string
+/// Formatting can fail if the format string is incorrect.
+extern function datetime_format(d: DateTime, format: string): Result<string, string>
+function format(d: DateTime, format: string): Result<string, string> {
+    datetime_format(d, format)
+}
+
+/// Create a DateTime from a given unix timestamp
+extern function datetime_from_unix_timestamp(timestamp: signed<64>): DateTime
+
+///////////////////////////////////////////////////
+// Timezone handling, based on chrono
+// Chrono has a separate Timezone trait, but we do not
+// expose it, since it is never really useful without
+// a DateTime.
+
+/// An object representing a datetime with a timezone
+extern type TzDateTime
+
+/// Convert a DateTime to a TzDateTime in the UTC timezone
+extern function utc_timezone(dt: DateTime): TzDateTime
+
+/// Convert a DateTime to a TzDateTime in a timezone with a specified
+/// offset in seconds to the east from UTC.
+extern function offset_timezone(dt: DateTime, eastOffsetInSeconds: signed<32>): TzDateTime
+/// Changes the associated time zone. This does not change the actual DateTime (but will change the string representation).
+extern function change_offset(dt: TzDateTime, eastOffsetInSeconds: signed<32>): TzDateTime
+/// Get the DateTime without a timezone in the UTC timezone
+extern function utc_datetime(dt: TzDateTime): DateTime
+
+extern function tz_datetime_format(td: TzDateTime, format: string): Result<string, string>
+function format(td: TzDateTime, format: string): Result<string, string> {
+   tz_datetime_format(td, format)
+}
+extern function tzDateTime2string(td: TzDateTime): string
+/// Returns an RFC 2822 date and time string such as Tue, 1 Jul 2003 10:52:37 +0200.
+extern function to_rfc2822(td: TzDateTime): string
+/// Returns an RFC 3339 and ISO 8601 date and time string such as 1996-12-19T16:39:57-08:00.
+extern function to_rfc3339(td: TzDateTime): string
+
+/// Parse a TzDateTime using the specified string format
+extern function tz_datetime_parse(s: string, format: string): Result<TzDateTime, string>
+/// Parses an RFC 3339 and ISO 8601 date and time string such as 1996-12-19T16:39:57-08:00
+extern function tz_datetime_parse_from_rfc3339(s: string): Result<TzDateTime, string>
+/// Parses an RFC 2822 date and time string such as Tue, 1 Jul 2003 10:52:37 +0200
+extern function tz_datetime_parse_from_rfc2822(s: string): Result<TzDateTime, string>
+extern function time(dt: TzDateTime): Time
+
+function to_string(dt: TzDateTime): string {
+    tzDateTime2string(dt)
+}

@@ -1,0 +1,52 @@
+std_test::SortedVector:
+std_test::SortedVector{.v = []}: +1
+std_test::SortedVector{.v = [-100, 0, 100]}: +1
+std_test::SortedVector{.v = [1, 2, 3, 4, 5]}: +1
+std_test::SortedVector{.v = [5]}: +1
+std_test::SortedVectorInPlace:
+std_test::SortedVectorInPlace{.v = []}: +1
+std_test::SortedVectorInPlace{.v = [-100, 0, 100]}: +1
+std_test::SortedVectorInPlace{.v = [1, 2, 3, 4, 5]}: +1
+std_test::SortedVectorInPlace{.v = [5]}: +1
+std_test::SetDifference:
+std_test::SetDifference{.s1 = [], .s2 = [], .diff = []}: +1
+std_test::SetDifference{.s1 = [1], .s2 = [1000], .diff = [1]}: +1
+std_test::SetDifference{.s1 = [1, 2, 3], .s2 = [1, 2, 3, 4, 5], .diff = []}: +1
+std_test::SetDifference{.s1 = [1, 2, 3], .s2 = [2, 3, 4], .diff = [1]}: +1
+std_test::SetDifference{.s1 = [1, 2, 3, 4, 5], .s2 = [1, 2, 3], .diff = [4, 5]}: +1
+std_test::SetDifference{.s1 = [2, 3, 4], .s2 = [1, 2, 3], .diff = [4]}: +1
+std_test::SetDifference{.s1 = [1000], .s2 = [1], .diff = [1000]}: +1
+std_test::MapNth:
+std_test::MapNth{.n = 0, .k = ddlog_std::Some{.x = 1}, .v = ddlog_std::Some{.x = "e"}}: +1
+std_test::MapNth{.n = 3, .k = ddlog_std::Some{.x = 4}, .v = ddlog_std::Some{.x = "b"}}: +1
+std_test::MapNth{.n = 100, .k = ddlog_std::None{}, .v = ddlog_std::None{}}: +1
+std_test::MapSizes:
+std_test::MapSizes{.m = [(1, "e"), (2, "d"), (3, "c"), (4, "b"), (5, "a")], .size = 5}: +1
+std_test::MapValues:
+std_test::MapValues{.vals = ["e", "d", "c", "b", "a"]}: +1
+std_test::Pow{.descr = "$pow32(2: u64, 32)", .val = "4294967296"}
+std_test::Pow{.descr = "pow32(2: u32, 32)", .val = "0"}
+std_test::Default{.descr = "DefaultEnum", .val = "DEnum1"}
+std_test::Default{.descr = "u32", .val = "0"}
+std_test::MapDelete{.descr = "alphabet", .m = [(0, "a"), (1, "b"), (2, "c"), (3, "d"), (4, "e")], .s = ddlog_std::None{}}
+std_test::MapDelete{.descr = "alphabet\\4", .m = [(0, "a"), (1, "b"), (2, "c"), (3, "d")], .s = ddlog_std::Some{.x = "e"}}
+std_test::MapDelete{.descr = "alphabet\\4\\3", .m = [(0, "a"), (1, "b"), (2, "c")], .s = ddlog_std::Some{.x = "d"}}
+std_test::MapDelete{.descr = "alphabet\\4\\3\\2", .m = [(0, "a"), (1, "b")], .s = ddlog_std::Some{.x = "c"}}
+std_test::MapDelete{.descr = "alphabet\\4\\3\\2\\1", .m = [(0, "a")], .s = ddlog_std::Some{.x = "b"}}
+std_test::MapDelete{.descr = "alphabet\\4\\3\\2\\1\\0", .m = [], .s = ddlog_std::Some{.x = "a"}}
+std_test::IntVecTest{.descr = "vec0", .vec = [0, 1, 2, 3, 4, 5]}
+std_test::IntVecTest{.descr = "vec0.resize(10,-100)", .vec = [0, 1, 2, 3, 4, 5, -100, -100, -100, -100]}
+std_test::IntVecTest{.descr = "vec0.swap_nth(10, -1)", .vec = [0, 1, 2, 3, 4, 5, -1]}
+std_test::IntVecTest{.descr = "vec0.swap_nth(5, -1)", .vec = [0, 1, 2, 3, 4, -1, 5]}
+std_test::IntVecTest{.descr = "vec0.update_nth(1, -1)", .vec = [0, -1, 2, 3, 4, 5]}
+std_test::IntVecTest{.descr = "vec0.update_nth(10, -1)", .vec = [0, 1, 2, 3, 4, 5]}
+std_test::VecZipTest{.descr = "longer", .vec = [("0", 0), ("1", 1), ("2", 2), ("3", 3), ("4", 4), ("5", 5)], .unz = (["0", "1", "2", "3", "4", "5"], [0, 1, 2, 3, 4, 5]), .m = [("0", 0), ("1", 1), ("2", 2), ("3", 3), ("4", 4), ("5", 5)]}
+std_test::VecZipTest{.descr = "same length", .vec = [("0", 0), ("1", 1), ("2", 2), ("3", 3), ("4", 4), ("1", 5)], .unz = (["0", "1", "2", "3", "4", "1"], [0, 1, 2, 3, 4, 5]), .m = [("0", 0), ("1", 5), ("2", 2), ("3", 3), ("4", 4)]}
+std_test::VecZipTest{.descr = "shorter", .vec = [("0", 0), ("1", 1), ("2", 2), ("3", 3)], .unz = (["0", "1", "2", "3"], [0, 1, 2, 3]), .m = [("0", 0), ("1", 1), ("2", 2), ("3", 3)]}
+std_test::Ranges{.descr = "10,10,1", .rng = []}
+std_test::Ranges{.descr = "10,100,0", .rng = []}
+std_test::Ranges{.descr = "10,15,2", .rng = [10, 12, 14]}
+std_test::Ranges{.descr = "10,16,2", .rng = [10, 12, 14]}
+std_test::Ranges{.descr = "100,101,1", .rng = [100]}
+std_test::Ranges{.descr = "15,10,-1", .rng = [15, 14, 13, 12, 11]}
+std_test::Ranges{.descr = "15,10,2", .rng = []}

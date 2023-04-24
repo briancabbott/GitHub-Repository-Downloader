@@ -1,0 +1,138 @@
+name:                differential-datalog
+version:             1.2.3
+github:              "vmware/differential-datalog"
+license:             MIT
+author:              "Leonid Ryzhyk"
+maintainer:          "lryzhyk@vmware.com"
+copyright:           "VMware, Inc"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Incremental Datalog engine based on differential dataflow
+# category:            Language
+
+description:         Please see the README on Github at <https://github.com/ryzhyk/differential-datalog#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- ansi-terminal
+- mtl
+- parsec
+- pretty
+- directory
+- containers
+- binary
+- bytestring
+- bytestring-conversion
+- extra
+- fgl
+- split
+# MissingH is not compatible with Windows due to regex-posix dependency.
+#- MissingH
+- raw-strings-qq
+- time
+- transformers
+- tuple
+- file-embed
+- filepath
+- wide-word
+- graphviz
+- text
+- githash
+- process
+- aeson
+- utf8-string
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -optl-static
+  - -optl-pthread
+  - -Wall
+  - -Werror
+  - -fprof-auto
+  - -O2
+executables:
+  ddlog:
+    main:                Main.hs
+    source-dirs:         app
+    # Mac OS does not support statically linked executables.
+    when:
+    - condition: os(linux)
+      then:
+          ghc-options:
+              - -threaded
+              - -rtsopts
+              - -with-rtsopts=-N
+              - -optl-static
+              - -optl-pthread
+              - -Wall
+              - -Werror
+      else:
+          ghc-options:
+              - -threaded
+              - -rtsopts
+              - -with-rtsopts=-N
+              - -Wall
+              - -Werror
+    dependencies:
+    - differential-datalog
+    - filepath
+  ovsdb2ddlog:
+    main:                Main.hs
+    source-dirs:         adapters/ovsdb
+
+    when:
+    - condition: os(linux)
+      then:
+          ghc-options:
+              - -threaded
+              - -rtsopts
+              - -with-rtsopts=-N
+              - -optl-static
+              - -Wall
+              - -Werror
+      else:
+          ghc-options:
+              - -threaded
+              - -rtsopts
+              - -with-rtsopts=-N
+              - -Wall
+              - -Werror
+    dependencies:
+    - differential-datalog
+    - filepath
+    - containers
+  debugparser:
+    main:                Main.hs
+    source-dirs:         debugger
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      - -Wall
+      - -Werror
+    dependencies:
+      - differential-datalog
+      - filepath
+
+tests:
+  differential-datalog-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Werror
+    dependencies:
+    - differential-datalog
+    - tasty
+    - tasty-hunit
+    - tasty-golden
+    - filepath
+    - deepseq
+    - zlib

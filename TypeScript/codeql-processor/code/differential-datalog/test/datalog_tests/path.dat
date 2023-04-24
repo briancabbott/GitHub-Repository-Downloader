@@ -1,0 +1,15 @@
+start;
+
+insert Edge("Palo Alto", "Palo Alto"),
+insert Edge("Palo Alto", "Redwood City"),
+insert Edge("Redwood City", "San Bruno");
+
+commit;
+dump;
+
+echo Printing Path relation only
+;
+
+dump Path;
+
+echo;

@@ -1,0 +1,272 @@
+// cannot use parenthes if type name does not match relation name
+
+input relation R1: int
+
+R1(1).
+
+//---
+
+// relation name collides with existing type name
+
+typedef R1 = int
+
+input relation R1(a1: string)
+
+//---
+
+// non-stratified negation
+
+input relation R1(a1: string)
+
+relation R2(a2: string)
+relation R3(a3: string, b3: string)
+
+R2(x) :- R1(x), not R3(x, "foo").
+R3(x,"foo") :- R2(x).
+
+//---
+
+// non-stratified negation
+
+input relation R1(a1: string)
+
+relation R2(a2: string)
+
+R2(x) :- R1(x), not R2(x).
+
+//---
+
+// Aggregate function does not take enough arguments.
+
+input relation AggregateMe3(x: string, y: string, z: string)
+output relation Concat(s: string)
+Concat(s) :-
+    AggregateMe3(x,y,z),
+    var s = Aggregate((x,z), concat_ys(y)).
+
+// Convert group into a string prefixed by group-by variable names
+function concat_ys(ys: Group<string, string>): string = {
+    var res = group_key(ys) ++ ":";
+    for ((y, _) in ys) {
+        res = res ++ y
+    };
+    res
+}
+
+//---
+
+// Aggregate function has wrong signature
+
+input relation AggregateMe3(x: string, y: string, z: string)
+output relation Concat(s: string)
+Concat(s) :-
+    AggregateMe3(x,y,z),
+    var s = Aggregate((x,z), concat_ys(y)).
+
+// Convert group into a string prefixed by group-by variable names
+function concat_ys(ys: Group<(string, bigint), string>): string = {
+    (var x, var z) = group_key(ys);
+    var res = x ++ ":";
+    for ((y, _) in ys) {
+        res = res ++ y
+    };
+    res
+}
+
+//---
+
+// Inspect operator expression has wrong return type
+
+input relation InspectInput(x: string)
+output relation InspectFail(x: string)
+InspectFail(x) :-
+    InspectInput(x),
+    Inspect 1 + 2.
+
+//---
+
+// Use ?-operator in a rule
+
+input relation Input(x: string)
+output relation Try(x: string)
+
+Try(z) :- Input(x),
+          var y = x.split(" "),
+          var z = y.nth(5)?.
+
+//---
+
+// modify immutable closure argument.
+
+relation IntClosures(f: |s64|: s64)
+IntClosures(|x| {x = 10; x} ).
+
+//---
+
+// Call group_by with the wrong number of arguments
+
+relation GroupMe(x: usize, y: usize)
+relation Grouped()
+
+Grouped() :-
+    GroupMe(x,y),
+    var g = x.group_by(x, y).
+
+//---
+
+// Call group_by twice.
+
+relation GroupMe(x: usize, y: usize)
+relation Grouped()
+
+Grouped() :-
+    GroupMe(x,y),
+    x.group_by(y).size() == ().group_by(x).size().
+
+//---
+
+// Call group_by in invalid contect.
+
+function f(x: usize, y: usize) {
+    x.group_by(y)
+}
+
+//---
+
+// Currently only allow grouping by one or more variables.
+
+relation GroupMe(x: usize, y: usize)
+relation Grouped()
+
+Grouped() :-
+    GroupMe(x,y),
+    var sz = ().group_by(x + y).size().
+
+//---
+
+// Currently only allow grouping by one or more variables.
+
+relation GroupMe(x: usize, y: usize)
+relation Grouped()
+
+Grouped() :-
+    GroupMe(x,y),
+    var sz = ().group_by((x,x + y)).size().
+
+//---
+
+// Type mismatch in FlatMap
+
+input relation Vecs(v: Vec<Option<usize>>)
+relation Flat(x: usize)
+
+Flat(x) :-
+    Vecs(v),
+    var x = FlatMap(v).
+
+//---
+
+// Variable shadowing in a rule.
+
+input relation Foo(x: usize, y: usize)
+output relation Bar(z: usize)
+
+Bar(x+y) :-
+    Foo(x, y),
+    var y = x.
+
+//---
+
+// Variable shadowing in a rule.
+
+input relation Foo(x: usize, y: Vec<usize>)
+output relation Bar(z: usize)
+
+Bar(x+y) :-
+    Foo(x, y),
+    var y = FlatMap(y).
+
+//---
+
+// Join two streams.
+
+input stream S1(x: usize, y: usize)
+input stream S2(y: usize, z: usize)
+
+output stream S3(x: usize, z: usize)
+
+S3(x, z) :- S1(x, y), S2(y, z).
+
+//---
+
+// Rule body yields a stream, but rule head is a regular relation.
+
+input stream S1(x: usize, y: usize)
+input relation S2(y: usize, z: usize)
+
+output relation S3(x: usize, z: usize)
+
+S3(x, z) :- S1(x, y), S2(y, z).
+
+
+//---
+
+// Rule body yields a relation, but rule head is a stream.
+
+input relation S1(x: usize, y: usize)
+input relation S2(y: usize, z: usize)
+
+output stream S3(x: usize, z: usize)
+
+S3(x, z) :- S1(x, y), S2(y, z).
+
+//---
+
+// Antijoin with stream prefix.
+
+input stream S1(x: usize, y: usize)
+input relation S2(y: usize, z: usize)
+output stream S3(x: usize, z: usize)
+
+S3(x, y) :- S1(x, y), not S2(y, _).
+
+//---
+
+// Negate a stream.
+
+input relation S1(x: usize, y: usize)
+input stream S2(y: usize, z: usize)
+output stream S3(x: usize, z: usize)
+
+S3(x, y) :- S1(x, y), not S2(y, _).
+
+//---
+
+// Recursive stream.
+
+input stream S1(x: usize)
+stream S2(x: usize)
+stream S3(x: usize)
+
+S2(x) :- S1(x).
+S3(x) :- S2(x).
+S2(x) :- S3(x).
+
+//---
+
+// Recursive differentiation.
+
+input relation S1(x: usize)
+relation S2(x: usize)
+relation S3(x: usize)
+
+S2(x) :- S1(x).
+S3(x) :- S2'(x).
+S2(x) :- S3(x).
+
+//---
+
+// Invalid 'original' attribute
+
+#[original="foo\0bar"]
+input relation Original(x: u32)

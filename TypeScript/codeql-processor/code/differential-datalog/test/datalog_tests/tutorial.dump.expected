@@ -1,0 +1,218 @@
+First5:
+First5{.str = "Hello"}: +1
+Phrases:
+Phrases{.phrase = "Hello, World!"}: +1
+PriceInCents:
+PriceInCents{.item = "Atlantis", .price1 = ddlog_std::None{}, .price2 = 0, .price3 = ddlog_std::None{}}: +1
+PriceInCents{.item = "Falcon 9", .price1 = ddlog_std::Some{.x = 6200000000}, .price2 = 6200000000, .price3 = ddlog_std::Some{.x = 6200000000}}: +1
+Phrases:
+Phrases{.phrase = "Goodbye, Ruby Tuesday"}
+Phrases{.phrase = "Goodbye, World"}
+Phrases{.phrase = "Goodbye, World!"}
+Phrases{.phrase = "Hello, Ruby Tuesday"}
+Phrases{.phrase = "Hello, World"}
+Phrases{.phrase = "Hello, World!"}
+Phrases{.phrase = "Help me, Obi-Wan Kenobi"}
+Phrases{.phrase = "Help me, father"}
+Phrases{.phrase = "I am your Obi-Wan Kenobi"}
+Phrases{.phrase = "I am your father"}
+HostInSubnet:
+HostInSubnet{.host = 0, .subnet = 0}
+HostInSubnet{.host = 1, .subnet = 0}
+HostInSubnet{.host = 2, .subnet = 1}
+TopScore
+TopScore{.school = "school1", .top_score = 1400}
+TopScore{.school = "school2", .top_score = 1600}
+ItemInOrders:
+ItemInOrders{.item = "eggs", .orders = [1, 2]}: +1
+ItemInOrders{.item = "jackfruit", .orders = [1]}: +1
+ItemInOrders{.item = "milk", .orders = [1, 2]}: +1
+ItemInOrders{.item = "sursild", .orders = [2]}: +1
+MilkOrders:
+MilkOrders{.order = 1}: +1
+MilkOrders{.order = 2}: +1
+OrderFormatted:
+OrderFormatted{.order = "order: 1, item: eggs"}: +1
+OrderFormatted{.order = "order: 1, item: jackfruit"}: +1
+OrderFormatted{.order = "order: 1, item: milk"}: +1
+OrderFormatted{.order = "order: 2, item: eggs"}: +1
+OrderFormatted{.order = "order: 2, item: milk"}: +1
+OrderFormatted{.order = "order: 2, item: sursild"}: +1
+InventoryItemName:
+InventoryItemName{.name = "goat milk"}: +1
+InventoryItemName{.name = "kumis"}: +1
+InventoryItemName{.name = "milk"}: +1
+Flows:
+Flow{.lr = 0, .stage = LS_IN_PRE_LB{}, .prio = 100, .matchStr = "ip4.dst == 10.10.10.101", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow{.lr = 0, .stage = LS_OUT_PRE_LB{}, .prio = 100, .matchStr = "ip4", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow{.lr = 1, .stage = LS_IN_PRE_LB{}, .prio = 100, .matchStr = "ip4.dst == 10.10.10.103", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow{.lr = 1, .stage = LS_OUT_PRE_LB{}, .prio = 100, .matchStr = "ip4", .actionStr = "{ reg0[0] = 1; next; }"}
+Flows generated using FTL:
+Flow1{.lr = 0, .stage = LS_IN_PRE_LB{}, .prio = 100, .matchStr = "ip4.dst == 10.10.10.101", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow1{.lr = 0, .stage = LS_OUT_PRE_LB{}, .prio = 100, .matchStr = "ip4", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow1{.lr = 1, .stage = LS_IN_PRE_LB{}, .prio = 100, .matchStr = "ip4.dst == 10.10.10.103", .actionStr = "{ reg0[0] = 1; next; }"}
+Flow1{.lr = 1, .stage = LS_OUT_PRE_LB{}, .prio = 100, .matchStr = "ip4", .actionStr = "{ reg0[0] = 1; next; }"}
+Pow2:
+Pow2{.p = "The square of 1 is 1"}
+Pow2{.p = "The square of 10 is 100"}
+Pow2{.p = "The square of 100 is 10000"}
+Pow2{.p = "The square of 1000 is 1000000"}
+Pow2{.p = "The square of 10000 is 100000000"}
+Pow2{.p = "The square of 100000 is 10000000000"}
+Pow2{.p = "The square of 1000000 is 1000000000000"}
+Pow2{.p = "The square of 10000000 is 100000000000000"}
+Pow2{.p = "The square of 100000000 is 10000000000000000"}
+NetHostString:
+NetHostString{.id = 1, .s = "Host: IP=170.187.204.221, MAC=11:22:33:44:55:66"}
+NetHostString{.id = 2, .s = "Host: IP=160.176.192.208, MAC=10:20:30:40:50:60"}
+Address:
+Address{.addr = IPAddr{.addr = 168430181}}
+Address{.addr = IPAddr{.addr = 2130706433}}
+Address{.addr = IPAddr{.addr = 3758096385}}
+MCastAddress:
+MCastAddress{.addr = IPAddr{.addr = 3758096385}}
+EndpointString
+EndpointString{.s = "170.187.204.221:20"}
+EndpointString{.s = "170.187.204.221:443"}
+EndpointString{.s = "170.187.204.221:80"}
+EndpointString{.s = "170.187.204.221:8080"}
+First5
+First5{.str = "Goodb"}
+First5{.str = "Hello"}
+First5{.str = "Help "}
+First5{.str = "I am "}
+SanitizedEndpoint:
+SanitizedEndpoint{.ep = "170.187.204.221:443"}
+SanitizedEndpoint{.ep = "170.187.204.221:8080"}
+HostIP:
+HostIP{.host = 1, .addr = "10.10.10.101"}
+HostIP{.host = 1, .addr = "10.10.10.102"}
+HostIP{.host = 2, .addr = "192.168.0.1"}
+HostIP{.host = 3, .addr = "192.168.0.3"}
+HostIP{.host = 3, .addr = "192.168.0.4"}
+HostIP{.host = 3, .addr = "192.168.0.5"}
+HostIP{.host = 3, .addr = "192.168.0.6"}
+HostIPVSep:
+HostIPVSep{.host = 1, .addrs = "10.10.10.101\n10.10.10.102\n"}
+HostIPVSep{.host = 2, .addrs = "192.168.0.1\n"}
+HostIPVSep{.host = 3, .addrs = "192.168.0.3\n192.168.0.4\n192.168.0.5\n192.168.0.6\n"}
+BookByAuthor
+BookByAuthor{.book = Book{.author = "Dav Pilkey", .title = "For Whom the Ball Rolls"}, .author = Author{.name = "Dav Pilkey", .born = 1966}}
+BookByAuthor{.book = Book{.author = "Ernest Hemingway", .title = "For Whom the Bell Tolls"}, .author = Author{.name = "Ernest Hemingway", .born = 1899}}
+Evens:
+Evens{.evens_and_odds = [0, 1, 2, 3, 4, 5], .evens = [0, 2, 4]}
+Evens{.evens_and_odds = [1, 3, 5, 7], .evens = []}
+Prefix:
+Prefix{.vec = []}
+Prefix{.vec = ["a"]}
+Prefix{.vec = ["a", "b"]}
+Sum:
+Sum{.x = 10, .y = 10, .sum = 20}
+Sum{.x = 10, .y = 20, .sum = 30}
+Sum{.x = 10, .y = 100, .sum = 110}
+Sum{.x = 10, .y = 150, .sum = 160}
+Sum{.x = 20, .y = 10, .sum = 30}
+Sum{.x = 20, .y = 20, .sum = 40}
+Sum{.x = 20, .y = 100, .sum = 120}
+Sum{.x = 20, .y = 150, .sum = 170}
+Sum{.x = 100, .y = 10, .sum = 110}
+Sum{.x = 100, .y = 20, .sum = 120}
+Sum{.x = 100, .y = 100, .sum = 200}
+Sum{.x = 100, .y = 150, .sum = 250}
+Sum{.x = 150, .y = 10, .sum = 160}
+Sum{.x = 150, .y = 20, .sum = 170}
+Sum{.x = 150, .y = 100, .sum = 250}
+Sum{.x = 150, .y = 150, .sum = 300}
+Product
+Product{.x = 10, .y = 10, .prod = 100}
+Product{.x = 10, .y = 20, .prod = 200}
+Product{.x = 10, .y = 100, .prod = 1000}
+Product{.x = 10, .y = 150, .prod = 1500}
+Product{.x = 20, .y = 10, .prod = 200}
+Product{.x = 20, .y = 20, .prod = 400}
+Product{.x = 20, .y = 100, .prod = 2000}
+Product{.x = 20, .y = 150, .prod = 3000}
+Product{.x = 100, .y = 10, .prod = 1000}
+Product{.x = 100, .y = 20, .prod = 2000}
+Product{.x = 100, .y = 100, .prod = 10000}
+Product{.x = 100, .y = 150, .prod = 15000}
+Product{.x = 150, .y = 10, .prod = 1500}
+Product{.x = 150, .y = 20, .prod = 3000}
+Product{.x = 150, .y = 100, .prod = 15000}
+Product{.x = 150, .y = 150, .prod = 22500}
+BestPrice:
+BestPrice{.item = "A", .price = 110}
+BestPrice{.item = "B", .price = 123}
+WorstPrice:
+WorstPrice{.item = "A", .price = 120}
+WorstPrice{.item = "B", .price = 150}
+BestVendor:
+BestVendor{.item = "A", .vendor = "Scrooge Ltd", .price = 110}
+BestVendor{.item = "B", .vendor = "Overpriced Inc", .price = 123}
+BestDeal:
+BestDeal{.best = "Best deal for A: Scrooge Ltd, $110"}
+BestDeal{.best = "Best deal for B: Overpriced Inc, $123"}
+OutArticle:
+Article{.author = "C. A. R. Hoare", .title = "Communicating Sequential Processes", .year = 1978, .pages = 30}
+Article{.author = "D. L. Parnas", .title = "On the Criteria To Be Used in Decomposing System into Modules", .year = 1972, .pages = 6}
+MSetOut:
+MSetOut{.x = 0}: +1
+MSetOut{.x = 1}: +2
+MSetOut:
+MSetOut{.x = 1}: +1
+MSetOut:
+MSetOut{.x = 1}: -1
+MSetOut{.x = 0}
+MSetOut{.x = 1} +2
+Populating the zip code table.
+Feeding data to the Parcel stream
+ParcelCity:
+ParcelCity{.zip = 94022, .city = "Los Altos", .weight = 2}: +1
+ParcelCity{.zip = 94085, .city = "Sunnyvale", .weight = 6}: +1
+ParcelWeight:
+ParcelWeight{.zip = 94022, .total_weight = 2}: +1
+ParcelWeight{.zip = 94085, .total_weight = 6}: +1
+ParcelWeightAggregated:
+ParcelWeightAggregated{.zip = 94022, .weight = 2}: +1
+ParcelWeightAggregated{.zip = 94085, .weight = 6}: +1
+Send more parcels!
+ParcelCity:
+ParcelCity{.zip = 94022, .city = "Los Altos", .weight = 1}: +1
+ParcelCity{.zip = 94022, .city = "Los Altos", .weight = 8}: +1
+ParcelCity{.zip = 94085, .city = "Sunnyvale", .weight = 10}: +1
+ParcelWeight:
+ParcelWeight{.zip = 94022, .total_weight = 9}: +1
+ParcelWeight{.zip = 94085, .total_weight = 10}: +1
+ParcelWeightAggregated:
+ParcelWeightAggregated{.zip = 94022, .weight = 2}: -1
+ParcelWeightAggregated{.zip = 94022, .weight = 11}: +1
+ParcelWeightAggregated{.zip = 94085, .weight = 6}: -1
+ParcelWeightAggregated{.zip = 94085, .weight = 16}: +1
+Modifying both inputs in the same transaction.
+ParcelCity:
+ParcelCity{.zip = 94035, .city = "Moffett Field", .weight = 1}: +1
+ParcelCity{.zip = 94301, .city = "Palo Alto", .weight = 4}: +1
+ParcelWeight:
+ParcelWeight{.zip = 94035, .total_weight = 1}: +1
+ParcelWeight{.zip = 94301, .total_weight = 4}: +1
+ParcelWeightAggregated:
+ParcelWeightAggregated{.zip = 94035, .weight = 1}: +1
+ParcelWeightAggregated{.zip = 94301, .weight = 4}: +1
+TCPDstPort:
+TCPDstPort{.port = 80}
+TCPDstPort{.port = 8080}
+UDPDstPort:
+UDPDstPort{.port = 22}
+UDPDstPort2:
+UDPDstPort2{.port = 22}
+IntranetHost:
+IntranetHost{.addr = 3232235521}
+IntranetHost{.addr = 3232235778}
+IntranetHost2:
+IntranetHost2{.addr = 3232235521}
+IntranetHost2{.addr = 3232235778}
+IntranetHost3:
+IntranetHost3{.addr = 3232235521}
+IntranetHost3{.addr = 3232235778}
+TargetAudience:
+Person{.name = "Alice", .nationality = "USA", .occupation = "student"}

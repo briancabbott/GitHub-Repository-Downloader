@@ -1,0 +1,1522 @@
+import allocate
+import fp
+import print
+import group
+
+/* Test types */
+
+// This is a one-line comment
+
+/* This is a
+   multi-line comment */
+
+typedef t00 = bigint
+typedef t01 = bool
+typedef t02 = string
+typedef t03 = bit<32>
+typedef t04 = ( bigint )
+typedef t05 = ( bigint, bigint )
+typedef t06 = ( bigint, bigint, ( bigint ) )
+typedef t07 = ()
+typedef t08 = ( (), (), () )
+typedef t09 = ( (bigint), (), (bigint) )
+typedef t10 = ( bigint, bool, string, bit<32> )
+typedef t11 = ( bigint, (bool, (string, (bit<32>))))
+typedef t12 = t11
+typedef t13 = ( t00, t01, t02, t03 )
+typedef t14 = ( t04, t04 )
+typedef t15 = Const15 { f: bigint }
+typedef T16 = t15
+typedef T17 = bigint
+typedef t18 = Const18 { f0: bigint, f1: string, f2: t00 }
+typedef t19 = C000 { f0: bigint }
+            | C111 { f0: bigint }
+            | C222 { f0: bigint }
+typedef t20 = signed<32>
+typedef t21 = double
+typedef t22 = float
+typedef t23 = function(string, string): string
+typedef t24 = |string, string|: string
+
+function fold_test(vec: Vec<string>, folder: t23): string = {
+   var vcopy = vec;
+   vcopy.push("");
+   var result = vcopy.pop().unwrap_or("");
+   for (v in vcopy) {
+       result = folder(result, v)
+   };
+   result
+}
+
+output relation FoldTest(res: string)
+FoldTest(fold_test(["foo", "bar"], |a, v| a ++ "_" ++ v)).
+
+typedef person = string
+
+input relation Human(h: person)
+input relation Parent(child: person, parent: person)
+
+output relation Sib(s1: person, s2: person)
+
+
+Sib(x, y) :- Parent(x, z), Parent(y, z), x != y.
+
+Parent("Alice", "Bob").
+
+Parent("Ben", "Bob").
+
+Parent("Bob", "Bob").
+
+/*
+Sib("Alice", "Bob").
+Sib("Bob", "Alice").
+Sib("Ben", "Alice").
+Sib("Alice", "Ben").
+Sib("Ben", "Bob").
+*/
+
+// Tests for datalog functions and expressions
+
+extern function f(): bigint
+extern function g(a: bigint): bigint
+extern function h(a: (bigint, bigint)): (bigint, bigint)
+
+function a0(): bigint {
+    1
+}
+
+function a1(): bigint {
+    1 + 2
+}
+
+function a2(): bit<32> {
+    32'd0 + 32'd1
+}
+
+function a3(): bit<32> {
+    0: bit<32>
+}
+
+function a4(): bit<32> {
+    (0: bit<64>)[40:9]
+}
+
+function a5(a: bit<32>, b: bit<32>): bit<32> {
+    (a ^ b) | (a & b) | (a | b) | (~a) | (a << 32'd5) | (a >> 32'd5) | (a[15:0] ++ a[31:16])
+}
+
+function a51(a: signed<32>, b: signed<32>): signed<32> {
+    (a ^ b) | (a & b) | (a | b) | (~a) | (a << 32'd5) | (a >> 32'd5)
+}
+
+function a6(a: bit<16>, b: bit<16>): bit<16> {
+    (a + b) + (a - b) + (a / b) + (a * b) + (a % b)
+}
+
+function a7(a: bit<16>, b: bit<16>): bool {
+    (a < b) or (a > b) or (a <= b) or (a >= b) or (a == b) or (a != b) or { a < b }
+}
+
+function a8(): bit<32> {
+    32'd125 | 32'hFF | 32'o777 | 32'b1010101011
+}
+
+function a9(): bit<32> {
+    32'd1_2_5 | 32'hF_F___ | 32'o7_7_7 | 32'b10_1010_1011
+}
+
+function a10(): signed<32> {
+    32'sd0 + 32'sd1
+}
+
+function a11(): signed<32> {
+    0: signed<32>
+}
+
+function a12(a: signed<16>, b: signed<16>): signed<16> {
+    (a + b) + (a - b) + (a / b) + (a * b) + (a % b)
+}
+
+function a13(a: signed<16>, b: signed<16>): bool {
+    (a < b) or (a > b) or (a <= b) or (a >= b) or (a == b) or (a != b) or { a < b }
+}
+
+function a14(a: bigint): s128 {
+    a as s128
+}
+
+function b0(): bool {
+    true and false
+}
+
+function b1(a: bool): bool {
+    (a and true) or (a or false) or (a => false) or (not a)
+}
+
+function v2(): bool {
+    b1(true)
+}
+
+function c0(a: bit<32>, b: bit<16>): bit<16> {
+    a; b
+}
+
+function s0(): string {
+    "Some string"
+}
+
+function s1(): string {
+    //"\t\r\n\"\\\a"
+    "\t\n\"\\\a"
+}
+
+function v(): string {
+    var v1: string = "hello";
+    var v2 = "there";
+    v2
+}
+
+function p(): string {
+    var notable = "hi";
+    notable
+}
+
+typedef Alt = C0{x: bit<32>}
+            | C1{x: bit<32>}
+
+function x(): Alt {
+    C0{32'd5}
+}
+
+typedef C = C{f1: string, f2: string}
+
+function vars(): () {
+    var x: bigint = 0;
+    x = 10;
+    var y = C{.f1 = "foo", .f2 = "bar"};
+    var z: C = C{.f1 = "bar", .f2 = "foo"};
+
+    (var a, var b) = (x+5, x-5);
+
+    C{.f1 = var e} = y;
+
+    C{var c, var d} = y;
+}
+
+function dbl(): double { 0: double }
+function flt(): float { 0: float }
+
+output relation Compare(label: string, value: bool)
+
+Compare("true >= false", true >= false).
+Compare([|"" >= "a"|], "" >= "a").
+Compare("5 <= 3", (5: u64) <= 3).
+Compare("(1, 2) >= (3, 4)", (1: u32, 2: u32) >= (3, 4)).
+Compare("(1, 2) < (3, 4)", (1, 2): (float, double) < (3, 4)).
+Compare("(1, 2) < (1, 4)", (1, 2): (u32, s32) < (1, 4)).
+Compare([|C{"a", "b"} > C{"b", "e"}|], C{"a", "b"} > C{"b", "e"}).
+Compare([|C{"a", "b"} < C{"a", "e"}|], C{"a", "b"} < C{"a", "e"}).
+Compare("C0{32'd3} > C1{32'd4}", C0{32'd3} > C1{32'd4}).
+Compare("C0{32'd3} < C0{32'd4}", C0{32'd3} < C0{32'd4}).
+Compare("C0{32'd3} < C1{32'd4}", C0{32'd3} < C1{32'd4}).
+Compare("None < Some{1}", None < Some{32'sd1}).
+Compare("Some{0} < Some{1}", Some{0: u32} < Some{32'd1}).
+
+function patterns() {
+    var a: Alt = C0{1};
+
+    var b = match (a) {
+        C0{} -> true,
+        C1{} -> false
+    };
+
+    var i: bit<32> = match (a) {
+        C0{.x = var v: bit<32>} -> v,
+        C1{v} -> v
+    };
+}
+
+function shadow(): string {
+    var b: Option<string> = None;
+    var a = Some{"foo"};
+    match (a) {
+        Some{v: string} -> v,
+        None    -> ""
+    }
+}
+
+typedef nested_t = N{field: C}
+
+function fnested(x: nested_t): string {
+    N{C{var res, _}} = x;
+    res
+}
+
+extern function parameterized(x: 'A, y: 'A): 'A
+
+function parameterized2(x: 'A, y: 'A): bool { x == y }
+
+typedef string_syn = string
+
+function use_parameterized(x: string, y: string_syn): string {
+    parameterized(x, y)
+}
+
+output relation VecTest(x: Vec<string>)
+
+VecTest(vec_empty()).
+VecTest({
+    var v: Vec<string> = vec_empty();
+    vec_push(v, "Hello,");
+    v
+}).
+VecTest(vec_push_imm(vec_push_imm(vec_empty(): Vec<string>, "Hello, "), "world!")).
+
+// metro: graph reachability
+
+typedef line = bigint
+typedef station = string
+
+input relation Links(l: line, s1: station, s2: station)
+
+output relation Reach(s1: station, s2: station)
+
+
+Reach(x, y) :- Links(l, x, y).
+Reach(x, y) :- Links(l, y, x).
+Reach(x, y):- Links(l, x, z), Reach(z, y).
+
+output relation Answer(x: station)
+
+Answer(x) :- Reach("Odeon", x).
+
+/* Tests for match pattern analysis logic.  Checks that:
+   patterns are exhaustive (cover all possible values of the given
+   type) and non-redundant. */
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T2 = C21{f1: T1, f2: bigint}
+           | C22{f3: (bool, T1)}
+
+typedef T3 = C31{f1: T1, f2: bigint, s: string, b: bit<32>}
+           | C32{f3: ((bool, (bool, bool, bool)), T1)}
+
+function f1(x: T1, y: T2, q: T3) : bool {
+    match (x) {
+        C11 -> true,
+        _   -> false
+    };
+
+    match (x) {
+        C11 -> true,
+        C12 -> false
+    };
+
+    match (y) {
+        C21{_: T1,_}: T2-> true,
+        C22{(_, C11{})} -> true,
+        _               -> false
+    };
+
+    match (y) {
+        C21{_,_}        -> true,
+        C22{(true, C11{})} -> true,
+        C22{(true, C12{})} -> true,
+        C22{(false, C11{})} -> true,
+        C22{(false, C12{})} -> true
+    };
+
+
+    var z: (bool, (bool, (bool,bool))) = (true, (false, (true, false)));
+
+    match (z) {
+        (true, _)                   -> true,
+        (false, (_,(true, true)))   -> true,
+        (false, (_,(true, false)))  -> true,
+        (false, (_,(false, true)))  -> true,
+        (false, (_,(false, false))) -> true
+    };
+
+    match (z) {
+        (_, (_,(true, true)))       -> true,
+        (_, (_,(true, false)))      -> true,
+        (_, (_,(false, true)))      -> true,
+        (false, (_,(false, false))) -> true,
+        (true, (_,(false, false)))  -> true
+    };
+
+    match (q) {
+        C31{}                                                      -> true,
+        C32{.f3=((true, (_, _, false)), _)}                        -> true,
+        C32{.f3=((false, (_, _, false)), _)}                       -> true,
+        C32{.f3=((false, (_, _, true)), _)}                        -> true,
+        C32{.f3=((_, (_, _, true)), C11{})}                        -> true,
+        C32{.f3=((_, (_, _, true)), C12{.f4=(true, true, true)})}  -> false,
+        C32{.f3=((_, (_, _, true)), C12{.f4=(_, _, false)})}       -> false,
+        C32{.f3=((_, (_, _, true)), C12{.f4=(_, _, true)})}        -> false
+    };
+
+    match (q) {
+        C31{_, 0, "foo", 15}                                       -> true,
+        C31{_, _, _, 15}                                           -> true,
+        C31{_, 0, _, _}                                            -> true,
+        C31{_, _, "foo", _}                                        -> true,
+        C32{}                                                      -> true,
+        C31{_, _, _, _}                                            -> true
+    };
+
+    var s: string = "bar";
+    match (s) {
+        "foo" -> true,
+        "bar" -> true,
+        _     -> false
+    }
+}
+
+
+/* Statements test */
+input relation X(field: bigint)
+output relation Z(field: bigint)
+
+output relation W(f1: bigint, f2: bigint, f3: bigint)
+
+for (a in X)
+   skip
+
+for (a in X)
+   Z(a.field)
+// equivalent to
+Z(a.field) :- X[a].
+
+for (a in X)
+   match (a.field) {
+      1 -> Z(a.field),
+      2 -> Z(a.field+1),
+      _ -> Z(a.field-1)
+   }
+
+for (X[X{a}])
+   match (a) {
+      1 -> Z(a),
+      2 -> Z(a+1),
+      _ -> Z(a-1)
+   }
+// both are equivalent to
+Z(a) :- X(a), match(a) { 1 -> true, _ -> false }.
+Z(a+1) :- X(a), match(a) { 1-> false, 2 -> true, _ -> false }.
+Z(a-1) :- X(a), match(a) { 1 -> false, 2 -> false, _ -> true }.
+
+for (a in X if true)
+   skip
+// equivalent to
+for (a in X)
+   if (true)
+       skip
+
+for (a in X) {
+   skip;
+   skip
+}
+
+for (a in X if (a.field % 2) == 0)
+    Z(a.field)
+// equivalent to
+for (a in X)
+    if (a.field % 2 == 0)
+         Z(a.field)
+// equivalent to
+Z(a) :- X(a), ((a % 2) == 0).
+
+for (a in X) {
+    if (a.field == 2)
+        skip
+}
+
+for (a in X) {
+    if (a.field == 2)
+        skip
+    else
+        skip
+}
+
+for (a in X) {
+    if (a.field == 2)
+        Z(a.field+1)
+    else
+        Z(a.field)
+}
+// equivalent to
+Z(a+1) :- X(a), a == 2.
+Z(a) :- X(a), a != 1.
+
+for (a in X)
+    if (a.field >= 2)
+        if (a.field > 2) {
+            Z(a.field);
+            Z(a.field+2)
+        }
+// equivalent to
+Z(a) :- X(a), a>=2, a > 2.
+Z(a+2) :- X(a), a>=2, a > 2.
+
+for (a in X) {
+    for (b in X)
+        Z(a.field+b.field);
+    for (c in X)
+        Z(a.field+c.field)
+}
+// equivalent to
+Z(a+b) :- X(a), X(b).
+Z(a+c) :- X(a), X(c).
+// Equivalent to
+Z(a+b), Z(a+c) :- X(a), X(b), X(c).
+
+for (a in X)
+   var b = a.field+2 in
+       skip
+
+for (a in X)
+   var b: bigint = a.field+2 in
+       Z(a.field+b)
+// equivalent to
+Z(a+b) :- X(a), var b = a+2.
+
+for (a in X)
+   var b = a.field+2 in
+   var c = b+a.field in
+       W(a.field, b, c)
+// equivalent to
+W(a, b, c) :- X(a), var b = a+2, var c = b+a.
+
+/* simple rules */
+
+typedef R1 = bigint
+
+input relation R1[R1]
+input relation R2[(bigint, bigint)]
+
+R1[1].
+R2[(1,2)].
+
+input relation R3(f1: bigint, f2: bool)
+output relation R4[R3]
+output relation R5[bigint]
+output relation R6(f: bigint)
+
+R4[x] :- R3[x].
+R5[x.f1] :- R3[x].
+R6(x.f1) :- R3[x].
+
+input relation XX(b: bigint, c: R3, d: R1)
+output relation ZZ(x: bigint, y: R3)
+ZZ(a.b, a.c) :- XX[a].
+
+input relation Y(b: bigint, e: string)
+output relation T(x: bigint, y: string)
+
+T(a.b, e) :- XX[a], Y(a.d, e).
+
+typedef R7 = R7{f1: bigint, f2: bit<16>}
+           | R7Other
+
+output relation R7[R7]
+input relation R8[bit<32>]
+
+R7(1,2).
+R7[R7{1,3}].
+R7[R7Other].
+
+typedef S = S {
+    f1: (bool, bool),
+    f2: bit<32>
+}
+input relation Table1(id: bit<64>, name: string)
+input relation Table2(name: string, f2: bigint, f3: S)
+
+output relation Table12(id: bit<128>, name: string, f3: S)
+
+Table12(hash128((id,name,f2,f3)), name, f3) :- Table1(id, name), Table2(name, f2, f3).
+
+
+/* non-linear rules are now allowed*/
+
+input relation R1_nl(a1: string)
+
+relation R2_nl(a2: string)
+relation R3_nl(a3: string, b3: string)
+relation R4_nl(a4: string, b4: string)
+
+R2_nl(x) :- R1_nl(x).
+R2_nl(x) :- R3_nl(x, y), R4_nl(y, z).
+R3_nl(x,y), R4_nl(x,y) :- R2_nl(x), R2_nl(y).
+
+
+/* strings test */
+output relation Strings(s: string)
+
+Strings("").
+Strings("foo").
+Strings("bar\n").
+Strings("\t\tbar").
+Strings("\"buzz").
+Strings("\n\abuzz").
+Strings("\\buzz").
+Strings("\\buzz").
+
+/* unicode */
+Strings("barΔ").
+
+/* raw strings */
+Strings([||]).
+Strings([|foo|]).
+Strings([|foo
+buzz
+bar|]).
+
+Strings([|
+    foo
+    buzz
+    bar|]).
+
+Strings([|barΔ
+Π|]).
+
+Strings([|barΔ
+Π|] ++ " quoted string").
+
+// backslash does not work as an escape character in raw strings
+Strings([|
+    foo\r\n
+    buzz
+    bar|]).
+
+/* string literal concatenation */
+Strings("foo" "-" "bar").
+
+Strings("foo\n" "bar").
+Strings("foo\\""bar").
+
+Strings("foo\\" ++ [|bar|]).
+Strings("${\"a\" ++ \"b\"}"). // String literals in interpolated string
+Strings($[| ${"c" ++ "d"} |]). // idem
+Strings($[| ${"${1+2}" ++ "${1+2}"} |]). // nested interpolation
+Strings($[| ${"${2+2}"} + ${"${2+2}"} |]).
+Strings($[| ${"${2+2}"} + ${"${2+2}"} |]).
+Strings("${ [|a_|] ++ [|_b|] }").
+Strings("${ $[|a__|] ++ $[|__b|] }").
+Strings("${ $[| ${6+7} |] ++ $[| ${9+10} |] }").
+Strings("${ $[| \"${3+7}\" |] }").
+Strings("${\"${\\\"${8+8}\\\"}\"}").
+Strings("${\"${\\\"${\\\\\\\"${9+9}\\\\\\\"}\\\"}\"}").
+Strings([|a[|b|]).
+Strings("${ parse($[| parse(\"${3+7}\") |]) + 2 }").  // This expands into ("" ++ ((parse(((" parse(\"" ++ (3 + 7)) ++ "\") "))) + 2))
+
+function parse(x: string): bit<64> { parse_dec_u64(x.trim()).unwrap_or(0) }
+
+function dummy(x: string): string { x ++ " dummy" }
+
+function strings(): string {
+    var str1 = "foo" ++ "bar";
+    var str2 = "foo" "bar" ++ "buzz" ++ [|
+raw string |] ++ "quoted string";
+    var str3 = "str1: ${ str1 }";
+    var str4 = "str1: ${str1}, str2: ${str2}, str3: ${str3}.";
+    var str5 = [|str1: ${str1},
+str2: ${str2},
+str3: ${str3}.|];
+    var str6 = "${str1 ++ str2}";
+    var str7 = "${{var x = str1 ++ str2; x}}";
+    var str8 = "${{var x = str1 ++ str2; dummy(x)}}";
+    var str9 = $[|str1: ${str1},
+str2: ${str2},
+str3: ${str3}.|];
+    var b = str1 < str2;
+    var b1 = "" < str1;
+    var b2 = [|${}|] < "";
+    var b3 = str1 != str2 and str1 >= str2;
+    "${str1}*${str2}*${str3}*${str4}*${str5}*${str6}*${str7}*${str8}*${str9}*${b}*${b1}*${b2}*${b3}"
+}
+
+Strings(strings()).
+
+Strings("word1\
+        \ word2").
+
+Strings("line1\n\
+        \line2").
+
+function tostring1(): () {
+    var a: bigint  = 5;
+    var b: bit<32> = 5;
+    var c: bool    = true;
+    var d: string  = "foo";
+    var err = "a=${a}, b=${b}, c=${c}, d=${d}";
+}
+
+typedef serializable_t = ConsInt {x: bigint}
+                       | ConsBit {y: bit<32>}
+                       | ConsBool{z: bool}
+                       | Cons0{}
+
+function to_string(x: serializable_t): string {
+    match (x) {
+        ConsInt{v}      -> "ConsInt(" ++ v ++ ")",
+        ConsBit{v}      -> "ConsBool(${v})",
+        ConsBool{true}  -> "ConsBool(true)",
+        ConsBool{false} -> "ConsBool(false)",
+        Cons0{}         -> "Cons0"
+    }
+}
+
+function tostring2() {
+    var a: bigint     = 5;
+    var b: bit<32> = 5;
+    var c: bool    = true;
+    var d: string  = "foo";
+    var e: serializable_t = ConsInt{0};
+    var err = "a=${a}, b=${b}, c=${c}, d=${d}, e:${e}";
+}
+
+/* More random examples */
+typedef IP4Addr = bit<32>
+typedef IP6Addr = bit<128>
+
+typedef IP4Subnet = IP4Subnet {
+    addr: IP4Addr,
+    mask: bit<32>
+}
+
+typedef IPAddr = IP4{ip4: IP4Addr}
+               | IP6{ip6: IP6Addr}
+
+typedef FooStruct = Option1 {f1: bigint, f2: IPAddr, f3: (bool, string)}
+                  | Option2 {f4: bit<32>, f5: IPAddr}
+
+function foo(): bool {
+    var v1: bigint             = 0;
+    var v2: bit<32>         = 1;
+    var v3: bit<129>        = 129'd0;
+    var v4: bool            = true;
+    var v5: (bigint, string)   = (0, "test_string");
+    var v6 = IP4{32'haabbccdd};
+    var v7 = Option1{.f1 = 0, .f2 = IP4{32'd0}, .f3 = (true, "bar")};
+
+    v3 = v3 + 129'habcde;
+
+    match (v6) {
+        IP4{_} -> true,
+        _      -> false
+    };
+
+    match (v7) {
+        Option1{.f2 = IP6{_}, .f3 = (_, "bar")} -> true,
+        _                                       -> false
+    }
+}
+
+input relation Rel1(x: bigint, y: IPAddr)
+input relation Rel2(x: bigint, z: FooStruct)
+
+output relation Rel3(x:bigint, y: IPAddr, z: FooStruct)
+
+Rel3(x, y, z) :- Rel1(x, y), Rel2(x,z).
+
+
+output relation Rel4(x:bigint, y: IPAddr, b: bool)
+
+Rel4(x,y,b) :- Rel1(x,y),
+               Rel2(x, Option1{.f2=IP4{}, .f3=(b, "buzz")}).
+
+/* Aggregation */
+
+input relation AggregateMe1(x: string, y: string)
+
+output relation Counts1(x: string, occurrences: u64)
+
+Counts1(x, count) :-
+    AggregateMe1(x, y),
+    var count = y.group_by(x).count_xs().
+
+// Count the number of occurrences of `x` in `ys`
+function count_xs(ys: Group<string, string>): u64 {
+    var res: u64 = 0;
+    for ((y, _) in ys) {
+        if (y == group_key(ys)) {
+            res = res + 1;
+        }
+    };
+    res
+}
+output relation Symmetric1(x: string, sym: bool)
+
+Symmetric1(x, sym) :-
+    AggregateMe1(x, y),
+    var sym = y.group_by(x).find_x_in_group().
+
+// Check if `x` occurs in `ys`
+function find_x_in_group(ys: Group<'A, 'A>): bool {
+    for ((y, _) in ys) {
+        if (y == group_key(ys)) {
+            return true;
+        }
+    };
+    false
+}
+
+output relation Aggregate1(x: string, cnt: bit<64>)
+Aggregate1(x, cnt) :- AggregateMe1(x,y), var cnt = y.group_by(x).count_distinct().
+
+output relation AggregateCnt(cnt: bit<64>)
+AggregateCnt(cnt) :- AggregateMe1(x,y), var cnt = ().group_by(()).count_distinct().
+
+output relation AggregateCnt2(cnt: bit<64>)
+AggregateCnt2(cnt) :- AggregateMe1(x,y), var cnt = (x, y).group_by(()).sum_of(|xy| 1).
+
+output relation AggregateCnt3(cnt: bit<64>)
+AggregateCnt3(cnt) :- AggregateMe1(x,y), y != "1", var cnt = (x,y).group_by(()).count_distinct().
+
+output relation Aggregate2(x: string, set: Set<string>)
+Aggregate2(x, set) :- AggregateMe1(x,y), var set = y.group_by(x).to_set().
+
+output relation Aggregate3(x: string, vec: Vec<string>)
+Aggregate3(x, vec) :- AggregateMe1(x,y), var vec = y.group_by(x).to_vec().
+
+output relation Aggregate4(x: string, map: Map<string,string>)
+Aggregate4(x, map) :- AggregateMe1(x,y), var map = (x,y).group_by(x).to_map().
+
+output relation Disaggregate(x: string, y: string)
+Disaggregate(x,y) :- AggregateMe1(x,y), var set = y.group_by(x).to_set(), var y = FlatMap(set).
+
+input relation AggregateMeInts(x: string, y: bit<32>)
+
+output relation Sum(x: string, sum: bit<32>)
+Sum(x, sum) :- AggregateMeInts(x, y), var sum = y.group_by(x).sum_of(|y| y).
+
+input relation AggregateMe3(x: string, y: string, z: string)
+
+output relation AggregateByX(x: string, cnt: bit<64>)
+
+// Old syntax for group_by.
+AggregateByX(x, cnt) :- AggregateMe3(x,y,z), AggregateMe1(x,y),
+                        var cnt = Aggregate((x), group_count_distinct((y,z))).
+
+output relation Concat(s: string)
+// Old syntax for group_by.
+Concat(s) :-
+    AggregateMe3(x,y,z),
+    var s = Aggregate((x,z), concat_ys(y)).
+
+// Convert group into a string prefixed by group-by variable names
+function concat_ys(ys: Group<(string, string),string>): string {
+    (var x, var z) = group_key(ys);
+    var res = x ++ "-" ++ z ++ ":";
+    for ((y, _) in ys) {
+        res = res ++ y;
+    };
+    res
+}
+
+/* Primary key */
+input relation WithKey(key: bit<128>, val: string)
+primary key (x) x.key
+
+output relation WithKeyDbg(key: bit<128>, val: string)
+WithKeyDbg(k,v) :- WithKey(k, v).
+
+/* More advanced antijoins */
+
+input relation Gangster(nickname: string, name: string)
+input relation Suspect(name: string)
+output relation Innocent(name: string)
+
+Innocent(name) :- Suspect(name), not Gangster(_, name).
+
+typedef ip_addr_t = IPAddr{b3: bit<8>, b2: bit<8>, b1: bit<8>, b0: bit<8>}
+
+input relation Blocklist(addr: ip_addr_t)
+input relation Address(addr: ip_addr_t)
+
+output relation ValidDestination(addr: ip_addr_t)
+ValidDestination(addr) :-
+    Address(addr),
+    IPAddr{var b3, var b2, _, _} = addr,
+    not Blocklist(IPAddr{b3, b2, _, _}).
+
+// FlatMap test
+input relation HostAddresses(host: bit<64>, addrs: Set<string>)
+output relation HostAddress(host: bit<64>, addr: string)
+
+HostAddress(host, addr) :- HostAddresses(host, addrs),
+                           var addr = FlatMap(addrs).
+
+
+input relation ExternalIds(host: bit<64>, ids: Map<string, string>)
+output relation ExternalId(host: bit<64>, id: (string, string))
+
+ExternalId(host, id) :- ExternalIds(host, ids),
+                        var id = FlatMap(ids).
+
+/* Allocator test */
+
+// allocate a unique x per name
+input relation Realized(name: string, id: string, x: bit<32>)
+input relation Request(name: string, id: string)
+
+output relation Allocation(name: string, id: string, x: bit<32>)
+
+Allocation(name, id, x) :-
+    Request(name, id), Realized(name, id, x).
+
+relation ToAllocate(name: string, ids: Vec<string>)
+ToAllocate(name, ids) :-
+    Request(name, id), not Realized(name, id, _), var ids = id.group_by(name).to_vec().
+
+relation Allocated(name: string, xs: Set<bit<32>>)
+Allocated(name, xs) :-
+    Realized(name, _, x), var xs = x.group_by(name).to_set().
+
+Allocation(name, id, x) :-
+    ToAllocate(name, ids),
+    Allocated(name, xs),
+    var allocation = FlatMap(allocate(xs, ids, 32'd1, (32'd1 << 32'd24) - 32'd1)),
+    (var id, var x) = allocation.
+
+/* Ref test */
+
+input relation Referenced(x: bool, y: Option<string>)
+
+output relation Referee(r: Ref<Referenced>)
+
+Referee(ref_new(r)) :-
+    r in Referenced(_, Some{_}).
+
+output relation Filtered(r: Ref<Referenced>)
+
+Filtered(r.r) :- r in Referee(.r = &Referenced{.x = true}).
+
+output relation &Referee2(r: Referenced)
+
+&Referee2(r) :- Referenced[r].
+
+output relation Filtered2(r: Ref<Referee2>)
+
+Filtered2(r) :- r in &Referee2(.r = Referenced{.x = true}).
+
+output relation Filtered3(r: Ref<Referenced>)
+Filtered3(r.r) :- r in Referee(), r.r.x==true.
+
+
+/* More allocator tests */
+input relation Alloc(id: bigint,
+                     allocated: Map<string, bit<32>>,
+                     toallocate: Vec<string>,
+                     min_val: bit<32>,
+                     max_val: bit<32>)
+
+output relation NewAllocation(id: bigint, alloc: Vec<(string, bit<32>)>)
+
+NewAllocation(id, alloc) :-
+    Alloc(id, allocated, toallocate, min_val, max_val),
+    var allocated_nums = {
+        var allocated_nums: Set<bit<32>> = set_empty();
+        for (a in allocated) {
+            (_, var num) = a;
+            set_insert(allocated_nums, num)
+        };
+        allocated_nums
+    },
+    var alloc = allocate(allocated_nums, toallocate, min_val, max_val).
+
+output relation NewAllocationOpt(id: bigint, alloc: Vec<(string, Option<bit<32>>)>)
+
+NewAllocationOpt(id, alloc) :-
+    Alloc(id, allocated, toallocate, min_val, max_val),
+    var allocated_nums = {
+        var allocated_nums: Set<bit<32>> = set_empty();
+        for (a in allocated) {
+            (_, var num) = a;
+            set_insert(allocated_nums, num)
+        };
+        allocated_nums
+    },
+    var alloc = allocate_opt(allocated_nums, toallocate, min_val, max_val).
+
+output relation Adjusted(id: bigint, alloc: Vec<(string, bit<32>)>)
+
+Adjusted(id, alloc) :-
+    Alloc(id, allocated, toallocate, min_val, max_val),
+    var alloc = adjust_allocation(allocated, toallocate, min_val, max_val).
+
+/* Swap variable order between literals in a rule. */
+
+input relation XY(x: bigint, y: bigint)
+input relation YZX(y: bigint, z: bigint, x: bigint)
+
+output relation YX(y: bigint, x: bigint)
+
+YX(y,x)  :- XY(x,y), YZX(y,z,x).
+
+/* Strongly connected components */
+
+import graph
+
+input relation Edge(from: bigint, to: bigint)
+
+function edge_from(e: Edge): bigint { e.from }
+function edge_to(e: Edge): bigint { e.to }
+
+output relation SCCLabel[(bigint, bigint)]
+
+apply SCC(Edge, edge_from, edge_to) -> (SCCLabel)
+
+/* String interning */
+
+import intern
+
+input relation IString1(s: IString)
+
+input relation String2(s: string)
+
+relation IConcatString(s: IString)
+
+IConcatString(string_intern(istring_str(s1) ++ s2)) :-
+    IString1(s1), String2(s2).
+
+// We want test output to be deterministic;
+// hence convert IString's back to string
+output relation ConcatString(s: string)
+
+ConcatString(istring_str(s)) :- IConcatString(s).
+
+//output relation StringOrd(s: string, ord: bit<32>)
+
+//StringOrd(istring_str(s), istring_ord(s)) :- IString1(s).
+//StringOrd(istring_str(s), istring_ord(s)) :- IConcatString(s).
+
+import souffle_lib
+typedef Tnumber = bit<32>
+typedef Tsymbol = IString
+typedef TB = IString
+relation Ris_true(_s:TB)
+Ris_true(string_intern("true")).
+typedef Ttxt = IString
+relation Re(_x:Tnumber, _t:Ttxt, _y:Tnumber)
+Re(10 % 3, string_intern("10%3"), 1) :- Ris_true(_).
+
+// Constant interned string in the head of a rule.
+typedef Symbol = IString
+
+input relation BMethod(b1:Symbol, b2:Symbol)
+input relation AMethod(a1:Symbol, a2:Symbol)
+output relation CMethod(c1:Symbol, c2:Symbol)
+output relation DMethod(c1:Symbol, c2:Symbol)
+
+CMethod(a, b) :- BMethod(string_intern("c"), b), AMethod(b, a).
+DMethod(a, b) :- AMethod(b, a), BMethod(string_intern("c"), b).
+
+/* Arithmetics */
+
+input relation Numbers(x: bigint)
+output relation Power3(y: bigint)
+
+Power3(pow32(x, 3)) :- Numbers(x).
+
+/* Regular expressions */
+import regex as re
+
+input relation Regex(regex: string, text: string)
+output relation RegexMatch(regex: string, text: string, m: bool)
+
+RegexMatch(regex, text, re::regex_match(re::regex(regex), text)) :- Regex(regex, text).
+
+output relation Arithm(n:bit<32>)
+Arithm(0).
+Arithm(1 + 0).
+Arithm(0 + 2).
+Arithm(32'd2 + 1).
+Arithm(2+2).
+Arithm(32'd1 + 32'd4).
+Arithm(32'd2 * 32'd3).
+Arithm(32'd28 / 32'd4).
+Arithm(32'd24 % 32'd16).
+Arithm(32'd18 >> 1).
+Arithm(32'd5 << 1).
+Arithm(32'b1010 | 32'b1001).
+Arithm(32'b1111 & 32'b1100).
+Arithm(~32'hfffffff2).
+Arithm(32'sd14 as bit<32>).
+
+output relation Signed(n:signed<32>)
+Signed(0).
+Signed(1 + 0).
+Signed(0 + 2).
+Signed(32'sd2 + 1).
+Signed(2+2).
+Signed(32'sd1 + 32'sd4).
+Signed(32'sd2 * 32'sd3).
+Signed(32'sd28 / 32'sd4).
+Signed(32'sd24 % 32'sd16).
+Signed(32'sd18 >> 1).
+Signed(32'sd5 << 1).
+Signed(- (2147483648)).
+
+/* Type casts */
+output relation Cast_u32(description: string, actual: bit<32>, expected: bit<32>)
+Cast_u32("32'd100  as bit<32>", 32'd100  as bit<32>, 100).
+Cast_u32("16'd100  as bit<32>", 16'd100  as bit<32>, 100).
+Cast_u32("8'd100   as bit<32>", 8'd100   as bit<32>, 100).
+Cast_u32("128'd100 as bit<32>", 128'd100 as bit<32>, 100).
+Cast_u32("256'd100 as bit<32>", 256'd100 as bit<32>, 100).
+//Cast_u32("64'f3.5 as bit<32>",  64'f3.5 as bit<32>,  3).  // illegal
+//Cast_u32("32'f3.5 as bit<32>",  32'f3.5 as bit<32>,  3).  // illegal
+
+Cast_u32("64'hffffffffffff as bit<32>", 64'hffffffffffff as bit<32>, 32'hffffffff).
+Cast_u32("128'hffffffffffffffffffff as bit<32>", 128'hffffffffffffffffffff as bit<32>, 32'hffffffff).
+Cast_u32("256'hffffffffffffffffffffffffffffffffffff as bit<32>", 256'hffffffffffffffffffffffffffffffffffff as bit<32>, 32'hffffffff).
+
+Cast_u32("(100: signed<32>) as bit<32>", (100: signed<32>) as bit<32>, 100).
+Cast_u32("(32'sd0 - 32'sd10) as bit<32>", (32'sd0 - 32'sd10) as bit<32>, 4294967286).
+
+output relation Cast_s32(description: string, expected: signed<32>, actual: signed<32>)
+
+Cast_s32("32'sd100  as signed<32>", 32'sd100  as signed<32>, 100).
+Cast_s32("16'sd100  as signed<32>", 16'sd100  as signed<32>, 100).
+Cast_s32("8'sd100   as signed<32>", 8'sd100   as signed<32>, 100).
+Cast_s32("128'sd100 as signed<32>", 128'sd100 as signed<32>, 100).
+Cast_s32("(-1: bigint as signed<32>)", (-1: bigint) as signed<32>, -1).
+Cast_s32("('hffffffffff: bigint as signed<32>)", ('hffffffffff: bigint) as signed<32>, -1).
+Cast_s32("('hff000000ff: bigint as signed<32>)", ('hff000000ff: bigint) as signed<32>, 255).
+//Cast_s32("64'f3.5 as signed<32>",  64'f3.5 as signed<32>,  3).  // illegal
+//Cast_s32("32'f3.5 as signed<32>",  32'f3.5 as signed<32>,  3).  // illegal
+
+Cast_s32("64'shffffffffffff as signed<32>", 64'shffffffffffff as signed<32>, 32'shffffffff).
+Cast_s32("128'shffffffffffffffffffff as signed<32>", 128'shffffffffffffffffffff as signed<32>, 32'shffffffff).
+
+Cast_s32("(100: bit<32>) as signed<32>", (100: bit<32>) as signed<32>, 100).
+
+output relation Cast_s8(description: string, expected: signed<8>, actual: signed<8>)
+Cast_s8("(-1: bigint as signed<8>)", (-1: bigint) as signed<8>, -1).
+Cast_s8("('hffffffffff: bigint as signed<8>)", ('hffffffffff: bigint) as signed<8>, -1).
+Cast_s8("('hff0000000f: bigint as signed<8>)", ('hff0000000f: bigint) as signed<8>, 15).
+
+output relation Cast_s128(description: string, expected: signed<128>, actual: signed<128>)
+Cast_s128("(-1: bigint as signed<128>)", (-1: bigint) as signed<128>, -1).
+Cast_s128("('hffffffffffffffffffffffffffffffffff: bigint as signed<128>)", ('hffffffffffffffffffffffffffffffffff: bigint) as signed<128>, -1).
+Cast_s128("('hff000000000000000000000000000000ff: bigint as signed<8>)", ('hff000000000000000000000000000000ff: bigint) as signed<128>, 255).
+
+output relation Cast_u24(description: string, expected: bit<24>, actual: bit<24>)
+
+Cast_u24("24'd100  as bit<24>", 24'd100  as bit<24>, 100).
+Cast_u24("32'd100  as bit<24>", 32'd100  as bit<24>, 100).
+Cast_u24("16'd100  as bit<24>", 16'd100  as bit<24>, 100).
+Cast_u24("8'd100   as bit<24>", 8'd100   as bit<24>, 100).
+Cast_u24("128'd100 as bit<24>", 128'd100 as bit<24>, 100).
+Cast_u24("256'd100 as bit<24>", 256'd100 as bit<24>, 100).
+//Cast_u24("64'f3.5 as bit<24>",  64'f3.5 as bit<24>,  3).  // illegal
+//Cast_u24("32'f3.5 as bit<24>",  32'f3.5 as bit<24>,  3).  // illegal
+//Cast_u24("32'f30000000.0 as bit<24>",  32'f30000000.0 as bit<24>,  24'hC9_C380).  // illegal
+
+Cast_u24("64'hffffffffffff as bit<24>", 64'hffffffffffff as bit<24>, 24'hffffff).
+Cast_u24("128'hffffffffffffffffffff as bit<24>", 128'hffffffffffffffffffff as bit<24>, 24'hffffff).
+Cast_u24("256'hffffffffffffffffffffffffffffffffffff as bit<24>", 256'hffffffffffffffffffffffffffffffffffff as bit<24>, 24'hffffff).
+
+Cast_u24("(100: signed<32>) as bit<32> as bit<24>", (100: signed<32>) as bit<32> as bit<24>, 100).
+Cast_u24("(32'sd0 - 32'sd10) as bit<32> as bit<24>", (32'sd0 - 32'sd10) as bit<32> as bit<24>, 24'hfffff6).
+
+output relation Cast_u256(description: string, expected: bit<256>, actual: bit<256>)
+
+Cast_u256("24'd100  as bit<256>", 24'd100  as bit<256>, 100).
+Cast_u256("32'd100  as bit<256>", 32'd100  as bit<256>, 100).
+Cast_u256("16'd100  as bit<256>", 16'd100  as bit<256>, 100).
+Cast_u256("8'd100   as bit<256>", 8'd100   as bit<256>, 100).
+Cast_u256("128'd100 as bit<256>", 128'd100 as bit<256>, 100).
+Cast_u256("256'd100 as bit<256>", 256'd100 as bit<256>, 100).
+Cast_u256("512'd100 as bit<256>", 512'd100 as bit<256>, 100).
+//Cast_u256("32'f3.5  as bit<256>", 32'f3.5  as bit<256>, 3).  // illegal
+//Cast_u256("64'f3.5  as bit<256>", 64'f3.5  as bit<256>, 3).  // illegal
+
+Cast_u256("264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as bit<256>",
+           264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as bit<256>,
+           256'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa).
+Cast_u256("128'hffffffffffffffffffff as bit<256>",
+           128'hffffffffffffffffffff as bit<256>,
+           256'hffffffffffffffffffff).
+
+Cast_u256("(100: signed<32>) as bit<32> as bit<256>", (100: signed<32>) as bit<32> as bit<256>, 100).
+Cast_u256("(32'sd0 - 32'sd10) as bit<32> as bit<256>", (32'sd0 - 32'sd10) as bit<32> as bit<256>, 256'hfffffff6).
+
+output relation Cast_bigint(description: string, expected: bigint, actual: bigint)
+
+Cast_bigint("24'd100  as bigint", 24'd100  as bigint, 100).
+Cast_bigint("32'd100  as bigint", 32'd100  as bigint, 100).
+Cast_bigint("16'd100  as bigint", 16'd100  as bigint, 100).
+Cast_bigint("8'd100   as bigint", 8'd100   as bigint, 100).
+Cast_bigint("128'd100 as bigint", 128'd100 as bigint, 100).
+Cast_bigint("256'd100 as bigint", 256'd100 as bigint, 100).
+Cast_bigint("512'd100 as bigint", 512'd100 as bigint, 100).
+//Cast_bigint("32'f3.5  as bigint", 32'f3.5  as bigint, 3).  // illegal
+//Cast_bigint("64'f3.5  as bigint", 64'f3.5  as bigint, 3).  // illegal
+Cast_bigint("int_from_f(32'f3.5)", match (int_from_f(32'f3.5)) { None -> 0, Some{x} -> x }, 3).
+Cast_bigint("int_from_d(64'f3.5)", match (int_from_d(64'f3.5)) { None -> 0, Some{x} -> x }, 3).
+
+Cast_bigint("264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as bigint",
+            264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as bigint,
+           'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa).
+Cast_bigint("(32'sd0 - 32'sd10) as bigint", (32'sd0 - 32'sd10) as bigint, 0-10).
+
+output relation Cast_float(description: string, expected: float, actual: float)
+
+Cast_float("24'd100  as float", 24'd100  as float, 32'f100.0).
+Cast_float("32'd100  as float", 32'd100  as float, 32'f100.0).
+Cast_float("16'sd100  as float", 16'sd100  as float, 32'f100.0).
+Cast_float("-32'sd100  as float", -32'sd100  as float, -32'f100.0).
+Cast_float("-16'sd100  as float", -16'sd100  as float, -32'f100.0).
+Cast_float("32'sd100  as float", 32'sd100  as float, 32'f100.0).
+Cast_float("16'd100  as float", 16'd100  as float, 32'f100.0).
+Cast_float("8'd100   as float", 8'd100   as float, 32'f100.0).
+Cast_float("128'd100 as float", 128'd100 as float, 32'f100.0).
+Cast_float("256'd100 as float", 256'd100 as float, 32'f100.0).
+Cast_float("512'd100 as float", 512'd100 as float, 32'f100.0).
+Cast_float("32'f3.5  as float", 32'f3.5  as float, 32'f3.5).
+Cast_float("64'f3.5  as float", 64'f3.5  as float, 32'f3.5).
+Cast_float("264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as float",
+            264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as float,
+            nan_f()).
+
+output relation Cast_double(description: string, expected: double, actual: double)
+
+Cast_double("24'd100  as double", 24'd100  as double, 64'f100.0).
+Cast_double("32'd100  as double", 32'd100  as double, 64'f100.0).
+Cast_double("16'd100  as double", 16'd100  as double, 64'f100.0).
+Cast_double("8'd100   as double", 8'd100   as double, 64'f100.0).
+Cast_double("128'd100 as double", 128'd100 as double, 64'f100.0).
+Cast_double("256'd100 as double", 256'd100 as double, 64'f100.0).
+Cast_double("512'd100 as double", 512'd100 as double, 64'f100.0).
+Cast_double("32'f3.5  as double", 32'f3.5  as double, 64'f3.5).
+Cast_double("64'f3.5  as double", 64'f3.5  as double, 64'f3.5).
+Cast_double("264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as double",
+            264'hfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa as double,
+            64'f29642774844752946000000000000000000000000000000000000000000000000000000000000000.0).
+
+output relation UMinus_s32(description: string, n:signed<32>)
+UMinus_s32("-32'sd100", -32'sd100).
+UMinus_s32("-(-32'sd100)", -(-32'sd100)).
+UMinus_s32("-32768", -32768).
+
+output relation UMinus_bigint(description: string, n: bigint)
+UMinus_bigint("-100", -100).
+UMinus_bigint("- -100", - -100).
+UMinus_bigint("-32768", -32768).
+
+/* Test recursion + aggregation */
+typedef entid_t = bit<32>
+typedef tnid_t = bit<16>
+
+input relation DdlogNode(id: entid_t)
+input relation DdlogBinding(tn: tnid_t, entity: entid_t)
+input relation DdlogDependency(parent: entid_t, child: entid_t)
+
+output relation Span(entity: entid_t, tns: Set<tnid_t>)
+
+Span(entity: entid_t, bindings) :-
+    DdlogNode(entity),
+    DdlogBinding(tn, entity),
+    var bindings = tn.group_by(entity).to_set().
+
+/* Recursive step: propagate span along graph edges */
+Span(parent, tns) :-
+    DdlogNode(parent),
+    DdlogDependency(child, parent),
+    Span(child, child_tns),
+    var tns = child_tns.group_by(parent).union().
+
+input relation Signed8(x: signed<8>)
+input relation Signed16(x: signed<16>)
+input relation Signed64(x: signed<64>)
+
+input relation SetOfSet(x: Set<Set<bool>>)
+
+relation R13(t: t13)
+R13( (1, true, "", 1) ).
+relation R14(t: t11)
+R14( (1, (true, ("", (1)))) ).
+R14( (0, (true, ("", 1))) ).
+output relation J(b: bool)
+J(b) :- R13(a), R14(c), a.3 == c.1.1.1, var b = a.1.
+
+
+input relation Long(
+    x0: bit<16>,
+    x1: bit<16>,
+    x2: bit<16>,
+    x3: bit<16>,
+    x4: bit<16>,
+    x5: bit<16>,
+    x6: bit<16>,
+    x7: bit<16>,
+    x8: bit<16>,
+    x9: bit<16>,
+    x10: bit<16>,
+    x11: bit<16>,
+    x12: bit<16>,
+    x13: bit<16>,
+    x14: bit<16>,
+    x15: bit<16>,
+    x16: bit<16>,
+    x17: bit<16>,
+    x18: bit<16>,
+    x19: bit<16>
+)
+
+output relation LongJoin(
+    x0: bit<16>,
+    x1: bit<16>,
+    x2: bit<16>,
+    x3: bit<16>,
+    x4: bit<16>,
+    x5: bit<16>,
+    x6: bit<16>,
+    x7: bit<16>,
+    x8: bit<16>,
+    x9: bit<16>,
+    x10: bit<16>,
+    x11: bit<16>,
+    x12: bit<16>,
+    x13: bit<16>,
+    x14: bit<16>,
+    x15: bit<16>,
+    x16: bit<16>,
+    x17: bit<16>,
+    x18: bit<16>,
+    x19: bit<16>
+)
+
+LongJoin(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) :-
+    Long(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19),
+    Long(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19),
+    Long(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19).
+
+typedef Tt1 = Tt1{column1:signed<64>, column2:string, column3:bool}
+typedef Tt2 = Tt2{column1:signed<64>}
+typedef Ttmp0 = Ttmp0{col4:signed<64>}
+function agg1(g1: Group<'K, (Tt1)>):Ttmp0 {
+    var first3 = true;
+    (var max5 = 64'sd0);
+    (for ((i2, _) in g1) {
+        var v0 = i2;
+        (max5 = if first3 {
+            v0.column1
+        } else {
+            first3 = false;
+            0
+        })
+    });
+    (Ttmp0{.col4 = max5})
+}
+
+/* tests for `break`, `continue`, and `return` statements. */
+
+function all(xs: Vec<bool>): bool {
+    for (x in xs) {
+        if (not x) return false
+    };
+    return true
+}
+
+// At least one element of xs is true.
+function any(xs: Vec<bool>): bool {
+    var res = false;
+    for (x in xs) {
+        if (x) {
+            res = true;
+            break
+        }
+    };
+    return res
+}
+
+// A weird implementation of any using continue inside return.
+function weird_any(xs: Vec<bool>): bool {
+    var res = false;
+    for (x in xs) {
+        return if (x == true) { true } else { continue }
+    };
+    false
+}
+
+output relation ControlFlow(expr: string, value: string)
+
+ControlFlow("all(true, true, false)",
+    "${all(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, true), true), false))}").
+
+ControlFlow("all(true, true, true)",
+    "${all(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, true), true), true))}").
+
+ControlFlow("any(false, true, false)",
+    "${any(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, false), true), false))}").
+
+ControlFlow("any(false, false, false)",
+    "${any(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, false), false), false))}").
+
+ControlFlow("weird_any(false, true, false)",
+    "${weird_any(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, false), true), false))}").
+
+ControlFlow("weird_any(false, false, false)",
+    "${weird_any(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bool>, false), false), false))}").
+
+function filter_gt(xs: Vec<bigint>, threshold: bigint): Vec<bigint> {
+    var res: Vec<bigint> = vec_empty();
+    for (x in xs) {
+        if (x <= threshold) continue;
+        vec_push(res, x)
+    };
+    return res
+}
+
+// Filter out C0's; stop processing when reaching C1{1}.
+function filter_C0(xs: Vec<Alt>): Vec<bigint> {
+    var res: Vec<bigint> = vec_empty();
+    for (x in xs) {
+        var val: bigint = match (x) {
+            C0{v} -> continue,
+            C1{v} -> if (v > 0) {
+                v as bigint
+            } else {
+                break
+            }
+        };
+        vec_push(res, val);
+    };
+    res
+}
+
+// Test the use of continue, break, and return in function call arguments.
+
+function mult2(x: bigint): bigint { x << 1 }
+
+function double_evens(xs: Vec<bigint>): Vec<bigint> {
+    var res: Vec<bigint> = vec_empty();
+
+    for (x in xs) {
+        vec_push(res, mult2({
+            if (x == 0) {
+                break
+            } else if (x < 0) {
+                return res
+            } else if (x % 2 != 0) {
+                continue
+            } else {
+                x
+            }
+        }))
+    };
+    res
+}
+
+output relation BigintVectors(expr: string, vec: Vec<bigint>)
+BigintVectors("filter_gt((10, 20, 30), 15)",
+    filter_gt(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bigint>, 10), 20), 30), 15)).
+BigintVectors("filter_C0(C0{1}, C1{2}, C1{0}, C1{3})",
+    filter_C0(vec_push_imm(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<Alt>, C0{32'd1}), C1{32'd2}), C1{32'd0}), C1{32'd3}))).
+
+BigintVectors("double_evens(1,2,-1,4)",
+    double_evens(vec_push_imm(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bigint>, 1), 2), -1), 4))).
+BigintVectors("double_evens(1,2,0,4)",
+    double_evens(vec_push_imm(vec_push_imm(vec_push_imm(vec_push_imm(vec_empty(): Vec<bigint>, 1), 2), 0), 4))).
+
+// Test recursive data types.
+
+typedef Tree<'L> = LeafNode{v: 'L}
+                 | NonLeafNode{branches: Vec<Tree<'L>>}
+
+output relation Trees(tree: Tree<u64>)
+
+Trees({
+    var leaf1 = LeafNode{64'd100};
+    var leaf2 = LeafNode{64'd200};
+    var leaf3 = LeafNode{64'd300};
+    var nonleaf = NonLeafNode{vec_push_imm(vec_push_imm(vec_empty(): Vec<Tree<u64>>, leaf1), leaf2)};
+    NonLeafNode{vec_push_imm(vec_push_imm(vec_empty(): Vec<Tree<u64>>, leaf3), nonleaf)}
+}).
+
+output relation Doubles(s: string, d: double)
+Doubles("64'f5.0", 64'f5.0).
+Doubles("64'f5e2", 64'f5e2).
+Doubles("-5", -64'f5.0).
+Doubles("5 + 3", 64'f5.0 + 64'f3.0).
+Doubles("5/3", 64'f5.0 / 64'f3.0).
+Doubles("5*3", 64'f5.0 * 64'f3.0).
+Doubles("0: double", 0: double).
+Doubles("floor_d(64'f0.1)", floor_d(64'f0.1)).
+Doubles("${64'f5.0 + 64'f5.0}", 64'f5.0 + 64'f3.0).
+
+output relation Floats(s: string, f: float)
+Floats("32'f5.0", 32'f5.0).
+Floats("32'f5e2", 32'f5e2).
+Floats("5 + 3", 32'f5.0 + 32'f3.0).
+Floats("5/3", 32'f5.0 / 32'f3.0).
+Floats("5*3", 32'f5.0 * 32'f3.0).
+Floats("0: float", 0: float).
+Floats("floor_f(32'f0.1)", floor_f(32'f0.1)).
+
+// Trailing commas in relations
+input relation TrailingInputRelation(
+    a: u32,
+    b: u32,
+)
+relation TrailingInternalRelation(
+    a: u32,
+    b: u32,
+)
+output relation TrailingOutputRelation(
+    a: u32,
+    b: u32,
+)
+
+output relation Utf_test(s: string, t: string)
+Utf_test("Some string".to_bytes().from_utf8().unwrap_or_default(), "Some string").
+Utf_test("Some string".encode_utf16().from_utf16().unwrap_or_default(), "Some string").
+
+// Trailing commas in match arms
+function trailing_commas_in_matches(maybe: Option<u32>): u32 {
+    match (maybe) {
+        Some { int } -> int,
+        None -> 500,
+    }
+}
+
+// Trailing commas in facts
+relation TrailingCommasInFacts(name: string, act: u32, fact2: u32)
+TrailingCommasInFacts(
+    "foo",
+    10,
+    20,
+).
+
+// Trailing commas in structs
+typedef TrailingCommasInStructs = TrailingCommasInStructs {
+    foo: string,
+    bar: string,
+    baz: string,
+}
+
+// Trailing commas in function calls
+function trailing_commas_in_function_calls() {
+    trailing_commas_in_matches(
+        None,
+    );
+    trailing_commas_in_matches(
+        Some { 10 },
+    );
+}
+
+// Trailing commas in indexes
+index TrailingCommasInIndexes(
+    name: string,
+) on TrailingCommasInFacts(
+    name,
+    _,
+    _,
+)

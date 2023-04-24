@@ -1,0 +1,940 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* Description: DDlog "standard library" automatically imported into every module */
+
+import ddlog_rt
+import ddlog_bigint
+
+#[alias]
+typedef u8   = bit<8>
+#[alias]
+typedef u16  = bit<16>
+#[alias]
+typedef u32  = bit<32>
+#[alias]
+typedef u64  = bit<64>
+#[alias]
+typedef u128 = bit<128>
+
+typedef s8   = signed<8>
+typedef s16  = signed<16>
+typedef s32  = signed<32>
+typedef s64  = signed<64>
+typedef s128 = signed<128>
+
+#[alias]
+typedef usize = bit<64>
+#[alias]
+typedef isize = signed<64>
+
+/*
+ * Weight of a record in a DDlog collection.  This type is internal to the
+ * DDlog engine and is only visible to the programmer inside the `Inspect`
+ * operator.  Positive weight indicates that the record is being added
+ * to a collection; negative weight corresponds to a deletion.
+ */
+typedef DDWeight = s64
+
+/*
+ * DDEpoch, DDIteration, and DDNestedTS types model DDlog timestamps.
+ */
+
+/* DDlog epoch.  An epoch, associated with each event inside DDlog, is the
+ * serial number of the transaction that triggered this event.  This type is
+ * internal to the DDlog engine and is only visible to the programmer inside
+ * the `Inspect` operator. */
+typedef DDEpoch = u64
+
+/* Internal iteration number.  Events that occur inside recursive rules
+ * are timestamped with an epoch and iteration number of the fixed point
+ * computation within the epoch. */
+typedef DDIteration = u64
+
+/* Full nested timestamp consisting of an epoch and iteration number. */
+typedef DDNestedTS = DDNestedTS {
+    epoch: DDEpoch,
+    iter: DDIteration
+}
+
+function to_string(ts: DDNestedTS): string {
+    "(${ts.epoch},${ts.iter})"
+}
+
+/*
+ * Type-erased representation of any DDlog value.  Allows storing
+ * instances of different types, unknown at compile time, in the same
+ * relation.
+ *
+ * Any value can be converted to `Any`.  Conversely A `Any` can be
+ * converted back to the strongly typed representation.
+ *
+ * Note: `Any` relies on Rust's TypeId mechanism to order instances
+ * with different underlying types.  As a result, the ordering may
+ * differ across Rust compiler releases.
+ */
+extern type Any
+
+/* Convert arbitrary DDlog type to Any. */
+extern function to_any(#[by_val] x: 'T): Any
+
+/* Convert `Any` back to an instance of type `'T`.
+ * Returns `None` if `value` stores an instance of a
+ * different type. */
+extern function from_any(#[by_val] value: Any): Option<'T>
+
+/*
+ * Ref
+ */
+#[size=8]
+#[shared_ref]
+extern type Ref<'A>
+
+extern function ref_new(#[by_val] x: 'A): Ref<'A>
+
+#[return_by_ref]
+extern function deref(x: Ref<'A>): 'A
+
+/*
+ * max(), min()
+ */
+function min(x: 'A, y: 'A): 'A = if (x < y) x else y
+function max(x: 'A, y: 'A): 'A = if (x > y) x else y
+
+/*
+ * Arithmetic functions
+ */
+extern function u8_pow32(base: u8, exp: bit<32>): u8
+extern function u16_pow32(base: u16, exp: bit<32>): u16
+extern function u32_pow32(base: u32, exp: bit<32>): u32
+extern function u64_pow32(base: u64, exp: bit<32>): u64
+extern function u128_pow32(base: u128, exp: bit<32>): u128
+extern function s8_pow32(base: s8, exp: bit<32>): s8
+extern function s16_pow32(base: s16, exp: bit<32>): s16
+extern function s32_pow32(base: s32, exp: bit<32>): s32
+extern function s64_pow32(base: s64, exp: bit<32>): s64
+extern function s128_pow32(base: s128, exp: bit<32>): s128
+extern function bigint_pow32(base: bigint, exp: bit<32>): bigint
+
+function pow32(base: u8, exp: bit<32>): u8 {
+    u8_pow32(base, exp)
+}
+function pow32(base: u16, exp: bit<32>): u16 {
+    u16_pow32(base, exp)
+}
+function pow32(base: u32, exp: bit<32>): u32 {
+    u32_pow32(base, exp)
+}
+function pow32(base: u64, exp: bit<32>): u64 {
+    u64_pow32(base, exp)
+}
+function pow32(base: u128, exp: bit<32>): u128 {
+    u128_pow32(base, exp)
+}
+function pow32(base: s8, exp: bit<32>): s8 {
+    s8_pow32(base, exp)
+}
+function pow32(base: s16, exp: bit<32>): s16 {
+    s16_pow32(base, exp)
+}
+function pow32(base: s32, exp: bit<32>): s32 {
+    s32_pow32(base, exp)
+}
+function pow32(base: s64, exp: bit<32>): s64 {
+    s64_pow32(base, exp)
+}
+function pow32(base: s128, exp: bit<32>): s128 {
+    s128_pow32(base, exp)
+}
+function pow32(base: bigint, exp: bit<32>): bigint {
+    bigint_pow32(base, exp)
+}
+
+/*
+ * Option
+ */
+
+#[rust="serde(from=\"::std::option::Option<A>\", into=\"::std::option::Option<A>\", bound(serialize=\"A: Clone+Serialize\"))"]
+// This type has a custrom FromRecord implementation in std.rs.
+#[custom_from_record]
+typedef Option<'A> = None
+                   | Some{x: 'A}
+
+function is_none(x: Option<'A>): bool = {
+    match (x) {
+        None -> true,
+        _    -> false
+    }
+}
+
+function is_some(x: Option<'A>): bool = {
+    match (x) {
+        Some{} -> true,
+        _      -> false
+    }
+}
+
+/* Applies transformation `f` to the value stored inside `Option`.
+ */
+function map(opt: Option<'A>, f: function('A): 'B): Option<'B> {
+    match (opt) {
+        None -> None,
+        Some{x} -> Some{f(x)}
+    }
+}
+
+/* Returns default value of a type.
+ */
+extern function default(): 'T
+
+/* Returns the contained `Some` value or a provided default.
+ */
+function unwrap_or(#[by_val] x: Option<'A>, #[by_val] def: 'A): 'A = {
+    option_unwrap_or(x, def)
+}
+
+/* Returns the default value for the given type if `opt` is
+ * `None`.
+ */
+function unwrap_or_default(#[by_val] opt: Option<'A>): 'A {
+    option_unwrap_or_default(opt)
+}
+
+function to_set(o: Option<'X>): Set<'X> {
+    match (o) {
+        Some{x} -> set_singleton(x),
+        None -> set_empty()
+    }
+}
+function to_vec(o: Option<'X>): Vec<'X> {
+    match (o) {
+        Some{x} -> vec_singleton(x),
+        None -> vec_empty()
+    }
+}
+
+/* Transforms the `Option<'T>` into a `Result<'T, 'E>`,
+ * mapping `Some{x}` to `Ok{v}` and `None` to `Err{e}`. */
+function ok_or(o: Option<'T>, e: 'E): Result<'T, 'E> {
+    match (o) {
+        Some{x} -> Ok{x},
+        None    -> Err{e}
+    }
+}
+
+/* Transforms `Option<'T>` into `Result<'T, 'E>`, mapping `Some{x}
+ * to `Ok{v}` and `None` to `Err{e()}`.
+ * Function `e` is only evaluated on error. */
+function ok_or_else(o: Option<'T>, e: function(): 'E): Result<'T, 'E> {
+    match (o) {
+        Some{x} -> Ok{x},
+        None    -> Err{e()}
+    }
+}
+
+/* Returns `None` if the option is `None`, otherwise calls `f` with the
+ * wrapped value and returns the result.
+ */
+function and_then(o: Option<'T>, f: function('T): Option<'U>): Option<'U> {
+    match (o) {
+        None -> None,
+        Some{x} -> f(x)
+    }
+}
+
+/*
+ * Either
+ */
+typedef Either<'A,'B> = Left{l: 'A}
+                      | Right{r: 'B}
+
+/*
+ * Result
+ */
+typedef Result<'V,'E> = Ok{res: 'V}
+                      | Err{err: 'E}
+
+function is_ok(res: Result<'V,'E>): bool = {
+    match (res) {
+        Ok{} -> true,
+        Err{} -> false
+    }
+}
+
+function is_err(res: Result<'V,'E>): bool = {
+    match (res) {
+        Ok{} -> false,
+        Err{} -> true
+    }
+}
+
+/* Returns the contained Ok value or a provided default.
+ */
+function unwrap_or(#[by_val] res: Result<'V,'E>, #[by_val] def: 'V): 'V = {
+    result_unwrap_or(res, def)
+}
+
+/* Returns the default value for the given type if `res` is
+ * an error.
+ */
+function unwrap_or_default(#[by_val] res: Result<'V,'E>): 'V {
+    result_unwrap_or_default(res)
+}
+
+/* Maps a `Result<'V1, 'E>` to `Result<'V2, 'E>` by applying a function to a
+ * contained `Ok` value, leaving an `Err` value untouched.
+ */
+function map(res: Result<'V1, 'E>, f: function('V1): 'V2): Result<'V2, 'E> {
+    match (res) {
+        Err{e} -> Err{e},
+        Ok{x} -> Ok{f(x)}
+    }
+}
+
+/* Maps a `Result<'V, 'E1>` to `Result<'V, 'E2>` by applying a function to a
+ * contained `Err` value, leaving an `Ok` value untouched.
+ */
+function map_err(res: Result<'V, 'E1>, f: function('E1): 'E2): Result<'V, 'E2> {
+    match (res) {
+        Err{e} -> Err{f(e)},
+        Ok{x} -> Ok{x}
+    }
+}
+
+/*
+ * This function is deprecated; please use range_vec.
+ *
+ * Range; all values starting at 'from' and ending at 'to'
+ * inclusively, in steps of 'step'.  'step' must be positive.
+ */
+//extern function range(from: 'A, to: 'A, step: 'A): Vec<'A>
+
+/*
+ * Range function that produces a vector.  The vector contains
+ * all values starting at 'from' (inclusive) up to 'to' (exclusive),
+ * in increments of 'step'.  If 'step' is zero the returned vector
+ * is always empty.
+ */
+extern function range_vec(from: 'A, to: 'A, step: 'A): Vec<'A>
+
+/* Convert any DDlog type into a string in a programmer-facing,
+ * debugging context.  Implemented by calling the `Debug::fmt()`
+ * method of the underlying Rust type. */
+extern function to_string_debug(x: 'T): string
+
+/*
+ * String conversion
+ */
+function to_string(x: bool): string {
+    __builtin_2string(x)
+}
+function to_string(x: bigint): string {
+    __builtin_2string(x)
+}
+function to_string(x: float): string {
+    __builtin_2string(x)
+}
+function to_string(x: double): string {
+    __builtin_2string(x)
+}
+function to_string(x: s8): string {
+    __builtin_2string(x)
+}
+function to_string(x: s16): string {
+    __builtin_2string(x)
+}
+function to_string(x: s32): string {
+    __builtin_2string(x)
+}
+function to_string(x: s64): string {
+    __builtin_2string(x)
+}
+function to_string(x: s128): string {
+    __builtin_2string(x)
+}
+function to_string(x: u8): string {
+    __builtin_2string(x)
+}
+function to_string(x: u16): string {
+    __builtin_2string(x)
+}
+function to_string(x: u32): string {
+    __builtin_2string(x)
+}
+function to_string(x: u64): string {
+    __builtin_2string(x)
+}
+function to_string(x: u128): string {
+    __builtin_2string(x)
+}
+function to_string(x: string): string {
+    __builtin_2string(x)
+}
+
+extern function hex(x: 'X): string
+
+extern function parse_dec_u64(s: string): Option<bit<64>>
+extern function parse_dec_i64(s: string): Option<signed<64>>
+
+function contains(s1: string, s2: string): bool {
+    string_contains(s1, s2)
+}
+
+function join(strings: Vec<string>, sep: string): string {
+    string_join(strings, sep)
+}
+
+function len(s: string): usize {
+    string_len(s)
+}
+
+/* Replaces all matches of `from` with `to`.
+ *
+ * `replace` creates a new string, and copies the data from `s` into it. While
+ * doing so, it attempts to find matches of a pattern. If it finds any, it
+ * replaces them with `to`.
+ */
+
+function replace(s: string, from: string, to: string): string {
+    string_replace(s, from, to)
+}
+
+function split(s: string, sep: string): Vec<string> {
+    string_split(s, sep)
+}
+
+function starts_with(s: string, prefix: string): bool {
+    string_starts_with(s, prefix)
+}
+
+function ends_with(s: string, suffix: string): bool {
+    string_ends_with(s, suffix)
+}
+
+// Convert a byte array into a string, returning Err if v contains any invalid data.
+extern function from_utf8(buffer: Vec<u8>): Result<string, string>
+// Returns Vec<u16> of the string encoded as UTF-16.
+extern function encode_utf16(s: string): Vec<u16>
+// Decode a UTF-16–encoded vector v into a String, returning Err if v contains any invalid data.
+extern function from_utf16(buffer: Vec<u16>): Result<string, string>
+
+/* Substring of `s` that begins at `start` and continues up to, but not
+ * including, `end`.*/
+function substr(s: string, start: usize, end: usize): string {
+    string_substr(s, start, end)
+}
+
+// bytes comprising the utf-8 representation of the string
+function to_bytes(s: string): Vec<u8> {
+    string_to_bytes(s)
+}
+
+/* Returns a string slice with leading and trailing whitespace removed.
+ *
+ * 'Whitespace' is defined according to the terms of the Unicode Derived
+ * Core Property White_Space
+ */
+function trim(s: string): string {
+    string_trim(s)
+}
+
+/* Returns the lowercase equivalent of `s` as a new string.
+ *
+ * 'Lowercase' is defined according to the terms of the Unicode Derived
+ * Core Property Lowercase.
+ */
+function to_lowercase(s: string): string {
+    string_to_lowercase(s)
+}
+
+/* Returns the uppercase equivalent of `s` as a new string.
+ */
+function to_uppercase(s: string): string {
+    string_to_uppercase(s)
+}
+
+function reverse(s: string): string {
+    string_reverse(s)
+}
+
+/*
+ * hashing
+ */
+extern function hash32(x: 'X): bit<32>
+extern function hash64(x: 'X): bit<64>
+extern function hash128(x: 'X): bit<128>
+
+/* The `Group` type is used exclusively in aggregation operations.  It
+ * represents a non-empty list of objects.
+ * `'K` is the type of group key, and `'V` is the type of value in the group.
+ */
+#[iterate_by_val=iter:('V, ddlog_std::DDWeight)]
+extern type Group<'K,'V>
+
+/* Extracts group key.
+ */
+extern function group_key(g: Group<'K, 'V>): 'K
+
+/*
+ * Standard aggregates
+ */
+
+/* Returns the number of distinct elements in the group, which is guaranteed
+ * to be >0. */
+extern function group_count_distinct(g: Group<'K, 'V>): usize
+
+/* Returns the first element of the group.
+ * It always exists, as aggregation cannot return an empty group. */
+extern function group_first(g: Group<'K, 'V>): 'V
+
+/* Returns `n`th element of the group if the group is large enough
+ * or `None` otherwise.
+ */
+extern function group_nth(g: Group<'K,'V>, n: usize): Option<'V>
+
+extern function group_to_set(g: Group<'K, 'V>): Set<'V>
+extern function group_to_vec(g: Group<'K, 'V>): Vec<'V>
+extern function group_to_map(g: Group<'K1, ('K2,'V)>): Map<'K2,'V>
+extern function group_to_setmap(g: Group<'K1, ('K2,'V)>): Map<'K2,Set<'V>>
+
+extern function group_set_unions(g: Group<'K, Set<'A>>): Set<'A>
+
+/* Optimized version of group_set_unions that, when the group consits of
+ * a single set, simply returns the reference to this set. */
+extern function group_setref_unions(g: Group<'K, Ref<Set<'A>>>): Ref<Set<'A>>
+
+/* Smallest and largest group elements. */
+extern function group_min(g: Group<'K, 'V>): 'V
+extern function group_max(g: Group<'K, 'V>): 'V
+
+function key(g: Group<'K, 'V>): 'K {
+    group_key(g)
+}
+
+function count_distinct(g: Group<'K, 'V>): usize {
+    group_count_distinct(g)
+}
+
+/* The first element of the group.  This operation is well defined,
+ * as a group returned by `group-by` cannot be empty.
+ *
+ * Note: DDlog does not guarantee any specific ordering of elements withing
+ * the group, e.g., the first element is not necessarily the smallest one. */
+function first(g: Group<'K, 'V>): 'V {
+    group_first(g)
+}
+
+/* Nth element of the group. */
+function nth(g: Group<'K,'V>, n: usize): Option<'V> {
+    group_nth(g, n)
+}
+
+/* Extract the set of group elements.  Since the group may contain duplicates,
+ * the size of the resulting set can be smaller than the size of the group. */
+function to_set(g: Group<'K, 'V>): Set<'V> {
+    group_to_set(g)
+}
+
+/* Convert group to a vector of its elements.  The resulting
+ * vector has the same size and the same elements (and in the same
+ * order) as the group. */
+function to_vec(g: Group<'K, 'V>): Vec<'V> {
+    group_to_vec(g)
+}
+
+/* Convert a group of key-value tuples into a map. */
+function to_map(g: Group<'K1, ('K2,'V)>): Map<'K2,'V> {
+    group_to_map(g)
+}
+
+function to_setmap(g: Group<'K1, ('K2,'V)>): Map<'K2,Set<'V>> {
+    group_to_setmap(g)
+}
+
+function group_unzip(g: Group<'K, ('X,'Y)>): (Vec<'X>, Vec<'Y>) = {
+    var xs: Vec<'X> = vec_with_capacity(g.count_distinct());
+    var ys: Vec<'Y> = vec_with_capacity(g.count_distinct());
+    for ((v, _) in g) {
+        (var x, var y) = v;
+        vec_push(xs, x);
+        vec_push(ys, y)
+    };
+    (xs,ys)
+}
+
+function union(g: Group<'K, Set<'A>>): Set<'A> {
+    group_set_unions(g)
+}
+
+/* Obsolete; use `union(Group<_, Ref<Set<>>>)` instead. */
+function setref_unions(g: Group<'K, Ref<Set<'A>>>): Ref<Set<'A>> {
+    group_setref_unions(g)
+}
+
+function union(g: Group<'K, Ref<Set<'A>>>): Ref<Set<'A>> {
+    group_setref_unions(g)
+}
+
+function min(g: Group<'K, 'V>): 'V {
+    group_min(g)
+}
+
+function max(g: Group<'K, 'V>): 'V {
+    group_max(g)
+}
+
+/*
+ * Vec
+ */
+#[dyn_alloc]
+#[iterate_by_ref=iter:'A]
+extern type Vec<'A>
+
+extern function vec_empty(): Vec<'A>
+extern function vec_with_length(len: usize, x: 'A): Vec<'A>
+extern function vec_with_capacity(len: usize): Vec<'A>
+extern function vec_singleton(#[by_val] x: 'X): Vec<'X>
+
+function len(v: Vec<'X>): usize {
+    vec_len(v)
+}
+
+function push(v: mut Vec<'X>, #[by_val] x: 'X) {
+    vec_push(v, x)
+}
+
+function pop(v: mut Vec<'X>): Option<'X> {
+    vec_pop(v)
+}
+
+function append(v: mut Vec<'X>, other: Vec<'X>) {
+    vec_append(v, other)
+}
+
+function push_imm(v: Vec<'X>, #[by_val] x: 'X): Vec<'X> {
+    vec_push_imm(v, x)
+}
+
+function contains(v: Vec<'X>, x: 'X): bool {
+    vec_contains(v, x)
+}
+
+function is_empty(v: Vec<'X>): bool {
+    vec_is_empty(v)
+}
+
+function nth(v: Vec<'X>, n: usize): Option<'X> {
+    vec_nth(v, n)
+}
+
+function to_set(#[by_val] s: Vec<'A>): Set<'A> {
+    vec_to_set(s)
+}
+
+function sort(v: mut Vec<'X>) {
+    vec_sort(v)
+}
+
+function sort_imm(#[by_val] v: Vec<'X>): Vec<'X> {
+    vec_sort_imm(v)
+}
+
+function zip(#[by_val] v1: Vec<'X>, #[by_val] v2: Vec<'Y>): Vec<('X, 'Y)> {
+    vec_zip(v1, v2)
+}
+
+function unzip(#[by_val] v: Vec<('X, 'Y)>): (Vec<'X>, Vec<'Y>) {
+    vec_unzip(v)
+}
+
+/* Reverse vector in-place. */
+function reverse(v: mut Vec<'X>) {
+    vec_reverse(v)
+}
+
+/* Reverse `v`.  Return reversed vector, leaving the input vector unmodified. */
+function reverse_imm(v: Vec<'X>): Vec<'X> {
+    var res = v;
+    res.reverse();
+    res
+}
+
+
+/* Convert vector of tuple into a map.  Key-value pairs are added in the
+ * order they occur in the input vector; hence the resulting map will
+ * contain the last value associated with each key. */
+function to_map(v: Vec<('K, 'V)>): Map<'K, 'V> {
+    var res = map_empty();
+    for (kv in v) {
+       res.insert(kv.0, kv.1);
+    };
+    res
+}
+
+/* Resize vector.  If `new_size` is greater than `v.len()`, then
+ * all new slots are filled with `value`. */
+function resize(v: mut Vec<'X>, new_len: usize, value: 'X) {
+    vec_resize(v, new_len, value)
+}
+
+/*
+ * Shortens the vector, keeping the first `len` elements and dropping the rest.
+ * If `len` is greater than the vector's current length, this has no effect.
+ */
+function truncate(v: mut Vec<'X>, len: usize) {
+    vec_truncate(v, len)
+}
+
+/* Swap value at index `idx` for `value`.
+ * Stores the old value at this index in `value` unless `idx` exceeds
+ * the size of the vector (in which case the vector remains unmodified).
+ * Returns true if the swap happened and false otherwise. */
+function swap_nth(v: mut Vec<'X>, idx: usize, value: mut 'X): bool {
+    vec_swap_nth(v, idx, value)
+}
+
+/* Set value at index `idx` to `value`.
+ * If `idx` exceeds the size of the vector (in which case the vector remains unmodified).
+ * Returns true if update happened and false otherwise. */
+function update_nth(v: mut Vec<'X>, idx: usize, #[by_val] value: 'X): bool {
+    vec_update_nth(v, idx, value)
+}
+
+/*
+ * Map
+ */
+
+#[dyn_alloc]
+#[iterate_by_val=iter:('K,'V)]
+extern type Map<'K,'V>
+
+extern function map_empty(): Map<'K, 'V>
+extern function map_singleton(#[by_val] k: 'K, #[by_val] v: 'V): Map<'K, 'V>
+
+function size(m: Map<'K, 'V>): usize {
+    map_size(m)
+}
+
+function insert(m: mut Map<'K,'V>, #[by_val] k: 'K, #[by_val] v: 'V) {
+    map_insert(m, k, v)
+}
+
+function remove(m: mut Map<'K,'V>, k: 'K): Option<'V> {
+    map_remove(m, k)
+}
+
+function insert_imm(#[by_val] m: Map<'K,'V>, #[by_val] k: 'K, #[by_val] v: 'V): Map<'K,'V> {
+    map_insert_imm(m, k, v)
+}
+
+function get(m: Map<'K,'V>, k:'K): Option<'V> {
+    map_get(m, k)
+}
+
+function contains_key(m: Map<'K,'V>, k: 'K): bool {
+    map_contains_key(m, k)
+}
+
+function is_empty(m: Map<'K,'V>): bool {
+    map_is_empty(m)
+}
+
+/// If a key is present in both maps keep the one from m2
+function union(#[by_val] m1: Map<'K, 'V>, #[by_val] m2: Map<'K,'V>): Map<'K, 'V> {
+    map_union(m1, m2)
+}
+
+function keys(m: Map<'K, 'V>): Vec<'K> {
+    map_keys(m)
+}
+
+function values(m: Map<'K, 'V>): Vec<'V> {
+    map_values(m)
+}
+
+function nth_key(m: Map<'K, 'V>, n: usize): Option<'K> {
+    map_nth_key(m, n)
+}
+
+function nth_value(m: Map<'K, 'V>, n: usize): Option<'V> {
+    map_nth_value(m, n)
+}
+
+/*
+ * Set
+ */
+
+#[dyn_alloc]
+#[iterate_by_ref=iter:'A]
+extern type Set<'A>
+
+extern function set_singleton(#[by_val] x: 'X): Set<'X>
+extern function set_empty(): Set<'X>
+
+function size(s: Set<'X>): usize {
+    set_size(s)
+}
+
+function insert(s: mut Set<'X>, #[by_val] v: 'X) {
+    set_insert(s, v)
+}
+
+function insert_imm(#[by_val] s: Set<'X>, #[by_val] v: 'X): Set<'X> {
+    set_insert_imm(s, v)
+}
+
+function contains(s: Set<'X>, v: 'X): bool {
+    set_contains(s, v)
+}
+
+function is_empty(s: Set<'X>): bool {
+    set_is_empty(s)
+}
+
+function nth(s: Set<'X>, n: usize): Option<'X> {
+    set_nth(s, n)
+}
+
+function to_vec(s: Set<'A>): Vec<'A> {
+    set_to_vec(s)
+}
+
+function union(s1: Set<'X>, s2: Set<'X>): Set<'X> {
+    set_union(s1, s2)
+}
+
+/* Obsolete; use `union(Vec<Set<>>)` instead. */
+function unions(sets: Vec<Set<'X>>): Set<'X> {
+    set_unions(sets)
+}
+
+function union(sets: Vec<Set<'X>>): Set<'X> {
+    set_unions(sets)
+}
+
+function intersection(s1: Set<'X>, s2: Set<'X>): Set<'X> {
+    set_intersection(s1, s2)
+}
+
+function difference(s1: Set<'X>, s2: Set<'X>): Set<'X> {
+    set_difference(s1, s2)
+}
+
+/*
+ * Endianness
+ */
+extern function ntohl(x: bit<32>): bit<32>
+extern function ntohs(x: bit<16>): bit<16>
+
+extern function htonl(x: bit<32>): bit<32>
+extern function htons(x: bit<16>): bit<16>
+
+/*
+ * Internals
+ *
+ * We currently don't have a way to selectively export functions, but the use of
+ * these functions outside of this module is discouraged.
+ */
+
+extern function option_unwrap_or_default(#[by_val] opt: Option<'A>): 'A
+extern function option_unwrap_or(#[by_val] opt: Option<'A>, #[by_val] def: 'A): 'A
+extern function result_unwrap_or_default(#[by_val] res: Result<'V,'E>): 'V
+extern function result_unwrap_or(#[by_val] res: Result<'V,'E>, #[by_val] def: 'V): 'V
+
+extern function string_contains(s1: string, s2: string): bool
+extern function string_join(strings: Vec<string>, sep: string): string
+extern function string_len(s: string): usize
+extern function string_to_lowercase(s: string): string
+extern function str_to_lower(s: string): string
+extern function string_replace(s: string, from: string, to: string): string
+extern function string_split(s: string, sep: string): Vec<string>
+extern function string_starts_with(s: string, prefix: string): bool
+extern function string_ends_with(s: string, suffix: string): bool
+extern function string_substr(s: string, start: usize, end: usize): string
+// bytes comprising the utf-8 representation of the string
+extern function string_to_bytes(s: string): Vec<u8>
+extern function string_trim(s: string): string
+extern function string_to_uppercase(s: string): string
+extern function string_reverse(s: string): string
+
+extern function vec_len(v: Vec<'X>): usize
+extern function vec_push(v: mut Vec<'X>, #[by_val] x: 'X)
+extern function vec_pop(v: mut Vec<'X>): Option<'X>
+extern function vec_append(v: mut Vec<'X>, other: Vec<'X>)
+extern function vec_push_imm(v: Vec<'X>, #[by_val] x: 'X): Vec<'X>
+extern function vec_contains(v: Vec<'X>, x: 'X): bool
+extern function vec_is_empty(v: Vec<'X>): bool
+extern function vec_nth(v: Vec<'X>, n: usize): Option<'X>
+extern function vec_to_set(#[by_val] s: Vec<'A>): Set<'A>
+extern function vec_sort(v: mut Vec<'X>)
+extern function vec_sort_imm(#[by_val] v: Vec<'X>): Vec<'X>
+extern function vec_resize(v: mut Vec<'X>, new_len: usize, value: 'X)
+extern function vec_truncate(v: mut Vec<'X>, len: usize)
+extern function vec_swap_nth(v: mut Vec<'X>, idx: usize, value: mut 'X): bool
+extern function vec_update_nth(v: mut Vec<'X>, idx: usize, #[by_val] value: 'X): bool
+extern function vec_zip(#[by_val] v1: Vec<'X>, #[by_val] v2: Vec<'Y>): Vec<('X, 'Y)>
+extern function vec_unzip(#[by_val] v: Vec<('X, 'Y)>): (Vec<'X>, Vec<'Y>)
+extern function vec_reverse(v: mut Vec<'X>)
+
+extern function map_size(m: Map<'K, 'V>): usize
+extern function map_insert(m: mut Map<'K,'V>, #[by_val] k: 'K, #[by_val] v: 'V)
+extern function map_remove(m: mut Map<'K,'V>, k: 'K): Option<'V>
+extern function map_insert_imm(#[by_val] m: Map<'K,'V>, #[by_val] k: 'K, #[by_val] v: 'V): Map<'K,'V>
+extern function map_get(m: Map<'K,'V>, k:'K): Option<'V>
+extern function map_contains_key(m: Map<'K,'V>, k: 'K): bool
+extern function map_is_empty(m: Map<'K,'V>): bool
+extern function map_nth_key(m: Map<'K, 'V>, n: usize): Option<'K>
+extern function map_nth_value(m: Map<'K, 'V>, n: usize): Option<'V>
+extern function map_union(#[by_val] m1: Map<'K, 'V>, #[by_val] m2: Map<'K,'V>): Map<'K, 'V>
+extern function map_keys(m: Map<'K, 'V>): Vec<'K>
+extern function map_values(m: Map<'K, 'V>): Vec<'V>
+
+extern function set_size(s: Set<'X>): usize
+extern function set_insert(s: mut Set<'X>, #[by_val] v: 'X)
+extern function set_insert_imm(#[by_val] s: Set<'X>, #[by_val] v: 'X): Set<'X>
+extern function set_contains(s: Set<'X>, v: 'X): bool
+extern function set_is_empty(s: Set<'X>): bool
+extern function set_nth(s: Set<'X>, n: usize): Option<'X>
+extern function set_to_vec(#[by_val] s: Set<'A>): Vec<'A>
+extern function set_union(#[by_val] s1: Set<'X>, #[by_val] s2: Set<'X>): Set<'X>
+extern function set_unions(#[by_val] sets: Vec<Set<'X>>): Set<'X>
+extern function set_intersection(s1: Set<'X>, s2: Set<'X>): Set<'X>
+extern function set_difference(s1: Set<'X>, s2: Set<'X>): Set<'X>
+
+extern function __builtin_2string(x: 'X): string
+
+/* Representation of a group used for all I/O
+ * (serialization, formatting, (Into/From)Record, Flatbuf).
+ *
+ * This is part of DDlog internals and should not be used in
+ * application code. */
+typedef DDlogGroup<'K, 'V> = DDlogGroup {
+    key: 'K,
+    vals: Vec<('V, DDWeight)>
+}
+
+/* Unique ID of a node or a sink in a distributed DDlog system. */
+typedef D3logLocationId = u128
+
+relation Singleton()
+Singleton().

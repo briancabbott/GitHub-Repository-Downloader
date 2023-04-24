@@ -1,0 +1,325 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* JSON parsing/serialization library.
+ *
+ * Functions in this library are bindings for functions in
+ * the Rust `serde_json` crate.
+ */
+
+/* Deserialize an instance of type 'T from a string of JSON text.
+ *
+ * This conversion can fail if the structure of the input does not match the
+ * structure expected by 'T, for example if 'T is a struct type but the input
+ * contains something other than a JSON map.
+ */
+function from_json_string(json: string): Result<'T, string> {
+    _from_json_string(json)
+}
+
+extern function _from_json_string(json: string): Result<'T, string>
+
+/* Serialize the given data structure as a String of JSON.
+ *
+ * Serialization can fail if 'T contains a map with non-string keys.
+ */
+extern function to_json_string(x: 'T): Result<string, string>
+
+/* Convert JsonValue to an instance of type 'T.
+ *
+ * This conversion can fail if the structure of the input does not match the
+ * structure expected by 'T, for example if 'T is a struct type but the input
+ * contains something other than a JSON map.
+ */
+function from_json_value(#[by_val] json_val: JsonValue): Result<'T, string> {
+    _from_json_value(json_val)
+}
+
+extern function _from_json_value(#[by_val] json_val: JsonValue): Result<'T, string>
+
+/* Serialize the given data structure as a JsonValue.
+ *
+ * Serialization can fail if 'T contains a map with non-string keys.
+ */
+extern function to_json_value(#[by_val] x: 'T): Result<JsonValue, string>
+
+/* Represents any valid JSON value.
+ */
+#[custom_serde]
+typedef JsonValue = // Represents a JSON null value.
+                    JsonNull
+                  | // Represents a JSON boolean.
+                    JsonBool{b: bool}
+                  | // Represents a JSON number, whether integer or floating point.
+                    JsonNumber{n: JsonNum}
+                  | // Represents a JSON string.
+                    JsonString{s: istring}
+                  | // Represents a JSON array.
+                    JsonArray{a: Vec<JsonValue>}
+                  | // Represents a JSON object.
+                    JsonObject{o: Map<istring, JsonValue>}
+
+/* Get JsonValue value as `bool`.  Returns `None` if value is not `JsonBool`.
+ */
+function jval_as_bool(v: JsonValue): Option<bool> {
+    match (v) {
+        JsonBool{b} -> Some{b},
+        _ -> None
+    }
+}
+
+function as_bool(v: JsonValue): Option<bool> {
+    jval_as_bool(v)
+}
+
+/* Get JsonValue value as `bool`.  Returns `def` if value is not `JsonBool`.
+ */
+function jval_as_bool_or(v: JsonValue, def: bool): bool {
+    match (v) {
+        JsonBool{b} -> b,
+        _ -> def
+    }
+}
+
+/* Get JsonValue value as `JsonNum`.  Returns `None` if value is not `JsonNumber`.
+ */
+function jval_as_number(v: JsonValue): Option<JsonNum> {
+    match (v) {
+        JsonNumber{n} -> Some{n},
+        _ -> None
+    }
+}
+
+function as_number(v: JsonValue): Option<JsonNum> {
+    jval_as_number(v)
+}
+
+/* Get JsonValue value as `JsonNum`.  Returns `def` if value is not `JsonNumber`.
+ */
+function jval_as_number_or(v: JsonValue, def: JsonNum): JsonNum {
+    match (v) {
+        JsonNumber{n} -> n,
+        _ -> def
+    }
+}
+
+/* Get JsonValue value as string.  Returns `None` if value is not `JsonString`.
+ */
+function jval_as_string(v: JsonValue): Option<istring> {
+    match (v) {
+        JsonString{s} -> Some{s},
+        _ -> None
+    }
+}
+
+function as_string(v: JsonValue): Option<istring> {
+    jval_as_string(v)
+}
+
+/* Get JsonValue value as string.  Returns `def` if value is not `JsonString`.
+ */
+function jval_as_string_or(v: JsonValue, def: istring): istring {
+    match (v) {
+        JsonString{s} -> s,
+        _ -> def
+    }
+}
+
+/* Get JsonValue value as array.  Returns `None` if value is not `JsonArray`.
+ */
+function jval_as_array(v: JsonValue): Option<Vec<JsonValue>> {
+    match (v) {
+        JsonArray{a} -> Some{a},
+        _ -> None
+    }
+}
+
+function as_array(v: JsonValue): Option<Vec<JsonValue>> {
+    jval_as_array(v)
+}
+
+/* Get JsonValue value as array.  Returns `def` if value is not `JsonArray`.
+ */
+function jval_as_array_or(v: JsonValue, def: Vec<JsonValue>): Vec<JsonValue> {
+    match (v) {
+        JsonArray{a} -> a,
+        _ -> def
+    }
+}
+
+/* Get JsonValue value as object.  Returns `None` if value is not `JsonObject`.
+ */
+function jval_as_object(v: JsonValue): Option<Map<istring, JsonValue>> {
+    match (v) {
+        JsonObject{o} -> Some{o},
+        _ -> None
+    }
+}
+
+function as_object(v: JsonValue): Option<Map<istring, JsonValue>> {
+    jval_as_object(v)
+}
+
+/* Get JsonValue value as object.  Returns `def` if value is not `JsonObject`.
+ */
+function jval_as_object_or(v: JsonValue, def: Map<istring, JsonValue>): Map<istring, JsonValue> {
+    match (v) {
+        JsonObject{o} -> o,
+        _ -> def
+    }
+}
+
+/* Get attribute by name.  Returns `None` if value is not `JsonObject` or
+ * does not have the specified attribute.
+ */
+function jval_get(v: JsonValue, attr: istring): Option<JsonValue> {
+    match (v) {
+        JsonObject{o} -> map_get(o, attr),
+        _ -> None
+    }
+}
+
+function get(v: JsonValue, attr: istring): Option<JsonValue> {
+    jval_get(v, attr)
+}
+
+/* Get attribute by name.  Returns `def` if value is not `JsonObject` or
+ * does not have the specified attribute.
+ */
+function jval_get_or(v: JsonValue, attr: istring, def: JsonValue): JsonValue {
+    match (v) {
+        JsonObject{o} -> unwrap_or(map_get(o, attr), def),
+        _ -> def
+    }
+}
+
+typedef JsonNum = // Integer number.  The value must be in the range between the
+                  // smallest `s64` number and the largest `u64` number,
+                  // inclusive.  Values outside of this range will be truncated
+                  // during serialization.
+                  JsonInt{i: s128}
+                | // NaN and infinity are not valid JSON values.
+                  // When serializing to JSON, such values will be replaced with 0.
+                  JsonFloat{d: double}
+
+/* Wrapper type that serializes its inner object into binary formats via JSON string.
+ *
+ * This is a workaround for a `serde` limitation that prevents certain data types from
+ * being serialized or deserialized from non-self-describing data formats like bincode.
+ * In particular, this is the case for data types annotated with JSON-related serde
+ * attributes like `tag` and `flatten`.  In practice this means that types annotated for
+ * serialization to JSON cannot be serialized to other formats.
+ *
+ * The workaround is to use different serialization logic when serializing to binary and
+ * non-binary formats.  In the binary case, we want to serialize such types into a string
+ * and then serialize the string as a field in binary data.  In the non-binary case, we
+ * stick to normal serde behavior.  `JsonWrapper` implements this choice by checking the
+ * `is_human_readable` property of the serializer.
+ *
+ * The current implementation has an important flaw: serde currently does not provide a
+ * reliable way to determine if a serializer supports self-describing data.  We use
+ * `is_human_readable` attribute as an approximation, which is not always correct: binary
+ * formats can be self-describing (BSON, Pickle), conversely not all human-readable formats
+ * are self-describing.  Nevertheless, the current design enables useful scenarios, like
+ * transcoding JSON to bincode.
+ */
+#[custom_serde]
+typedef JsonWrapper<'T> = JsonWrapper{x: 'T}
+
+/* JsonPtr - points to a location withing a JSON document. */
+typedef JsonPtr = Vec<JsonPtrItem>
+
+typedef JsonPtrItem = JKeyPtr{ key: istring }
+                    | JIdxPtr{ idx: usize }
+
+/* Returns value at the given location or `None` if `ptr` does
+ * not point to an existing location in the document. */
+function get_by_ptr(jval: JsonValue, ptr: JsonPtr): Option<JsonValue> {
+    get_by_ptr_(jval, ptr, 0)
+}
+
+function get_by_ptr_(jval: JsonValue, ptr: JsonPtr, idx: usize): Option<JsonValue> {
+    match (ptr.nth(idx)) {
+        None -> Some{jval},
+        Some{JKeyPtr{key}} -> {
+            get_by_ptr_(jval.jval_get(key)?, ptr, idx+1)
+        },
+        Some{JIdxPtr{n}} -> {
+            match (jval) {
+                JsonArray{vals} -> get_by_ptr_(vals.nth(n)?, ptr, idx+1),
+                _ -> None
+            }
+        }
+    }
+}
+
+/* Update value at the given location.  If the location specified by `ptr` does
+ * not exist in the document, attempts to create it by inserting missing map keys
+ * and expanding array sizes by padding them with nulls.
+ *
+ * Fails in one of two cases: (1) when attempting to modify the field of a value that is
+ * not a map or a null, and (2) when attempting to modify an index of an object
+ * that is not an array or null. */
+function set_by_ptr(jval: mut JsonValue, ptr: JsonPtr, v: JsonValue): Result<(), string> {
+    set_by_ptr_(jval, ptr, v, 0)
+}
+
+// TODO: more detailed error messages.
+function set_by_ptr_(jval: mut JsonValue, ptr: JsonPtr, v: JsonValue, idx: usize): Result<(), string> {
+    match (ptr.nth(idx)) {
+        None -> {
+            jval = v;
+            Ok{()}
+        },
+        Some{JKeyPtr{key}} -> {
+            if (jval == JsonNull) {
+                jval = JsonObject{map_empty()}
+            };
+            match (jval) {
+                JsonObject{m} -> {
+                    var old = m.remove(key).unwrap_or(JsonNull);
+                    set_by_ptr_(old, ptr, v, idx+1);
+                    m.insert(key, old);
+                    Ok{()}
+                },
+                _ -> Err{"Not a JSON map"}
+            }
+        },
+        Some{JIdxPtr{n}} -> {
+            if (jval == JsonNull) {
+                jval = JsonArray{vec_empty()}
+            };
+            match (jval) {
+                JsonArray{xs} -> {
+                    xs.resize(max(n+1, xs.len()), JsonNull);
+                    var old = JsonNull;
+                    xs.swap_nth(n, old);
+                    set_by_ptr_(old, ptr, v, idx+1);
+                    xs.swap_nth(n, old);
+                    Ok{()}
+                },
+                _ -> Err{"Not a JSON array"}
+            }
+        }
+    }
+}

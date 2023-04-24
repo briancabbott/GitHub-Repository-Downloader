@@ -1,0 +1,101 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* An IP address, either IPv4 or IPv6.
+ *
+ * This enum can contain either an Ipv4Addr or an Ipv6Addr, see their respective
+ * documentation for more details.
+ *
+ * The size of an IpAddr instance may vary depending on the target operating
+ * system.
+ */
+
+import net::ipv4
+import net::ipv6
+
+typedef IpAddr = IpAddrV4{addr4: Ipv4Addr}
+               | IpAddrV6{addr6: Ipv6Addr}
+
+function ipaddr_from_ipv4addr(ipv4: Ipv4Addr): IpAddr = IpAddrV4{ipv4}
+function ipaddr_from_ipv6addr(ipv6: Ipv6Addr): IpAddr = IpAddrV6{ipv6}
+
+/* Returns true for the special 'unspecified' address.
+ *
+ * See the documentation for `ipv4_is_unspecified` and `ipv6_is_unspecified`
+ * for more details.
+ */
+function ipaddr_is_unspecified(addr: IpAddr): bool = {
+    match (addr) {
+        IpAddrV4{a} -> ipv4_is_unspecified(a),
+        IpAddrV6{a} -> ipv6_is_unspecified(a)
+    }
+}
+
+/* Returns true if this is a loopback address.
+ *
+ * See the documentation for `ipv4_is_loopback` and `ipv6_is_loopback` for
+ * more details.
+ */
+function ipaddr_is_loopback(addr: IpAddr): bool = {
+    match (addr) {
+        IpAddrV4{a} -> ipv4_is_loopback(a),
+        IpAddrV6{a} -> ipv6_is_loopback(a)
+    }
+}
+
+/* Returns true if this is a multicast address.
+ *
+ * See the documentation for `ipv4_is_multicast and `ipv6_is_multicast for
+ * more details.
+ */
+function ipaddr_is_multicast(addr: IpAddr): bool = {
+    match (addr) {
+        IpAddrV4{a} -> ipv4_is_multicast(a),
+        IpAddrV6{a} -> ipv6_is_multicast(a)
+    }
+}
+
+/* Returns true if this address is an IPv4 address, and false otherwise. */
+function ipaddr_is_ipv4(addr: IpAddr): bool = {
+    match (addr) {
+        IpAddrV4{} -> true,
+        IpAddrV6{} -> false
+    }
+}
+
+/* Returns true if this address is an IPv6 address, and false otherwise. */
+function ipaddr_is_ipv6(addr: IpAddr): bool = {
+    match (addr) {
+        IpAddrV4{} -> false,
+        IpAddrV6{} -> true
+    }
+}
+
+/* Format IP address.
+ */
+function to_string(addr: IpAddr): string = {
+    match (addr) {
+        IpAddrV4{a} -> to_string(a),
+        IpAddrV6{a} -> to_string(a)
+    }
+}

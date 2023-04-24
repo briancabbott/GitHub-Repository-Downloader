@@ -1,0 +1,80 @@
+\documentclass{svproc}
+
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{color}
+
+\renewcommand{\floatpagefraction}{.95}
+\renewcommand{\topfraction}{.95}
+
+\definecolor{blue}{rgb}{0.13,0.13,1}
+\definecolor{green}{rgb}{0,0.5,0}
+\definecolor{red}{rgb}{0.9,0,0}
+\definecolor{grey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  commentstyle=\color{green},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  basicstyle=\ttfamily}
+
+\lstdefinelanguage{ddlog}{
+  language=Java, % we base it on Java, just for comments
+  morekeywords={input, output, typedef, relation, typedef, bool,
+    string, bit, extern, function, var, for, match, skip, in,
+    Aggregate, FlatMap},
+  deletestring=[b]{'}
+}
+
+\newcommand{\LR}[1]{\textbf{\color{red}LR: #1}}
+
+\author{
+        Leonid Ryzhyk \and
+        Mihai Budiu}
+\institute{VMware Research}
+
+\title{Differential Datalog}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+Many real-world applications based on deductive databases require
+incrementally updating output relations (tables) in response to
+changes to input relations.  To make such applications easier to
+implement we have created Differential Datalog (DDlog), a dialect of
+Datalog that automates incremental computation.  A DDlog programmer
+writes traditional, non-incremental Datalog programs.  However, the execution
+model of DDlog is \emph{fully incremental}: at runtime DDlog programs
+receive streams of changes to the input relations (insertions or
+deletions) and produce streams of corresponding changes to derived
+relations.  The DDlog compiler translates DDlog programs to
+Differential Dataflow (DD)~\cite{differential-dataflow-paper}
+programs; DD provides an incremental execution engine supporting all
+the relational operators, including fixed-point.
+
+The DDlog language is targeted for system builders.  In consequence,
+the language emphasizes usability, by providing a rich type system, a
+powerful expression language, a module system, including string
+manipulation, arithmetic, and integration with C, Rust, and Java.  The
+code is open-source, available using an MIT permissive license~\cite{ddlog}.
+\end{abstract}
+
+\input{intro}
+\input{ddlog}
+\input{system}
+\input{applications}
+\input{related}
+\input{conclusions}
+
+\bibliographystyle{abbrv}
+\bibliography{paper}
+
+\end{document}

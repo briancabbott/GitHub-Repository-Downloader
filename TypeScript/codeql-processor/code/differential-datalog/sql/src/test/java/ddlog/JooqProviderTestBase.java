@@ -1,0 +1,791 @@
+/*
+ * Copyright (c) 2021 VMware, Inc.
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+package ddlog;
+
+import com.vmware.ddlog.DDlogJooqProvider;
+import com.vmware.ddlog.DDlogHandle;
+import ddlogapi.DDlogException;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.exception.DataAccessException;
+import org.junit.*;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
+
+import static junit.framework.TestCase.*;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+
+/*
+ * This is the base class for all JooqProviderTest* test classes. Each new dialect of SQL that DDlog can accept can be
+ * tested by extending this class and writing a new setup function. The new setup function will use SQL DDL statements
+ * written in that dialect and call ddlog-sql classes with the proper dialect enum. See JooqProviderTestCalcite for
+ * an example.
+ */
+public abstract class JooqProviderTestBase {
+    @Nullable
+    protected static DDlogHandle ddhandle;
+    protected static DSLContext create;
+    protected static DDlogJooqProvider provider;
+    private final Field<String> field1 = field("id", String.class);
+    private final Field<Integer> field2 = field("capacity", Integer.class);
+    private final Field<Boolean> field3 = field("up", Boolean.class);
+    private final Record test1 = create.newRecord(field1, field2, field3);
+    private final Record test2 = create.newRecord(field1, field2, field3);
+    private final Record test3 = create.newRecord(field1, field2, field3);
+    static final boolean skip = false;  // Set to true to skip these tests
+
+    public JooqProviderTestBase() {
+        test1.setValue(field1, "n1");
+        test1.setValue(field2, 10);
+        test1.setValue(field3, true);
+
+        test2.setValue(field1, "n54");
+        test2.setValue(field2, 18);
+        test2.setValue(field3, false);
+
+        test3.setValue(field1, "n9");
+        test3.setValue(field2, 2);
+        test3.setValue(field3, true);
+    }
+
+    /**
+     * Clear a table.
+     * @param tableName  Table to remove entries from.
+     * @param keyColumn  Name of key column.
+     * @param keyColumnIndex  Number of key column (starting from 0).
+     */
+    public void clearTable(String tableName, String keyColumn, int keyColumnIndex) {
+        // TODO: this may be doable using the 'clear' DDlog command
+        assert(create != null);
+        final Result<Record> records = create.fetch("select * from " + tableName);
+        records.forEach(
+                r -> create.execute(String.format("delete from %s where %s = '%s'", tableName, keyColumn, r.get(keyColumnIndex)))
+        );
+        assertEquals(0, create.fetch("select * from " + tableName).size());
+    }
+
+    public static String generateCreateViewStatement(String tableName) {
+        String identityViewName = DDlogJooqProvider.toIdentityViewName(tableName);
+        return String.format("create view %s as select distinct * from %s", identityViewName, tableName);
+    }
+
+    @Before
+    public void cleanup() {
+        clearTable("hosts", "id", 0);
+        clearTable("base_array_table", "id", 0);
+    }
+
+    @AfterClass
+    public static void teardown() throws DDlogException{
+        Objects.requireNonNull(ddhandle).stop();
+    }
+
+    /**
+     * Skip text execution in the Base class, as this Base class just serves as an aggregation of all test cases.
+     */
+    private void skipIfTestBase() {
+        //noinspection ConstantConditions
+        Assume.assumeTrue(this.getClass() != JooqProviderTestBase.class);
+    }
+
+    // This traces the test being executed for debugging
+    // @Rule
+    public TestRule watcher = new TestWatcher() {
+        protected void starting(Description description) {
+            System.out.println("Starting test: " + description.getMethodName());
+        }
+    };
+
+    /*
+     * Test with SQL statements that are raw strings and do not use bindings
+     */
+    @Test
+    public void testSqlOpsNoBindings() {
+        skipIfTestBase();
+        // Insert statements.
+        assert(create != null);
+        create.execute("insert into \nhosts values ('n1', 10, true)");
+        create.batch("insert into hosts values ('n54', 18, false)",
+                     "insert into hosts values ('n9', 2, true)").execute();
+
+        // Make sure selects read out the same content inserted above
+        final Result<Record> hostsvResults = create.fetch("select * from hostsv");
+        assertTrue(hostsvResults.contains(test1));
+        assertTrue(hostsvResults.contains(test2));
+        assertTrue(hostsvResults.contains(test3));
+
+        final Result<Record> goodHostsResults = create.fetch("select * from good_hosts");
+        assertFalse(goodHostsResults.contains(test1));
+        assertFalse(goodHostsResults.contains(test2));
+        assertTrue(goodHostsResults.contains(test3));
+
+        final Result<Record> goodHostsResultsDirect = provider.fetchTable("good_hosts");
+        assertFalse(goodHostsResultsDirect.contains(test1));
+        assertFalse(goodHostsResultsDirect.contains(test2));
+        assertTrue(goodHostsResultsDirect.contains(test3));
+
+        // Make sure deletes work
+        create.execute("delete from hosts where id = 'n9'");
+
+        final Result<Record> hostsvResultsAfterDelete = create.fetch("select * from hostsv");
+        assertTrue(hostsvResultsAfterDelete.contains(test1));
+        assertTrue(hostsvResultsAfterDelete.contains(test2));
+        assertFalse(hostsvResultsAfterDelete.contains(test3));
+
+        final Result<Record> goodHostsResultsAfterDelete = create.fetch("select * from good_hosts");
+        assertFalse(goodHostsResultsAfterDelete.contains(test1));
+        assertFalse(goodHostsResultsAfterDelete.contains(test2));
+        assertFalse(goodHostsResultsAfterDelete.contains(test3));
+    }
+
+    @Test
+    public void testInsertNull() {
+        skipIfTestBase();
+        // Issue 1036
+        assert(create != null);
+        create.insertInto(table("hosts"))
+                .values("n1", 10, null)
+                .execute();
+        // Make sure selects read out the same content inserted above
+        Record t1 = create.newRecord(field1, field2, field3);
+        t1.setValue(field1, "n1");
+        t1.setValue(field2, 10);
+        t1.setValue(field3, null);
+
+        final Result<Record> hostsvResults = create.fetch("select * from hostsv");
+        assertTrue(hostsvResults.contains(t1));
+    }
+
+    @Test
+    public void testDeleteNull() {
+        skipIfTestBase();
+        assert(create != null);
+        create.insertInto(table("hosts"))
+                .values("n1", 10, null)
+                .execute();
+        create.deleteFrom(table("hosts")).where(field("id").eq("n1"))
+                .execute();
+        final Result<Record> hostsvResults = create.fetch("select * from hostsv");
+        assertEquals(0, hostsvResults.size());
+    }
+
+    @Test
+    public void testWhereNull() {
+        skipIfTestBase();
+        assert(create != null);
+        create.insertInto(table("hosts"))
+                .values("n1", 10, null)
+                .execute();
+        Record t1 = create.newRecord(field1, field2, field3);
+        t1.setValue(field1, "n1");
+        t1.setValue(field2, 10);
+        t1.setValue(field3, null);
+        final Result<Record> hostsvResults = create.fetch("select * from hostsv");
+        assertTrue(hostsvResults.contains(t1));
+    }
+
+    @Test
+    public void testUpdateBool() {
+        skipIfTestBase();
+        assert(create != null);
+        create.insertInto(table("hosts"))
+                .values("n1", 10, true)
+                .execute();
+        create.execute("update hosts set up = false where id = 'n1'");
+        final Result<Record> hostsvResults = create.fetch("select * from hostsv");
+        Record t1 = create.newRecord(field1, field2, field3);
+        t1.setValue(field1, "n1");
+        t1.setValue(field2, 10);
+        t1.setValue(field3, false);
+        assertTrue(hostsvResults.contains(t1));
+    }
+
+    @Test
+    public void testUpdateNull1() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, null)");
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertNull(results.get(0).get(2));
+    }
+
+    @Test
+    public void testUpdateNull2() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, null)");
+        create.update(table("hosts")).set(field3, true).where(field1.eq("n1")).execute();
+        final Result<Record> hostsvResults = create.selectFrom(table("hostsv")).fetch();
+        Record t1 = create.newRecord(field1, field2, field3);
+        t1.setValue(field1, "n1");
+        t1.setValue(field2, 10);
+        t1.setValue(field3, true);
+        assertTrue(hostsvResults.contains(t1));
+    }
+
+    @Test
+    public void testUpdateUnknownColumn() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.insertInto(table("hosts"))
+                    .values("n1", 10, null)
+                    .execute();
+            create.execute("update hosts set upp = 0 where id = 'n1'");
+            fail();
+        } catch  (final DataAccessException ex) {
+            assertTrue(ex.getMessage().contains("Unknown column"));
+        }
+    }
+
+    @Test
+    public void testUpdateWrongType() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.insertInto(table("hosts"))
+                    .values("n1", 10, null)
+                    .execute();
+            create.execute("update hosts set capacity = true where id = 'n1'");
+            fail();
+        } catch (final DataAccessException ex) {
+            assertTrue(ex.getMessage().contains("not an int"));
+        }
+    }
+
+    /*
+     * Test with SQL statements that supply parameters using bindings
+     */
+    @Test
+    public void testSqlOpsWithBindings() {
+        skipIfTestBase();
+        // Insert statements.
+        assert(create != null);
+        create.insertInto(table("hosts"))
+              .values("n1", 10, true)
+              .execute();
+        create.batch(create.insertInto(table("hosts")).values("n54", 18, false),
+                     create.insertInto(table("hosts")).values("n9", 2, true))
+              .execute();
+
+        // Make sure selects read out the same content inserted above
+        final Result<Record> hostsvResults = create.selectFrom(table("hostsv")).fetch();
+        assertTrue(hostsvResults.contains(test1));
+        assertTrue(hostsvResults.contains(test2));
+        assertTrue(hostsvResults.contains(test3));
+
+        final Result<Record> goodHostsResults = create.selectFrom(table("good_hosts")).fetch();
+        assertFalse(goodHostsResults.contains(test1));
+        assertFalse(goodHostsResults.contains(test2));
+        assertTrue(goodHostsResults.contains(test3));
+
+        // Make sure deletes work
+        create.deleteFrom(table("hosts")).where(field("id").eq("n9")).execute();
+
+        final Result<Record> hostsvResultsAfterDelete = create.selectFrom(table("hostsv")).fetch();
+        assertTrue(hostsvResultsAfterDelete.contains(test1));
+        assertTrue(hostsvResultsAfterDelete.contains(test2));
+        assertFalse(hostsvResultsAfterDelete.contains(test3));
+
+        final Result<Record> goodHostsResultsAfterDelete = create.selectFrom(table("good_hosts")).fetch();
+        assertFalse(goodHostsResultsAfterDelete.contains(test1));
+        assertFalse(goodHostsResultsAfterDelete.contains(test2));
+        assertFalse(goodHostsResultsAfterDelete.contains(test3));
+    }
+
+    @Test
+    public void testLeftJoin() {
+        create.insertInto(table("hosts"))
+                .values("n1", 10, true)
+                .execute();
+        create.batch(create.insertInto(table("hosts")).values("n54", 18, false),
+                        create.insertInto(table("hosts")).values("n9", 2, true))
+                .execute();
+
+        // Make sure selects read out the same content inserted above
+        final Result<Record> joined = create.selectFrom(table("jv")).fetch();
+        assertEquals(3, joined.size());
+        final Record wNulls = create.newRecord(field1, field2, field3);
+        wNulls.setValue(field1, "n54");
+        wNulls.setValue(field2, 18);
+        wNulls.setValue(field3, null);
+        assertTrue(joined.contains(wNulls));
+    }
+
+    /*
+     * Test batches with a mix of plain insert and delete statements
+     */
+    @Test
+    public void testDeletesAndInsertsInTheSameBatchNoBindings() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch("delete from hosts where id = 'n1'",
+                     "insert into hosts values ('n2', 15, false)").execute();
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(1, results.size());
+        assertEquals("n2", results.get(0).get(0, String.class));
+        assertEquals(15, (int) results.get(0).get(1, Integer.class));
+        assertFalse(results.get(0).get(2, Boolean.class));
+    }
+
+    /*
+     * Test batches with a mix of insert and delete statements with bindings
+     */
+    @Test
+    public void testDeletesAndInsertsInTheSameBatchWithBindings() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch(create.deleteFrom(table("hosts")).where(field("id").eq("n1")),
+                     create.insertInto(table("hosts")).values("n2", 15, false))
+              .execute();
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(1, results.size());
+        assertEquals("n2", results.get(0).get(0, String.class));
+        assertEquals(15, (int) results.get(0).get(1, Integer.class));
+        assertFalse(results.get(0).get(2, Boolean.class));
+    }
+
+    /*
+     * Test multi-row inserts
+     */
+    @Test
+    public void testMultiRowInsertsNoBindings() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, true), ('n54', 18, false), ('n9', 2, true)");
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(3, results.size());
+        assertTrue(results.contains(test1));
+        assertTrue(results.contains(test2));
+        assertTrue(results.contains(test3));
+    }
+
+    /*
+     * Test multi-row inserts with bindings
+     */
+    @Test
+    public void testMultiRowInsertsWithBindings() {
+        skipIfTestBase();
+        assert(create != null);
+        create.insertInto(table("hosts"))
+              .values("n1", 10, true)
+              .values("n54", 18, false)
+              .values("n9", 2, true)
+              .execute();
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(3, results.size());
+        assertTrue(results.contains(test1));
+        assertTrue(results.contains(test2));
+        assertTrue(results.contains(test3));
+    }
+
+    /*
+     * Test inserts with a subset of fields specified. This is currently unsupported and should throw an exception
+     */
+    @Test
+    public void testPartialInserts() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.insertInto(table("hosts"), field1, field2)
+                    .values("n1", 10)
+                    .execute();
+            fail();
+        } catch (final RuntimeException ignored) {
+        }
+    }
+
+    /*
+     * Test updates
+     */
+    @Test
+    public void testUpdates() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.execute("update hosts set capacity = 11 where id = 'n1'");
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(results.get(0).get(1), 11);
+    }
+
+    /*
+     * Test updates
+     */
+    @Test
+    public void testUpdatesWithBindings() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.update(table("hosts")).set(field2, 11).where(field1.eq("n1")).execute();
+        final Result<Record> results = create.selectFrom(table("hostsv")).fetch();
+        assertEquals(results.get(0).get(1), 11);
+    }
+
+    /*
+     * Test a select query to a view that does not exist
+     */
+    @Test
+    public void testNonExistentViewsSelect() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.selectFrom(table("s1")).fetch();
+            fail();
+        } catch (final DataAccessException e) {
+            assertTrue(e.getMessage().contains("Table S1 does not exist"));
+        }
+    }
+
+    /*
+     * Test an insert to a base table that does not exist
+     */
+    @Test
+    public void testNonExistentViewsInsert() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.execute("insert into s1 values ('n1', 10, true)");
+            fail();
+        } catch (final DataAccessException e) {
+            assertTrue(e.getMessage().contains("Table S1 does not exist"));
+        }
+    }
+
+    /*
+     * Test a delete to a base table that does not exist
+     */
+    @Test
+    public void testNonExistentViewsDelete() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.execute("delete from S1 where id = '5'");
+            fail();
+        } catch (final DataAccessException e) {
+            assertTrue(e.getMessage().contains("Table S1 does not exist"));
+        }
+    }
+    /*
+     * Test an update to a base table that does not exist
+     */
+    @Test
+    public void testNonExistentViewsUpdate() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.execute("update S1 set capacity = 11 where id = 'n1'");
+            fail();
+        } catch (final DataAccessException e) {
+            assertTrue(e.getMessage().contains("Table S1 does not exist"));
+        }
+    }
+
+
+    /*
+     * Test an insert with a wrong value type: column 1 is of type varchar, but we insert an int instead
+     */
+    @Test
+    public void testWrongTypeInsert() {
+        skipIfTestBase();
+        try {
+            assert(create != null);
+            create.execute("insert into hosts values (5, 10, true)");
+            fail();
+        } catch (final DataAccessException e) {
+            assertTrue(e.getMessage().contains("not a string"));
+        }
+    }
+
+    /*
+     * Test we can insert into columns with `not null` annotations.
+     */
+    @Test
+    public void testNotNullColumns() {
+        skipIfTestBase();
+        // Without bindings
+        Assert.assertNotNull(create);
+        create.execute("insert into not_null values (5, 'test_string')");
+        // With bindings
+        create.insertInto(table("not_null"))
+                .values(1, "herp")
+                .execute();
+    }
+
+    /*
+     * Inserting null into not-null column fails at runtime.
+     */
+    @Test
+    public void testInsertNullFails() {
+        skipIfTestBase();
+        // Without bindings
+        try {
+            Assert.assertNotNull(create);
+            create.execute("insert into not_null values (5, null)");
+            fail();
+        } catch (Exception ex) {
+            Assert.assertTrue(ex.getMessage().contains("NULL value for non-null column"));
+        }
+    }
+
+    @Test
+    public void testInsertNullFails1() {
+        skipIfTestBase();
+        try {
+            // With bindings
+            Assert.assertNotNull(create);
+            create.insertInto(table("not_null"))
+                    .values(null, "herp")
+                    .execute();
+            fail();
+        } catch (Exception ex) {
+            Assert.assertTrue(ex.getMessage().contains("NULL value for non-null column"));
+        }
+    }
+
+    @Test
+    public void testArrayAggTypes() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into base_array_table values ('n1', 10, 10)");
+        create.batch("insert into base_array_table values ('n54', 18, 18)",
+                "insert into base_array_table values ('n9', 1, 3)",
+                "insert into base_array_table values ('n10', 2, 3)",
+                "insert into base_array_table values ('n11', 3, 3)"
+                ).execute();
+
+        create.insertInto(table("base_array_table"))
+                .values("n3", null, 18)
+                .execute();
+
+        final Field<Integer> field1 = field("col3", Integer.class);
+        final Field<Object> field2 = field("agg", Object.class);
+
+        final Record arrayAgg1 = create.newRecord(field1, field2);
+        final Record arrayAgg2 = create.newRecord(field1, field2);
+        final Record arrayAgg3 = create.newRecord(field1, field2);
+
+        arrayAgg1.setValue(field1, 10);
+        arrayAgg1.setValue(field2, new Integer[] {10});
+        arrayAgg2.setValue(field1, 18);
+        arrayAgg2.setValue(field2, new Integer[] {null, 18});
+        arrayAgg3.setValue(field1, 3);
+        arrayAgg3.setValue(field2, new Integer[] {1,2,3});
+
+        // Make sure selects read out the same content inserted above
+        final Result<Record> aggResults = create.fetch("select * from check_array_type_integer");
+        assertTrue(aggResults.contains(arrayAgg1));
+        assertTrue(aggResults.contains(arrayAgg2));
+        assertTrue(aggResults.contains(arrayAgg3));
+    }
+
+    @Test
+    public void testArrayAggAndContainsTypes() {
+        skipIfTestBase();
+        assert(create != null);
+        create.batch("insert into base_array_table values ('n54', 18, 18)",
+                        "insert into base_array_table values ('n9', 1, 3)",
+                        "insert into base_array_table values ('n10', 2, 3)",
+                        "insert into base_array_table values ('n11', 3, 3)"
+                        ).execute();
+        final Result<Record> aggResults = create.fetch("select * from check_array_type_string");
+        final Field<Integer> field1 = field("col3", Integer.class);
+        final Field<Object> field2 = field("agg", Object.class);
+        final Record arrayAgg1 = create.newRecord(field1, field2);
+        arrayAgg1.setValue(field1, 3);
+        arrayAgg1.setValue(field2, new String[] {"n10", "n9", "n11"});
+        assertEquals(2, aggResults.size());
+        assertTrue(aggResults.contains(arrayAgg1));
+
+        // the view does array_contains(array_col, 'n10')
+        final Result<Record> arrayContainsResult = create.fetch("select * from check_contains_non_option");
+        assertEquals(3, (int) arrayContainsResult.get(0).get(0, Integer.class));
+    }
+
+    // @Test
+    // TODO: this test does not run since the Jooq compiler does
+    // not understand set_agg
+    public void testSetAggAndContainsTypes() {
+        skipIfTestBase();
+        assert(create != null);
+        create.batch("insert into base_array_table values ('n54', 18, 18)",
+                "insert into base_array_table values ('n9', 1, 3)",
+                "insert into base_array_table values ('n10', 2, 3)",
+                "insert into base_array_table values ('n11', 3, 3)"
+        ).execute();
+        final Result<Record> aggResults = create.fetch("select * from check_set_type_string");
+        final Field<Integer> field1 = field("col3", Integer.class);
+        final Field<Object> field2 = field("agg", Object.class);
+        final Record arrayAgg1 = create.newRecord(field1, field2);
+        arrayAgg1.setValue(field1, 3);
+        arrayAgg1.setValue(field2, new String[] {"n10", "n9", "n11"});
+        assertEquals(2, aggResults.size());
+        assertTrue(aggResults.contains(arrayAgg1));
+
+        // the view does array_contains(array_col, 'n10')
+        final Result<Record> arrayContainsResult = create.fetch("select * from check_contains_non_option");
+        assertEquals(3, (int) arrayContainsResult.get(0).get(0, Integer.class));
+    }
+
+    @Test
+    public void testArrayColumnInsertion() {
+        skipIfTestBase();
+        assert(create != null);
+        create.execute("insert into junk values((1, 2, 3))");
+    }
+
+    @Test
+    public void testIdentityViews() {
+        skipIfTestBase();
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch("insert into hosts values ('n54', 18, false)",
+                "insert into hosts values ('n9', 2, true)").execute();
+
+        final Result<Record> readFromInput = create.fetch("select * from hosts");
+        assertTrue(readFromInput.contains(test1));
+        assertTrue(readFromInput.contains(test2));
+        assertTrue(readFromInput.contains(test3));
+
+        final Result<Record> readFromInputDirect = provider.fetchTable("hosts");
+        assertTrue(readFromInputDirect.contains(test1));
+        assertTrue(readFromInputDirect.contains(test2));
+        assertTrue(readFromInputDirect.contains(test3));
+    }
+
+    @Test
+    public void testIndexDelete() {
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch("insert into hosts values ('n54', 18, false)",
+                "insert into hosts values ('n9', 2, true)").execute();
+
+        // Delete using an index
+        create.execute("delete from hosts where id='n1' and up=true");
+
+        // Deletes on keys that don't exist should return nothing
+        create.execute("delete from not_null where test_col1=5");
+
+        final Field<Integer> testCol1 = field("test_col1", Integer.class);
+        final Field<String> testCol2 = field("test_col2", String.class);
+        final Record notNull1 = create.newRecord(testCol1, testCol2);
+        final Record notNull2 = create.newRecord(testCol1, testCol2);
+
+        notNull1.setValue(testCol1, 5);
+        notNull1.setValue(testCol2, "hello");
+        notNull2.setValue(testCol1, -2);
+        notNull2.setValue(testCol2, "world");
+
+        // Populate not_null with some test data
+        create.execute("insert into not_null values (5, 'hello')");
+        create.execute("insert into not_null values (-2, 'world')");
+        Result<Record> readFromInput = create.fetch("select * from not_null");
+        assertTrue(readFromInput.contains(notNull1));
+        assertTrue(readFromInput.contains(notNull2));
+
+        // Delete one row with index
+        create.execute("delete from not_null where test_col1=-2");
+        readFromInput = create.fetch("select * from not_null");
+        assertTrue(readFromInput.contains(notNull1));
+        assertFalse(readFromInput.contains(notNull2));
+
+        // Verify that deletes with PKs still works normally
+        create.execute("delete from hosts where id='n54'");
+
+        readFromInput = create.fetch("select * from hosts");
+        assertFalse(readFromInput.contains(test1));
+        assertFalse(readFromInput.contains(test2));
+        assertTrue(readFromInput.contains(test3));
+    }
+
+    @Test
+    public void testSelectAllFields() {
+        skipIfTestBase();
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch("insert into hosts values ('n54', 18, false)",
+                "insert into hosts values ('n9', 2, true)").execute();
+
+        Result<Record> readFromInput = create.fetch("select id, capacity, up from hosts");
+        assertTrue(readFromInput.contains(test1));
+        assertTrue(readFromInput.contains(test2));
+        assertTrue(readFromInput.contains(test3));
+
+        readFromInput = create.fetch("select hosts.id, hosts.capacity, hosts.up from hosts");
+        assertTrue(readFromInput.contains(test1));
+        assertTrue(readFromInput.contains(test2));
+        assertTrue(readFromInput.contains(test3));
+
+        // Make sure other select queries don't work
+        Exception e = assertThrows(Exception.class, () -> create.fetch("select hosts.capacity, hosts.up from hosts"));
+        assertTrue(e.getMessage().contains("Statement not supported"));
+    }
+
+    @Test
+    public void testIndexSelect() {
+        create.execute("insert into hosts values ('n1', 10, true)");
+        create.batch("insert into hosts values ('n54', 18, false)",
+                "insert into hosts values ('n9', 2, true)").execute();
+
+        final Field<Integer> testCol1 = field("test_col1", Integer.class);
+        final Field<String> testCol2 = field("test_col2", String.class);
+        final Record notNull1 = create.newRecord(testCol1, testCol2);
+        final Record notNull2 = create.newRecord(testCol1, testCol2);
+
+        notNull1.setValue(testCol1, 5);
+        notNull1.setValue(testCol2, "hello");
+        notNull2.setValue(testCol1, -2);
+        notNull2.setValue(testCol2, "world");
+
+        // Populate not_null with some test data
+        create.execute("insert into not_null values (5, 'hello')");
+        create.execute("insert into not_null values (-2, 'world')");
+        Result<Record> readFromInput = create.fetch("select * from not_null where test_col1=-2");
+        assertTrue(readFromInput.contains(notNull2));
+
+        readFromInput = create.fetch("select * from not_null where test_col1=5");
+        assertTrue(readFromInput.contains(notNull1));
+
+        readFromInput = create.fetch("select * from hosts where id='n9' AND up=true");
+        assertTrue(readFromInput.contains(test3));
+    }
+
+    @Test
+    public void testBigInt() {
+        create.execute("insert into big_int_table values (10000000000)");
+        Result<Record> readFromInput = create.fetch("select * from big_int_table");
+
+        final Field<Long> testCol1 = field("id", Long.class);
+        final Record testLong = create.newRecord(testCol1);
+        testLong.setValue(testCol1, 10000000000L);
+        assertTrue(readFromInput.contains(testLong));
+    }
+}

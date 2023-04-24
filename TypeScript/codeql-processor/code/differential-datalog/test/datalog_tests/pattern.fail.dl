@@ -1,0 +1,185 @@
+typedef T1 = C11
+           | C12
+
+// non-exhaustive pattern
+
+function f1(x: T1) : bool = {
+    match (x) {
+        C11 -> true
+    }
+}
+
+//---
+
+typedef T1 = C11
+           | C12
+
+// redundant pattern
+
+function f1(x: T1) : bool = {
+    match (x) {
+        C11 -> true,
+        C11 -> true,
+        C12 -> false
+    }
+}
+
+//---
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T2 = C21{f1: T1, f2: bigint}
+           | C22{f3: (bool, T1)}
+
+// non-exhaustive pattern
+
+function f1(x: T2) : bool = {
+    match (x) {
+        C21{}           -> true,
+        C22{(_, C11{})} -> true
+        // C22{(_, C21{})}
+    }
+}
+
+//---
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T2 = C21{f1: T1, f2: bigint}
+           | C22{f3: (bool, T1)}
+
+// redundant pattern
+
+function f1(x: T2) : bool = {
+    match (x) {
+        C21{}           -> true,
+        C22{}           -> true,
+        C22{(_, C11{})} -> true  // redundant
+    }
+}
+
+
+//---
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T2 = C21{f1: T1, f2: bigint}
+           | C22{f3: (bool, T1)}
+
+// redundant pattern
+
+function f1(x: T2) : bool = {
+    match (x) {
+        C21{}           -> true,
+        C22{(_, C11{})} -> true,
+        C22{(_, C12{})} -> true,
+        _               -> false
+    }
+}
+
+
+//---
+
+// non-exhaustive pattern
+
+function f1(z: (bool, (bool, (bool, bool)))) : bool = {
+    match (z) {
+        (true, _)                  -> true,
+        (false, (_,(true, true)))  -> true,
+        (false, (_,(true, false))) -> true,
+        (false, (_,(false, true))) -> true
+        // (false, (_,(false, false))) -> true
+    }
+}
+
+//---
+
+// redundant pattern
+
+function f1(z: (bool, (bool, (bool, bool)))) : bool = {
+    match (z) {
+        (true, _)                   -> true,
+        (false, (_,(true, true)))   -> true,
+        (false, (_,(true, false)))  -> true,
+        (false, (_,(false, true)))  -> true,
+        _                           -> false,
+        (false, (_,(false, false))) -> true
+    }
+}
+
+//---
+
+// non-exhaustive pattern
+
+function f1(z: (bool, (bool, (bool, bool)))) : bool = {
+    match (z) {
+        (_, (_,(true, true)))       -> true,
+        (_, (_,(true, false)))      -> true,
+        (_, (_,(false, true)))      -> true,
+        (false, (_,(false, false))) -> true
+    }
+}
+
+//---
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T3 = C31{f1: T1, f2: bigint}
+           | C32{f3: ((bool, (bool, bool, bool)), T1)}
+
+// non-exhaustive pattern
+
+function f1(x: T1, q: T3) : bool = {
+    match (q) {
+        C31{}                                       -> true,
+        C32{.f3=((true, (_, _, false)), _)}         -> true,
+        C32{.f3=((false, (_, _, false)), _)}        -> true,
+        C32{.f3=((false, (_, _, true)), _)}         -> true,
+        C32{.f3=((_, (_, _, true)), C11{})}         -> true
+    }
+}
+
+//---
+
+typedef T1 = C11{f1: bigint, f2: (bigint, string)}
+           | C12{f3: bit<32>, f4: (bool, bool, bool)}
+
+typedef T3 = C31{f1: T1, f2: bigint, s: string, b: bit<32>}
+           | C32{f3: ((bool, (bool, bool, bool)), T1)}
+
+// non-exhaustive pattern
+
+function f1(x: T1, q: T3) : bool = {
+    match (q) {
+        C31{_, 0, "foo", 15}                                       -> true,
+        C31{_, _, _, 15}                                           -> true,
+        C31{_, 0, _, _}                                            -> true,
+        C31{_, _, "foo", _}                                        -> true,
+        C32{}                                                      -> true
+    }
+}
+
+//---
+
+// non-exhaustive pattern
+
+function f1(s: string) : bool = {
+    match (s) {
+        "foo" -> true,
+        "bar" -> true
+        //_     -> false
+    }
+}
+
+//---
+
+// bug parsing "andover" as "and over"
+
+function b(): bool {
+    var over = false;
+    true andover
+}

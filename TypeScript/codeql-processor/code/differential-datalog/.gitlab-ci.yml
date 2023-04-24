@@ -1,0 +1,292 @@
+default:
+    image: ddlog/gitlab-ci:latest
+    before_script:
+        - export PATH="${PWD}/bin:${PATH}"
+
+variables:
+    #DOCKER_AUTH_CONFIG: "{\"auths\": { \"docker.com\": { \"auth\": \"ZGRsb2djaTpIb3VIZWdnb2RVbjQ=\"}}}"
+    # Controls differential dataflow's eager compaction behavior
+    DIFFERENTIAL_EAGER_MERGE: 100000
+    # Some of our tests assume certain functionality to be available in
+    # the CI pipeline (and will fail if that is not the case). This
+    # variable is how this information is conveyed. Note that GitLab
+    # already provides similar variables (e.g., `CI`; see
+    # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html)
+    # but we opted to have our own, in order to not depend on
+    # potentially changing GitLab behavior as well as to achieve some
+    # form of independence of the underlying CI pipeline.
+    IS_CI_RUN: 1
+    # Tell ./test.sh script not to redirect test stdout and stderr to file.
+    NO_STD_REDIRECT: 1
+
+.private_runner:
+    image: harbor-repo.vmware.com/ddlog/gitlab-ci:latest
+
+build_ddlog:
+    extends: .private_runner
+    stage: build
+    tags:
+        - ddlog-ci-1
+    script:
+        - stack install --local-bin-path ./bin
+    artifacts:
+        paths:
+            - ./bin/ddlog
+            - ./bin/ovsdb2ddlog
+            - ./bin/debugparser
+
+# Test Rust template only.
+test-rust:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        - ./test.sh crates
+
+test-modules:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-2
+    script: ./test.sh modules
+
+test-ovn-ftl:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh ovn_ftl
+
+test-ovn:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh ovn_mockup
+
+test-path:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        - ./test.sh negative
+        - ./test.sh path
+
+test-lb:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        - ./test.sh lb
+
+# Run individual stack-based tests, when possible combining them with Java tests
+# that depend on the same DDlog program.
+test-tutorial:
+    stage: test
+    script: ./test.sh tutorial
+
+test-rust-api:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-2
+    script: ./test.sh rust_api
+
+# Test individual libraries
+
+test-libs:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh libs
+
+test-simple:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh simple
+
+test-simple2:
+    stage: test
+    script: ./test.sh simple2
+
+test-simple3:
+    stage: test
+    script: ./test.sh simple3
+
+test-span_string:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        - ./test.sh span_string
+        - ./test.sh java3
+
+test-souffle0:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh static_analysis
+
+test-redist:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        #- ./test.sh redist
+        - ./test.sh java1
+        - ./test.sh flatbuf0
+
+test-output-internal:
+    stage: test
+    script: ./test.sh output_internal
+
+# All other Java tests.
+test-span_uuid:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-2
+    script:
+        - ./test.sh span_uuid
+        - ./test.sh java0
+
+test-java1:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script:
+        - ./test.sh java2
+        - ./test.sh java4
+
+# these tests are currently failing (#372)
+#test-java2:
+#    extends: .install-ddlog
+#    script:
+#        - (cd java/test5 && ./run.sh)
+#        - (cd java/test6 && ./run.sh)
+
+test-flatbuf:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh flatbuf1
+
+# Template for souffle tests
+.test-imported-souffle:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+
+# Tests from the souffle github repo.
+test-imported-souffle-tests1:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests1
+
+test-imported-souffle-tests2:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests2
+
+test-imported-souffle-tests3:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests3
+
+test-imported-souffle-tests4:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests4
+
+test-imported-souffle-tests5:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests5
+
+test-imported-souffle-tests6:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests6
+
+test-imported-souffle-tests7:
+    extends: .test-imported-souffle
+    script: ./test.sh souffle_tests7
+
+# Test DDlog code from the Declarative Cluster Management project
+test-dcm:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh dcm
+
+# Torture-test optimized version of redist
+test-redist_opt:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-2
+    script: ./test.sh redist_opt
+
+# Test ovn-northd-ddlog
+test-ovn-northd:
+    extends: .private_runner
+    stage: test
+    # Don't use eager merging, as northd tends to perform many small
+    # transactions, making things slow.
+    variables: {}
+    tags:
+        - ddlog-ci-2
+    script: ./test.sh ovn_check
+
+# Test antrea
+test-antrea:
+    extends: .private_runner
+    stage: test
+    tags:
+        - ddlog-ci-1
+    script: ./test.sh antrea_check
+
+# Test the SQL-to-DDlog compiler.
+test-sql:
+    stage: test
+    script: ./test.sh sql
+
+# Test Go bindings
+test-golang:
+    stage: test
+    script: ./test.sh go
+
+# Test C API
+test-c-tutorial:
+    stage: test
+    script: ./test.sh c_tutorial1
+
+# Test stream relations.
+test-stream:
+    stage: test
+    script: ./test.sh stream
+
+# Twitter microbenchmark.
+bench-twitter:
+    extends: .private_runner
+    tags:
+        - ddlog-ci-1
+    stage: test
+    script: ./test.sh twitter_micro
+
+# Test weight overflow feature
+test-overflow:
+     stage: test
+     script: ./test.sh overflow
+
+# Test self-profiler
+test-profiler:
+     stage: test
+     script: ./test.sh profiler

@@ -1,0 +1,10 @@
+start;
+insert time_test::TITest(.t = "10:11:12.000000000"),
+insert time_test::DITest(.d = "2010-10-15"),
+insert time_test::DTITest(.d = time::DateTime{.date = "2010-10-15", .time = "10:11:12.000000000" }),
+commit;
+dump time_test::TTest;
+dump time_test::Extract;
+dump time_test::DTest;
+dump time_test::DTTest;
+exit

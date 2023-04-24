@@ -1,0 +1,225 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+// Library of Souffle functions
+
+import intern
+import regex
+import souffle_types
+import fp
+
+function castTo32(i: bit<64>): Tnumber {
+    i[31:0] as Tnumber
+}
+function castTo64(i: Tnumber): bit<64> {
+    32'd0 ++ (i as bit<32>)
+}
+function cat(s: IString, t: IString): IString {
+    (string_intern(istring_str(s) ++ istring_str(t)))
+}
+function strlen(s: IString): Tnumber {
+    castTo32(string_len(istring_str(s)))
+}
+function ord(s: IString): Tnumber {
+    istring_ord(s) as Tnumber
+}
+function substr(s: IString, i: Tnumber, l: Tnumber): IString {
+    string_intern(string_substr(istring_str(s), castTo64(i), castTo64(i + l)))
+}
+// The order of arguments in Souffle is reverted
+function contains(s: IString, i: IString): bool {
+    string_contains(istring_str(i), istring_str(s))
+}
+// Souffle match must match the whole string
+function re_match(pattern: IString, s: IString): bool {
+    regex_match(regex("^" ++ istring_str(pattern) ++ "$"), istring_str(s))
+}
+function to_number(s: IString): Tnumber {
+    match (parse_dec_i64(istring_str(s))) {
+        None -> 0,
+        Some{x} -> x as Tnumber
+    }
+}
+function to_number(f: double): Tnumber {
+    match (int_from_d(f)) {
+        None -> 0,
+        Some{x} -> x as Tnumber
+    }
+}
+function to_istring(n: Tnumber): IString {
+    string_intern(__builtin_2string(n))
+}
+function random(): Tnumber {
+    0
+}
+function land(l: Tnumber, r: Tnumber): Tnumber {
+    if (l != 0 and r != 0) 1 else 0
+}
+function lor(l: Tnumber, r: Tnumber): Tnumber {
+    if (l == 0 and r == 0) 0 else 1
+}
+function lnot(l: Tnumber): Tnumber {
+    if (l != 0) 0 else 1
+}
+function land(l: Tunsigned, r: Tunsigned): Tunsigned {
+    if (l != 0 and r != 0) 1 else 0
+}
+function lor(l: Tunsigned, r: Tunsigned): Tunsigned {
+    if (l == 0 and r == 0) 0 else 1
+}
+function lnot(l: Tunsigned): Tunsigned {
+    if (l != 0) 0 else 1
+}
+function ftoi(l: double): signed<32> {
+    match (int_from_d(l)) {
+        None -> 0,
+        Some{x} -> x as signed<32>
+    }
+}
+function itof(l: signed<32>): double {
+    l as double
+}
+function itou(l: signed<32>): bit<32> {
+    l as bit<32>
+}
+function utoi(l: bit<32>): signed<32> {
+    l as signed<32>
+}
+function utof(l: bit<32>): double {
+    l as double
+}
+function ftou(l: double): bit<32> {
+    match (int_from_d(l)) {
+        None -> 0,
+        Some{x} -> x as signed<32> as bit<32>
+    }
+}
+// Not clear from the spec whether sin takes a signed or double...
+function sin(l: signed<32>): signed<32> {
+    ftoi(sin_d(l as double))
+}
+function cos(l: signed<32>): signed<32> {
+    ftoi(cos_d(l as double))
+}
+function tan(l: signed<32>): signed<32> {
+    ftoi(tan_d(l as double))
+}
+function asin(l: signed<32>): signed<32> {
+    ftoi(asin_d(l as double))
+}
+function acos(l: signed<32>): signed<32> {
+    ftoi(acos_d(l as double))
+}
+function atan(l: signed<32>): signed<32> {
+    ftoi(atan_d(l as double))
+}
+function sinh(l: signed<32>): signed<32> {
+    ftoi(sinh_d(l as double))
+}
+function cosh(l: signed<32>): signed<32> {
+    ftoi(cosh_d(l as double))
+}
+function tanh(l: signed<32>): signed<32> {
+    ftoi(tanh_d(l as double))
+}
+function asinh(l: signed<32>): signed<32> {
+    ftoi(asinh_d(l as double))
+}
+function acosh(l: signed<32>): signed<32> {
+    ftoi(acosh_d(l as double))
+}
+function atanh(l: signed<32>): signed<32> {
+    ftoi(atanh_d(l as double))
+}
+function log(l: signed<32>): signed<32> {
+    ftoi(ln_d(l as double))
+}
+function exp(l: signed<32>): signed<32> {
+    ftoi(exp_d(l as double))
+}
+function souffle_group_count32(g: Group<'K, 'V>): Tnumber {
+    castTo32(group_count_distinct(g))
+}
+
+/*
+ In all the group functions below, the group has structure Group<'K, ('V, X)>
+ where is the X we want to aggregate.  'K is the group key.
+ 'V is the type of all tuples that are in context, and it really is ignored
+
+ Moreover, the group iterators have the structure:
+    for (((_, n), _) in g)
+ This is because for a Group<'K, 'A> the iterator iterates over
+ values of type ('A, weight), and the weight is only interesting
+ for streams, and thus it is ignored here.  In the triple
+ ((_, n), _) n is really the value we want to aggregate.
+ The first dash is the tuple, which we ignore, and the last dash is
+ the weight.
+*/
+
+function souffle_group_max(g: Group<'K, ('V, 'N)>): 'N {
+    var result = g.first().1;
+    for (((_, n), _) in g) {
+        result = max(n, result);
+    };
+    result
+}
+function souffle_group_min(g: Group<'K, ('V, 'N)>): 'N {
+    var result = g.first().1;
+    for (((_, n), _) in g) {
+        result = min(n, result);
+    };
+    result
+}
+function souffle_group_mean(g: Group<'K, ('V, signed<32>)>): signed<32> {
+    var sum = souffle_group_sum(g);
+    var count = group_count_distinct(g);
+    // count can never be 0
+    sum / (count as signed<64> as signed<32>)
+}
+function souffle_group_mean_d(g: Group<'K, ('V, double)>): double {
+    var sum = souffle_group_sum_d(g);
+    var count = group_count_distinct(g);
+    // count can never be 0
+    sum / (count as double)
+}
+function souffle_group_sum(g: Group<'K, ('V, Tnumber)>): Tnumber {
+    var sum = 0;
+    for (((_, n), _) in g) {
+        sum = sum + n;
+    };
+    sum
+}
+function souffle_group_sum_u(g: Group<'K, ('V, Tunsigned)>): Tunsigned {
+    var sum = 0;
+    for (((_, n), _) in g) {
+        sum = sum + n;
+    };
+    sum
+}
+function souffle_group_sum_d(g: Group<'K, ('V, double)>): double {
+    var sum = 0.0;
+    for (((_, n), _) in g) {
+        sum = sum + n;
+    };
+    sum
+}

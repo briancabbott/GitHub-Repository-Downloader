@@ -1,0 +1,8 @@
+// two fields with the same name
+typedef t = Constr { f: bigint, f: bigint }
+
+//---
+
+// Two symbols with the same name
+typedef f = bigint
+function f(): bigint

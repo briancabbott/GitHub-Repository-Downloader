@@ -1,0 +1,289 @@
+// variable declaration cannot be the last statement in a block
+function vars(): () = {
+    var x: bigint
+}
+
+//---
+
+typedef C = C{f1: string, f2: string}
+
+// missing arguments to a type constructor
+function vars(): () = {
+    var y: C = C{"foo", "bar"};
+
+    // missing arguments allowed in the LHS of an assignment
+    C{.f1 = var a} = y;
+
+    // error: missing argument in the RHS
+    var z = C{.f1 = "foo"}
+}
+
+//---
+
+typedef Alt = C0{x: bit<32>}
+            | C1{x: bit<32>}
+
+// Invalid type annotation in pattern.
+function shadow(v: string): () = {
+    var a: Alt = C0{1};
+
+    var i: bit<32> = match (a) {
+        C0{.x = w: bool} -> w,
+        C1{w} -> w
+    }
+}
+
+//---
+
+// access guarded struct field
+function shadow(): () = {
+    var a = Some{"foo"};
+    var b = a.x
+}
+
+//---
+
+// non-unique constructor in the LHS of assignment
+
+function f(x: Option<'A>): () = {
+    Some{var s} = x
+}
+
+//---
+
+typedef t<'A> = T{field: Option<'A>}
+
+// non-unique constructor in the LHS of assignment
+
+function f(x: t<'A>): () = {
+    T{.field = Some{var s}} = x
+}
+
+//---
+
+function parameterized(x: 'A, y: 'A): 'A
+
+function use_parameterized(x: string, y: bigint): string =
+    parameterized(x,y) // error: x and y must have the same type
+
+//---
+
+function foo(x: bigint): string =
+    x.bar // x is not a struct
+
+//---
+
+function cast(x: bit<32>): signed<64> = x as signed<64>
+
+//---
+
+function cast(x: signed<32>): bit<64> = x as bit<64>
+
+//---
+
+function cast(x: bigint): bit<64> = x as bit<64>
+
+//---
+
+function cast(x: bit<16>): bool = x as bool
+
+//---
+
+function cast(x: float): int<32> = x as int<32>
+
+//---
+
+function cast(x: double): bit<32> = x as bit<32>
+
+//---
+
+function cast(x: string): bool = x as bool
+
+//---
+
+// continue outside of loop
+
+function control_flow(): () = {
+    continue
+}
+
+//---
+
+// continue in LHS of assignment.
+
+function control_flow(): () = {
+    var v: Vec<bool> = vec_empty();
+    for (x in v) {
+        continue = true
+    }
+}
+
+//---
+
+// return incorrect type.
+
+function control_flow(): () = {
+    return false
+}
+
+//---
+
+// return outside of a function
+
+relation NotFunction(x: bool)
+
+NotFunction(true) :- NotFunction(return false)
+
+//---
+
+// Slice wider than the variable being sliced.
+
+function slice(): u32 {
+    var x: u16 = 0;
+    x[31:0]
+}
+
+//---
+
+// Write to a read-only field.
+
+function illegal_write_to_tuple_field(x: (string, u64)): () {
+    x.0 = "bar";
+    x.1 = -x.1;
+    ()
+}
+
+//---
+
+// Write to a reference.
+
+function write_to_ref(): () {
+    var x = ref_new(("bar", 25));
+    x.0 = "foo";
+    ()
+}
+
+
+//---
+
+// #593.
+function bool_identity(b: Option<bool>): Option<bool> = b
+
+typedef Tagg = Tagg{col:bool}
+
+function agg():Tagg {
+  (var any = Some{false}: Option<bool>);
+  (Tagg{.col = bool_identity(any)})
+}
+
+//---
+
+// Extern function name clash
+
+extern function foo(x: u32): ()
+extern function foo(x: Vec<u32>): ()
+
+//---
+
+// Invalid use of ?-operator
+
+function try1(name: string): Result<(string, string), string> {
+    var components = name.split(" ");
+    var first_name = components.nth(0)?;
+    var last_name = components.nth(1)?;
+    Some{(first_name, last_name)}
+}
+
+//---
+
+function f(x: mut string, y: u32) {
+    var z = 0;
+
+    // ok: z is a local variable.
+    z = y;
+
+    // ok: x is a `mut` argument.
+    x = "foo";
+
+    // error: y is a read-only argument.
+    y = 0
+}
+
+//---
+
+function f(x: mut string, y: u32) {
+    var vec = [0, 1, 2];
+    for (val in vec) {
+        // error: loop variable cannot be modified in the body of the loop.
+        val = y
+    }
+}
+
+//---
+
+typedef TestStruct = TestStruct {
+    f1: string,
+    f2: bool
+}
+
+function f() {
+    var interned: Intern<TestStruct> = TestStruct{"foo", false}.intern();
+    
+    // ok: overwriting the entire interned variable.
+    interned = TestStruct{"bar", true}.intern();
+
+    // error: cannot modify the contents of an interned value.
+    interned.f1 = "bar"
+}
+
+//---
+typedef TestStruct = TestStruct {
+    f1: string,
+    f2: bool
+}
+
+function f() {
+    var interned: Intern<TestStruct> = TestStruct{"foo", false}.intern();
+    
+    var vec = [0, 1, 2];
+    for (val in vec) {
+        // error: cannot modify a variable while iterating over it.
+        vec.push(val)
+    }
+}
+
+//---
+
+typedef TestStruct = TestStruct {
+    f1: string,
+    f2: bool
+}
+
+function f() {
+    var interned: Intern<TestStruct> = TestStruct{"foo", false}.intern();
+    
+    var vec = [0, 1, 2];
+    // error: attempt to modify a variable inside an if-condition.
+    if ({vec.push(3); vec.len()} > 5) { () }
+}
+
+//---
+
+function f() {
+    // duplicate argument name in closure.
+    var closure = |x: bool, x: bool|: u64 {0};
+}
+
+//---
+
+// Call function with the wrong number of arguments.
+
+function a(x: bit<16>, y: bit<16>): bit<16> { x + y }
+function b() { a(0) }
+
+//---
+
+// Call function with wrong argument types.
+
+function a(x: bit<16>, y: bit<16>): bit<16> { x + y }
+function b() { a(32'd0, 5) }

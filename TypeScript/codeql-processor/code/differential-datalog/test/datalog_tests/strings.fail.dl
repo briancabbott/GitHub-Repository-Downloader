@@ -1,0 +1,67 @@
+function strings(): () = {
+    var str1 = "foo";
+    var str2 = "bar";
+    var ok = "${str1+str2}";
+    var err = "${str1+str2";
+    ()
+}
+
+//---
+
+function strings(): () = {
+    var b = "" > 2;
+    ()
+}
+
+//---
+
+function strings(): () = {
+    var c = "" != 2;
+    ()
+}
+
+//---
+
+function strings(): () = {
+    var s = "string";
+    var d = s < true;
+    ()
+}
+
+//---
+
+typedef Type1 = Cons1 | Cons2
+
+function strings(): () = {
+    var x: Type1 = Cons1;
+    var err = "${x}"; // don't know how to convert x to string
+    ()
+}
+
+//---
+
+function strings(): () = {
+    var str2 = "bar";
+    {var str1 = ""; ()};
+    var err = "${str2++str1}"; // str1 is not declared in this scope
+    ()
+}
+
+//---
+
+typedef serializable_t = ConsInt {x: bigint}
+                       | ConsBit {y: bit<32>}
+                       | ConsBool{z: bool}
+                       | Cons0{}
+
+// error: no to_string function for serializable_t
+
+function tostring2(): () = {
+    var a: bigint  = 5;
+    var b: bit<32> = 5;
+    var c: bool    = true;
+    var d: string  = "foo";
+    var e: serializable_t = ConsInt{0};
+    var err = "a=${a}, b=${b}, c=${c}, d=${d}, e:${e}";
+    ()
+}

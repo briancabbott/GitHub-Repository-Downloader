@@ -1,0 +1,367 @@
+import time
+
+/* This library has functions for supporting the translation of SQL into DDlog */
+
+function sql_extract_year(d: Date): signed<64> {
+    year(d) as signed<64>
+}
+
+function sql_extract_month(d: Date): signed<64> {
+    month(d) as signed<8> as signed<64>
+}
+
+function sql_array_contains(a: Ref<Vec<'A>>, e: 'A): bool {
+    vec_contains(a.deref(), e)
+}
+
+function sql_array_contains_N(a: Ref<Vec<'A>>, e: Option<'A>): bool {
+    match (e) {
+        Some{v} -> vec_contains(a.deref(), v),
+        None -> false
+    }
+}
+
+function sql_set_contains(a: Ref<Set<'A>>, e: 'A): bool {
+    set_contains(a.deref(), e)
+}
+
+function sql_set_contains_N(a: Ref<Set<'A>>, e: Option<'A>): bool {
+    match (e) {
+        Some{v} -> set_contains(a.deref(), v),
+        None -> false
+    }
+}
+
+function sql_array_length(a: Ref<Vec<'A>>): signed<64> {
+    vec_len(a.deref()) as signed<64>
+}
+
+function sql_extract_week(d: Date): signed<64> {
+    week(d) as signed<8> as signed<64>
+}
+
+function sql_extract_day(d: Date): signed<64> {
+    day(d) as signed<8> as signed<64>
+}
+
+function sql_extract_day_of_month(d: Date): signed<64> {
+    sql_extract_day(d)
+}
+
+function sql_extract_doy(d: Date): signed<64> {
+    ordinal(d) as signed<16> as signed<64>
+}
+
+function sql_extract_day_of_week(d: Date): signed<64> {
+    match (weekday(d)) {
+        Sunday -> 64'sd1,
+        Monday -> 64'sd2,
+        Tuesday -> 64'sd3,
+        Wednesday -> 64'sd4,
+        Thursday -> 64'sd5,
+        Friday -> 64'sd6,
+        Saturday -> 64'sd7
+    }
+}
+
+function sql_extract_dow(d: Date): signed<64> {
+    sql_extract_day_of_week(d)
+}
+
+function sql_extract_hour(t: Time): signed<64> {
+    hour(t) as signed<8> as signed<64>
+}
+
+function sql_extract_minute(t: Time): signed<64> {
+    minute(t) as signed<8> as signed<64>
+}
+
+function sql_extract_second(t: Time): signed<64> {
+    second(t) as signed<8> as signed<64>
+}
+
+/*
+unhandled time cases
+case QUARTER:
+case YEAR_OF_WEEK:
+case YOW:
+case TIMEZONE_MINUTE:
+case TIMEZONE_HOUR:
+*/
+
+
+function sql_substr(s: istring, start: signed<64>, end: signed<64>): istring {
+   string_substr(s.ival(), start as bit<64>, (start + end) as bit<64>).intern()
+}
+
+function sql_substr_N(s: Option<istring>, start: signed<64>, end: signed<64>): Option<istring> {
+   match (s) {
+      Some{.x = var a} -> Some{sql_substr(a, start, end)},
+      _                -> None
+   }
+}
+function is_null(value: Option<'T>): bool {
+   match (value) {
+      Some{_} -> false,
+      None    -> true
+   }
+}
+function insert_non_null(s: mut Set<'T>, value: Option<'T>): () {
+   match (value) {
+      None    -> (),
+      Some{x} -> set_insert(s, x)
+   }
+}
+function unwrapBool(v: Option<bool>): bool {
+   match (v) {
+      Some{.x = var a} -> a,
+      _                -> false
+   }
+}
+function b_not_N(b: Option<bool>): Option<bool> {
+   match (b) {
+      Some{.x = var a} -> Some{not a},
+      _                -> None
+   }
+}
+function set_signed_sum(s: Set<signed<64>>): signed<64> {
+   var result = 0: signed<64>;
+   for (v in s) {
+      result = result + v
+   };
+   result
+}
+function set_int_sum(s: Set<bigint>): bigint {
+   var result = 0: bigint;
+   for (v in s) {
+      result = result + v
+   };
+   result
+}
+function sql_abs(value: signed<64>): signed<64> {
+   if (value < 64'sd0) (64'sd0-value) else value
+}
+function sql_abs_N(value: Option<signed<64>>): Option<signed<64>> {
+   match (value) {
+       Some{.x = var a} -> Some{if (a < 64'sd0) (64'sd0-a) else a},
+       _                -> None
+   }
+}
+function agg_any_R(aggregate: bool, item: bool): bool {
+    aggregate or item
+}
+function agg_some_R(aggregate: bool, item: bool): bool {
+    agg_any_R(aggregate, item)
+}
+function agg_every_R(aggregate: bool, item: bool): bool {
+    aggregate and item
+}
+function agg_count_R(aggregate: signed<64>, item: 'T): signed<64> {
+    aggregate + 64'sd1
+}
+function agg_min_R(aggregate: (bool, 'T), item: 'T): (bool, 'T) {
+    match (aggregate) {
+        (true, _) -> (false, item),  // first item
+        (_,    x) -> (false, min(x, item))
+    }
+}
+function agg_max_R(aggregate: (bool, 'T), item: 'T): (bool, 'T) {
+    match (aggregate) {
+        (true, _) -> (false, item),  // first item
+        (_,    x) -> (false, max(x, item))
+    }
+}
+function agg_sum_signed_R(aggregate: signed<64>, item: signed<64>): signed<64> {
+    aggregate + item
+}
+function agg_sum_int_R(aggregate: bigint, item: bigint): bigint {
+    aggregate + item
+}
+function agg_sum_double_R(aggregate: double, item: double): double {
+    aggregate + item
+}
+function agg_sum_float_R(aggregate: float, item: float): float {
+    aggregate + item
+}
+function agg_avg_signed_R(aggregate: (signed<64>, signed<64>), item: signed<64>): (signed<64>, signed<64>) {
+    (aggregate.0 + item, aggregate.1 + 64'sd1)
+}
+function agg_avg_double_R(aggregate: (double, signed<64>), item: double): (double, signed<64>) {
+    (aggregate.0 + item, aggregate.1 + 64'sd1)
+}
+function agg_avg_float_R(aggregate: (float, float), item: float): (float, float) {
+    (aggregate.0 + 32'f1.0, aggregate.0 + item)
+}
+function agg_any_N(aggregate: Option<bool>, item: Option<bool>): Option<bool> {
+   match ((aggregate, item)) {
+      (None, None)       -> None,
+      (None, Some{x})    -> Some{x},
+      (Some{x}, None)    -> Some{x},
+      (Some{x}, Some{y}) -> Some{x or y}
+   }
+}
+function agg_some_N(aggregate: Option<bool>, item: Option<bool>): Option<bool> {
+   agg_any_N(aggregate, item)
+}
+function agg_every_N(aggregate: Option<bool>, item: Option<bool>): Option<bool> {
+   match ((aggregate, item)) {
+      (None, None)       -> None,
+      (None, Some{x})    -> Some{x},
+      (Some{x}, None)    -> Some{x},
+      (Some{x}, Some{y}) -> Some{x and y}
+   }
+}
+function agg_count_N(aggregate: signed<64>, item: Option<'T>): signed<64> {
+   match (item) {
+      None       -> aggregate,
+      Some{x}    -> aggregate + 1
+   }
+}
+function agg_min_N(aggregate: Option<'T>, item: Option<'T>): Option<'T> {
+   match ((aggregate, item)) {
+      (None, None)       -> None,
+      (None, Some{x})    -> Some{x},
+      (Some{x}, None)    -> Some{x},
+      (Some{x}, Some{y}) -> Some{min(x, y)}
+   }
+}
+function agg_max_N(aggregate: Option<'T>, item: Option<'T>): Option<'T> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{x},
+        (Some{x}, None)    -> Some{x},
+        (Some{x}, Some{y}) -> Some{max(x, y)}
+    }
+}
+function agg_sum_signed_N(aggregate: Option<signed<64>>, item: Option<signed<64>>): Option<signed<64>> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{x},
+        (Some{x}, None)    -> Some{x},
+        (Some{x}, Some{y}) -> Some{x + y}
+    }
+}
+function agg_sum_signed_N(aggregate: signed<64>, item: Option<signed<64>>): signed<64> {
+    match (item) {
+        None    -> aggregate,
+        Some{x} -> aggregate + x
+    }
+}
+function agg_sum_int_N(aggregate: Option<bigint>, item: Option<bigint>): Option<bigint> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{x},
+        (Some{x}, None)    -> Some{x},
+        (Some{x}, Some{y}) -> Some{x + y}
+    }
+}
+function agg_sum_double_N(aggregate: Option<double>, item: Option<double>): Option<double> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{x},
+        (Some{x}, None)    -> Some{x},
+        (Some{x}, Some{y}) -> Some{x + y}
+    }
+}
+function agg_sum_float_N(aggregate: Option<float>, item: Option<float>): Option<float> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{x},
+        (Some{x}, None)    -> Some{x},
+        (Some{x}, Some{y}) -> Some{x + y}
+    }
+}
+function agg_avg_signed_N(aggregate: Option<(signed<64>, signed<64>)>, item: Option<signed<64>>):
+    Option<(signed<64>, signed<64>)> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{(x, 64'sd1)},
+        (Some{x}, None)    -> Some{x},
+        (Some{(sum,ct)}, Some{y}) -> Some{(sum + y, ct + 64'sd1)}
+    }
+}
+function agg_avg_int_N(aggregate: Option<(bigint, signed<64>)>, item: Option<bigint>):
+    Option<(bigint, signed<64>)> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{(x, 64'sd1)},
+        (Some{x}, None)    -> Some{x},
+        (Some{(sum,ct)}, Some{y}) -> Some{(sum + y, ct + 64'sd1)}
+    }
+}
+function agg_avg_double_N(aggregate: Option<(double, signed<64>)>, item: Option<double>):
+    Option<(double, signed<64>)> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{(x, 64'sd1)},
+        (Some{x}, None)    -> Some{x},
+        (Some{(sum,ct)}, Some{y}) -> Some{(sum + y, ct + 64'sd1)}
+    }
+}
+function agg_avg_float_N(aggregate: Option<(float, signed<64>)>, item: Option<float>):
+    Option<(float, signed<64>)> {
+    match ((aggregate, item)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> Some{(x, 64'sd1)},
+        (Some{x}, None)    -> Some{x},
+        (Some{(sum,ct)}, Some{y}) -> Some{(sum + y, ct + 64'sd1)}
+    }
+}
+function avg_signed_N(sum_count: Option<(signed<64>, signed<64>)>): Option<signed<64>> {
+    match (sum_count) {
+       None -> None,
+       Some{(sum, count)} -> if (count == 64'sd0) Some{64'sd0} else Some{sum / count}
+    }
+}
+function avg_int_N(sum_count: Option<(bigint, signed<64>)>): Option<bigint> {
+    match (sum_count) {
+       None -> None,
+       Some{(sum, count)} -> if (count == 0) Some{0} else Some{sum / (count as bigint)}
+    }
+}
+function avg_double_N(sum_count: Option<(double, signed<64>)>): Option<double> {
+    match (sum_count) {
+       None -> None,
+       Some{(sum, count)} -> if (count == 0) Some{64'f0.0} else Some{sum / (count as double)}
+    }
+}
+function avg_float_N(sum_count: Option<(float, signed<64>)>): Option<float> {
+    match (sum_count) {
+       None -> None,
+       Some{(sum, count)} -> if (count == 0) Some{32'f0.0} else Some{sum / (count as float)}
+    }
+}
+function avg_signed_R(sum_count: (signed<64>, signed<64>)): signed<64> {
+    if (sum_count.1 == 0) 64'sd0 else (sum_count.0 / sum_count.1)
+}
+function avg_int_R(sum_count: (bigint, signed<64>)): bigint {
+    if (sum_count.1 == 0) 0 else (sum_count.0 / (sum_count.1 as bigint))
+}
+function avg_float_R(sum_count: (float, signed<64>)): float {
+    if (sum_count.1 == 0) 32'f0.0 else (sum_count.0 / (sum_count.1 as float))
+}
+function avg_double_R(sum_count: (double, signed<64>)): double {
+    if (sum_count.1 == 0) 64'f0.0 else (sum_count.0 / (sum_count.1 as double))
+}
+function sql_concat(s0: istring, s1: istring): istring {
+     (s0.ival() ++ s1.ival()).intern()
+}
+function sql_concat_N(s0: Option<istring>, s1: Option<istring>): Option<istring> {
+    match ((s0,s1)) {
+        (None, None)       -> None,
+        (None, Some{x})    -> None,
+        (Some{x}, None)    -> None,
+        (Some{x}, Some{y}) -> Some{sql_concat(x, y)}
+    }
+}
+
+function limit(g: Group<'K, 'V>, limit: signed<64>): Set<'V> {
+    var result = set_empty();
+    var count = limit;
+    for (v in g) {
+        if (count == 0) break;
+        result.insert(v.0);
+        count = count - 1;
+    };
+    result
+}

@@ -1,0 +1,113 @@
+/*
+Copyright (c) 2021 VMware, Inc.
+SPDX-License-Identifier: MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/* Functions and transformers for use in graph processing */
+
+/* Compute strongly connected components of a directed graph:
+ *
+ * Type variables:
+ * - `'E` - type that represents graph edge
+ * - `'N` - type that represents graph node
+ *
+ * Arguments:
+ * - `Edges` - relation that stores graph edges
+ * - `from`  - extracts the source node of an edge
+ * - `to`    - extracts the destination node of an edge
+ *
+ * Output:
+ * - `Labels` - (node, scc_id) tuples
+ *    These tuples partition a subset of graph nodes into strongly
+ *    connected components represented by labeling these nodes
+ *    with SCC ids.  An SCC id is id of the smallest node in the SCC.
+ *    A node not covered by the partitioning belongs to an SCC
+ *    with a single element (itself).
+ */
+extern transformer SCC(Edges:   relation['E],
+                       from:    function(e: 'E): 'N,
+                       to:      function(e: 'E): 'N)
+    -> (SCCLabels: relation [('N, 'N)])
+
+/* Compute connected components of a graph
+ * (by propagating node IDs forward, retaining the minimum ID)
+ *
+ * Type variables:
+ * - `'E`  - graph edge
+ * - `'N`  - graph node id
+ *
+ * Arguments:
+ * - `Edges`  - relation that stores graph edges
+ * - `from`   - extracts the source node of an edge
+ * - `to`     - extracts the destination node of an edge
+ *
+ * Output:
+ * - `Labels` - (n,l) tuples with final labeling of node `n`
+ *    with the smallest node id `l` such that `n` is reachable
+ *    from `l`.
+ */
+extern transformer ConnectedComponents(Edges:   relation['E],
+                                       from:    function(e: 'E): 'N,
+                                       to:      function(e: 'E): 'N)
+    -> (CCLabels: relation [('N, 'N)])
+
+/* Optimized version of `ConnectedComponents` for graph with nodes of type
+ * `bit<n>`, n <= 64.
+ */
+extern transformer ConnectedComponents64(Edges:   relation['E],
+                                         from:    function(e: 'E): 'N,
+                                         to:      function(e: 'E): 'N)
+    -> (CCLabels: relation [('N, 'N)])
+
+/* Compute a subset of bidirectional graph edges, i.e., all edges `(x,y)` such
+ * that `(y,x)` is also an edge in the graph.
+ *
+ * This transformer is equivalent to the following DDlog rule, but can be more
+ * memory efficient, as it only computes one arrangement of `Edges` instead of two
+ * (note, however, that if your program already uses at least one of the
+ * two arrangements elsewhere then this transformer will not improve on its
+ * memory footprint).
+ * ```
+ * BiEdges(x,y) :- Edges(x,y), Edges(y,x).
+ * ```
+ *
+ * WARNING: This transformer assumes that the `Edges` relation is distinct,
+ * e.g., it is an input relation.  It will return INCORRECT result otherwise;
+ * hence the `Unsafe` prefix.
+ *
+ * Type variables:
+ * - `'E`  - graph edge
+ * - `'N`  - graph node id
+ *
+ * Arguments:
+ * - `Edges`  - relation that stores graph edges
+ * - `from`   - extracts the source node of an edge
+ * - `to`     - extracts the destination node of an edge
+ *
+ * Output:
+ * - `BiEdges` - the subset of all bidirectional edges of the graph.
+ *   Note: this subset will contain edges in both directions, i.e., for every
+ *   `(x,y)` it also contains a `(y,x)`
+ */
+extern transformer UnsafeBidirectionalEdges(Edges:   relation['E],
+                                            from:    function(e: 'E): 'N,
+                                            to:      function(e: 'E): 'N)
+    -> (BiEdges: relation [('N, 'N)])

@@ -1,0 +1,178 @@
+**** Creating logical routers ****
+
+**** Flows ****
+
+Flow{.lr = 0, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 0, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 1, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 2, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 3, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 4, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+**** Adding logical router ports ****
+
+**** Flows ****
+
+Flow{.lr = 0, .stage = LR_IN_ADMISSION{}, .prio = 50, .matchStr = "inport == lrp0 && (eth.mcast || eth.dst == 00:11:22:33:44:55)", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 0, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 0, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 0, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 0, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 0, .stage = LR_OUT_DELIVERY{}, .prio = 100, .matchStr = "outport == lrp0", .actionStr = "{ output; }"}
+Flow{.lr = 1, .stage = LR_IN_ADMISSION{}, .prio = 50, .matchStr = "inport == lrp1 && (eth.mcast || eth.dst == aa:11:22:33:44:55)", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 1, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 1, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 1, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 1, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 1, .stage = LR_OUT_DELIVERY{}, .prio = 100, .matchStr = "outport == lrp1", .actionStr = "{ output; }"}
+Flow{.lr = 2, .stage = LR_IN_ADMISSION{}, .prio = 50, .matchStr = "inport == lrp2 && (eth.mcast || eth.dst == bb:11:22:33:44:55)", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 2, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 2, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 2, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 2, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 2, .stage = LR_OUT_DELIVERY{}, .prio = 100, .matchStr = "outport == lrp2", .actionStr = "{ output; }"}
+Flow{.lr = 3, .stage = LR_IN_ADMISSION{}, .prio = 50, .matchStr = "inport == lrp3 && (eth.mcast || eth.dst == cc:11:22:33:44:55)", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 3, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 3, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 3, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 3, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 3, .stage = LR_OUT_DELIVERY{}, .prio = 100, .matchStr = "outport == lrp3", .actionStr = "{ output; }"}
+Flow{.lr = 4, .stage = LR_IN_ADMISSION{}, .prio = 50, .matchStr = "inport == lrp4 && (eth.mcast || eth.dst == dd:11:22:33:44:55)", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_ADMISSION{}, .prio = 100, .matchStr = "vlan.present || eth.src[40]", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 30, .matchStr = "ip4 && ip.ttl == {0, 1}", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 50, .matchStr = "eth.bcast", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 80, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, ip6.src, nd.sll); }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "arp.op == 2", .actionStr = "put_arp(inport, arp.spa, arp.sha);"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 90, .matchStr = "nd_na", .actionStr = "{ put_nd(inport, nd.target, nd.tll); }"}
+Flow{.lr = 4, .stage = LR_IN_IP_INPUT{}, .prio = 100, .matchStr = "ip4.mcast ||\n           ip4.src == 255.255.255.255 ||\n           ip4.src == 127.0.0.0/8 ||\n           ip4.dst == 127.0.0.0/8 ||\n           ip4.src == 0.0.0.0/8 ||\n           ip4.dst == 0.0.0.0/8)", .actionStr = "{ drop; }"}
+Flow{.lr = 4, .stage = LR_IN_UNSNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_OUT_SNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_DNAT{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip4", .actionStr = "{ get_arp(outport, reg0); next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_RESOLVE{}, .prio = 0, .matchStr = "ip6", .actionStr = "{ get_nd(outport, xxreg0); next; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_REQUEST{}, .prio = 0, .matchStr = "1", .actionStr = "{ output; }"}
+Flow{.lr = 4, .stage = LR_IN_ARP_REQUEST{}, .prio = 100, .matchStr = "eth.dst == 00:00:00:00:00:00", .actionStr = "{\n        arp {\n            eth.dst = ff:ff:ff:ff:ff:ff;\n            arp.spa = reg1;\n            arp.tpa = reg0;\n            arp.op = 1;  /* ARP request */\n            output;\n        }\n    }"}
+Flow{.lr = 4, .stage = LR_IN_DEFRAG{}, .prio = 0, .matchStr = "1", .actionStr = "{ next; }"}
+Flow{.lr = 4, .stage = LR_OUT_DELIVERY{}, .prio = 100, .matchStr = "outport == lrp4", .actionStr = "{ output; }"}

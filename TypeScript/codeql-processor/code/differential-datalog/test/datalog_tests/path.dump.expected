@@ -1,0 +1,13 @@
+Path:
+Path{.s1 = "Palo Alto", .s2 = "Palo Alto"}
+Path{.s1 = "Palo Alto", .s2 = "Redwood City"}
+Path{.s1 = "Palo Alto", .s2 = "San Bruno"}
+Path{.s1 = "Redwood City", .s2 = "San Bruno"}
+
+Printing Path relation only
+
+Path{.s1 = "Palo Alto", .s2 = "Palo Alto"}
+Path{.s1 = "Palo Alto", .s2 = "Redwood City"}
+Path{.s1 = "Palo Alto", .s2 = "San Bruno"}
+Path{.s1 = "Redwood City", .s2 = "San Bruno"}
+

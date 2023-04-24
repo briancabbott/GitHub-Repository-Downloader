@@ -1,0 +1,42 @@
+// constructor names have to uppercase
+typedef t = lowercase { field: bigint }
+
+//---
+
+// constructor names have to be unique
+typedef t = C { f: bigint } |
+            C { f: string }
+
+//---
+
+// Union types must be specified by name
+function(x : Constructor{}): bigint
+
+//---
+
+// nested constructors must use names
+typedef t19 = Const { f0: Const1 { f2: bigint } }
+
+//---
+
+// function names have to be lowercase
+function F(): bigint
+
+//---
+
+// Constructor argument types must be unambiguous
+typedef Alt = C0{x: bit<16>}
+            | C1{x: bit<32>}
+
+//---
+
+// type argument 'D not used in type definition
+typedef Parameterized<'A,'B,'C,'D> = Option1{x: 'A}
+                                   | Option2{y: 'B, z: 'C}
+
+//---
+
+typedef VIP  = string
+typedef UUID = string
+
+input relation VM_Host[(VIP, UUID)] primary key (vm) vm::VIP

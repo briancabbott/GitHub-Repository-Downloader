@@ -1,0 +1,93 @@
+/* LOGGING */
+import inspect_log as inspect_log
+import log as log
+import log4j
+
+/* LOGGING:
+ * Module id's for logging purposes.
+ * Pretend that we have two modules.
+ */
+function mod_SPAN_UUID1(): log::module_t = 100
+function mod_SPAN_UUID2(): log::module_t = 200
+
+typedef uuid_t = Ref<bit<128>>
+
+/* entity id */
+typedef entid_t = uuid_t
+
+/* transport node id */
+typedef tnid_t = uuid_t
+
+input relation FWRule(id: entid_t)
+input relation Container(id: entid_t)
+
+/* Some entities are bound to transport nodes
+ */
+input relation Binding(entity: entid_t, tn: tnid_t)
+
+/* Two graphs modeling relations between entities:
+   - dependency graph
+   - source (and destination) graph
+ */
+input relation Dependency(parent: entid_t, child: entid_t)
+input relation Source(parent: entid_t, child: entid_t)
+
+/* Span, computed by traversing dependency edges
+ */
+relation Span(entity: uuid_t, tn: tnid_t)
+
+// base case
+Span(entity, tn) :- Binding(entity, tn),
+                    Inspect trace(mod_SPAN_UUID1(), "Span(entity,tn) :- Binding(.entity=${deref(entity)},.tn=${deref(tn)}))").
+// recursive step: propagate bindings along the dependency graph
+Span(parent, tn) :- Dependency(parent, child),
+                    Inspect trace(mod_SPAN_UUID1(), "Span recursive step: Dependency(.parent=${deref(parent)},.child=${deref(child)}))"),
+                    Span(child, tn),
+                    Inspect {
+                        trace(mod_SPAN_UUID1(), "Span(parent, tn) :- Dependency(.parent=${deref(parent)},.child=${deref(child)})), Span(.child, .tn=${deref(tn)})");
+                        // Intentionally made the log message more compact in order to reduce the size of the span_uuid.log.expected.
+                        var p = deref(parent)[63:0];
+                        var c = deref(child)[63:0];
+                        var t = deref(tn)[63:0];
+                        inspect_log::log("../span_uuid.log", "${ddlog_timestamp}${if (ddlog_weight > 0) {\"+\"} else {\"-\"}}p${p},c${c},t${t}")
+                    }.
+
+/* RuleSpan: restriction of the Span relation to Rule nodes.
+ */
+output relation RuleSpan(entity: uuid_t, tn: tnid_t)
+
+RuleSpan(entity, tn) :-
+    Span(entity, tn),
+    FWRule(entity).
+
+/* Propagate span from Rules along source edges
+ */
+relation SourceSpan(entity: uuid_t, tn: tnid_t/*, explanation: string*/)
+
+SourceSpan(parent, tn /*, $"${child}->${parent}"*/) :- RuleSpan(child, tn), Source(parent, child).
+SourceSpan(parent, tn /*, $"${explanation}->${parent}"*/) :- SourceSpan(child, tn/*, explanation*/), Source(parent, child).
+
+/* ContainerSpan: restricts the SourceSpan relation to Container nodes.
+ */
+output relation ContainerSpan(entity: uuid_t, tn: tnid_t /*, explanation: string*/)
+
+ContainerSpan(entity, tn /*, explanation*/) :-
+    SourceSpan(entity, tn /*, explanation*/),
+    Container(entity),
+    Inspect debug(mod_SPAN_UUID2(), "ContainerSpan(.entity=${deref(entity)},.tn=${deref(tn)}))").
+
+/* For container nodes, add span computed over the source graph to
+   container's normal span.
+ */
+//Span(container, tn) :- ContainerSpan(container, tn), Entity(container, EntContainer, _).
+
+/* User-friendly representation of span using strings instead of uuid's
+   for debugging.
+ */
+//relation UserFriendlySpan(entity_name: string, tn: tnid_t)
+//UserFriendlySpan(name, tn) :- Span(entity, tn), Entity(entity, _, name).
+
+/*extern function format_uuid(uuid: uuid_t): string
+
+relation HexSpan(entity: string)
+HexSpan($"${format_uuid(entity)}:${format_uuid(tn)}") :- Span(entity, tn).*/
