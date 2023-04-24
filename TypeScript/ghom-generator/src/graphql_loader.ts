@@ -3,7 +3,7 @@ import { DocumentNode, Source, parse } from "graphql";
 import { IncomingMessage } from "http";
 import http from 'http';
 import https from 'https';
-import { GHOMGeneratorConfig } from "./main";
+import { GHOMGeneratorConfig } from './ghom_generator';
 
 
 export class GHOMGraphQLLoader {
@@ -16,13 +16,13 @@ export class GHOMGraphQLLoader {
     public async loadSchema(): Promise<DocumentNode> {
         let schemaText: string = ""
 
-        let loc = new URL(this.config.schemaLocation)
+        let loc = new URL(this.config.schemaLocationURI)
         if (loc.protocol === "http:") {
-            schemaText = await this.loadSchemaFromURI(new URL(this.config.schemaLocation));
+            schemaText = await this.loadSchemaFromURI(loc);
         } else if (loc.protocol === "https:") {
             schemaText = await this.loadSchemaFromSecureURI(loc);
-        } else {
-            schemaText = await this.loadSchemaFromFile(this.config.schemaLocation);
+        } else if (loc.protocol === "file:") {
+            schemaText = this.loadSchemaFromFile(this.config.schemaLocationURI);
         }
         
         const source = new Source(schemaText, 'GitHub.graphql');
@@ -30,17 +30,8 @@ export class GHOMGraphQLLoader {
         return ast
     }
 
-    private async loadSchemaFromFile(filePath: string): Promise<string> {
-        let graphQLSchemaText = readFileSync(filePath, 'utf8')
-        return new Promise((resolve, reject) => {
-            readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                }
-            });
-        });
+    private loadSchemaFromFile(filePath: string): string {
+        return readFileSync(filePath, 'utf8');
     }
 
     private async loadSchemaFromURI(webResource: URL): Promise<string> {
