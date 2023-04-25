@@ -1,7 +1,0 @@
-{
-  "extends": "..",
-  "compilerOptions": {
-    "esModuleInterop": true
-  },
-  "include": ["**/*.ts"]
-}

@@ -1,9 +1,0 @@
-mode: ContinuousDeployment
-branches:
-  master:
-    regex: ^main
-    mode: ContinuousDeployment
-    increment: Minor
-    tag: beta
-ignore:
-  sha: []

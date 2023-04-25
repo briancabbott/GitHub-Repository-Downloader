@@ -1,5 +1,9 @@
-import { RepositoryLister } from "./list_repositories";
+
+import crypto from 'crypto';
+import path from 'path';
 import * as fs from "fs";
+
+import { RepositoryLister } from "./list_repositories";
 import { 
     OrganizationRepositoriesList, 
     OrganizationRepositoriesLatestCommitsList,
@@ -9,14 +13,11 @@ import {
     Organization, 
     User,
     GitHubConfiguration, 
-    Repository,
     Operation,
-    UserRepositoriesList
+    UserRepositoriesList,
+    Repository
 } from "./model";
 import { Downloader, LongRunningDownloader } from "./download";
-import crypto from 'crypto';
-
-import path from 'path';
 import { GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 
 export class Runtime {
@@ -50,7 +51,9 @@ export enum TokenSourceType {
 }
 
 export class OperationConfig {
-    constructor() {}
+    constructor() {
+
+    }
 }
 
 
@@ -91,13 +94,13 @@ export class CommonOperationConfig extends OperationConfig {
         this._usedTokenSource = value;
     }
 
-
     public get workingDirectory() {
         return this._workingDirectory;
     }
     public set workingDirectory(value) {
         this._workingDirectory = value;
     }
+    
     public get globalStoreDirectory() {
         return this._globalStoreDirectory;
     }
@@ -342,7 +345,6 @@ export function PerformOperationSetup<T1 extends Operation | RepositoryListOpera
 // });
 
 export async function performListLatestCommitsRetrieval(listOp: RepositoryListOperation): Promise<OrganizationRepositoriesLatestCommitsList[]> {
-    
     console.log("performListLatestCommitsRetrieval()");
     
     let list: OrganizationRepositoriesLatestCommitsList[] = new Array<OrganizationRepositoriesLatestCommitsList>();

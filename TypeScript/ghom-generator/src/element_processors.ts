@@ -1,22 +1,21 @@
 
 import {
-    graphql,
-    GraphQLSchema,
-    GraphQLObjectType,
-    GraphQLString,
-    buildASTSchema,
-    parse,
-    Source,
-    DefinitionNode,
     ASTNode,
-    visit,
-    DocumentNode,
-    ObjectTypeDefinitionNode,
-    InterfaceTypeDefinitionNode,
-    NameNode,
-    DirectiveNode,
-    FieldDefinitionNode,
     ArgumentNode,
+
+    ConstValueNode,
+    ConstDirectiveNode,
+
+    DirectiveNode,
+    DocumentNode,
+
+    FieldDefinitionNode,
+    InterfaceTypeDefinitionNode,
+
+    ObjectTypeDefinitionNode,
+
+    visit,
+    NameNode
 } from 'graphql';
 
 export enum ElementDefinitionType {
@@ -58,7 +57,7 @@ export class ElementDefinition_Ref {
     isRelativelyEqual(other: ElementDefinition_Ref): boolean {
         if (this.name === other.name && this.type === other.type) {
             return true;
-        } 
+        }
         return false;
     }
 
@@ -98,38 +97,43 @@ export class ElementDefinition {
     }
     
     equals(other: ElementDefinition): boolean {
-        // TODO implement
         return true;
     }
 }
+
 export type ElementRefDef = {ref: ElementDefinition_Ref, def: ElementDefinition};
 
 export class ElementDefinition_StringValueNode extends ElementDefinition {
     value: string;
+    
     constructor(name: string, value: string) {
         super(name, ElementDefinitionType.StringValueNode);
         this.value = value;
     }
     
     equals(other: ElementDefinition): boolean {
-        // TODO implement
         return true;
     }
 }
+
 export class ElementDefinition_IntValueNode extends ElementDefinition {
     value: number;
+
     constructor(name: string, value: number) {
         super(name, ElementDefinitionType.IntValueNode);
         this.value = value;
     }
 }
+
 export class ElementDefinition_FloatValueNode extends ElementDefinition {
     value: number;
+
     constructor(name: string, value: number) {
         super(name, ElementDefinitionType.FloatValueNode);
         this.value = value;
     }
 }
+
 export class ElementDefinition_BooleanValueNode extends ElementDefinition {
     value: boolean;
     constructor(name: string, value: boolean) {
@@ -137,11 +141,13 @@ export class ElementDefinition_BooleanValueNode extends ElementDefinition {
         this.value = value;
     }
 }
+
 export class ElementDefinition_NullValueNode extends ElementDefinition {
     constructor(name: string) {
         super(name, ElementDefinitionType.NullValueNode);
     }
 }
+
 export class ElementDefinition_EnumValueNode extends ElementDefinition {
     value: string;
     constructor(name: string, value: string) {
@@ -149,6 +155,7 @@ export class ElementDefinition_EnumValueNode extends ElementDefinition {
         this.value = value;
     }
 }
+
 export class ElementDefinition_ConstListValueNode extends ElementDefinition {
     values: Array<ElementDefinition>;
     constructor(name: string, values: Array<ElementDefinition>) {
@@ -156,6 +163,7 @@ export class ElementDefinition_ConstListValueNode extends ElementDefinition {
         this.values = values;
     }
 }
+
 export class ElementDefinition_ConstObjectValueNode extends ElementDefinition {
     object: any
     constructor(name: string, object: any) {
@@ -192,8 +200,7 @@ export class ElementDefinition_NonNullType extends ElementDefinition {
 }
 
 export class ElementDefinition_InterfaceType extends ElementDefinition {
-    constructor(name: string, 
-                type: ElementDefinitionType,
+    constructor(name: string,
                 key?: string | number | undefined, 
                 parent?: ASTNode | ReadonlyArray<ASTNode> | undefined, 
                 path?: ReadonlyArray<string | number> | undefined,
@@ -255,7 +262,8 @@ export class ElementDefinition_Argument extends ElementDefinition {
 
     static fromArgumentNode(aargument: ArgumentNode): ElementDefinition_Argument {
         let argumentName = aargument.name.value;
-        let argumentElement = new ElementDefinition_Argument(argumentName)
+        let argumentElement = new ElementDefinition_Argument(argumentName);
+
 
         if (aargument.value.kind === "StringValue") {
             argumentElement.properties?.set("Value", new ElementDefinition_StringValueNode("Value", aargument.value.value));
@@ -276,51 +284,63 @@ export class ElementDefinition_Argument extends ElementDefinition {
         } else if (aargument.value.kind === "NullValue") {
             argumentElement.properties?.set("Value", new ElementDefinition_NullValueNode("Value"));
         }
+
         return argumentElement;
     }
 }
 
-export class ElementDefinition_InputValueDefinitionNode extends ElementDefinition {
-    // readonly description?: StringValueNode;
-    // readonly name: NameNode;
-    // readonly type: TypeNode;
-    // readonly defaultValue?: ConstValueNode;
+// readonly description?: StringValueNode;
+// readonly name: NameNode;
+// readonly type: TypeNode;
+// readonly defaultValue?: ConstValueNode;
 // readonly directives?: ReadonlyArray<ConstDirectiveNode>;
-    constructor(name: string) {
-        // , description: ElementDefinition_StringValueNode | undefined, 
-        //     defaultValue: ConstValueNode | undefined, 
-        //     directives: ReadonlyArray<ConstDirectiveNode> | undefined) {
+// , description: ElementDefinition_StringValueNode | undefined, 
+//     defaultValue: ConstValueNode | undefined, 
+//     directives: ReadonlyArray<ConstDirectiveNode> | undefined) {
+export class ElementDefinition_InputValueDefinitionNode extends ElementDefinition {
+    constructor(name: string, defaultValue: ConstValueNode | undefined, directives: ReadonlyArray<ConstDirectiveNode> | undefined) {
         super(name, ElementDefinitionType.InputValueDefinitionNode);
     }
 }
 
+
+// readonly description?: StringValueNode;
+// readonly name: NameNode;
+// readonly arguments?: ReadonlyArray<InputValueDefinitionNode>;
+// readonly type: TypeNode;
+// readonly directives?: ReadonlyArray<ConstDirectiveNode>;
+
 export class ElementDefinition_Field extends ElementDefinition {
-    // readonly description?: StringValueNode;
-    // readonly name: NameNode;
-    // readonly arguments?: ReadonlyArray<InputValueDefinitionNode>;
-    // readonly type: TypeNode;
-    // readonly directives?: ReadonlyArray<ConstDirectiveNode>;
     constructor(name: string) {
         super(name, ElementDefinitionType.FieldDefinition);
     }
 
     static fromFieldDefinitionNode(ffield: FieldDefinitionNode): ElementDefinition_Field {
+        
         let fieldName = ffield.name.value;
-        let fieldElement =
-            new ElementDefinition_Field(fieldName);
+        let fieldElement = new ElementDefinition_Field(fieldName);
+
         if (ffield.description !== undefined) {
-            fieldElement.properties?.set("Description", new ElementDefinition_StringValueNode("Description", ffield.description.value));
+            let description = new ElementDefinition_StringValueNode("Description", ffield.description.value);
+            fieldElement.properties?.set("Description", description);
         }
+
         if (ffield.arguments !== undefined) {
             let argumentsElements = new Array<ElementDefinition>();
+
             ffield.arguments.forEach((aargument) => {
                 let argumentName = aargument.name.value;
-                let argumentElement = new ElementDefinition_InputValueDefinitionNode(argumentName, 
-                    aargument.description, aargument.defaultValue, aargument.directives);
-                argumentsElements.push(argumentElement);
+
+                ElementDefinition_Argument.fromArgumentNode();
+
+                let argumentElement = argumentsElements.push();
+                
+                // new ElementDefinition_InputValueDefinitionNode(argumentName, aargument.description);
             });
+
             fieldElement.properties?.set("Arguments", argumentsElements);
         }
+
         if (ffield.type !== undefined) {
             if (ffield.type.kind === "NamedType") {
                 fieldElement.properties?.set("Type", new ElementDefinition_NamedTypeNode(ffield.type.name.value));
@@ -330,15 +350,13 @@ export class ElementDefinition_Field extends ElementDefinition {
                 fieldElement.properties?.set("Type", new ElementDefinition_ListType(ffield.type.type.kind.toString()));
             }
         }
+
         if (ffield.directives !== undefined) {
             let directivesElements = new Array<ElementDefinition>();
             ffield.directives.forEach((ddirective) => {
                 let ddirectiveName = ddirective.name.value;
                 ddirective.arguments?.forEach((aargument) => {
-                    
-                // let ddirectiveElement = new ElementDefinition_InputValueDefinitionNode(ddirectiveName, 
-                //     ddirective.description, ddirective.defaultValue, ddirective.directives);
-                // directivesElements.push(ddirectiveElement);
+
                 });
             });
             fieldElement.properties?.set("Directives", directivesElements);
@@ -355,14 +373,15 @@ export type ElementProcessorResultSet = {
 
 export class ElementProcessor {
     ElementsMap: Map<String, Map<string, ElementRefDef>>;
-    // ElementsRefMap: Map<String, Map<string, Array<ElementDefinition_Ref>>>;
     ElementTypesUnhandled: Map<string, number>;
+    // ElementsRefMap: Map<String, Map<string, Array<ElementDefinition_Ref>>>;
     
     constructor() {
         this.setupProcessing();
         this.ElementsMap = new Map();
-        // this.ElementsRefMap = new Map();
         this.ElementTypesUnhandled = new Map();
+
+        // this.ElementsRefMap = new Map();
     }
 
     setupProcessing() {
@@ -397,20 +416,27 @@ export class ElementProcessor {
                             parent: ASTNode | ReadonlyArray<ASTNode> | undefined, 
                             path: ReadonlyArray<string | number>, 
                             ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
-
         if (node.kind === "ObjectTypeDefinition") {
             this.processObjectTypeDefinition(node, key, parent, path, ancestors);
         } else if (node.kind === "InterfaceTypeDefinition") {
             this.processInterfaceTypeDefinition(node, key, parent, path, ancestors);
         } else if (node.kind === "Name") {
+            
             this.processNameDefinition(node, key, parent, path, ancestors);
         } else {
             let count = this.ElementTypesUnhandled.get(node.kind);
             if (count === undefined) {
                 count = 0;
             }
+
             this.ElementTypesUnhandled.set(node.kind, count + 1);
         }
+    }
+    processNameDefinition(node: NameNode, key: string | number | undefined, 
+            parent: ASTNode | readonly ASTNode[] | undefined, 
+            path: readonly (string | number)[], 
+            ancestors: readonly (ASTNode | readonly ASTNode[])[]) {
+        throw new Error('Method not implemented.');
     }
 
     private performASTNode_LeaveEvent(node: ASTNode, 
@@ -426,6 +452,7 @@ export class ElementProcessor {
             //   null: delete this node
             //   any value: replace this node with the returned value
             // }
+        
     }
 
     private processObjectTypeDefinition(node: ObjectTypeDefinitionNode, 
@@ -433,7 +460,7 @@ export class ElementProcessor {
                                       parent: ASTNode | ReadonlyArray<ASTNode> | undefined, 
                                       path: ReadonlyArray<string | number>,
                                       ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
-        let name: string = node.name.value
+        let name: string = node.name.value;
         let element: ElementDefinition = new ElementDefinition(name, ElementDefinitionType.ObjectType, key, parent, path, ancestors);        
 
         node.interfaces?.forEach((iinterface) => {
@@ -456,15 +483,18 @@ export class ElementProcessor {
 
         this.addElementToDefsMap(element);
     }
-
-
+    addElementToDefsMap(element: ElementDefinition) {
+        throw new Error('Method not implemented.');
+    }
 
     private processInterfaceTypeDefinition(node: InterfaceTypeDefinitionNode,
                                      key: string | number | undefined, 
                                     parent: ASTNode | ReadonlyArray<ASTNode> | undefined, 
                                     path: ReadonlyArray<string | number>,
                                     ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
-        let name: string = node.name.value
+
+        let name: string = node.name.value;
+
         let element: ElementDefinition = new ElementDefinition(name, 
                 ElementDefinitionType.InterfaceType, key, parent, path, ancestors, new Map<string, ElementDefinition[]>());
         
@@ -492,10 +522,13 @@ export class ElementProcessor {
                     directiveElement.properties?.set("Arguments", new Array<ElementDefinition>());
                     ddirective.arguments.forEach((aargument) => {
                         let argumentName = aargument.name.value;
-                        let argumentElement =
-                            new ElementDefinition(argumentName, ElementDefinitionType.Argument, 
-                        readonly name: NameNode;
-                        readonly arguments?: ReadonlyArray<ConstArgumentNode>;
+                        let argumentElement = new ElementDefinition(argumentName, ElementDefinitionType.Argument,  
+                            
+
+                        // readonly name: NameNode;
+                        // readonly arguments?: ReadonlyArray<ConstArgumentNode>;
+
+
                 (element.properties?.get("Directives") as Array<ElementDefinition>).push(directiveElement);
             });
         }
@@ -543,8 +576,6 @@ export class ElementProcessor {
         return ref;
     }
 
-
-
     private addElementToDefsMap(element: ElementDefinition) {
         if (!this.ElementsMap.has(element.type)) {
             this.ElementsMap.set(element.type, new Map<string, ElementRefDef>());
@@ -556,7 +587,7 @@ export class ElementProcessor {
 
             this.ElementsMap.get(element.type)!!.set(element.name, ref_def);
         } else {
-            let existingElement = this.ElementsMap.get(element.type)!!.get(element.name)
+            let existingElement = this.ElementsMap.get(element.type)!!.get(element.name);
             if (!existingElement!!.(element)) {
                 // TODO: Determine what to do here for adding duplicates???
                 console.log("ERROR: element already exists with different definition")
@@ -564,6 +595,6 @@ export class ElementProcessor {
             }
         }
     }
-
-    
-}
+}produceReferenceForDefinition(element: ElementDefinition) {
+        throw new Error('Method not implemented.');
+    }

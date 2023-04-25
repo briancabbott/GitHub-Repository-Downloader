@@ -1,8 +1,0 @@
-# Usage: script/cover
-#
-# Tests for code coverage, assuming tests already run
-
-set -e
-
-go test ./octokit -coverprofile=cover.out
-go tool cover -func=cover.out

@@ -1,4 +1,0 @@
-{
-  "enabled": true,
-  "extends": ["github>octokit/.github"]
-}

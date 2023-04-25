@@ -26,7 +26,6 @@
     "@babel/plugin-transform-typescript": "^7.16.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-typescript": "^7.16.7",
-    "@types/node": "^17.0.8",
     "@types/react": "^17.0.38",
     "@types/uuid": "^7.0.5",
     "@types/yargs": "^12.0.17",
@@ -51,6 +50,7 @@
   "devDependencies": {
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.8"
+    "@babel/preset-env": "^7.16.8",
+    "@types/node": "^18.16.0"
   }
 }

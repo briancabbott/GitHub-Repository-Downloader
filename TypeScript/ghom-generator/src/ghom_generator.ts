@@ -1,10 +1,22 @@
 
 import { writeFileSync } from "fs";
 
-import { GHOMGraphQLLoader } from "./graphql_loader";
-import { ElementDefinition, ElementDefinitionType, ElementDefinition_Ref, ElementProcessor, ElementProcessorResultSet, ElementRefDef } from "./element_processors";
-import { CryptoUtils } from "./utils/crypto_utils";
+import { 
+    GHOMGraphQLLoader 
+} from "./graphql_loader";
 
+import { 
+    ElementDefinition, 
+    ElementDefinitionType, 
+    ElementDefinition_Ref, 
+    ElementProcessor, 
+    ElementProcessorResultSet, 
+    ElementRefDef 
+} from "./element_processors";
+
+import { 
+    CryptoUtils 
+} from "./utils/crypto_utils";
 
 export enum GHOMTargetLanguageKind {
     TypeScript = "TypeScript",
@@ -15,6 +27,7 @@ export interface GHOMGeneratorConfig {
     targetLanguage: GHOMTargetLanguageKind;
     generationOutputDirectory: string;
 }
+
 export interface GeneratedArtifactInfo {
     element: ElementRefDef
     filename: string;
@@ -29,7 +42,7 @@ export interface IGHOMGenerator {
 }
 
 export class GHOMGenerator {
-    config: GHOMGeneratorConfig
+    config: GHOMGeneratorConfig;
 
     constructor(config: GHOMGeneratorConfig) {
         this.config = config;
@@ -38,9 +51,9 @@ export class GHOMGenerator {
     private async loadInitialAst(): Promise<ElementProcessorResultSet> {
         let graphqlLoader = new GHOMGraphQLLoader(this.config)
         let documentAst = await graphqlLoader.loadSchema();
-    
         let elementProcessor = new ElementProcessor();
         let elementResultSet: ElementProcessorResultSet = await elementProcessor.processDocumentAST(documentAst);
+        
         return elementResultSet;
     }
 
@@ -56,9 +69,11 @@ export class GHOMGenerator {
 
     private async generateGHOMFromElements(elementResultSet: ElementProcessorResultSet) {
         let gen = this.generatorForTarget(this.config.targetLanguage);
-        let generator = new gen()
-        generator.generateTargets({generationDirectory: "./typescript_generation_out"}, elementResultSet);
-    }    
+        let generator = new gen();
+
+        generator.generateTargets(elementResultSet);
+
+    }
 
     public async generateGHOM() {
         let elementResultSet: ElementProcessorResultSet = await this.loadInitialAst();
@@ -68,17 +83,16 @@ export class GHOMGenerator {
 
 export class TypeScriptGHOMGenerator implements IGHOMGenerator {
     config: GHOMGeneratorConfig;
+    
     constructor(config: GHOMGeneratorConfig) {
         this.config = config;
     }
-
-    // Map<String, Map<string, ElementRefDef>>,
 
     async generateTargets(elementResultSet: ElementProcessorResultSet): Promise<GeneratedArtifactInfo[]> {
         let generatedTargets = new Array<GeneratedArtifactInfo>();
 
         // Generate interfaces
-        let interfaceMap = elementResultSet.elementsMap.get(ElementDefinitionType.InterfaceType)
+        let interfaceMap = elementResultSet.elementsMap.get(ElementDefinitionType.InterfaceType);
         interfaceMap!.forEach(async (value: ElementRefDef, key: string, map: Map<String, ElementRefDef>) => {
             let interfaceName = key;
             let elementRef = value.ref;
@@ -93,19 +107,24 @@ export class TypeScriptGHOMGenerator implements IGHOMGenerator {
         });
 
         // Generate objects
-        let objectMap = elementResultSet.elementsMap.get(ElementDefinitionType.ObjectType)
+        let objectMap = elementResultSet.elementsMap.get(ElementDefinitionType.ObjectType);
         objectMap!.forEach(async (value: ElementRefDef, key: string, map: Map<String, ElementRefDef>) => {
             let objectName = key;
             let elementRef = value.ref;
             let elementDef = value.def;
-        
             let fileArtifactInfo = this.generateTypeScriptClass(objectName, elementRef, elementDef);
-            writeFileSync(fileArtifactInfo.filepath, fileArtifactInfo.filecontents, {encoding: "utf8"});
-            let hexoutput = await CryptoUtils.hashGeneratedTarget(fileArtifactInfo)
+
+            writeFileSync(
+                fileArtifactInfo.filepath, 
+                fileArtifactInfo.filecontents, 
+                { 
+                    encoding: "utf8" 
+                });
+
+            let hexoutput = await CryptoUtils.hashGeneratedTarget(fileArtifactInfo);
+
             fileArtifactInfo.sha256 = hexoutput;
-
             generatedTargets.push(fileArtifactInfo);
-
         });
 
         return Promise.resolve(generatedTargets);
@@ -113,9 +132,8 @@ export class TypeScriptGHOMGenerator implements IGHOMGenerator {
 
     generateTypeScriptInterface(element: ElementRefDef): GeneratedArtifactInfo {
         let interfaceTemplate = `export interface ${element.ref.name} {
-            `
-
-        return {} as GeneratedArtifactInfo;
+            `;
+       return {} as GeneratedArtifactInfo;
     }
 
     generateTypeScriptClass(className: string, elementRef: ElementDefinition_Ref, elementDef: ElementDefinition): GeneratedArtifactInfo {

@@ -23,14 +23,14 @@ async function  main() {
     let schemaLoc = "https://docs.github.com/public/schema.docs.graphql";
 
     const config: GHOMGeneratorConfig = {
-        schemaLocation: schemaLoc,
+        schemaLocationURI: schemaLoc,
         targetLanguage: GHOMTargetLanguageKind.TypeScript,
-        outputDirectory: "output"
+        generationOutputDirectory: "output"
     };
 
     const generator = new GHOMGenerator(config);
-
     generator.generateGHOM();
+    
 }
 
 let l = async () => {
