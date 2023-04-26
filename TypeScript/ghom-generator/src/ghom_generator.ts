@@ -1,9 +1,10 @@
 
-import { writeFileSync } from "fs";
 
 import { 
     GHOMGraphQLLoader 
-} from "./graphql_loader";
+} from "./graphql/graphql_loader";
+
+import { writeFileSync } from "fs";
 
 import { 
     ElementDefinition, 
@@ -18,16 +19,15 @@ import {
     CryptoUtils 
 } from "./utils/crypto_utils";
 
+
 export enum GHOMTargetLanguageKind {
     TypeScript = "TypeScript",
 }
-
 export interface GHOMGeneratorConfig {
     schemaLocationURI: string;
     targetLanguage: GHOMTargetLanguageKind;
     generationOutputDirectory: string;
 }
-
 export interface GeneratedArtifactInfo {
     element: ElementRefDef
     filename: string;
@@ -91,7 +91,6 @@ export class TypeScriptGHOMGenerator implements IGHOMGenerator {
     async generateTargets(elementResultSet: ElementProcessorResultSet): Promise<GeneratedArtifactInfo[]> {
         let generatedTargets = new Array<GeneratedArtifactInfo>();
 
-        // Generate interfaces
         let interfaceMap = elementResultSet.elementsMap.get(ElementDefinitionType.InterfaceType);
         interfaceMap!.forEach(async (value: ElementRefDef, key: string, map: Map<String, ElementRefDef>) => {
             let interfaceName = key;
@@ -100,7 +99,7 @@ export class TypeScriptGHOMGenerator implements IGHOMGenerator {
 
             let fileArtifactInfo = this.generateTypeScriptInterface(value);
             writeFileSync(fileArtifactInfo.filepath, fileArtifactInfo.filecontents, {encoding: "utf8"});
-            let hexoutput = await CryptoUtils.hashGeneratedTarget(fileArtifactInfo)
+            let hexoutput = await CryptoUtils.hashGeneratedTarget(fileArtifactInfo);
             fileArtifactInfo.sha256 = hexoutput;
 
             generatedTargets.push(fileArtifactInfo);
@@ -133,10 +132,11 @@ export class TypeScriptGHOMGenerator implements IGHOMGenerator {
     generateTypeScriptInterface(element: ElementRefDef): GeneratedArtifactInfo {
         let interfaceTemplate = `export interface ${element.ref.name} {
             `;
-       return {} as GeneratedArtifactInfo;
+        return {} as GeneratedArtifactInfo;
     }
 
     generateTypeScriptClass(className: string, elementRef: ElementDefinition_Ref, elementDef: ElementDefinition): GeneratedArtifactInfo {
+        
         return {} as GeneratedArtifactInfo;
     }
 }
