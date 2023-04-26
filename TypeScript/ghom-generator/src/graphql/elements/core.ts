@@ -1,36 +1,32 @@
-import {
-    ASTNode,
-    ArgumentNode,
 
-    ConstValueNode,
-    ConstDirectiveNode,
+import { ElementDefinition_Argument } from './argument';
+import { 
+    ElementDefinition_BooleanValueNode, 
+    ElementDefinition_ConstListValueNode, 
+    ElementDefinition_ConstObjectFieldNode, 
+    ElementDefinition_ConstObjectValueNode, 
+    ElementDefinition_EnumValueNode, 
+    ElementDefinition_FloatValueNode, 
+    ElementDefinition_IntValueNode, 
+    ElementDefinition_ListType, 
+    ElementDefinition_NamedTypeNode, 
+    ElementDefinition_NonNullType, 
+    ElementDefinition_NullValueNode, 
+    ElementDefinition_StringValueNode 
+} from './primitives';
+import { ElementDefinition_Directive } from './directive';
+import { ElementDefinition_Field } from './field';
+import { ElementDefinition_InputValueDefinition } from './input_value_definition';
+import { ElementDefinition_InterfaceType } from './interface';
 
-    DirectiveNode,
-    DocumentNode,
-
-    FieldDefinitionNode,
-    InterfaceTypeDefinitionNode,
-
-    ObjectTypeDefinitionNode,
-
-    visit,
-    NameNode
-} from 'graphql';
-
-
-export enum ElementDefinitionType {
-    ObjectType = "object",
-    InterfaceType = "interface",
-    NameType = "name",
-    Directive = "directive",
-    Argument = "argument",
-    FieldDefinition = "field",
-    NamedTypeNode = "namedTypeNode",
-    ListType = "listType",
+export enum ElementDefinitionType_Types {
     NonNullType = "nonNullType",
-    InputValueDefinitionNode = "inputValueDefinitionNode",
+    NamedType = "namedType",
+    ListType= "listType",
+    Type = "nonNullType | namedType | listType"
+}
 
-    // (Primitive) Value Nodes
+export enum ElementDefinitionType_Primitives {
     StringValueNode = "string",
     IntValueNode = "int",
     FloatValueNode = "float",
@@ -39,7 +35,51 @@ export enum ElementDefinitionType {
     EnumValueNode = "enum",
     ConstListValueNode = "constList",
     ConstObjectValueNode = "constObject",
+    ConstObjectFieldNode = "constObjectField"
 }
+
+export enum ElementDefinitionType_Objects {
+    ObjectType = "object",
+    InterfaceType = "interface",
+    NameType = "name",
+    Directive = "directive",
+    Argument = "argument",
+    FieldDefinition = "field",
+    InputValueDefinitionNode = "inputValueDefinitionNode"
+}
+
+// export const ElementDefinitionType = { 
+// }
+// export type ElementDefinitionType = typeof ElementDefinitionType
+
+export enum ElementDefinitionType {
+    NonNullType = "nonNullType",
+    NamedType = "namedType",
+    ListType= "listType",
+    Type = "nonNullType | namedType | listType",
+
+
+    BooleanValueNode = "boolean",
+    ConstListValueNode = "constList",
+    ConstObjectValueNode = "constObject",
+    ConstObjectFieldNode = "constObjectField",
+
+    EnumValueNode = "enum",
+    IntValueNode = "int",
+    FloatValueNode = "float",
+    NullValueNode = "null",
+    StringValueNode = "string",
+
+    
+    ObjectType = "object",
+    InterfaceType = "interface",
+    NameType = "name",
+    Directive = "directive",
+    Argument = "argument",
+    FieldDefinition = "field",
+    InputValueDefinition = "inputValueDefinition"
+}
+
 
 export class ElementDefinition_Ref {
     name: string
@@ -47,7 +87,10 @@ export class ElementDefinition_Ref {
     parentRefs: Array<ElementDefinition_Ref>
     childRefs: Array<ElementDefinition_Ref>
 
-    constructor(name: string, type: ElementDefinitionType, parentRefs: Array<ElementDefinition_Ref>, childRefs: Array<ElementDefinition_Ref>) {
+    constructor(name: string, 
+            type: ElementDefinitionType, 
+            parentRefs: Array<ElementDefinition_Ref>, 
+            childRefs: Array<ElementDefinition_Ref>) {
         this.name = name;
         this.type = type;
         this.parentRefs = parentRefs;
@@ -73,34 +116,66 @@ export class ElementDefinition_Ref {
 export class ElementDefinition {
     name: string;
     type: ElementDefinitionType;
-
-    // Graph Path Elements --- Move to differant super-structure ---- Elements is object-value/primitive-value artifacts...
-    // key?: string | number | undefined; 
-    // parent?: ASTNode | ReadonlyArray<ASTNode> | undefined; 
-    // path?: ReadonlyArray<string | number> | undefined;
-    // ancestors?: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>> | undefined;
-    properties?: Map<string, ElementDefinition | Array<ElementDefinition>> | undefined;
+    properties: ElementDefinition_PropertiesMap;
 
     constructor(name: string, 
                 type: ElementDefinitionType,
-                // key?: string | number | undefined, 
-                // parent?: ASTNode | ReadonlyArray<ASTNode> | undefined, 
-                // path?: ReadonlyArray<string | number> | undefined,
-                // ancestors?: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>> | undefined,
-                properties?: Map<string, ElementDefinition | Array<ElementDefinition>> | undefined) {
+                properties?: ElementDefinition_PropertiesMap | undefined) {
         this.name = name;
         this.type = type;
-    
-        // this.key = key;
-        // this.parent = parent;
-        // this.path = path;
-        // this.ancestors = ancestors;
-        this.properties = properties;
+        if (properties === undefined) {
+            this.properties = new Map<string, ElementDefinition_PropertiesType>();
+        } else {
+            this.properties = properties;
+        }
+    }
+
+    public get Properties(): Map<string, ElementDefinition_PropertiesType> {
+        return this.properties;
+    }
+    public set Properties(properties: Map<string, ElementDefinition_PropertiesType>) {
+        if (properties === undefined) {
+            this.properties = new Map<string, ElementDefinition_PropertiesType>();
+        } else {
+            this.properties = properties;
+        }
     }
     
-    equals(other: ElementDefinition): boolean {
+    equals(other: ElementDefinition_AggregateType): boolean {
         return true;
     }
 }
 
-export type ElementRefDef = {ref: ElementDefinition_Ref, def: ElementDefinition};
+export type ElementRefDef = {ref: ElementDefinition_Ref, def: ElementDefinition_AggregateType};
+
+export type ElementDefinition_TypeTypes = 
+    ElementDefinition_NamedTypeNode | 
+    ElementDefinition_NonNullType | 
+    ElementDefinition_ListType;
+
+export type ElementDefinitionPrimitiveTypes =
+    ElementDefinition_BooleanValueNode | 
+    ElementDefinition_EnumValueNode | 
+    ElementDefinition_FloatValueNode |
+    ElementDefinition_IntValueNode | 
+    ElementDefinition_ListType |
+    ElementDefinition_NonNullType | 
+    ElementDefinition_NullValueNode |
+    ElementDefinition_StringValueNode | 
+    ElementDefinition_ConstListValueNode | 
+    ElementDefinition_ConstObjectValueNode | 
+    ElementDefinition_ConstObjectFieldNode;
+
+export type ElementDefinitionObjectTypes = 
+    ElementDefinition_Argument | 
+    ElementDefinition_Directive |
+    ElementDefinition_Field |
+    ElementDefinition_InputValueDefinition |
+    ElementDefinition_InterfaceType |
+    ElementDefinition_NamedTypeNode
+    
+export type ElementDefinition_AggregateType = 
+    ElementDefinition & ElementDefinitionPrimitiveTypes & ElementDefinitionObjectTypes;
+    
+export type ElementDefinition_PropertiesType = ElementDefinition_AggregateType | Array<ElementDefinition_AggregateType>;
+export type ElementDefinition_PropertiesMap = Map<string, ElementDefinition_PropertiesType>;

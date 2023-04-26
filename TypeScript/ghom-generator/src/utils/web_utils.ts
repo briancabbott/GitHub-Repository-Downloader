@@ -1,9 +1,9 @@
 
-import { readFile, readFileSync } from "fs";
-import { DocumentNode, Source, parse } from "graphql";
-import { IncomingMessage } from "http";
 import http from 'http';
 import https from 'https';
+
+import { readFileSync } from "fs";
+import { IncomingMessage } from "http";
 
 export class WebResourceLoader {
     resourceURI: string;
