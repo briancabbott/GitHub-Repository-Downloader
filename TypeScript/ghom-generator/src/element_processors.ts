@@ -7,7 +7,12 @@ import {
     NameNode,
     visit
 } from 'graphql';
-import { ElementDefinition, ElementDefinitionType, ElementDefinition_Ref, ElementRefDef } from './graphql/elements/core';
+import { 
+    ElementDefinition, 
+    ElementDefinitionType, 
+    ElementDefinition_Ref, 
+    ElementRefDef 
+} from './graphql/elements/core';
 import { ElementDefinition_StringValueNode } from './graphql/elements/primitives';
 import { ElementDefinition_Argument } from './graphql/elements/argument';
 import { ElementDefinition_Field } from './graphql/elements/field';
@@ -22,7 +27,6 @@ export type ElementProcessorResultSet = {
 export class ElementProcessor {
     ElementsMap: Map<String, Map<string, ElementRefDef>>;
     ElementTypesUnhandled: Map<string, number>;
-    // ElementsRefMap: Map<String, Map<string, Array<ElementDefinition_Ref>>>;
     
     constructor() {
         this.setupProcessing();
@@ -42,14 +46,15 @@ export class ElementProcessor {
     
     public async processDocumentAST(documentAst: DocumentNode): Promise<ElementProcessorResultSet> {
         this.setupProcessing();
-        var editedAST = visit(documentAst, {
-            enter(node, key, parent, path, ancestors) {
-                super.performASTNode_EnterEvent(node, key, parent, path, ancestors);
-            }, 
-            leave(node, key, parent, path, ancestors) {
-                super.performASTNode_LeaveEvent(node, key, parent, path, ancestors);
-            }
-        });
+        var editedAST = 
+            visit(documentAst, {
+                enter(node, key, parent, path, ancestors) {
+                    super.performASTNode_EnterEvent(node, key, parent, path, ancestors);
+                }, 
+                leave(node, key, parent, path, ancestors) {
+                    super.performASTNode_LeaveEvent(node, key, parent, path, ancestors);
+                }
+            });
         return { 
             editedAST: editedAST, 
             elementsMap: this.ElementsMap, 
@@ -64,12 +69,11 @@ export class ElementProcessor {
                             ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
 
         if (node.kind === "ObjectTypeDefinition") {
-            this.processObjectTypeDefinition(node, key, parent, path, ancestors);
+            this.processObjectTypeDefinition(node);
         } else if (node.kind === "InterfaceTypeDefinition") {
-            this.processInterfaceTypeDefinition(node, key, parent, path, ancestors);
+            this.processInterfaceTypeDefinition(node);
         } else if (node.kind === "Name") {
-
-            this.processNameDefinition(node, key, parent, path, ancestors);
+            this.processNameDefinition(node);
         } else {
             let count = this.ElementTypesUnhandled.get(node.kind);
             if (count === undefined) {
@@ -85,44 +89,22 @@ export class ElementProcessor {
                             parent: ASTNode | ReadonlyArray<ASTNode> | undefined, 
                             path: ReadonlyArray<string | number>, 
                             ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
-        // leave(node, key, parent, path, ancestors) {
-            // @return
-            //   undefined: no action
-            //   false: no action
-            //   visitor.BREAK: stop visiting altogether
-            //   null: delete this node
-            //   any value: replace this node with the returned value
-            // }
-        
     }
 
-    private processObjectTypeDefinition(node: ObjectTypeDefinitionNode, 
-                                      key: string | number | undefined, 
-                                      parent: ASTNode | ReadonlyArray<ASTNode> | undefined, 
-                                      path: ReadonlyArray<string | number>,
-                                      ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) {
+    private processObjectTypeDefinition(node: ObjectTypeDefinitionNode) {
         let name: string = node.name.value;
         let element: ElementDefinition = new ElementDefinition(name, ElementDefinitionType.ObjectType);        
 
         node.interfaces?.forEach((iinterface) => {
             let iinterfaceJson = JSON.stringify(iinterface, undefined, 4);
             // let iiRefName: string = iinterface.name?.value
-
-            
         });
         node.directives?.forEach((ddirective) => {
             console.log("\t", "ddirective", ddirective.kind)
-
             // let ddirectiveJson = JSON.stringify(ddirective, undefined, 4)
-            // console.log("\t", ddirectiveJson);
-
         });
         node.fields?.forEach((ffield) => {
             console.log("\tfield: ", ffield.kind)
-
-            // let ffieldJson = JSON.stringify(ffield, undefined, 4)
-            // console.log("\t", ffieldJson);
-
             let fieldDef = ElementDefinition_Field.fromFieldDefinitionNode(ffield);
         });
 
@@ -130,7 +112,6 @@ export class ElementProcessor {
     }
 
     private processInterfaceTypeDefinition(node: InterfaceTypeDefinitionNode) {
-
         let name: string = node.name.value;
         let element = new ElementDefinition(name, ElementDefinitionType.InterfaceType);
         
@@ -154,6 +135,7 @@ export class ElementProcessor {
         if (node.directives !== undefined) {
             element.properties?.set("Directives", new Array<ElementDefinition>());
             node.directives.forEach((ddirective) => {
+
                 let directiveName = ddirective.name.value;
                 let directiveElement = new ElementDefinition_Directive(directiveName);
 
@@ -161,14 +143,11 @@ export class ElementProcessor {
                     directiveElement.properties?.set("Arguments", new Array<ElementDefinition>());
                     ddirective.arguments.forEach((aargument) => {
                         let a = ElementDefinition_Argument.fromArgumentNode(aargument)
-                        // directiveElement.
-                        // TODO: "finish this"
                     });
                 }
                 (element.properties?.get("Directives") as Array<ElementDefinition>).push(directiveElement)
             });
         }
-
 
         if (node.fields !== undefined) {
             element.properties?.set("FieldsDefinition", new Array<ElementDefinition_Field>());
@@ -188,16 +167,12 @@ export class ElementProcessor {
         this.addElementToDefsMap(element);
     }
 
-
-
     private processNameDefinition(node: NameNode) {
         let name: string = node.value
         let element: ElementDefinition = new ElementDefinition(name, ElementDefinitionType.NameType);
 
         this.addElementToDefsMap(element);
     }
-
-
 
     private produceReferenceForDefinition(element: ElementDefinition): ElementDefinition_Ref {
         let parentRefs: Array<ElementDefinition_Ref> = [];
@@ -206,9 +181,6 @@ export class ElementProcessor {
         
         return ref;
     }
-
-
-
 
     private addElementToDefsMap(element: ElementDefinition) {
         if (!this.ElementsMap.has(element.type)) {
@@ -225,11 +197,10 @@ export class ElementProcessor {
             
             // When element is present but, property values or location in graph is different --- work-out: collision of some kind or a seperate instance?
             // if (!existingElement!!.) {
-                // TODO: Determine what to do here for adding duplicates???
-                console.log("ERROR: element already exists with different definition")
-                let jsonElement = JSON.stringify(existingElement, undefined, 4)
-                console.log()
-            // }
+            // TODO: Determine what to do here for adding duplicates???
+            console.log("ERROR: element already exists with different definition")
+            let jsonElement = JSON.stringify(existingElement, undefined, 4)
+            console.log()
         }
     }
 }

@@ -1,11 +1,21 @@
-import { FieldDefinitionNode, StringValueNode } from "graphql";
-import { ElementDefinition, ElementDefinitionType } from "./core";
-import { ElementDefinition_ListType, ElementDefinition_NamedTypeNode, ElementDefinition_NonNullType, ElementDefinition_StringValueNode } from "./primitives";
+import { FieldDefinitionNode } from "graphql";
+import { 
+    ElementDefinition, 
+    ElementDefinitionType 
+} from "./core";
+import { 
+    ElementDefinition_ListType, 
+    ElementDefinition_NamedTypeNode, 
+    ElementDefinition_NonNullType, 
+    ElementDefinition_StringValueNode 
+} from "./primitives";
+
 import { ElementDefinition_InputValueDefinition } from "./input_value_definition";
 import { ElementDefinition_Directive } from "./directive";
 import { ElementDefinition_TypeTypes } from "./core";
 
 export class ElementDefinition_Field extends ElementDefinition {
+
     constructor(name: string) {
         super(name, ElementDefinitionType.FieldDefinition);
     }
@@ -76,9 +86,9 @@ export class ElementDefinition_Field extends ElementDefinition {
         if (ffield.directives !== undefined) {
             let directivesElements = new Array<ElementDefinition>();
             ffield.directives.forEach((ddirective) => {
-                let ddirectiveName = ddirective.name.value;
                 ddirective.arguments?.forEach((aargument) => {
-
+                    let directive = ElementDefinition_Directive.fromDirectiveNode(ddirective);
+                    directivesElements.push(directive);
                 });
             });
             fieldElement.properties?.set("Directives", directivesElements);

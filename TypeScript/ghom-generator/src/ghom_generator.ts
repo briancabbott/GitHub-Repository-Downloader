@@ -7,17 +7,15 @@ import {
 import { writeFileSync } from "fs";
 
 import { 
-    ElementDefinition, 
-    ElementDefinitionType, 
-    ElementDefinition_Ref, 
+
     ElementProcessor, 
     ElementProcessorResultSet, 
-    ElementRefDef 
 } from "./element_processors";
 
 import { 
     CryptoUtils 
 } from "./utils/crypto_utils";
+import { ElementDefinition, ElementDefinitionType, ElementDefinition_Ref, ElementRefDef } from "./graphql/elements/core";
 
 
 export enum GHOMTargetLanguageKind {

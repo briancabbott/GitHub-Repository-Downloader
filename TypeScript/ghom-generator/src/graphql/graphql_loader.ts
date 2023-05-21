@@ -1,4 +1,5 @@
-import { DocumentNode, Source, parse } from "graphql";
+import { DocumentNode, Source, parse } 
+from "graphql";
 import { GHOMGeneratorConfig } from '../ghom_generator';
 import { WebResourceLoader } from "../utils/web_utils";
 

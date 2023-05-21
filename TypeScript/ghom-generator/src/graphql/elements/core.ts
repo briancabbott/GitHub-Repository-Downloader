@@ -19,65 +19,65 @@ import { ElementDefinition_Field } from './field';
 import { ElementDefinition_InputValueDefinition } from './input_value_definition';
 import { ElementDefinition_InterfaceType } from './interface';
 
-export enum ElementDefinitionType_Types {
-    NonNullType = "nonNullType",
-    NamedType = "namedType",
-    ListType= "listType",
-    Type = "nonNullType | namedType | listType"
-}
+// export enum ElementDefinitionType_Types {
+//     NonNullType = "nonNullType",
+//     NamedType = "namedType",
+//     ListType= "listType",
+//     Type = "nonNullType | namedType | listType"
+// }
 
-export enum ElementDefinitionType_Primitives {
-    StringValueNode = "string",
-    IntValueNode = "int",
-    FloatValueNode = "float",
-    BooleanValueNode = "boolean",
-    NullValueNode = "null",
-    EnumValueNode = "enum",
-    ConstListValueNode = "constList",
-    ConstObjectValueNode = "constObject",
-    ConstObjectFieldNode = "constObjectField"
-}
+// export enum ElementDefinitionType_Primitives {
+//     StringValueNode
+//     IntValueNode = "IntValueNode",
+//     FloatValueNode = "FloatValueNode",
+//     BooleanValueNode = "BooleanValueNode",
+//     NullValueNode = "NullValueNode",
+//     EnumValueNode = "EnumValueNodeenum",
+//     ConstListValueNode = "ConstListValueNode",
+//     ConstObjectValueNode = "ConstObjectValueNode",
+//     ConstObjectFieldNode = "ConstObjectFieldNode",
+// }
 
-export enum ElementDefinitionType_Objects {
-    ObjectType = "object",
-    InterfaceType = "interface",
-    NameType = "name",
-    Directive = "directive",
-    Argument = "argument",
-    FieldDefinition = "field",
-    InputValueDefinitionNode = "inputValueDefinitionNode"
-}
+// export enum ElementDefinitionType_Objects {
+//     ObjectType = "ObjectType",
+//     InterfaceType = "InterfaceType",
+//     NameType = "NameType",
+//     Directive = "Directive",
+//     Argument = "Argument",
+//     FieldDefinition = "FieldDefinition",
+//     InputValueDefinitionNode = "InputValueDefinitionNode"
+// }
 
 // export const ElementDefinitionType = { 
 // }
 // export type ElementDefinitionType = typeof ElementDefinitionType
 
 export enum ElementDefinitionType {
-    NonNullType = "nonNullType",
-    NamedType = "namedType",
-    ListType= "listType",
-    Type = "nonNullType | namedType | listType",
+    NonNullType = "NonNullType",
+    NamedType = "NamedType",
+    ListType= "ListType",
+    Type = "NonNullType | NamedType | ListType",
 
 
-    BooleanValueNode = "boolean",
-    ConstListValueNode = "constList",
-    ConstObjectValueNode = "constObject",
-    ConstObjectFieldNode = "constObjectField",
+    BooleanValueNode = "BooleanValueNode",
+    ConstListValueNode = "ConstListValueNode",
+    ConstObjectValueNode = "ConstObjectValueNode",
+    ConstObjectFieldNode = "ConstObjectFieldNode",
 
-    EnumValueNode = "enum",
-    IntValueNode = "int",
-    FloatValueNode = "float",
-    NullValueNode = "null",
-    StringValueNode = "string",
+    EnumValueNode = "EnumValueNode",
+    IntValueNode = "IntValueNode",
+    FloatValueNode = "FloatValueNode",
+    NullValueNode = "NullValueNode",
+    StringValueNode = "StringValueNode",
 
     
-    ObjectType = "object",
-    InterfaceType = "interface",
-    NameType = "name",
-    Directive = "directive",
-    Argument = "argument",
-    FieldDefinition = "field",
-    InputValueDefinition = "inputValueDefinition"
+    ObjectType = "ObjectType",
+    InterfaceType = "InterfaceType",
+    NameType = "NameType",
+    Directive = "Directive",
+    Argument = "Argument",
+    FieldDefinition = "FieldDefinition",
+    InputValueDefinition = "InputValueDefinition"
 }
 
 

@@ -10,12 +10,10 @@ import {
     ElementDefinition, 
     ElementDefinitionPrimitiveTypes, 
     ElementDefinitionType,
-    ElementDefinition_TypeTypes 
 } from "./core";
 
 export class ElementDefinition_StringValueNode extends ElementDefinition {
     value: string;
-    
     constructor(name: string, value: string) {
         super(name, ElementDefinitionType.StringValueNode);
         this.value = value;
@@ -28,7 +26,6 @@ export class ElementDefinition_StringValueNode extends ElementDefinition {
 
 export class ElementDefinition_IntValueNode extends ElementDefinition {
     value: number;
-
     constructor(name: string, value: number) {
         super(name, ElementDefinitionType.IntValueNode);
         this.value = value;
@@ -37,7 +34,6 @@ export class ElementDefinition_IntValueNode extends ElementDefinition {
 
 export class ElementDefinition_FloatValueNode extends ElementDefinition {
     value: number;
-
     constructor(name: string, value: number) {
         super(name, ElementDefinitionType.FloatValueNode);
         this.value = value;
@@ -129,6 +125,7 @@ export class ElementDefinition_ConstObjectFieldNode extends ElementDefinition {
     static fromConstObjectFieldNode(fieldNode: ConstObjectFieldNode): ElementDefinition_ConstObjectFieldNode {
         let value = fieldNode.value;
         let vvalue: ElementDefinitionPrimitiveTypes;
+        
         if (value.kind === "IntValue") {
             vvalue = new ElementDefinition_IntValueNode("value", parseInt(value.value));
         } else if (value.kind === "FloatValue") {
@@ -153,71 +150,51 @@ export class ElementDefinition_ConstObjectFieldNode extends ElementDefinition {
     }
 }
 
-//
-// // Type Node Type
-// //
-// export class ElementDefinition_Type extends ElementDefinition {
-//     ntype: string;
-//     constructor(name: string, type: string) {
-//         super(name, ElementDefinitionType.Type);
-//         this.ntype = type;
-//     }
-// }
-
 export class ElementDefinition_TypeNode {
-
-    // export declare type TypeNode = NamedTypeNode | ListTypeNode | NonNullTypeNode;
-    // export interface NamedTypeNode {
-    //   readonly kind: Kind.NAMED_TYPE;
-    //   readonly loc?: Location;
-    //   readonly name: NameNode;
-    // }
-    // export interface ListTypeNode {
-    //   readonly kind: Kind.LIST_TYPE;
-    //   readonly loc?: Location;
-    //   readonly type: TypeNode;
-    // }
-    // export interface NonNullTypeNode {
-    //   readonly kind: Kind.NON_NULL_TYPE;
-    //   readonly loc?: Location;
-    //   readonly type: NamedTypeNode | ListTypeNode;
-    // }
-
-    // Use this..
-    // if (ffield.type.kind === "NamedType") {
-    //     fieldElement.properties?.set("Type", new ElementDefinition_NamedTypeNode(ffield.type.name.value));
-    // } else if (ffield.type.kind === "NonNullType") {
-    //     fieldElement.properties?.set("Type", new ElementDefinition_NonNullType("Type"));    
-    // } else if (ffield.type.kind === "ListType") {
-    //     fieldElement.properties?.set("Type", new ElementDefinition_ListType(ffield.type.type.kind.toString()));
-    // }
-    
-    static fromType(ntype: NamedTypeNode | ListTypeNode | NonNullTypeNode): ElementDefinition_TypeTypes  {
-        
-        return new ElementDefinition_NamedTypeNode("TODO: FINISH ME");
+    static fromType(ntype: NamedTypeNode | ListTypeNode | NonNullTypeNode): ElementDefinition_NamedTypeNode | ElementDefinition_NonNullType | ElementDefinition_ListType {        
+        if (ntype.kind === "NamedType") {
+            return new ElementDefinition_NamedTypeNode(ntype.name.value);
+        } else if (ntype.kind === "NonNullType") {
+            return new ElementDefinition_NonNullType(ntype.type.kind.toString());
+        } else if (ntype.kind === "ListType") {
+            return new ElementDefinition_ListType(ntype.type.kind.toString());
+        } else {
+            throw new Error(`Unknown type kind ${ntype}`);
+        }
     }
 } 
 
 export class ElementDefinition_NamedTypeNode extends ElementDefinition {
-    name: string
+    
     constructor(name: string) {
         super(name, ElementDefinitionType.NameType);
-        this.name = name;
+    }
+
+    static fromType(ntype: NamedTypeNode | ListTypeNode | NonNullTypeNode): ElementDefinition_NamedTypeNode | ElementDefinition_NonNullType | ElementDefinition_ListType {
+        return ElementDefinition_TypeNode.fromType(ntype) as ElementDefinition_NamedTypeNode;
     }
 }
 
 export class ElementDefinition_ListType extends ElementDefinition {
     listType: string;
-    constructor(type: string) {
-        super(type, ElementDefinitionType.ListType);
-        this.listType = type;
+    constructor(name: string) {
+        super(name, ElementDefinitionType.ListType);
+        this.listType = name;
+    }
+
+    static fromType(ntype: NamedTypeNode | ListTypeNode | NonNullTypeNode): ElementDefinition_NamedTypeNode | ElementDefinition_NonNullType | ElementDefinition_ListType {
+        return ElementDefinition_TypeNode.fromType(ntype) as ElementDefinition_NamedTypeNode;
     }
 }
 
 export class ElementDefinition_NonNullType extends ElementDefinition {
     nonNullType: string;
-    constructor(type: string) {
-        super(type, ElementDefinitionType.NonNullType);
-        this.nonNullType = type;
+    constructor(name: string) {
+        super(name, ElementDefinitionType.NonNullType);
+        this.nonNullType = name;
+    }
+
+    static fromType(ntype: NamedTypeNode | ListTypeNode | NonNullTypeNode): ElementDefinition_NamedTypeNode | ElementDefinition_NonNullType | ElementDefinition_ListType {
+        return ElementDefinition_TypeNode.fromType(ntype) as ElementDefinition_NamedTypeNode;
     }
 }

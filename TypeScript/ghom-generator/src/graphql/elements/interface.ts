@@ -11,50 +11,40 @@ import {
 import { ElementDefinition_StringValueNode } from './primitives';
 import { ElementDefinition_Directive } from './directive';
 import { ElementDefinition_Field } from './field';
-import { ElementDefinition_Argument } from './argument';
 
 export class ElementDefinition_InterfaceType extends ElementDefinition {
-
-    // key?: string | number | undefined, 
-    // parent?: ASTNode | ReadonlyArray<ASTNode> | undefined, 
-    // path?: ReadonlyArray<string | number> | undefined,
-    // ancestors?: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>,
 
     constructor(name: string, properties?: Map<string, Array<ElementDefinition>>) {
         super(name, ElementDefinitionType.InterfaceType, properties);
     }
 
-    set Description(description: string) {
+    public get Description(): string {
+        return (this.properties?.get("Description") as ElementDefinition_StringValueNode).value;
+    }
+    public set Description(description: string) {
         this.properties?.set("Description", new ElementDefinition_StringValueNode("Description", description));
     }
 
-
-    set ImplementsInterfaces(interfaces: Array<InterfaceTypeDefinitionNode>) {
-        let implementedInterfaces = new Array<ElementDefinition>();
-        interfaces.forEach((iinterface) => {
-            let interfaceName = iinterface.name.value;
-            let interfaceElement = 
-                new ElementDefinition(interfaceName, ElementDefinitionType.InterfaceType);
-            implementedInterfaces.push(interfaceElement);
-        });
+    public get ImplementsInterfaces(): Array<ElementDefinition_StringValueNode> {
+        return this.properties?.get("ImplementsInterfaces") as Array<ElementDefinition_StringValueNode>;
+    }
+    public set ImplementsInterfaces(implementedInterfaces: Array<ElementDefinition_StringValueNode>) {
         this.properties.set("ImplementsInterfaces", implementedInterfaces);
     }
 
-    get Directives(): Array<ElementDefinition_StringValueNode> {
+    public get Directives(): Array<ElementDefinition_StringValueNode> {
         return this.properties?.get("Directives") as Array<ElementDefinition_StringValueNode>;
     }
-    set Directives(directives: Array<ElementDefinition_StringValueNode>) {
+    public set Directives(directives: Array<ElementDefinition_StringValueNode>) {
         this.properties?.set("Directives", directives); 
     }
-    set FieldsDefinition(fields: Array<FieldDefinitionNode>) {
-        let fieldsElements = new Array<ElementDefinition_Field>();
-        fields.forEach((ffield) => {
-            let field = ElementDefinition_Field.fromFieldDefinitionNode(ffield);
-            fieldsElements.push(field);
-        });
-        this.properties?.set("FieldsDefinition", fieldsElements);
-    }
 
+    public get Fields(): Array<ElementDefinition_Field> {
+        return this.properties?.get("Fields") as Array<ElementDefinition_Field>;
+    }
+    public set Fields(fields: Array<ElementDefinition_Field>) {
+        this.properties?.set("Fields", fields);
+    }
 
     static fromInterfaceTypeDefinitionNode(interfaceTypeDefinitionNode: InterfaceTypeDefinitionNode): ElementDefinition_InterfaceType {
         let interfaceType = new ElementDefinition_InterfaceType(interfaceTypeDefinitionNode.name.value);
@@ -66,41 +56,22 @@ export class ElementDefinition_InterfaceType extends ElementDefinition {
                     interfaceTypeDefinitionNode.description.value));
         }
 
-
-
         if (interfaceTypeDefinitionNode.interfaces !== undefined) {
-            let implementedInterfaces = new Array<ElementDefinition>();
+            let implementedInterfaces = new Array<ElementDefinition_StringValueNode>();
             interfaceTypeDefinitionNode.interfaces.forEach((iinterface) => {
                 implementedInterfaces.push(new ElementDefinition_StringValueNode(iinterface.name.value, ElementDefinitionType.InterfaceType));
             });
             interfaceType.Properties.set("ImplementsInterfaces", implementedInterfaces);
         }
 
-
-
-        // readonly name: NameNode;
-        // readonly arguments?: ReadonlyArray<ConstArgumentNode>;
         if (interfaceTypeDefinitionNode.directives !== undefined) {
             let directivesElements = new Array<ElementDefinition>();
             interfaceTypeDefinitionNode.directives.forEach((ddirective) => {
-            
-                let directiveName = ddirective.name.value;
-                let directiveElement =
-                    new ElementDefinition_Directive(directiveName);
-
-                if (ddirective.arguments !== undefined) {
-                    let argumentsElements = new Array<ElementDefinition_Argument>();
-                    ddirective.arguments.forEach((aargument) => {
-                        argumentsElements.push(ElementDefinition_Argument.fromArgumentNode(aargument));
-                    });
-                    directiveElement.properties.set("Arguments", argumentsElements);
-                }
+                let directiveElement = ElementDefinition_Directive.fromDirectiveNode(ddirective);
                 directivesElements.push(directiveElement);
             });
             interfaceType.properties?.set("Directives", directivesElements);
         }
-
-
 
         if (interfaceTypeDefinitionNode.fields !== undefined) {
             let fieldsElements = new Array<ElementDefinition_Field>();
@@ -110,7 +81,7 @@ export class ElementDefinition_InterfaceType extends ElementDefinition {
                 fieldsElements.push(field);
             });
 
-            interfaceType.properties.set("FieldsDefinition", fieldsElements)
+            interfaceType.properties.set("Fields", fieldsElements)
         }
         
         return interfaceType;
