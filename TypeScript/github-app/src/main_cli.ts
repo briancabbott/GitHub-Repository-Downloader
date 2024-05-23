@@ -172,23 +172,9 @@ export function ExtactConfigurationFromArguments<T1>(op: string, commands: strin
             let val = configSet[v];
 
             let vall = argv[v]
-
-            console.log("v")
-            console.log(v)
-            console.log("val")
-            console.log(val)
-            console.log("vall")
-            console.log(vall)
             loc[val.propertyName] = vall;
-            console.log("object")
-            console.log(JSON.stringify(loc, undefined, 4));
-
         }
     }
-
-    console.log("FINALLLL");
-    console.log("FINALLLL");
-    console.log("FINALLLL");
     console.log(JSON.stringify(loc, undefined, 4));
 
     return loc as T1;
@@ -218,17 +204,9 @@ let downloadCommand: yargs.CommandModule = {
         let oc: DownloadOperationConfig = ExtactConfigurationFromArguments<DownloadOperationConfig>('download', ["common", "download"], argv);
         let downloadOp: RepositoryDownloadOperation = PerformOperationSetup<RepositoryDownloadOperation>(oc);
         let listResults = await performListRetrieval(downloadOp.toListOperation());
-        
-        // console.log(listResults);
-        // console.log("REPO FILES FINISHED...");
-        listResults.forEach(async (v, k, m) => {
-            console.log("v: ", v);
-            console.log("k: ", k);
-            console.log("m: ", m);
-            
+        listResults.forEach(async (v, k, m) => {            
             let orl = m.get(k);
             for (let org of downloadOp.organizations) {
-
                 const downloader = new Downloader(downloadOp, org);
                 const cloneCommandResults = await downloader.downloadRepositories(orl);
                 cloneCommandResults.forEach(element => console.log("CloneCommand: ", element));

@@ -1,4 +1,12 @@
-import { OrganizationRepositoriesList, Repository, RepositoryDownloadOperation, Organization, UserRepositoriesList, User, Entity } from "./model";
+
+
+
+
+
+import { 
+    OrganizationRepositoriesList, 
+    Repository, RepositoryDownloadOperation, Organization, UserRepositoriesList, User, Entity 
+} from "./model";
 import * as fs from "fs";
 import { GitCloneTemp, GitCloneTemp_CommandInfo } from "./git_cli/git_clone_temp";
 import { join } from "path";
@@ -6,8 +14,7 @@ import { join } from "path";
 var fsext = require("fs-extra");
 
 
-export class Downloader {
-    
+export class Downloader {    
     downloadOp: RepositoryDownloadOperation;
     entity: Organization | User;
     
@@ -15,7 +22,6 @@ export class Downloader {
         this.downloadOp = downloadOp;
         this.entity = entity;
     }
-
 
     protected setupDirectories() {
         this.entity.makeNameAckro();
@@ -79,12 +85,10 @@ export class Downloader {
         return true;
     } 
 
-
     public verifySuccessFromLogFiles() {
         let dirs = fs.readdirSync(this.entity.downloadOpDirectory);
         dirs.forEach((dir) => console.log(dir));
     }
-
 
     public verifyDownloadSuccessFromListFile(listQueryLogFile: string, downloadsDir: string): Array<Repository> {
         let jsonContent = fs.readFileSync(listQueryLogFile).toString();
@@ -101,13 +105,11 @@ export class Downloader {
 
         let repoNames = new Map<string, Repository>(reposList.repositories.map<[string, Repository]>((r: Repository) => [r.name, r]));
         let failedRepositories: Array<Repository> = new Array<Repository>();
-
         repoNames.forEach((r, name) => { 
             if (!dirEntries.includes(name)) {
                 failedRepositories.push(r);
             }
         });
-
         return failedRepositories;
     }
 }

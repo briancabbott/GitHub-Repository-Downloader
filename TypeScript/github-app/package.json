@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/briancabbott/github-repository-downloader#readme",
   "dependencies": {
-    "@apollo/client": "^3.5.8",
+    "@apollo/client": "^3.10.4",
     "@babel/plugin-transform-typescript": "^7.16.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-typescript": "^7.16.7",
@@ -32,7 +32,7 @@
     "apollo-boost": "^0.4.9",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
-    "axios": "^0.24.0",
+    "axios": "^1.7.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "cross-fetch": "^3.1.4",
@@ -43,7 +43,6 @@
     "react": "^17.0.2",
     "rxjs": "^6.6.0",
     "short-uuid": "^3.1.1",
-    "typescript": "^4.5.4",
     "uuid": "^7.0.3",
     "yargs": "^17.3.1"
   },
@@ -51,6 +50,7 @@
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.7",
     "@babel/preset-env": "^7.16.8",
-    "@types/node": "^18.16.0"
+    "@types/node": "^18.16.0",
+    "typescript": "^5.4.5"
   }
 }

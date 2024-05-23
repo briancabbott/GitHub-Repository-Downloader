@@ -21,3 +21,7 @@ export function padDate(num, places): string {
     } 
     return num.toString();
 }
+
+export function debugPrint(msg: string) {
+    console.log(msg);
+}

@@ -1,4 +1,5 @@
 
+
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -14,8 +15,7 @@ import {
     FetchMoreQueryOptions,
     ObservableQuery,
     OperationVariables
-  } from '@apollo/client';
-
+} from '@apollo/client';
 import { 
     Repository, 
     OrganizationRepositoriesLatestCommitsList, 
@@ -203,9 +203,6 @@ export class RepositoryLister {
 
 
     public async generateList_User_ApolloClient(user: User, writeFile: boolean = false): Promise<UserRepositoriesList> {
-        console.log("generateList_User_ApolloClient");
-        console.log(this.listOp);
-
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
@@ -255,15 +252,10 @@ export class RepositoryLister {
     }
 
     public async getNexts_forUser(wq: ObservableQuery<any, OperationVariables>, user: User, repos: Repository[], options): Promise<{file: string, orl: UserRepositoriesList}> {    
-        console.log("getNexts_forUser");
-        console.log("getNexts_forUser");
-    
         const p: Promise<ApolloQueryResult<any>> = wq.fetchMore(options);
         let val = null;
         const pp = await p.then(async (result) => {
             result.data.user.repositories.edges.forEach((e) => { 
-                console.log(e.node.name);
-                console.log(e.node.url);
                 let r = new Repository(
                     e.node.url,
                     e.node.id,
@@ -317,9 +309,6 @@ export class RepositoryLister {
 
 
     public async generateList_Organization_ApolloClient(organization: Organization, writeFile: boolean = false): Promise<OrganizationRepositoriesList> {
-        console.log("generateList_ApolloClient");
-        console.log(this.listOp);
-
         const middlewareLink = new ApolloLink((o, f) => {
             o.setContext({
                 headers: {
@@ -373,8 +362,6 @@ export class RepositoryLister {
         let val = null;
         const pp = await p.then(async (result) => {
             result.data.organization.repositories.edges.forEach((e) => { 
-                console.log(e.node.name);
-                console.log(e.node.url);
                 let r = new Repository(
                     e.node.url,
                     e.node.id,
@@ -565,10 +552,8 @@ export class RepositoryLister {
             name = list.organizationName;
         }
 
-
         let filename = "repoList--" + name + "--" + this.listOp.globalOperationTimestamp.getTime() + ".json";
         let _writeFilename = path.join(this.listOp.globalStoreDirectory || process.cwd(), filename);
-
         let jsonContent = JSON.stringify(list, undefined, 4);
 
         try {

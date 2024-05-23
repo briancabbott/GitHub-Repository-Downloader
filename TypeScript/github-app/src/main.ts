@@ -29,11 +29,7 @@ export class Runtime {
     static setupRuntimeVars() { 
         let cwd = process.cwd();
         let execPath = process.execPath
-        let env = process.env
-
-        console.log("cwd: " + cwd);
-        console.log("execPath: " + execPath);
-        console.log("env: " + JSON.stringify(env, undefined, 4));
+        let env = process.env;
     }
 
     static getDefault(key: string) {
@@ -230,12 +226,6 @@ export class DownloadOperationConfig extends CommonOperationConfig {
 
 export function PerformOperationSetup<T1 extends Operation | RepositoryListOperation | RepositoryDownloadOperation >
     (opConfig: CommonOperationConfig | ListOperationConfig | DownloadOperationConfig): T1 {
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("performOperationSetup()");
-    console.log("opConfig: " + JSON.stringify(opConfig, undefined, 4));
-
     let gitHubConfig: GitHubConfiguration = undefined;
 
     // TODO: validate the token (one or the other setting, etc)...
@@ -318,35 +308,11 @@ export function PerformOperationSetup<T1 extends Operation | RepositoryListOpera
     
         return downloadOp as RepositoryDownloadOperation as T1;
     }
-
-
-    // //
-    // // Now perform active operations for preparing derived/generated values/artifacts from
-    // // download-op settings (i.e. create dirs, set calculated values, etc).
-
     let downloadOp = new RepositoryDownloadOperation();
-
     return downloadOp as T1;
-
-    // downloadOp.organizations.forEach((org) => {
-    //     let instanceDir = -downloadOp.operationUUID;
-    //     downloadOp.workingDirectory = path.join(".\\ops_working_dirs", instanceDir);
-    // }
-    // let cloneOperationFailures = new Array<GitCloneTemp_CommandInfo>();
 }
 
-// listPromise.then((list: RepositoryList) => {
-//     listQueryLogFile = listGen.writeToFile(organization, list);
-//     orgRepoListMap.set(organization.name, listQueryLogFile);
-//
-//     console.log("Wrote RepoList file to: " + listQueryLogFile);
-// }).catch((reason) => {
-//     console.error("Error occured processing requests. Error was: " + reason);
-// });
-
 export async function performListLatestCommitsRetrieval(listOp: RepositoryListOperation): Promise<OrganizationRepositoriesLatestCommitsList[]> {
-    console.log("performListLatestCommitsRetrieval()");
-    
     let list: OrganizationRepositoriesLatestCommitsList[] = new Array<OrganizationRepositoriesLatestCommitsList>();
     const listGen = new RepositoryLister(listOp);
     for (let organization of listOp.organizations) {
@@ -361,8 +327,6 @@ export async function performListLatestCommitsRetrieval(listOp: RepositoryListOp
 // Do List-Initialization
 //
 export async function performListRetrieval(listOp: RepositoryListOperation): Promise<Map<string, UserRepositoriesList | OrganizationRepositoriesList>> {
-    console.log("performListRetrieval()");
-
     const listGen = new RepositoryLister(listOp);
     let repositoriesMap = new Map<string, UserRepositoriesList | OrganizationRepositoriesList>();
 
@@ -370,12 +334,11 @@ export async function performListRetrieval(listOp: RepositoryListOperation): Pro
         const orgsRepoList = await listGen.generateList_Organization_ApolloClient(organization, true);
         repositoriesMap.set(organization.name, orgsRepoList);
     }
+    
     for (let user of listOp.users) {
         const userList = await listGen.generateList_User_ApolloClient(user, true);
         repositoriesMap.set(user.name, userList);
     }
-
-    console.log(`\t performListRetrieval() -- returning map of size: ${repositoriesMap.size}`);
 
     return repositoriesMap;
 }
@@ -383,7 +346,6 @@ export async function performListRetrieval(listOp: RepositoryListOperation): Pro
 
 export function performLocalListGeneration(downloadOp: RepositoryDownloadNewReposOperation): Promise<RepositoryDownloadNewReposOperation> {
     if ( downloadOp.organizationDownloadPath  ) {
-      // arg: string | null | undefined
         fs.readdirSync(downloadOp.organizationDownloadPath).forEach(file => {
             console.log(file);
         });
@@ -391,23 +353,17 @@ export function performLocalListGeneration(downloadOp: RepositoryDownloadNewRepo
     return Promise.any([new RepositoryDownloadNewReposOperation()]);
 }
 
-
-//
-// Perform download
-//
 export async function performRepositoryDownloads(downloadOp: RepositoryDownloadOperation): Promise<Array<GitCloneTemp_CommandInfo>> {
-    console.log("performRepositoryDownloads()....  ");
-
     const cloneCommands: Array<GitCloneTemp_CommandInfo> = new Array<GitCloneTemp_CommandInfo>();
 
     // let repositories = await performListRetrieval(downloadOp);
     for (let organization of downloadOp.organizations) {
-        console.log("download for org: " + organization.name);
-
         if (downloadOp.repositoryListFilesMap.has(organization.name)) {
             let buf = fs.readFileSync(downloadOp.repositoryListFilesMap.get(organization.name));
             let repositoryList = JSON.parse(buf.toString());
+
             console.log(JSON.stringify(repositoryList, undefined, 4));    
+
             if (!downloadOp.isLongRunningDownloadOperation) {
                 let downloader = new Downloader(downloadOp, organization);
                 let cloneCommandResults = await downloader.downloadRepositories(repositoryList);
@@ -418,15 +374,13 @@ export async function performRepositoryDownloads(downloadOp: RepositoryDownloadO
                 cloneCommands.push(...cloneCommandResults);
             } else {
                 let downloader = new LongRunningDownloader(downloadOp, organization);
-                let cloneCommandResults = downloader.resumeLongRunningOperation();
-                
+                let cloneCommandResults = downloader.resumeLongRunningOperation();                
                 cloneCommandResults.forEach((cci) => {
                     console.log("CloneCommand Print-Out: " + cci.commandLogFilePath);
                 });
             }
         }
     }
-
     return Promise.resolve(cloneCommands);
 }
 
