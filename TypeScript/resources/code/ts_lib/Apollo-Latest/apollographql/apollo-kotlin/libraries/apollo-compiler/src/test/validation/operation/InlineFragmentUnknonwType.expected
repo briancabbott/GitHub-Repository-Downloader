@@ -1,2 +1,0 @@
-ERROR: ValidationError (3:11)
-Cannot find type `Banana` for inline fragment

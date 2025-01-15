@@ -1,6 +1,0 @@
-{
-  "plugins": [
-    ["transform-runtime", { "corejs": 2, "version": "7.100.0" }],
-    "transform-modules-commonjs"
-  ]
-}

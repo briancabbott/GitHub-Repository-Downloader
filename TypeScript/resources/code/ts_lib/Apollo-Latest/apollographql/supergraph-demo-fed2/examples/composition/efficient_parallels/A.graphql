@@ -1,7 +1,0 @@
-type Query {
-  t: T
-}
-
-type T @key(fields: "k") {
-  k: ID!
-}

@@ -1,8 +1,0 @@
-fragment CharacterFragment on Character {
-  name
-  id
-  appearsIn
-  friendsConnection(first: $first) {
-    isEmpty
-  }
-}

@@ -1,7 +1,0 @@
-.yarn
-lib
-umd
-docs
-CHANGELOG.md
-implementations/*/README.md
-implementations/*/report.json

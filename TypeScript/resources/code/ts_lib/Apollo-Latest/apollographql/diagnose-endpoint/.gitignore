@@ -1,7 +1,0 @@
-.DS_Store
-.env
-.eslintcache
-*.log
-*~
-
-node_modules/

@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    // add jest to our types for testing
-    "types": ["node", "jest"],
-    "esModuleInterop": true
-  }
-}

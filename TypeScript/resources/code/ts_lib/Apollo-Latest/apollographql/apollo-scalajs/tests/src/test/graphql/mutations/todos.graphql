@@ -1,5 +1,0 @@
-query AllTodosId {
-    todos {
-        id
-    }
-}

@@ -1,7 +1,0 @@
-supergraph:
-  listen: 1.2.3.4:5
-telemetry:
-  tracing:
-    otlp:
-      endpoint: default
-      protocol: http

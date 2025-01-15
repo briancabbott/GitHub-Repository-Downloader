@@ -1,8 +1,0 @@
-query TestQuery {
-  nonOptionalHero(episode: EMPIRE) {
-    name
-    ... on Human {
-      height
-    }
-  }
-}

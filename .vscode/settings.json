@@ -1,9 +1,0 @@
-{
-    "java.configuration.runtimes": [
-        {
-            "name": "JavaSE-20",
-            "path": "/Users/brian/java/jdk-20.0.1.jdk/Contents/Home",
-            "default": true
-        }
-    ]
-}

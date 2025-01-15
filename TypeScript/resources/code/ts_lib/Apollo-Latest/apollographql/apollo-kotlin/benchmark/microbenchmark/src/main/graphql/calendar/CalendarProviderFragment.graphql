@@ -1,6 +1,0 @@
-fragment calendarProviderFragment on CalendarProvider {
-    id
-    type
-    displayName
-    username
-}

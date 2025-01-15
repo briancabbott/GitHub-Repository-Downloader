@@ -1,8 +1,0 @@
-# a query that uses fragment from all its dependant modules
-query GetAnimal {
-  randomAnimal {
-    ...CatFragment
-    ...CatFragment1
-    ...CatFragment2
-  }
-}

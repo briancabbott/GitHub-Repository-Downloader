@@ -1,3 +1,0 @@
-# apollo generates code without carriage return. Make sure git does not add them when checking out the test fixtures
-/*.kt eof=lf
-/*.java eof=lf

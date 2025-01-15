@@ -1,2 +1,0 @@
-ERROR: ValidationError (9:0)
-Type 'Field' is defined multiple times. First definition is: duplicate-type.graphql: (5, 1)

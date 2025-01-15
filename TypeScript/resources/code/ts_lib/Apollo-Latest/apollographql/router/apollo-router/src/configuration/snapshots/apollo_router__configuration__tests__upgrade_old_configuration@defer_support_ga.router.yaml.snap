@@ -1,8 +1,0 @@
----
-source: apollo-router/src/configuration/tests.rs
-expression: new_config
----
----
-supergraph:
-  defer_support: true
-

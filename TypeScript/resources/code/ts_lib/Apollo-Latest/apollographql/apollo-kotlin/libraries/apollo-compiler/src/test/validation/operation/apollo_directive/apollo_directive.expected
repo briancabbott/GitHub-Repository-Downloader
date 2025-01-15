@@ -1,5 +1,0 @@
-ERROR: ValidationError (5:26)
-Unknown argument `toto` on directive 'nonnull'
-------------
-ERROR: ValidationError (5:17)
-'nonnull' cannot have arguments when applied on a field

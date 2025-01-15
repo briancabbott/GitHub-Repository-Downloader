@@ -1,5 +1,0 @@
-services:
-  products:
-    build: implementations/async-graphql
-    ports:
-      - 4001:4001

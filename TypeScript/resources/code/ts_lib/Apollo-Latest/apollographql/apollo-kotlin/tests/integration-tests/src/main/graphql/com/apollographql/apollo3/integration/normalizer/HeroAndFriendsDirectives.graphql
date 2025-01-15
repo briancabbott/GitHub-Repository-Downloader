@@ -1,8 +1,0 @@
-query HeroAndFriendsDirectives($episode: Episode, $includeName: Boolean!, $skipFriends: Boolean!) {
-  hero(episode: $episode) {
-    name @include(if: $includeName)
-    friends @skip(if: $skipFriends) {
-      name
-    }
-  }
-}

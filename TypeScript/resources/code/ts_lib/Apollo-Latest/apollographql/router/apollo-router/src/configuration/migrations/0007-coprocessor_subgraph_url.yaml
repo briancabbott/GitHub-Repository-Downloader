@@ -1,4 +1,0 @@
-description: coprocessor.subgraph.all.response.uri was removed
-actions:
-  - type: delete
-    path: coprocessor.subgraph.all.response.uri

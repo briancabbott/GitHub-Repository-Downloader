@@ -1,3 +1,0 @@
-rhai:
-  scripts: src
-  main: add_timestamp_header.rhai

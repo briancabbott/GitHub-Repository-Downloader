@@ -1,7 +1,0 @@
-type Query {
-  companion: Companion
-}
-
-type Companion {
-  foo: Int!
-}

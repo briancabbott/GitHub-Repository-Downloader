@@ -1,5 +1,0 @@
-query CharacterWithBirthDate($id: ID!) {
-    character(id: $id) {
-        birthDate
-    }
-}

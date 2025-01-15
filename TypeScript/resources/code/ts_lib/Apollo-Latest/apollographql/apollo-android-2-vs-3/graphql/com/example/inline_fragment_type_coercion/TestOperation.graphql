@@ -1,8 +1,0 @@
-query TestQuery {
-  foo {
-    foo
-    ... on Bar {
-      bar
-    }
-  }
-}

@@ -1,3 +1,0 @@
-rhai:
-  scripts: src
-  main: cache_control.rhai

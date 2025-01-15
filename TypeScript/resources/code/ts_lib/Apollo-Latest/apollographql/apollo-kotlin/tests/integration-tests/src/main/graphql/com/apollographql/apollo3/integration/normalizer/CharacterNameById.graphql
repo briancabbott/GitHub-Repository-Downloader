@@ -1,5 +1,0 @@
-query CharacterNameById($id: ID!) {
-  character(id: $id) {
-    name
-  }
-}

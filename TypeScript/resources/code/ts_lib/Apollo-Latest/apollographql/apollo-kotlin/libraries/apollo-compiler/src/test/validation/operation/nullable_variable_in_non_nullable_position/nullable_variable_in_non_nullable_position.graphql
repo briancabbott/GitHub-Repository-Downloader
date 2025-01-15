@@ -1,3 +1,0 @@
-query TestQuery($arg: String = "hello") {
-    field(arg: $arg)
-}

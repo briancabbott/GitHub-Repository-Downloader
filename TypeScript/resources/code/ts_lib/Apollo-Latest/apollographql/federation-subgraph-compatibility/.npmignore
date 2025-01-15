@@ -1,8 +1,0 @@
-*
-!dist/**/*
-!src/**/*
-!package.json
-!README.md
-!tsconfig.base.json
-!tsconfig.json
-!tsconfig.build.json

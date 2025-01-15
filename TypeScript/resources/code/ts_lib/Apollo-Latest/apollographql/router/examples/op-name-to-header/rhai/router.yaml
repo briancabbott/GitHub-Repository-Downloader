@@ -1,3 +1,0 @@
-rhai:
-  scripts: src
-  main: op_name_to_header.rhai

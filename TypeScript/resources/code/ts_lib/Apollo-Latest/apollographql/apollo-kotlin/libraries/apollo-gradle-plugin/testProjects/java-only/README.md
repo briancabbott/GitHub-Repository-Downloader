@@ -1,1 +1,0 @@
-A test project that does not apply the Kotlin plugin and generates Java models

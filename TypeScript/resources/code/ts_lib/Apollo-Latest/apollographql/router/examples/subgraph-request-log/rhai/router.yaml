@@ -1,3 +1,0 @@
-rhai:
-  scripts: src
-  main: rhai_subgraph_request_log.rhai

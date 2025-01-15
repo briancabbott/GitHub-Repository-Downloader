@@ -1,5 +1,0 @@
-query NullableHero {
-    hero {
-        name
-    }
-}

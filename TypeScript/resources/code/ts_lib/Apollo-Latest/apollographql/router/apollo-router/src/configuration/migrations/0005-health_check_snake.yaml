@@ -1,6 +1,0 @@
-description: health-check renamed to health_check
-actions:
-  - type: move
-    from: health-check
-    to: health_check
-

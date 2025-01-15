@@ -1,8 +1,0 @@
-{
-  "extends": "../../../../tsconfig.test.base",
-  "include": ["**/*"],
-  "references": [
-    { "path": "../../" },
-    { "path": "../../../integration-testsuite/tsconfig.cjs.json" }
-  ]
-}

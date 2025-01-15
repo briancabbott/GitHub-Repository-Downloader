@@ -1,4 +1,0 @@
-type CaseStudy {
-    caseNumber: ID!
-    description: String
-}

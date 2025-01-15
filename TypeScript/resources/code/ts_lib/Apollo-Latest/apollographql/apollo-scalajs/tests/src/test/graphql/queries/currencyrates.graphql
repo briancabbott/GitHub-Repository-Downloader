@@ -1,5 +1,0 @@
-query CurrencyRates($cur: String!) {
-  rates(currency: $cur) {
-    currency
-  }
-}

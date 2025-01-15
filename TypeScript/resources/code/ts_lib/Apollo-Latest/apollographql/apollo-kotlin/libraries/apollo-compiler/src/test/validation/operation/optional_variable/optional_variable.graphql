@@ -1,4 +1,0 @@
-# Cannot use nullable variable in mandatory location
-query TestQuery($arg: String) {
-    field(arg: $arg)
-}

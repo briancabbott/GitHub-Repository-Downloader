@@ -1,7 +1,0 @@
-mutation UpdateReview($id: ID!, $review: ReviewInput!) {
-  updateReview(id: $id, review: $review) {
-    id
-    stars
-    commentary
-  }
-}

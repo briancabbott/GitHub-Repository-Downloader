@@ -173,7 +173,7 @@ export class Entity {
         this._name = name || null;
         this._shortNameAckro = shortNameAckro || null;
         this._downloadOpDirectory = downloadOpDirectory || null;
-        this._type = type || null
+        this._type = type;
         this._repositories = repositories || null;
 
         if (this._repositories == null || this._repositories.length == 0) {
@@ -399,12 +399,14 @@ export class RepositoryDownloadOperation  extends Operation  {
             this.globalOperationEndingTime, this.globalStoreDirectory, 
             this.applicationWorkingDirectory, this.githubConfiguration);
         this.organizations.forEach((org) => {
+            console.log("Org: ", org);
             if (org.type == EntityType.Organization) {
                 op.organizations.push(org);
             } else if (org.type == EntityType.User) {
                 op.users.push(org);
             }
         });
+        console.log("Converted to RepositoryListOperation: ", op);
         return op;
     }
 }

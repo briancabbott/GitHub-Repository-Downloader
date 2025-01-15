@@ -1,7 +1,0 @@
-// allow introspection
-allow if query("__schema");
-
-allow if user($id);
-// only the test root operation is available as unauthenticated user
-deny if query($op), !($op == "test");
-allow if true;

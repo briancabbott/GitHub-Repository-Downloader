@@ -1,2 +1,0 @@
-# argument names should not contain a dollar sign
-type Mutation {sendMessage0($input: MessageInput0): String!}

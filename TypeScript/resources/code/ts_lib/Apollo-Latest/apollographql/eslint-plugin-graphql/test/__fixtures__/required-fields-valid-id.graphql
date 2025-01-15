@@ -1,1 +1,0 @@
-query { greetings { id, hello, hi } }

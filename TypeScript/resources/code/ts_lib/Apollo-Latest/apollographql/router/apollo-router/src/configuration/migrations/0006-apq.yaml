@@ -1,6 +1,0 @@
-description: supergraph.apq moved to apq
-actions:
-  - type: move
-    from: supergraph.apq
-    to: apq
-

@@ -1,5 +1,0 @@
-query GetConnection {
-  connection(offset: 0, limit: 10) {
-    random
-  }
-}

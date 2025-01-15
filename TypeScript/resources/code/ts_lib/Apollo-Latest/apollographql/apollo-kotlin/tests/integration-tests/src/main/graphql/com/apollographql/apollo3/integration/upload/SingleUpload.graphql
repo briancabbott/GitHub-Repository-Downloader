@@ -1,8 +1,0 @@
-mutation SingleUpload($file: Upload!) {
-  singleUpload(file: $file) {
-    id
-    path
-    filename
-    mimetype
-  }
-}

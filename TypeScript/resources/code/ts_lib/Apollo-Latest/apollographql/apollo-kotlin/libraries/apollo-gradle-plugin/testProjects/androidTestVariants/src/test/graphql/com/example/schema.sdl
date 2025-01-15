@@ -1,9 +1,0 @@
-type Query {
-  debugField: String!
-  releaseField: String!
-  mainField: String!
-  demoField: String!
-  fullField: String!
-  testField: String!
-  androidTestField: String!
-}

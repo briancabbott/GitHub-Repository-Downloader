@@ -1,5 +1,0 @@
-query GetCharacter {
-    character {
-      ...CharacterFragment
-    }
-}

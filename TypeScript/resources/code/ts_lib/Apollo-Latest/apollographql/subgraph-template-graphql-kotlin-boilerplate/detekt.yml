@@ -1,3 +1,0 @@
-build:
-  weights:
-    comments: 0   # missing comments should not fail the build

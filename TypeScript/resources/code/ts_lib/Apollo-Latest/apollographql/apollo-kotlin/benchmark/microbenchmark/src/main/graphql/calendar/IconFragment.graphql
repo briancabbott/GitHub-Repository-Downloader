@@ -1,4 +1,0 @@
-fragment iconFragment on Icon {
-    id
-    name
-}

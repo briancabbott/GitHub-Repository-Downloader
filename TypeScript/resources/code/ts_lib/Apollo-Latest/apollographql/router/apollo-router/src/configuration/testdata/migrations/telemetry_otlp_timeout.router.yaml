@@ -1,5 +1,0 @@
-telemetry:
-  tracing:
-    otlp:
-      endpoint: default
-      timeout: "5s"

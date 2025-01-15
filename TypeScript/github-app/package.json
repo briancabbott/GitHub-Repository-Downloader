@@ -52,5 +52,8 @@
     "@babel/preset-env": "^7.16.8",
     "@types/node": "^18.16.0",
     "typescript": "^5.4.5"
+  },
+  "overrides": {
+     "whatwg-url": "^14.0.0"
   }
 }

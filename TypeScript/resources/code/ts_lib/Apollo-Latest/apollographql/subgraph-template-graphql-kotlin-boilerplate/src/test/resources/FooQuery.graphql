@@ -1,6 +1,0 @@
-query FooQuery {
-    foo(id: "1") {
-        id
-        name
-    }
-}

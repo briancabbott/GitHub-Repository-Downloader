@@ -1,4 +1,0 @@
-{
-  "name": "Docs Production Deploy Workflow",
-  "description": "Kick off a production deploy on Netlify when the docs change."
-}

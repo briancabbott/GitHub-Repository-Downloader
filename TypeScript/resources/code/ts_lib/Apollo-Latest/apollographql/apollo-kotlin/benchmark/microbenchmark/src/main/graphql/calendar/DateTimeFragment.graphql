@@ -1,5 +1,0 @@
-fragment dateTimeFragment on DateTimeInfo {
-    date
-    dateTime
-    timeZone
-}

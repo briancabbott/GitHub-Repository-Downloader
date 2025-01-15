@@ -1,6 +1,0 @@
-{
-    "private": true,
-    "dependencies": {
-        "@types/mongoose": "^4.1.12"
-    }
-}

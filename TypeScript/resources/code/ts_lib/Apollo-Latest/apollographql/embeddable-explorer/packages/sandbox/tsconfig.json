@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "include": ["src", "src/index.ts", "buildHelpers"],
-  "compilerOptions": {
-    "outDir": "dist",
-    "target": "es6",
-    "rootDir": "."
-  }
-}

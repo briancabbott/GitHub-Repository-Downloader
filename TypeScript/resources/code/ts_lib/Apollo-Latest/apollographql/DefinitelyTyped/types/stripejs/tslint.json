@@ -1,7 +1,0 @@
-{
-  "extends": "dtslint/dt.json",
-  "rules": {
-    // IBAN is written with an 'I' for example
-    "interface-name": false
-  }
-}

@@ -1,8 +1,0 @@
-version: '3.5'
-
-services:
-  nextcloud-standalone:
-    image: "nextcloud:latest"
-    ports:
-      - 8080:80
-    container_name: nextcloud-standalone

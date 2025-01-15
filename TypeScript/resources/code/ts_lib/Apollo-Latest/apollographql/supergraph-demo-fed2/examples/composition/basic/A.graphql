@@ -1,9 +1,0 @@
-type Query {
-  a: A!
-}
-
-type A @key(fields: "k") {
-  k: Int
-  v1: Int
-  v2: String
-}

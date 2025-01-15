@@ -1,9 +1,0 @@
-query TestQuery {
-  cat {
-    ... on Node {
-      ... on Animal {
-        species
-      }
-    }
-  }
-}

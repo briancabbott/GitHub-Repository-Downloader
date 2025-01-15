@@ -1,9 +1,0 @@
-*.json
-*.yml
-*.yaml
-*.md
-
-dist/
-implementations/
-
-supergraph*

@@ -1,4 +1,0 @@
-type Query {
-    field(arg: String!): Int!
-    field2(arg: String! = "42"): Int!
-}

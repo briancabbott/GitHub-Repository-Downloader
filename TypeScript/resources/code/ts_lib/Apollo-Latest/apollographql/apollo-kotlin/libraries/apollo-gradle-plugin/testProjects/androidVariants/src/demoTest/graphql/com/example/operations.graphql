@@ -1,4 +1,0 @@
-query DemoTest {
-  demoField
-  testField
-}

@@ -1,6 +1,0 @@
-query TestQuery {
-  tree {
-    __typename
-    name
-  }
-}

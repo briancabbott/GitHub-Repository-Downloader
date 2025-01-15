@@ -1,9 +1,0 @@
-query TestQuery {
-  hero {
-    name
-  }
-}
-
-type LightSaber {
-  color: Int
-}

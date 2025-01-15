@@ -1,8 +1,0 @@
-query TestQuery {
-    hero {
-        ... on Droid {
-            name
-            primaryFunction
-        }
-    }
-}

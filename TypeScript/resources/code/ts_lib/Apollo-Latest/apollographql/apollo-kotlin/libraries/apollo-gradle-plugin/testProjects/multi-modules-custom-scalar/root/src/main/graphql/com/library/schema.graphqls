@@ -1,8 +1,0 @@
-type Query {
-  id: ID!
-  date: Date!
-  geoPoint: GeoPoint!
-}
-
-scalar Date
-scalar GeoPoint

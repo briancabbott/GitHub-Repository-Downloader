@@ -1,1 +1,0 @@
-../../src/face-verify.js

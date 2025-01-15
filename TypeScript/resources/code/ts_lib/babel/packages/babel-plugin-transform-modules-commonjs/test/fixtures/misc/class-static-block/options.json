@@ -1,6 +1,0 @@
-{
-  "plugins": [
-    "transform-modules-commonjs",
-    "@babel/plugin-syntax-class-static-block"
-  ]
-}

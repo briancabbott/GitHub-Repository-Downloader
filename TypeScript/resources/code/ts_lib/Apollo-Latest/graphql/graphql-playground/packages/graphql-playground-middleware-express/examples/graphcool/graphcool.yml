@@ -1,8 +1,0 @@
-service: whh
-stage: dev
-cluster: workspace-asd/graphcool-eu1
-
-datamodel:
-- datamodel.graphql
-
-disableAuth: true

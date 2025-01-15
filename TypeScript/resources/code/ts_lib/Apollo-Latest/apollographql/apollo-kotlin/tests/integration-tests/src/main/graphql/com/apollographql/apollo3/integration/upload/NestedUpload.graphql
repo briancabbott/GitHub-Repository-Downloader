@@ -1,3 +1,0 @@
-mutation NestedUpload($topFile: Upload, $topFileList: [Upload], $nested: NestedObject) {
-    nestedUpload(topFile: $topFile, topFileList: $topFileList, nested: $nested)
-}

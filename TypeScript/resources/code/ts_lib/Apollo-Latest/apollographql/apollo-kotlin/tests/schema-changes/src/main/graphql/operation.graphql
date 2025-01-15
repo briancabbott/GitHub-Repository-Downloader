@@ -1,9 +1,0 @@
-query GetField {
-  field {
-    ... on Field {
-      id
-      name
-    }
-  }
-}
-

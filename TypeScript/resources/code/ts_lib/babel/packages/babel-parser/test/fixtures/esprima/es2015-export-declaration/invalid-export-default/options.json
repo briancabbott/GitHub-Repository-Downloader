@@ -1,4 +1,0 @@
-{
-  "sourceType": "module",
-  "throws": "This experimental syntax requires enabling the parser plugin: \"exportDefaultFrom\". (1:7)"
-}

@@ -1,9 +1,0 @@
-type Query {
-  user: User!
-}
-
-type User @typePolicy(keyFields: "id"){
-  id: String!
-  name: String!
-  friend: User!
-}

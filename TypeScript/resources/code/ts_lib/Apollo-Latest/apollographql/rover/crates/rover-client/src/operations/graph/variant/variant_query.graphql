@@ -1,8 +1,0 @@
-query VariantListQuery($graph_id: ID!) {
-  frontendUrlRoot,
-  graph(id: $graph_id) {
-    variants {
-      name
-    }
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "plugins": [
-    ["pipelineOperator", { "proposal": "smart" }],
-    "classPrivateProperties",
-    "classPrivateMethods"
-  ]
-}

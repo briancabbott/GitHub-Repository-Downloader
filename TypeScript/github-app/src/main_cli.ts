@@ -203,8 +203,8 @@ let downloadCommand: yargs.CommandModule = {
     handler: async (argv) => {
         let oc: DownloadOperationConfig = ExtactConfigurationFromArguments<DownloadOperationConfig>('download', ["common", "download"], argv);
         let downloadOp: RepositoryDownloadOperation = PerformOperationSetup<RepositoryDownloadOperation>(oc);
-        let listResults = await performListRetrieval(downloadOp.toListOperation());
-        listResults.forEach(async (v, k, m) => {            
+        let listResults = await performListRetrieval(downloadOp.toListOperation()); 
+        listResults.forEach(async (v, k, m) => {         
             let orl = m.get(k);
             for (let org of downloadOp.organizations) {
                 const downloader = new Downloader(downloadOp, org);

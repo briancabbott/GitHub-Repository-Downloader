@@ -1,6 +1,0 @@
-query TestQuery($episode: Episode! = JEDI) {
-  hero(episode: $episode) {
-    name
-  }
-}
-

@@ -1,3 +1,0 @@
-git clone --progress -- https://github.com/GoogleCloudPlatform/web-docs-samples C:\GRD_11.29.2018\GoogleCloudPlatform\web-docs-samples
-
-I was originally generating this. find out why I did the -- 

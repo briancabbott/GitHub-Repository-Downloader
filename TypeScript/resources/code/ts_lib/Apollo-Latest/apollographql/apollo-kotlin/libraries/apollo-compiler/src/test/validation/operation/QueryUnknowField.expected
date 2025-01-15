@@ -1,2 +1,0 @@
-ERROR: ValidationError (2:2)
-Can't query `hero12` on type `Query`

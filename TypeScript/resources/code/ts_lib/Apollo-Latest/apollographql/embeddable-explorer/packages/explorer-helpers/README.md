@@ -1,1 +1,0 @@
-This is an npm package that contains utility functions used in the @apollo/explorer, @apollo/sandbox packages, and Studio-UI Explorer.

@@ -1,4 +1,0 @@
-type A @key(fields: "k") {
-  k: Int
-  v4: Int
-}

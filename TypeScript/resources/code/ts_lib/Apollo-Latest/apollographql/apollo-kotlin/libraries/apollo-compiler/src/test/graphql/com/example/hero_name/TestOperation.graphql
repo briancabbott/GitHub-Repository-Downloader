@@ -1,9 +1,0 @@
-query TestQuery {
-  hero {
-    name
-    birthDate
-    ... on Droid {
-       primaryFunction
-    }
-  }
-}

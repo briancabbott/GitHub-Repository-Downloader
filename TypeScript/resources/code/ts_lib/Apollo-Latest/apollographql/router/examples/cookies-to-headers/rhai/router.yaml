@@ -1,3 +1,0 @@
-rhai:
-  scripts: src
-  main: cookies_to_headers.rhai

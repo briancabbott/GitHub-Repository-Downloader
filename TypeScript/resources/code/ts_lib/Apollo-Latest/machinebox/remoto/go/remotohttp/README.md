@@ -1,3 +1,0 @@
-# remotohttp
-
-Remoto HTTP server.

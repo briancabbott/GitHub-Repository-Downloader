@@ -1,6 +1,0 @@
-query TestQuery {
-  hero {
-    ... on Banana {
-    }
-  }
-}

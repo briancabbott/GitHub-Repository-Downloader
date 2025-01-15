@@ -1,2 +1,0 @@
-# CHANGELOG - Neo4j2
-

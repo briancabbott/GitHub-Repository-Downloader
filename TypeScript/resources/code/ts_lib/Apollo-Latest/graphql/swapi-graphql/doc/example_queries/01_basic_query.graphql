@@ -1,5 +1,0 @@
-{
-  person(personID: 4) {
-    name
-  }
-}

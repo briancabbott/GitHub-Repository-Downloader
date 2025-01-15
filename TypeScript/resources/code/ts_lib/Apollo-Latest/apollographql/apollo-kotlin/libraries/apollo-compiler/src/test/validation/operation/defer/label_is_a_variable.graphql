@@ -1,7 +1,0 @@
-query GetAnimal($label: String) {
-  animal {
-    ... on Cat @defer(label: $label) {
-      meow
-    }
-  }
-}
