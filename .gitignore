@@ -1,0 +1,6 @@
+auth-token-*
+workingdir
+
+.DS_Store
+
+node_modules
