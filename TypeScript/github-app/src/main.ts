@@ -173,7 +173,7 @@ export class DownloadOperationConfig extends CommonOperationConfig {
         this.organizationDownloadPath = organizationDownloadPath;
         this.isLongRunningDownloadOperation = isLongRunningDownloadOperation;
     }
-  get users(): Array<string> {
+    get users(): Array<string> {
         if (this._users == null) {
             this._users = new Array<string>();
         }
@@ -250,6 +250,7 @@ export function PerformOperationSetup<T1 extends Operation | RepositoryListOpera
         listOp.globalStoreDirectory = opConfig.globalStoreDirectory;
         listOp.applicationWorkingDirectory = opConfig.workingDirectory;
         listOp.globalOperationStartTime = new Date();
+
         // add requested organizations...
         opConfig.organizations.forEach((org) => {
             let organization = new Organization();
@@ -276,6 +277,7 @@ export function PerformOperationSetup<T1 extends Operation | RepositoryListOpera
         return listOp as RepositoryListOperation as T1;
     } 
     if (opConfig instanceof DownloadOperationConfig) { 
+        
         // Setup the "global" download-operation
         const downloadOp = new RepositoryDownloadOperation(); 
         downloadOp.isLongRunningDownloadOperation = opConfig.isLongRunningDownloadOperation;
@@ -283,6 +285,7 @@ export function PerformOperationSetup<T1 extends Operation | RepositoryListOpera
         downloadOp.globalStoreDirectory = opConfig.globalStoreDirectory;
         downloadOp.applicationWorkingDirectory = opConfig.workingDirectory;
         downloadOp.globalOperationStartTime = new Date();
+
         // add requested organizations...
         opConfig.organizations.forEach((org) => {
             let organization = new Organization();
