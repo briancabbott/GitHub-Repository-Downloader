@@ -4,10 +4,10 @@ param(
     [ValidateSet("download", "list")]
     [string]$Command,
 
-    [Parameter(Mandatory=$true, ParameterSetName="User")]
+    [Parameter(Mandatory=$false, ParameterSetName="User")]
     [string]$User,
 
-    [Parameter(Mandatory=$true, ParameterSetName="Organization")]
+    [Parameter(Mandatory=$false, ParameterSetName="Organization")]
     [string]$Organization,
 
     [Parameter(Mandatory=$false)]
@@ -17,7 +17,7 @@ param(
     [string]$Jq
 )
 
-& "./bin/run_setup.ps1"
+& "C:\Users\brian\dev_space\GitHub-briancabbott\GitHub-Repository-Downloader\TypeScript\github-app\bin\run_setup.ps1"
 
 $nodeArgs = @($Command)
 
@@ -47,11 +47,11 @@ $scriptBlock = {
             exit 1
         }
         # Run node, filter out the header line, and pipe to jq
-        node ./dist/main_cli.js @nodeArgs | 
+        node "C:\Users\brian\dev_space\GitHub-briancabbott\GitHub-Repository-Downloader\TypeScript\github-app\dist\main_cli.js" @nodeArgs | 
             Where-Object { $_ -ne "Repositories List Command Results" } | 
             jq $Jq
     } else {
-        node ./dist/main_cli.js @nodeArgs
+        node "C:\Users\brian\dev_space\GitHub-briancabbott\GitHub-Repository-Downloader\TypeScript\github-app\dist\main_cli.js" @nodeArgs
     }
 }
 

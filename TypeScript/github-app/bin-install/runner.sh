@@ -13,4 +13,4 @@ echo SRC_LOCATION: $SRC_LOCATION
 echo APPLICATION_INSTALL_DIR: $APPLICATION_INSTALL_DIR
 echo USER_CONFIG_FILES_DIR: $USER_CONFIG_FILES_DIR
 
-# node  $DIST_DIR/main_cli.js download --github-auth-token-file $TOK_FILE --organization "$1" 
+node  $DIST_DIR/main_cli.js download --github-auth-token-file $TOK_FILE --organization "$1" 

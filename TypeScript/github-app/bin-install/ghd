@@ -1,0 +1,11 @@
+#!/usr/bin/env pwsh
+
+$tokenFile = if ($env:TOK_FILE) { $env:TOK_FILE } else { Join-Path $HOME 'gh.tk' }
+$installDir = if ($env:USER_INSTALL_DIR) { $env:USER_INSTALL_DIR } else { Join-Path $env:LOCALAPPDATA 'Programs\GitHub-Repository-Downloader' }
+$mainCli = Join-Path $installDir 'main_cli.js'
+
+if (-not (Test-Path -Path $mainCli -PathType Leaf)) {
+	throw "main_cli.js was not found at: $mainCli"
+}
+
+node $mainCli download --github-auth-token-file $tokenFile @args
