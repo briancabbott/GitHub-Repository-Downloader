@@ -9,6 +9,7 @@ if (Test-Path -Path $env:USER_INSTALL_DIR -PathType Leaf) {
 
 if (-not (Test-Path -Path $env:USER_INSTALL_DIR -PathType Container)) {
     New-Item -ItemType Directory -Path $env:USER_INSTALL_DIR -Force | Out-Null
+    New-Item -ItemType Directory -Path $env:USER_INSTALL_DIR\bin -Force | Out-Null
 }
 
 if (-not (Test-Path -Path $env:DIST_DIR -PathType Container)) {
@@ -35,7 +36,7 @@ node `$mainCli download --github-auth-token-file `$tokenFile @args
 "@
 Set-Content -Path $ghdPs1Path -Value $ghdPs1Content -Encoding Ascii
 
-$ghdCmdPath = Join-Path $env:USER_INSTALL_DIR 'ghd.cmd'
+$ghdCmdPath = Join-Path $env:USER_INSTALL_DIR\bin 'ghd.cmd'
 $ghdCmdContent = @"
 @echo off
 pwsh -NoProfile -ExecutionPolicy Bypass -File "%~dp0ghd.ps1" %*
